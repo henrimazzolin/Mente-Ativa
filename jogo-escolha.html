@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo de escolha entre opções para idosos - Mente Ativa">
+    <title>Mente Ativa - Escolha entre Opções</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-escolha.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <script src="js/acessibilidade.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+</head>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="grupo-simples.html" class="back-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </a>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="img/LogoVerde.png" alt="Logo Mente Ativa" />
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <div class="titulo-com-tts">
+                <h1>Escolha a Resposta</h1>
+
+            </div>
+            <p>Responda perguntas simples</p>
+        </div>
+
+        <div class="instrucao-destaque">
+            <p>Como jogar: Leia a pergunta e clique na resposta correta!</p>
+        </div>
+
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">Acertos</div>
+                <div class="info-value" id="correct">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Questão</div>
+                <div class="info-value" id="question">1/5</div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+            </div>
+            <p class="question-text" id="questionText">Qual é a cor do céu?</p>
+            <p class="question-hint">Escolha uma resposta abaixo</p>
+        </div>
+
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <button class="btn" id="nextBtn" style="display: none;">Próxima Pergunta</button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="feedback" id="feedback">
+        <div class="feedback-icon" id="feedbackIcon"></div>
+        <h2 id="feedbackTitle">Muito bem!</h2>
+        <p id="feedbackText">Você acertou!</p>
+        <button class="btn" id="feedbackBtn">Continuar</button>
+    </div>
+
+    <footer>
+        <p>Feito com cuidado para você</p>
+    </footer>
+
+    <script src="js/jogo-escolha.js"></script>
+</body>
+</html>

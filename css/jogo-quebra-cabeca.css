@@ -1,0 +1,329 @@
+        :root {
+            /* Light theme (default) */
+            --cor-fundo: #F8FAFC;
+            --cor-fundo-card: #FFFFFF;
+            --cor-texto: #1E293B;
+            --cor-texto-claro: #64748B;
+            --cor-primaria: #3B82F6;
+            --cor-secundaria: #10B981;
+            --cor-terceira: #F59E0B;
+            --cor-sucesso: #10B981;
+            --cor-erro: #EF4444;
+            --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+            --borda-radius: 16px;
+            --border: #E2E8F0;
+            --primary-light: rgba(59, 130, 246, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url(../img/bluebkg.png);
+        
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--cor-texto);
+            min-height: 100vh;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--cor-fundo-card);
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: var(--sombra);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-4px);
+        }
+
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--cor-texto);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 200px;
+            height: 55px;
+            background: var(--cor-fundo-card);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0B6477, #0AD1C8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0B6477, #0AD1C8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .instrucao-destaque {
+        background: #FEF3C7;
+        border-left: 4px solid var(--cor-terceira);
+        padding: 16px 20px;
+        border-radius: 0 12px 12px 0;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .instrucao-destaque p {
+        font-size: 18px;
+        font-weight: 600;
+        color: #92400E;
+        margin: 0;
+    }
+
+    .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--cor-texto);
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            font-size: 16px;
+            color: var(--cor-texto-claro);
+        }
+
+        .game-container {
+            background: var(--cor-fundo-card);
+            border-radius: var(--borda-radius);
+            box-shadow: var(--sombra);
+            padding: 25px;
+        }
+
+        .instructions {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 14px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .instructions p {
+            font-size: 15px;
+            font-weight: 600;
+            color: #92400E;
+        }
+
+        .puzzle-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: var(--cor-texto);
+            padding: 6px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1;
+        }
+
+        .puzzle-piece {
+            background-size: 300% 300%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            border: 3px solid transparent;
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.02);
+        }
+
+        .puzzle-piece.selected {
+            border-color: var(--cor-terceira);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            transform: scale(1.05);
+        }
+
+        .preview-container {
+            text-align: center;
+        }
+
+        .preview-label {
+            font-size: 14px;
+            color: var(--cor-texto-claro);
+            margin-bottom: 8px;
+        }
+
+        .preview-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            border: 3px solid var(--cor-primaria);
+            object-fit: cover;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            background: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 17px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #1D4ED8;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: var(--cor-terceira);
+        }
+
+        .btn-secondary:hover {
+            background: #D97706;
+        }
+
+        .message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--cor-fundo-card);
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .message.show {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message h2 {
+            font-size: 36px;
+            color: var(--cor-secundaria);
+            margin-bottom: 16px;
+        }
+
+        .message p {
+            font-size: 18px;
+            color: var(--cor-texto-claro);
+            margin-bottom: 24px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--cor-texto-claro);
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .puzzle-container {
+                max-width: 300px;
+            }
+            
+            .preview-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+        }

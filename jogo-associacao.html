@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo de associação de palavras para idosos - Mente Ativa">
+    <title>Mente Ativa - Associação de Palavras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-associacao.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <script src="js/acessibilidade.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+</head>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="grupo-moderado.html" class="back-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </a>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="img/LogoAzul.png" alt="Logo Mente Ativa" />
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <div class="titulo-com-tts">
+                <h1>Associação de Palavras</h1>
+
+            </div>
+            <p>Conecte as palavras que têm relação entre si</p>
+        </div>
+
+        <div class="instrucao-destaque">
+            <p>Como jogar: Toque em uma palavra da esquerda e depois na palavra relacionada da direita!</p>
+        </div>
+
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">Acertos</div>
+                <div class="info-value" id="correct">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Pares</div>
+                <div class="info-value" id="pairs">0/4</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="word-column">
+                <div class="column-title">Palavras</div>
+                <div id="leftWords"></div>
+            </div>
+            <div class="connection-line">↔</div>
+            <div class="word-column">
+                <div class="column-title">Associações</div>
+                <div id="rightWords"></div>
+            </div>
+        </div>
+
+        <button class="btn" id="restartBtn">Reiniciar Jogo</button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="feedback" id="feedback">
+        <div class="feedback-icon success">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <h2>Parabéns!</h2>
+        <p>Você completou todas as associações!</p>
+        <button class="btn" id="feedbackBtn">Jogar Novamente</button>
+    </div>
+
+    <footer>
+        <p>Feito com cuidado para você</p>
+    </footer>
+
+    <script src="js/jogo-associacao.js"></script>
+</body>
+</html>

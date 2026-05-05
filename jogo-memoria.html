@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo da memória para idosos - Mente Ativa">
+    <title>Mente Ativa - Jogo da Memória</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/acessibilidade.js" defer></script>
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-memoria.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <script src="js/dark-mode.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="grupo-moderado.html" class="back-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </a>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="img/LogoAzul.png" alt="Logo Mente Ativa" />
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <div class="titulo-com-tts">
+                <h1>Jogo da Memória</h1>
+
+            </div>
+            <p>Encontre os pares de cartas iguais</p>
+        </div>
+
+        <div class="instrucao-destaque">
+            <p>Como jogar: Clique em uma carta para ver a figura. Depois clique em outra para encontrar o par!</p>
+        </div>
+
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">Pares encontrados</div>
+                <div class="info-value" id="pairs">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Tentativas</div>
+                <div class="info-value" id="attempts">0</div>
+            </div>
+        </div>
+
+        <div class="game-board" id="gameBoard"></div>
+
+        <div class="buttons">
+            <button class="btn" id="btn-restart">Reiniciar Jogo</button>
+            <button class="btn btn-secondary" id="btn-como-jogar">Como jogar?</button>
+            <button class="btn btn-secondary" id="btn-back">Voltar</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="feedback" id="feedback">
+        <div class="feedback-icon" id="feedbackIcon"></div>
+        <h2 id="feedbackTitle">Muito bem!</h2>
+        <p id="feedbackText">Você encontrou um par!</p>
+        <button class="btn" id="feedbackBtn">Continuar</button>
+    </div>
+
+    <!-- Modal Como Jogar -->
+    <div class="modal" id="comoJogarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Como Jogar</h3>
+                <button class="modal-close" id="btn-fechar-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Clique nas cartas para virá-las.</p>
+                <p>Encontre os pares iguais.</p>
+                <p>Tente completar no menor tempo possível.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Feito com cuidado para você</p>
+    </footer>
+
+    <script src="js/jogo-memoria.js"></script>
+</body>
+</html>

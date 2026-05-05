@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro - Mente Ativa</title>
+
+<style>
+:root {
+    --intro-color-1: #0B6477;
+    --intro-color-2: #0AD1C8;
+    --intro-color-3: #14919B;
+    --intro-color-4: #45DFB1;
+
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* OVERLAY */
+#intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* FUNDO */
+.intro-background {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+        var(--intro-color-1),
+        var(--intro-color-2),
+        var(--intro-color-3),
+        var(--intro-color-4)
+    );
+    background-size: 300% 300%;
+    animation: gradientFlow 6s ease infinite;
+}
+
+@keyframes gradientFlow {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.intro-overlay-layer {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+}
+
+/* CONTEÚDO */
+.intro-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 20px;
+}
+
+/* BEM-VINDO */
+.intro-welcome {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: white;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.8s var(--ease-smooth) forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* CONTAINER */
+.intro-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* LOGO */
+.intro-logo {
+    opacity: 0;
+    transform: scale(0.85);
+    animation: logoIn 0.9s var(--ease-smooth) forwards 0.6s;
+}
+
+@keyframes logoIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* MOVIMENTO */
+.intro-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+    margin-top: 16px;
+    transition: gap 0.6s var(--ease-smooth);
+}
+
+/* logo se move sozinha */
+.intro-logo.move {
+    transform: translateX(-20px);
+    transition: transform 0.6s var(--ease-smooth);
+}
+
+/* espaço aparece depois */
+.intro-main.active {
+    gap: 12px;
+}
+
+.intro-logo img {
+    width: clamp(80px, 10vw, 120px);
+}
+
+/* TEXTO DIGITAÇÃO */
+.intro-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 2vw, 1.8rem);
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid white;
+
+    /* 🔥 CORREÇÃO */
+    display: inline-block;
+    min-width: 1ch; /* garante que aparece */
+}
+
+/* cursor */
+.typing {
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* TEXTO */
+.intro-text {
+    margin-top: 28px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: white;
+    opacity: 0;
+    transform: translateY(10px);
+    padding: 0 5% 0 5%;
+
+}
+
+/* HINT */
+.intro-skip-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+
+    color: rgba(255,255,255,0.75);
+
+    opacity: 0;
+    animation: fadeUp 1s forwards 4.5s, pulse 2.5s infinite 5s;
+    padding: 0 10% 0 10%;
+}
+
+@keyframes pulse {
+    0%,100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* FADE OUT */
+#intro-overlay.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+}
+</style>
+<link rel="stylesheet" href="css/dark-mode.css">
+<script src="js/dark-mode.js" defer></script>
+</head>
+
+<body>
+
+<div id="intro-overlay">
+    <div class="intro-background"></div>
+    <div class="intro-overlay-layer"></div>
+
+    <div class="intro-content">
+
+        <div class="intro-welcome">Bem-vindo ao</div>
+
+        <div class="intro-main" id="main">
+            <div class="intro-logo">
+                <img src="img/unnamed.jpg" alt="Mente Ativa">
+            </div>
+
+            <div class="intro-title" id="title"></div>
+        </div>
+
+        <p class="intro-text" id="desc">
+            Um espaço para cuidar da mente, aprender e viver melhor.<br>
+        </p>
+        
+
+    </div>
+
+    <div class="intro-skip-hint">
+        Clique em qualquer lugar da tela para continuar
+    </div>
+</div>
+
+<script>
+(function () {
+    const intro = document.getElementById('intro-overlay');
+    const title = document.getElementById('title');
+    const main = document.getElementById('main');
+    const desc = document.getElementById('desc');
+
+const text = "Mente Ativa";
+let index = 0;
+
+function type() {
+    if (index === 0) {
+        title.textContent = "";
+        title.style.opacity = 1;
+    }
+
+    if (index < text.length) {
+        title.textContent += text.charAt(index);
+        index++;
+        setTimeout(type, 80 + Math.random() * 40); // mais suave
+    } else {
+        title.classList.add('typing'); // cursor piscando
+    }
+}
+
+    // sequência
+    setTimeout(() => {
+        main.classList.add('move');
+        title.style.opacity = 1;
+        type();
+    }, 1800);
+
+    setTimeout(() => {
+        desc.style.opacity = 1;
+        desc.style.transform = 'translateY(0)';
+        desc.style.transition = 'all 0.8s ease';
+    }, 3500);
+
+    function closeIntro() {
+        intro.classList.add('fade-out');
+        setTimeout(() => {
+            intro.style.display = 'none';
+            document.dispatchEvent(new CustomEvent('mente-ativa-intro-fechada'));
+        }, 800);
+    }
+
+    intro.addEventListener('click', closeIntro);
+    setTimeout(closeIntro, 12000);
+})();
+</script>
+
+</body>
+</html>

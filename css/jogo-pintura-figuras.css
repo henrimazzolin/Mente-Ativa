@@ -1,0 +1,333 @@
+:root {
+    --cor-fundo: #F8FAFC;
+    --cor-fundo-card: #FFFFFF;
+    --cor-texto: #1E293B;
+    --cor-texto-claro: #64748B;
+    --cor-primaria: #3B82F6;
+    --cor-secundaria: #10B981;
+    --cor-terceira: #F59E0B;
+    --cor-sucesso: #10B981;
+    --cor-erro: #EF4444;
+    --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --borda-radius: 16px;
+    --border: #E2E8F0;
+    --primary-light: rgba(59, 130, 246, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url(../img/bluebkg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--cor-texto);
+    min-height: 100vh;
+    font-weight: 500;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--cor-fundo-card);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    transform: translateX(-4px);
+}
+
+.back-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--cor-texto);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 200px;
+    height: 55px;
+    background: var(--cor-fundo-card);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.page-title h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 8px;
+}
+
+.page-title p {
+    font-size: 18px;
+    color: var(--cor-texto-claro);
+    font-weight: 500;
+}
+
+.instrucao-destaque {
+    background: #FEF3C7;
+    border-left: 4px solid var(--cor-terceira);
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.instrucao-destaque p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #92400E;
+    margin: 0;
+}
+
+.game-container {
+    background: var(--cor-fundo-card);
+    border-radius: var(--borda-radius);
+    box-shadow: var(--sombra);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.figure-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.selector-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--cor-texto-claro);
+}
+
+.figure-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.figure-btn {
+    padding: 12px 24px;
+    background: var(--cor-fundo);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.figure-btn:hover {
+    border-color: var(--cor-primaria);
+    background: var(--primary-light);
+}
+
+.figure-btn.active {
+    background: var(--cor-primaria);
+    color: white;
+    border-color: var(--cor-primaria);
+}
+
+.paint-area {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.canvas-wrapper {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    min-height: 500px;
+}
+
+#paintCanvas {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: crosshair;
+    max-width: 100%;
+    height: auto;
+}
+
+.tools-panel {
+    background: var(--cor-fundo);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.tool-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tool-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-texto-claro);
+}
+
+.colors-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.color-btn {
+    width: 44px;
+    height: 44px;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.color-btn:hover {
+    transform: scale(1.1);
+}
+
+.color-btn.active {
+    border-color: var(--cor-texto);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px var(--cor-primaria);
+}
+
+.tool-btn {
+    padding: 12px 20px;
+    height: 50px;
+    background: var(--cor-fundo-card);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+}
+
+.tool-btn:hover {
+    border-color: var(--cor-primaria);
+    background: var(--primary-light);
+}
+
+.tool-btn.btn-save {
+    color: var(--cor-secundaria);
+}
+
+.tool-btn.btn-save:hover {
+    background: #D1FAE5;
+    border-color: var(--cor-secundaria);
+}
+
+.figure-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    background: var(--cor-fundo);
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.info-label {
+    font-size: 14px;
+    color: var(--cor-texto-claro);
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--cor-texto-claro);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .paint-area {
+        grid-template-columns: 1fr;
+    }
+    
+    .canvas-wrapper {
+        min-height: 300px;
+    }
+    
+    .tools-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

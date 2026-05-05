@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Teste de reação para idosos - Mente Ativa">
+    <title>Mente Ativa - Teste de Reação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-treino-cerebral.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <script src="js/acessibilidade.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <a href="grupo-moderado.html" class="back-btn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+        </a>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="img/LogoAzul.png" alt="Logo Mente Ativa" />
+            </div>
+        </div>
+    </div>
+
+        <div class="game-area">
+            <div class="game-screen active" id="startScreen">
+                <h1 class="title">Teste de Reação</h1>
+                <p class="subtitle">Treine sua velocidade de reação</p>
+                
+                <div class="instrucao-destaque">
+                    <p>Instrução: Clique em "Iniciar", espere aparecer o botão verde e clique o mais rápido que puder!</p>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Melhor Tempo</div>
+                        <div class="stat-value" id="bestTime">--</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Tentativas</div>
+                        <div class="stat-value" id="attempts">0</div>
+                    </div>
+                </div>
+
+            <button class="btn" id="btn-start">Iniciar</button>
+        </div>
+
+        <div class="game-screen" id="prepareScreen">
+            <p class="message prepare">Prepare-se...</p>
+            <p class="subtitle">Aguarde o botão verde aparecer</p>
+        </div>
+
+        <div class="game-screen" id="clickScreen">
+            <button class="btn btn-green" id="clickBtn">CLIQUE AGORA!</button>
+        </div>
+
+        <div class="game-screen" id="resultScreen">
+            <p class="message" id="resultMessage"></p>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-label">Seu Tempo</div>
+                    <div class="stat-value" id="currentTime">--</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Melhor Tempo</div>
+                    <div class="stat-value" id="bestTimeResult">--</div>
+                </div>
+            </div>
+
+            <button class="btn" id="btn-retry">Tentar Novamente</button>
+            <button class="btn btn-secondary" id="btn-back-menu" style="margin-top: 12px;">Voltar ao Menu</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Feito com cuidado para você</p>
+    </footer>
+
+    <script src="js/jogo-treino-cerebral.js"></script>
+</body>
+</html>

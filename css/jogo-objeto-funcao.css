@@ -1,0 +1,360 @@
+        :root {
+            /* Light theme (default) */
+            --cor-fundo: #F8FAFC;
+            --cor-fundo-card: #FFFFFF;
+            --cor-texto: #1E293B;
+            --cor-texto-claro: #64748B;
+            --cor-primaria: #3B82F6;
+            --cor-secundaria: #10B981;
+            --cor-terceira: #F59E0B;
+            --cor-sucesso: #10B981;
+            --cor-erro: #EF4444;
+            --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+            --borda-radius: 16px;
+            --border: #E2E8F0;
+            --primary-light: rgba(59, 130, 246, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url(../img/greenbkg.png);
+        
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #1E293B;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .back-btn {
+            width: 56px;
+            height: 56px;
+            background: #45DFB1;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+
+        .back-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 200px;
+            height: 55px;
+            background: var(--cor-fundo-card);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0B6477, #0AD1C8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .game-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1E293B;
+            margin-bottom: 20px;
+        }
+
+        .instruction-box {
+            background: #FEF3C7;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .instruction-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #92400E;
+        }
+
+        .instruction-sub {
+            font-size: 18px;
+            color: #92400E;
+            margin-top: 8px;
+        }
+
+        .game-area {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 60px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .column {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .column-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #64748B;
+            margin-bottom: 10px;
+        }
+
+        .emoji-item {
+            width: 100px;
+            height: 100px;
+            background: #F0F9FF;
+            border: 4px solid #CBD5E1;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .emoji-item:hover {
+            transform: scale(1.08);
+            border-color: #45DFB1;
+        }
+
+        .emoji-item.selected {
+            border-color: #14919B;
+            background: #DBEAFE;
+            transform: scale(1.1);
+        }
+
+        .emoji-item.matched {
+            border-color: #45DFB1;
+            background: #D1FAE5;
+            cursor: default;
+        }
+
+        .emoji-item.matched:hover {
+            transform: none;
+        }
+
+        .emoji-item.wrong {
+            animation: shake 0.5s ease;
+            border-color: #EF4444;
+            background: #FEE2E2;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .connection-line {
+            position: absolute;
+            height: 4px;
+            background: #45DFB1;
+            top: 50%;
+            transform-origin: left center;
+            z-index: 10;
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .score-item {
+            background: #F1F5F9;
+            padding: 12px 25px;
+            border-radius: 14px;
+        }
+
+        .score-label {
+            font-size: 16px;
+            color: #64748B;
+        }
+
+        .score-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #45DFB1;
+        }
+
+        .restart-btn {
+            background: #45DFB1;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 40px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 25px;
+        }
+
+        .restart-btn:hover {
+            background: #059669;
+            transform: scale(1.03);
+        }
+
+        .feedback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .feedback-overlay.show {
+            display: flex;
+        }
+
+        .feedback-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+        }
+
+        .feedback-icon {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 70px;
+        }
+
+        .feedback-icon.success {
+            background: #D1FAE5;
+        }
+
+        .feedback-icon.error {
+            background: #FEE2E2;
+        }
+
+        .feedback-title {
+            font-size: 34px;
+            font-weight: 700;
+            color: #1E293B;
+            margin-bottom: 12px;
+        }
+
+        .feedback-subtitle {
+            font-size: 22px;
+            color: #64748B;
+        }
+
+        .feedback-btn {
+            background: #45DFB1;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 45px;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 25px;
+        }
+
+        .feedback-btn:hover {
+            background: #059669;
+            transform: scale(1.03);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748B;
+            font-size: 16px;
+        }
+
+        @media (max-width: 500px) {
+            .game-card { padding: 25px; }
+            .game-title { font-size: 26px; }
+            .instruction-text { font-size: 20px; }
+            .game-area { gap: 30px; }
+            .emoji-item { width: 80px; height: 80px; font-size: 45px; }
+            .column-title { font-size: 18px; }
+        }

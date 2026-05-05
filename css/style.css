@@ -1,0 +1,47 @@
+/* ================================
+ESTILO GLOBAL
+================================ */
+
+:root {
+  --tamanho110: 110%;
+  --tamanho100: 100%;  
+}
+
+body {
+  font-family: 'Lexend', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================================
+SCROLL PERSONALIZADO
+================================ */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #30e84f40;
+  border-radius: 10px;
+}
+
+/* ================================
+TRANSIÇÕES SUAVES
+================================ */
+
+button {
+  transition: all 0.2s ease;
+}
+
+/* ================================
+ACESSIBILIDADE
+================================ */
+
+button:focus {
+  outline: 2px solid #30e84f;
+  outline-offset: 2px;
+}

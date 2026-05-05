@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo de tangram para idosos - Mente Ativa">
+    <title>Mente Ativa - Tangram</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-tangram.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <script src="js/acessibilidade.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="grupo-moderado.html" class="back-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </a>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="img/LogoAzul.png" alt="Logo Mente Ativa" />
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>Tangram</h1>
+            <p>Monte as figuras com as peças</p>
+        </div>
+
+        <div class="instrucao-destaque">
+            <p>Escolha uma figura e arraste as peças do tangram até os locais corretos para completar o desenho.</p>
+        </div>
+
+        <div class="game-container">
+            <div class="figure-selector">
+                <div class="selector-label">Escolha a figura:</div>
+                <div class="figure-buttons">
+                    <button class="figure-btn active" data-figure="square">Quadrado</button>
+                    <button class="figure-btn" data-figure="cat">Gato</button>
+                    <button class="figure-btn" data-figure="house">Casa</button>
+                </div>
+            </div>
+
+            <div class="tangram-area">
+                <div class="canvas-area" id="canvasArea">
+                    <svg id="figureOutline" viewBox="0 0 400 400" class="figure-outline"></svg>
+                    <div class="pieces-container" id="piecesContainer"></div>
+                </div>
+
+                <div class="pieces-tray" id="piecesTray"></div>
+            </div>
+
+            <div class="game-info">
+                <div class="info-item">
+                    <div class="info-label">Peças colocadas</div>
+                    <div class="info-value" id="piecesPlaced">0/7</div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn" id="btn-reset">Reiniciar</button>
+                <button class="btn btn-secondary" id="btn-new-figure">Nova Figura</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="message" id="message">
+        <h2>Parabéns!</h2>
+        <p>Você completou a figura!</p>
+        <button class="btn" id="btn-play-again">Jogar Novamente</button>
+    </div>
+
+    <footer>
+        <p>Feito com cuidado para você</p>
+    </footer>
+
+    <script src="js/jogo-tangram.js"></script>
+</body>
+</html>

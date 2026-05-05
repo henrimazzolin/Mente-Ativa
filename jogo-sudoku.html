@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo de sudoku para idosos - Mente Ativa">
+    <title>Mente Ativa - Sudoku</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-sudoku.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <script src="js/acessibilidade.js" defer></script>
+    <script src="js/dark-mode.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="grupo-moderado.html" class="back-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </a>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="img/LogoAzul.png" alt="Logo Mente Ativa" />
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1>Sudoku</h1>
+            <p>Preencha com números de 1 a 9</p>
+        </div>
+
+        <div class="instrucao-destaque">
+            <p>Instrução: Preencha a grade com números de 1 a 9, sem repetir na mesma linha, coluna ou quadrado 3x3.</p>
+        </div>
+
+        <div class="game-container">
+            <div class="timer" id="timer">00:00</div>
+
+            <div class="sudoku-grid" id="grid"></div>
+
+            <div class="numpad">
+                <button class="num-btn" id="btn-num-1">1</button>
+                <button class="num-btn" id="btn-num-2">2</button>
+                <button class="num-btn" id="btn-num-3">3</button>
+                <button class="num-btn" id="btn-num-4">4</button>
+                <button class="num-btn" id="btn-num-5">5</button>
+                <button class="num-btn" id="btn-num-6">6</button>
+                <button class="num-btn" id="btn-num-7">7</button>
+                <button class="num-btn" id="btn-num-8">8</button>
+                <button class="num-btn" id="btn-num-9">9</button>
+            </div>
+
+            <div class="buttons">
+                <button class="btn" id="btn-check">Verificar</button>
+                <button class="btn btn-outline" id="btn-reset">Reiniciar</button>
+                <button class="btn btn-secondary" id="btn-solution">Ver Solução</button>
+                <button class="btn btn-outline" id="btn-back">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="message" id="message">
+        <h2>Parabéns!</h2>
+        <p>Você completou o Sudoku!</p>
+        <button class="btn" id="btn-play-again">Jogar Novamente</button>
+    </div>
+
+    <footer>
+        <p>Feito com cuidado para você</p>
+    </footer>
+
+    <script src="js/jogo-sudoku.js"></script>
+</body>
+</html>

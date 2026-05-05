@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo de reconhecimento de imagens para idosos - Mente Ativa">
+    <title>Mente Ativa - Reconhecimento de Imagens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="js/acessibilidade.js" defer></script>
+    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jogo-reconhecimento.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <script src="js/dark-mode.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" id="btn-back">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+        </button>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="img/LogoVerde.png" alt="Logo">
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="game-card">
+            <h1 class="game-title">Reconhecimento de Imagens</h1>
+
+            <div class="instruction-box">
+                <p class="instruction-text">Olhe a imagem e clique na resposta certa!</p>
+            </div>
+
+            <div class="emoji-container">
+                <span id="mainEmoji" class="main-emoji"></span>
+            </div>
+
+            <p class="question-text">Isto é...</p>
+
+            <div class="options-container" id="optionsContainer"></div>
+
+            <button class="next-btn" id="nextBtn">Próxima</button>
+
+            <div class="score-display">
+                <div class="score-item">
+                    <div class="score-label">Acertos</div>
+                    <div class="score-value" id="acertos">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">Questão</div>
+                    <div class="score-value" id="questao">1/5</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="feedback-card">
+            <div class="feedback-icon" id="feedbackIcon"></div>
+            <h2 class="feedback-title" id="feedbackTitle"></h2>
+            <p class="feedback-subtitle" id="feedbackSubtitle"></p>
+            <button class="feedback-btn" id="feedbackBtn">Continuar</button>
+        </div>
+    </div>
+
+    <footer>Feito com cuidado para você</footer>
+
+    <script src="js/jogo-reconhecimento.js"></script>
+</body>
+</html>
