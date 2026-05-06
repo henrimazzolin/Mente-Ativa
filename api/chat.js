@@ -1,7 +1,4 @@
-import dotenv from 'dotenv';
 import fetch from 'node-fetch';
-
-dotenv.config();
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -26,7 +23,7 @@ export default async function handler(req, res) {
                 messages: [
                     {
                         role: "system",
-                        content: "Responda de forma breve, simples e acolhedora, adequada para idosos."
+                        content: "Responda de forma clara, breve e acolhedora, utilizando palavras simples e fáceis de entender. Priorize uma comunicação respeitosa, paciente e acessível, pensando no público idoso e evitando termos complicados ou técnicos."
                     },
                     {
                         role: "user",
