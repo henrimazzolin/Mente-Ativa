@@ -1,9 +1,0 @@
-{
-  "name": "mente-ativa-assistente",
-  "version": "1.0.0",
-  "description": "Assistente virtual com IA para o site Mente Ativa",
-  "type": "module",
-  "dependencies": {
-    "node-fetch": "^3.3.2"
-  }
-}
