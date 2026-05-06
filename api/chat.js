@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ reply: 'Método não permitido' });
@@ -8,8 +6,8 @@ export default async function handler(req, res) {
     try {
         const { message } = req.body;
 
-        if (!message || message.trim() === '') {
-            return res.status(400).json({ reply: 'Por favor, digite uma mensagem.' });
+        if (!message || typeof message !== 'string' || message.trim() === '') {
+            return res.status(400).json({ reply: 'Por favor, digite uma mensagem de texto.' });
         }
 
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {

@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Detecta automaticamente se está em localhost ou em produção
             const apiUrl = window.location.hostname === 'localhost' 
                 ? 'http://localhost:3000/chat' 
-                : '/chat';
+                : '/api/chat';
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
