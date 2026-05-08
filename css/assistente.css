@@ -373,8 +373,13 @@ footer {
 }
 
 @media (max-width: 600px) {
+    body {
+        overflow-x: hidden;
+    }
+    
     .container {
-        padding: 20px 16px;
+        overflow-x: hidden;
+        padding: 20px 12px;
     }
     
     .header {
@@ -393,7 +398,7 @@ footer {
     }
     
     .chat-messages {
-        height: 300px;
+        height: 280px;
     }
     
     .message-content {
@@ -422,5 +427,18 @@ footer {
     .action-btn {
         width: 100%;
         justify-content: center;
+    }
+    
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+    
+    .page-title p {
+        font-size: 16px;
+    }
+    
+    .help-box h3 {
+        font-size: 17px;
     }
 }

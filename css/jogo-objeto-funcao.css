@@ -350,11 +350,18 @@
             font-size: 16px;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .game-card { padding: 25px; }
             .game-title { font-size: 26px; }
             .instruction-text { font-size: 20px; }
             .game-area { gap: 30px; }
             .emoji-item { width: 80px; height: 80px; font-size: 45px; }
             .column-title { font-size: 18px; }
+            .logo-icon { width: 140px; height: 40px; }
+            .game-area { flex-wrap: wrap; gap: 20px; }
+            .column { flex: 1 1 100%; }
+            .feedback-title { font-size: 26px; }
+            body { overflow-x: hidden; }
+            .container { padding: 20px 12px; overflow-x: hidden; }
+            .emoji-item { width: 70px; height: 70px; }
         }

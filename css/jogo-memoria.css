@@ -442,6 +442,33 @@
             .info-item {
                 padding: 10px 16px;
             }
+
+            .logo-icon {
+                width: 140px;
+                height: 40px;
+            }
+
+            .feedback h2 {
+                font-size: 22px;
+            }
+
+            .feedback p {
+                font-size: 16px;
+            }
+
+            .modal-content {
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            .container {
+                padding: 20px 12px;
+                overflow-x: hidden;
+            }
         }
         
         /* Modal Styles */

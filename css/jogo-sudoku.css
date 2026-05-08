@@ -391,14 +391,14 @@
             font-size: 14px;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .cell {
-                width: 38px;
-                height: 38px;
+                width: 36px;
+                height: 36px;
             }
 
             .cell input {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             .numpad {
@@ -406,12 +406,40 @@
             }
 
             .num-btn {
-                width: 100%;
-                height: 44px;
+                width: 36px;
+                height: 42px;
+                font-size: 18px;
             }
 
             .btn {
                 padding: 12px 20px;
                 font-size: 15px;
+            }
+
+            .logo-icon {
+                width: 140px;
+                height: 40px;
+            }
+
+            .sudoku-grid {
+                overflow-x: auto;
+                width: 100%;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            .container {
+                padding: 20px 12px;
+                overflow-x: hidden;
+            }
+
+            .message h2 {
+                font-size: 28px;
+            }
+
+            .timer {
+                font-size: 18px;
             }
         }

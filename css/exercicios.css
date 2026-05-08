@@ -358,4 +358,30 @@ footer {
     .exercise-grid {
         grid-template-columns: 1fr;
     }
+    
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+    
+    .intro p {
+        font-size: 16px;
+    }
+    
+    .exercise-title {
+        font-size: 18px;
+    }
+    
+    .tip-box {
+        width: 85%;
+    }
+    
+    body {
+        overflow-x: hidden;
+    }
+    
+    .container {
+        padding: 20px 12px;
+        overflow-x: hidden;
+    }
 }

@@ -255,7 +255,7 @@ footer {
     font-size: 14px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .title {
         font-size: 22px;
     }
@@ -278,4 +278,8 @@ footer {
         padding: 24px 40px;
         min-width: 250px;
     }
+    .logo-icon { width: 140px; height: 40px; }
+    body { overflow-x: hidden; }
+    .container { padding: 20px 12px; overflow-x: hidden; }
+    .btn-green { min-width: 200px; }
 }

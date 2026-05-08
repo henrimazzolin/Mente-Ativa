@@ -322,7 +322,7 @@ footer {
     font-weight: 500;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 600px) {
     .header {
         flex-wrap: wrap;
         justify-content: center;
@@ -356,6 +356,36 @@ footer {
     }
 
     .menu-btn .text {
-        font-size: 17px;
+        font-size: 16px;
+    }
+    
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+    
+    .logo-text {
+        font-size: 18px;
+    }
+    
+    .welcome h1 {
+        font-size: clamp(20px, 5vw, 28px);
+    }
+    
+    .welcome p {
+        font-size: 15px;
+    }
+    
+    .menu-grid {
+        gap: 14px;
+    }
+    
+    body {
+        overflow-x: hidden;
+    }
+    
+    .container {
+        overflow-x: hidden;
+        padding: 20px 12px;
     }
 }

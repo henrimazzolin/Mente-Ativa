@@ -29,6 +29,7 @@ body {
     display: flex;
     flex-direction: column;
     font-weight: 500;
+    overflow-x: hidden;
     
 }
 
@@ -41,6 +42,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-x: hidden;
 }
 
 .logo {
@@ -319,6 +321,21 @@ footer {
 
     .group-icon {
         margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo-text {
+        font-size: 28px;
+    }
+    
+    .groups-container {
+        padding: 0 12px;
+    }
+    
+    .group-btn {
+        width: 100%;
+        max-width: 280px;
     }
 }
 

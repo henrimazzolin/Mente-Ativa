@@ -454,4 +454,8 @@
             .page-title h1 {
                 font-size: 22px;
             }
+            .logo-icon { width: 140px; height: 40px; }
+            .message h2 { font-size: 26px; }
+            body { overflow-x: hidden; }
+            .container { padding: 20px 12px; overflow-x: hidden; }
         }

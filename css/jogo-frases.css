@@ -138,7 +138,7 @@
             font-size: 16px;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .maintenance-title {
                 font-size: 36px;
                 letter-spacing: 2px;
@@ -149,4 +149,8 @@
             .maintenance-icon {
                 font-size: 80px;
             }
+            .logo-icon { width: 140px; height: 40px; }
+            .maintenance-title { font-size: 30px; }
+            body { overflow-x: hidden; }
+            .container { padding: 20px 12px; overflow-x: hidden; }
         }

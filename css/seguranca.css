@@ -365,4 +365,42 @@ footer {
     .tip-card .tip-number {
         margin: 0 auto;
     }
+    
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+    
+    .intro p {
+        font-size: 16px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+    }
+    
+    .tip-content h3 {
+        font-size: 17px;
+    }
+    
+    .warning-box h3 {
+        font-size: 17px;
+    }
+    
+    .help-box h3 {
+        font-size: 17px;
+    }
+    
+    .tip-card {
+        padding: 20px 16px;
+    }
+    
+    body {
+        overflow-x: hidden;
+    }
+    
+    .container {
+        padding: 20px 12px;
+        overflow-x: hidden;
+    }
 }

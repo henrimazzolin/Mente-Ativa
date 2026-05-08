@@ -312,7 +312,7 @@
             font-size: 14px;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .puzzle-container {
                 max-width: 300px;
             }
@@ -325,5 +325,23 @@
             .btn {
                 padding: 12px 20px;
                 font-size: 15px;
+            }
+
+            .logo-icon {
+                width: 140px;
+                height: 40px;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            .container {
+                padding: 20px 12px;
+                overflow-x: hidden;
+            }
+
+            .message h2 {
+                font-size: 28px;
             }
         }

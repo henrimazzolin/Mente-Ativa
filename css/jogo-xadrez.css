@@ -542,7 +542,7 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             #tabuleiro {
                 width: 100%;
                 max-width: 320px;
@@ -584,6 +584,7 @@
 
             .container {
                 padding: 10px;
+                overflow-x: hidden;
             }
 
             .game-over-title {
@@ -602,5 +603,14 @@
             .escolhe {
                 padding: 20px;
                 border-radius: 15px;
+            }
+
+            .logo-icon {
+                width: 140px;
+                height: 40px;
+            }
+
+            body {
+                overflow-x: hidden;
             }
         }

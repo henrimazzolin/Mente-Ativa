@@ -323,6 +323,107 @@ footer {
     font-size: 14px;
 }
 
+/* Seção de jogos super simples */
+.super-simples-section {
+    margin-bottom: 48px;
+}
+
+.super-simples-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cor-secundaria);
+    margin-bottom: 20px;
+}
+
+.super-simples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.super-simples-card {
+    background: rgba(16, 185, 129, 0.08);
+    border-radius: 20px;
+    padding: 36px 24px;
+    box-shadow: var(--sombra);
+    cursor: pointer;
+    transition: all 0.35s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid transparent;
+}
+
+.super-simples-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-hover);
+    border-color: var(--cor-secundaria);
+}
+
+.super-simples-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: rgba(16, 185, 129, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: transform 0.3s ease;
+}
+
+.super-simples-card:hover .super-simples-icon {
+    transform: scale(1.1);
+}
+
+.super-simples-icon svg {
+    width: 42px;
+    height: 42px;
+    fill: var(--cor-secundaria);
+}
+
+.super-simples-card h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 6px;
+}
+
+.super-simples-card .jogar-btn {
+    margin-top: 14px;
+    padding: 10px 24px;
+    background: var(--cor-secundaria);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.super-simples-card .jogar-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.45);
+}
+
+html.modo-escuro .super-simples-card {
+    background: rgba(16, 185, 129, 0.12);
+}
+
+html.modo-escuro .super-simples-title {
+    color: #4ADE80;
+}
+
+html.modo-escuro .super-simples-icon {
+    background: rgba(16, 185, 129, 0.2);
+}
+
 @media (max-width: 600px) {
     .header {
         flex-wrap: wrap;
@@ -337,5 +438,31 @@ footer {
     
     .games-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+    
+    .page-title p {
+        font-size: 16px;
+    }
+    
+    .game-title {
+        font-size: 18px;
+    }
+    
+    .game-card {
+        padding: 24px 16px;
+    }
+    
+    body {
+        overflow-x: hidden;
+    }
+    
+    .container {
+        padding: 20px 12px;
+        overflow-x: hidden;
     }
 }

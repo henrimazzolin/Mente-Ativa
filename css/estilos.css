@@ -60,3 +60,8 @@ footer {
     color: var(--cor-texto-claro);
     font-size: 14px;
 }
+
+@media (max-width: 600px) {
+    body { overflow-x: hidden; }
+    footer { font-size: 13px; padding: 20px 12px; }
+}

@@ -374,7 +374,7 @@ footer {
     font-size: 14px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .tangram-area {
         grid-template-columns: 1fr;
     }
@@ -386,5 +386,23 @@ footer {
     .pieces-tray {
         min-height: auto;
         grid-template-columns: repeat(4, 1fr);
+    }
+
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 15px 10px;
+        overflow-x: hidden;
+    }
+
+    .message h2 {
+        font-size: 26px;
     }
 }

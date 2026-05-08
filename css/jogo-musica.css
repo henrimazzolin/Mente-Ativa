@@ -262,8 +262,12 @@
             font-size: 14px;
         }
 
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .option-btn { font-size: 20px; padding: 20px; }
             .instrument-icon { width: 100px; height: 100px; }
             .instrument-icon svg { width: 50px; height: 50px; }
+            .logo-icon { width: 140px; height: 40px; }
+            .feedback h2 { font-size: 22px; }
+            body { overflow-x: hidden; }
+            .container { padding: 20px 12px; overflow-x: hidden; }
         }

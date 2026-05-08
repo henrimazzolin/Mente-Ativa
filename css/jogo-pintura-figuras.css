@@ -316,7 +316,7 @@ footer {
     font-size: 14px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .paint-area {
         grid-template-columns: 1fr;
     }
@@ -329,5 +329,19 @@ footer {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
+    }
+
+    .logo-icon {
+        width: 140px;
+        height: 40px;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 15px 10px;
+        overflow-x: hidden;
     }
 }

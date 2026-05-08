@@ -320,6 +320,10 @@
             .grid { gap: 10px; }
             .restart-btn { font-size: 20px; padding: 15px 30px; }
             .cell { min-height: 70px; }
+            .logo-icon { width: 140px; height: 40px; }
+            .feedback-title { font-size: 26px; }
+            body { overflow-x: hidden; }
+            .container { padding: 20px 12px; overflow-x: hidden; }
         }
 
         @media (max-width: 400px) {
