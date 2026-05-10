@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #000000;
-    --cor-texto-claro: #1E293B;
+    --cor-texto: #1E293B;
+    --cor-texto-claro: #64748B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -49,8 +49,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     background: var(--cor-fundo-card);
     border: none;
     border-radius: 14px;
@@ -100,7 +100,7 @@ body {
 }
 
 .welcome h1 {
-    font-size: clamp(1.5rem, 4vw, 2.125rem);
+    font-size: clamp(28px, 4vw, 42px);
     font-weight: 700;
     color: var(--cor-texto);
     margin-bottom: 12px;
@@ -123,7 +123,7 @@ body {
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
 }
 
 .menu-btn {
@@ -131,7 +131,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 28px 20px;
+    padding: 24px 18px;
     background: var(--cor-fundo-card);
     border: 2px solid transparent;
     border-radius: var(--borda-radius);
@@ -162,7 +162,7 @@ body {
 }
 
 .menu-btn.assistente .icon {
-    background: linear-gradient(135deg, var(--primary-light), var(--cor-fundo-card));
+    background: var(--cor-fundo-card);
     margin-bottom: 0;
 }
 
@@ -175,23 +175,25 @@ body {
 }
 
 .menu-btn .icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     transition: transform 0.3s ease;
+    background: var(--cor-fundo-card);
 }
 
 .menu-btn:hover .icon {
+    background: var(--cor-fundo-card);
     transform: scale(1.08);
 }
 
 .menu-btn .icon svg {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
 }
 
 .menu-btn .text {
@@ -200,16 +202,9 @@ body {
     color: var(--cor-texto);
 }
 
-.menu-btn.jogos .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.jogos .icon svg { fill: #2196f3; }
-
-.menu-btn.calendario .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.calendario .icon svg { fill: #2196f3; }
-
-.menu-btn.exercicios .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.exercicios .icon svg { fill: #2196f3; }
-
-.menu-btn.seguranca .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.seguranca .icon svg { fill: #2196f3; }
 
 footer {
@@ -234,17 +229,17 @@ footer {
     }
 
     .menu-btn {
-        padding: 24px 16px;
+        padding: 24px 18px;
     }
 
     .menu-btn .icon {
-        width: 56px;
-        height: 56px;
+        width: 60px;
+        height: 60px;
     }
 
     .menu-btn .icon svg {
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
     }
 
     .logo-icon {
@@ -285,7 +280,7 @@ footer {
     }
 
     .welcome h1 {
-        font-size: clamp(1.25rem, 5vw, 1.75rem);
+        font-size: clamp(24px, 5vw, 30px);
     }
 
     .welcome p {
@@ -307,11 +302,6 @@ footer {
         width: 56px;
         height: 56px;
         margin-bottom: 0;
-    }
-
-    .menu-btn .icon svg {
-        width: 28px;
-        height: 28px;
     }
 
     .menu-btn .text {
@@ -360,7 +350,7 @@ footer {
     }
 
     .welcome h1 {
-        font-size: clamp(1.125rem, 5vw, 1.5rem);
+        font-size: clamp(22px, 5vw, 28px);
     }
 
     .welcome p {
@@ -407,7 +397,7 @@ footer {
     }
 
     .welcome h1 {
-        font-size: clamp(1rem, 5vw, 1.25rem);
+        font-size: clamp(20px, 5vw, 24px);
     }
 
     .welcome p {

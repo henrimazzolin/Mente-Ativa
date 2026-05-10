@@ -108,8 +108,8 @@
         // TAMANHO DA FONTE
         // ======================
         FontSize: {
-            opcoes: [14, 16, 20, 24],
-            atual: 16,
+            opcoes: [18, 20, 24, 28],
+            atual: 20,
 
             init() {
                 const salvo = localStorage.getItem(Accessibility.STORAGE_KEYS.fontSize);

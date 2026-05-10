@@ -97,7 +97,7 @@ class DarkModeManager {
     // --- Font size control ---
 
     aplicarFontePct() {
-        var base = 16;
+        var base = 20;
         document.body.style.fontSize = Math.round(base * this.fontPct / 100) + 'px';
         localStorage.setItem(FONT_STORAGE_KEY, String(this.fontPct));
         this.criarStyleFonte();
@@ -107,7 +107,7 @@ class DarkModeManager {
         if (document.getElementById('ma-font-style')) return;
         var styleEl = document.createElement('style');
         styleEl.id = 'ma-font-style';
-        styleEl.textContent = 'body * { font-size: inherit !important; }';
+        styleEl.textContent = 'body * { font-size: inherit !important; } .ma-btn, .ma-btn * { font-size: 18px !important; } .ma-btn-font-label { font-size: 18px !important; } .ma-btn-font-pct { font-size: 13px !important; } .ma-btn-font-minus, .ma-btn-font-plus { font-size: 24px !important; }';
         document.head.appendChild(styleEl);
     }
 

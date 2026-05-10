@@ -2,8 +2,8 @@
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
-            --cor-texto: #000000;
-            --cor-texto-claro: #1E293B;
+            --cor-texto: #1E293B;
+            --cor-texto-claro: #64748B;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -48,19 +48,19 @@
         }
 
         .back-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: var(--cor-fundo-card);
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            box-shadow: var(--sombra);
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--cor-fundo-card);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
 
         .back-btn:hover {
             transform: translateX(-4px);
@@ -127,7 +127,7 @@
     }
 
     .page-title h1 {
-            font-size: clamp(24px, 4vw, 32px);
+            font-size: clamp(28px, 4vw, 38px);
             font-weight: 700;
             margin-bottom: 8px;
         }
@@ -509,13 +509,13 @@
             text-align: center;
             padding: 30px 20px;
             color: var(--cor-texto-claro);
-            font-size: 18px;
+            font-size: 14px;
             margin-top: 40px;
         }
 
         @media (max-width: 768px) {
             .page-title h1 {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .game-area {
@@ -579,38 +579,11 @@
             }
 
             .page-title h1 {
-                font-size: 20px;
+                font-size: 28px;
             }
 
             .container {
                 padding: 10px;
-                overflow-x: hidden;
-            }
-
-            .game-over-title {
-                font-size: 32px;
-            }
-
-            .game-over-emoji {
-                font-size: 60px;
-            }
-
-            .game-over-btn {
-                padding: 12px 30px;
-                font-size: 18px;
-            }
-
-            .escolhe {
-                padding: 20px;
-                border-radius: 15px;
-            }
-
-            .logo-icon {
-                width: 8.75em;
-                height: 2.5em;
-            }
-
-            body {
                 overflow-x: hidden;
             }
         }

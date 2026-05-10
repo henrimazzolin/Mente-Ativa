@@ -5,7 +5,7 @@
             --cor-erro: #EF4444;
             --cor-fundo: #F0F9FF;
             --cor-fundo-card: #FFFFFF;
-            --cor-texto: #000000;
+            --cor-texto: #1E293B;
             --cor-texto-claro: #0B6477;
             --cor-sucesso: #80ED99;
             --sombra: 0 4px 20px rgba(33, 58, 87, 0.1);
@@ -45,19 +45,19 @@
         }
 
         .back-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: var(--cor-fundo-card);
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            box-shadow: var(--sombra);
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--cor-fundo-card);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
 
         .back-btn:hover {
             transform: translateX(-4px);
@@ -117,7 +117,7 @@
         }
 
         .page-title h1 {
-            font-size: clamp(24px, 4vw, 32px);
+            font-size: clamp(28px, 4vw, 38px);
             font-weight: 700;
             color: var(--cor-texto);
             margin-bottom: 8px;
@@ -205,7 +205,7 @@
         }
 
         .info-label {
-            font-size: 18px;
+            font-size: 14px;
             color: var(--cor-texto-claro);
             font-weight: 500;
         }
@@ -387,7 +387,7 @@
             text-align: center;
             padding: 20px;
             color: var(--cor-texto-claro);
-            font-size: 18px;
+            font-size: 14px;
         }
 
         @media (max-width: 600px) {

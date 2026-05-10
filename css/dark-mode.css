@@ -44,6 +44,7 @@
     display: flex;
     align-items: center;
     padding: 0;
+    overflow: hidden;
 }
 
 .ma-btn-font-minus,
@@ -61,14 +62,8 @@
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-.ma-btn-font-minus:hover,
-.ma-btn-font-plus:hover {
-    background: var(--cor-primaria, #3b82f6);
-    color: #ffffff;
-}
-
 .ma-btn-font-hidden {
-    display: none !important;
+    visibility: hidden !important;
 }
 
 .ma-btn-font-label {
@@ -100,12 +95,6 @@ html.modo-escuro .ma-btn:hover {
     color: #0f172a;
 }
 
-html.modo-escuro .ma-btn-font-minus:hover,
-html.modo-escuro .ma-btn-font-plus:hover {
-    background: var(--dm-link-hover, #dbeafe);
-    color: #0f172a;
-}
-
 body.assistente-aberto #mente-ativa-controls {
     display: none;
 }
@@ -114,34 +103,25 @@ body.assistente-aberto #mente-ativa-controls {
     .mente-ativa-controls {
         top: 12px;
         right: 12px;
-        gap: 8px;
-        max-width: 280px;
-    }
-}
-
-@media (max-width: 600px) {
-    .mente-ativa-controls {
-        top: 8px;
-        right: 8px;
-        gap: 8px;
+        gap: 6px;
         max-width: 260px;
     }
 
     .ma-btn {
         padding: 10px 14px;
-        font-size: 18px;
+        font-size: 15px;
     }
 
     .ma-btn-font-minus,
     .ma-btn-font-plus {
-        width: 40px;
+        width: 38px;
         font-size: 20px;
         padding: 10px 0;
     }
 
     .ma-btn-font-label {
-        font-size: 16px;
-        padding: 10px 2px;
+        font-size: 15px;
+        padding: 10px 4px;
     }
 
     .ma-btn-font-pct {
@@ -149,29 +129,29 @@ body.assistente-aberto #mente-ativa-controls {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .mente-ativa-controls {
-        top: 4px;
-        right: 4px;
-        gap: 6px;
-        max-width: 220px;
+        top: 8px;
+        right: 8px;
+        gap: 5px;
+        max-width: 230px;
     }
 
     .ma-btn {
         padding: 8px 10px;
-        font-size: 16px;
+        font-size: 13px;
         border-radius: 8px;
     }
 
     .ma-btn-font-minus,
     .ma-btn-font-plus {
-        width: 36px;
+        width: 34px;
         font-size: 18px;
         padding: 8px 0;
     }
 
     .ma-btn-font-label {
-        font-size: 14px;
+        font-size: 13px;
         padding: 8px 2px;
     }
 
@@ -180,14 +160,18 @@ body.assistente-aberto #mente-ativa-controls {
     }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
     .mente-ativa-controls {
-        max-width: 180px;
+        top: 6px;
+        right: 6px;
+        gap: 4px;
+        max-width: 190px;
     }
 
     .ma-btn {
         padding: 6px 8px;
-        font-size: 14px;
+        font-size: 12px;
+        border-radius: 6px;
     }
 
     .ma-btn-font-minus,
@@ -198,8 +182,45 @@ body.assistente-aberto #mente-ativa-controls {
     }
 
     .ma-btn-font-label {
-        font-size: 12px;
-        padding: 6px 1px;
+        font-size: 11px;
+        padding: 6px 2px;
+    }
+
+    .ma-btn-font-pct {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .mente-ativa-controls {
+        top: 4px;
+        right: 4px;
+        gap: 3px;
+        max-width: 160px;
+    }
+
+    .ma-btn {
+        padding: 5px 6px;
+        font-size: 11px;
+        border-radius: 5px;
+    }
+
+    .ma-btn-font-minus,
+    .ma-btn-font-plus {
+        width: 26px;
+        font-size: 14px;
+        padding: 5px 0;
+    }
+
+    .ma-btn-font-label {
+        font-size: 10px;
+        padding: 5px 1px;
+        white-space: normal;
+        line-height: 1.1;
+    }
+
+    .ma-btn-font-pct {
+        font-size: 9px;
     }
 }
 
@@ -275,7 +296,18 @@ html.modo-escuro .chat-messages {
 }
 
 html.modo-escuro .back-btn {
-    border: 2px solid var(--dm-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--cor-fundo-card);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 html.modo-escuro .back-btn svg {

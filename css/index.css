@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #000000;
-    --cor-texto-claro: #1E293B;
+    --cor-texto: #1E293B;
+    --cor-texto-claro: #64748B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -111,7 +111,7 @@ header {
 }
 
 h1 {
-    font-size: clamp(26px, 5vw, 38px);
+    font-size: clamp(28px, 5vw, 42px);
     font-weight: 700;
     color: var(--cor-texto);
     line-height: 1.3;
@@ -224,6 +224,11 @@ h1 {
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
+    background: var(--cor-fundo-card);
+}
+
+.group-btn:hover .group-icon {
+    background: var(--cor-fundo-card);
 }
 
 .group-btn:hover .group-icon {
@@ -292,7 +297,7 @@ footer {
     text-align: center;
     padding: 24px 20px;
     color: var(--cor-texto-claro);
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
 }
 

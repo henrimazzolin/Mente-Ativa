@@ -1,8 +1,8 @@
 /* :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #000000;
-    --cor-texto-claro: #1E293B;
+    --cor-texto: #1E293B;
+    --cor-texto-claro: #64748B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -104,8 +104,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     background: var(--cor-fundo-card);
     border: none;
     border-radius: 14px;
@@ -169,7 +169,7 @@ body {
 }
 
 .page-title h1 {
-    font-size: clamp(24px, 4vw, 36px);
+    font-size: clamp(28px, 4vw, 42px);
     font-weight: 700;
     color: var(--cor-texto);
 }
@@ -196,7 +196,7 @@ body {
 }
 
 .game-desc {
-    font-size: 18px;
+    font-size: 15px;
     color: var(--cor-texto-claro);
     font-weight: 500;
     line-height: 1.5;
@@ -281,7 +281,7 @@ body {
 }
 
 .game-desc {
-    font-size: 18px;
+    font-size: 15px;
     color: var(--cor-texto-claro);
     line-height: 1.5;
 }
@@ -290,8 +290,8 @@ body {
     margin-top: 16px;
     padding: 12px 28px;
     border: none;
-    border-radius: 25px;
-    font-size: 18px;
+    border-radius: 12px;
+    font-size: 15px;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -329,7 +329,7 @@ footer {
     text-align: center;
     padding: 30px 20px;
     color: var(--cor-texto-claro);
-    font-size: 18px;
+    font-size: 14px;
 }
 
 @media (max-width: 600px) {

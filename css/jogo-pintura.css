@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #000000;
-    --cor-texto-claro: #1E293B;
+    --cor-texto: #1E293B;
+    --cor-texto-claro: #64748B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -99,7 +99,7 @@ body {
 }
 
 .page-title h1 {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 700;
     color: var(--cor-texto);
     margin-bottom: 8px;
@@ -277,7 +277,7 @@ footer {
     text-align: center;
     padding: 30px 20px;
     color: var(--cor-texto-claro);
-    font-size: 18px;
+    font-size: 14px;
 }
 
 @media (max-width: 600px) {

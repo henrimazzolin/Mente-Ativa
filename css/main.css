@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #000000;
-    --cor-texto-claro: #1E293B;
+    --cor-texto: #1E293B;
+    --cor-texto-claro: #64748B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -78,11 +78,15 @@ input, select, textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--primary-light);
-    transition: background 0.3s;
+    width: 50px;
+    height: 50px;
+    background: var(--cor-fundo-card);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: var(--sombra);
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .back-btn:hover {
