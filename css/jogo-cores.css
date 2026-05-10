@@ -2,8 +2,8 @@
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
-            --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
+            --cor-texto: #000000;
+            --cor-texto-claro: #1E293B;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -75,8 +75,8 @@
         }
 
         .logo-icon {
-            width: 200px;
-            height: 55px;
+            width: 12.5em;
+            height: 3.4375em;
             background: var(--cor-fundo-card);
             border-radius: 12px;
             display: flex;
@@ -238,7 +238,7 @@
         }
 
         .score-label {
-            font-size: 16px;
+            font-size: 18px;
             color: #64748B;
         }
 
@@ -328,7 +328,7 @@
             text-align: center;
             padding: 20px;
             color: #64748B;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         @media (max-width: 600px) {
@@ -342,8 +342,8 @@
             .feedback-icon { font-size: 55px; width: 90px; height: 90px; }
 
             .logo-icon {
-                width: 140px;
-                height: 40px;
+                width: 8.75em;
+                height: 2.5em;
             }
 
             .feedback-title {
@@ -357,5 +357,19 @@
             .container {
                 padding: 20px 12px;
                 overflow-x: hidden;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .logo-icon {
+                width: 7.5em;
+                height: 2.25em;
             }
         }

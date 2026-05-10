@@ -45,17 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let correctCount = 0;
         let isComplete = false;
 
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
-
         function initGame() {
-            currentQuestions = shuffleArray(questions);
+            currentQuestions = MenteAtiva.utils.shuffleArray(questions);
             currentIndex = 0;
             correctCount = 0;
             isComplete = false;
@@ -74,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const optionsGrid = document.getElementById('optionsGrid');
             optionsGrid.innerHTML = '';
             
-            const shuffledOptions = shuffleArray([...q.options]);
+            const shuffledOptions = MenteAtiva.utils.shuffleArray([...q.options]);
             
             shuffledOptions.forEach(option => {
                 const btn = document.createElement('button');

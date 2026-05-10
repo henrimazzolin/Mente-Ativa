@@ -269,9 +269,6 @@ function excluirEvento(index) {
     confirmarExclusao(index);
 }
 
-document.getElementById('btn-tts-calendario').addEventListener('click', function() {
-    toggleLeitura('Calendário de Março de 2026. Organize seus compromissos e eventos.');
-});
 document.getElementById('btn-mes-anterior').addEventListener('click', () => mudarMes(-1));
 document.getElementById('btn-proximo-mes').addEventListener('click', () => mudarMes(1));
 document.getElementById('btn-adicionar-evento').addEventListener('click', abrirModal);

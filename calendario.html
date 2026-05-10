@@ -8,14 +8,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="js/acessibilidade.js" defer></script>
+    <script src="js/components/accessibility.js" defer></script>
     <script src="js/calendario.js" defer></script>
-    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
     
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/calendario.css">
     <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/assistente-flutuante.css">
     <script src="js/dark-mode.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
     <div class="container">
@@ -35,11 +37,6 @@
         <div class="page-title">
             <div class="titulo-com-tts">
                 <h1>Calendário</h1>
-                <button id="btn-tts-calendario" class="tts-btn" aria-label="Ouvir texto">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                    </svg>
-                </button>
             </div>
             <p style="display: flex; justify-content: center; align-items: center;">Para você se organizar melhor</p> 
         </div>
@@ -143,7 +140,8 @@
     </div>
 
     <footer>
-        <p>Feito com cuidado para você</p>
+        <p>Mente Ativa — Exercite sua mente</p>
     </footer>
+    <script src="js/assistente-flutuante.js"></script>
 </body>
 </html>

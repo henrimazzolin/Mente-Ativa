@@ -6,15 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let total = 0;
     let answered = false;
 
-    function shuffleArray(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-    }
-
     function startGame() {
         score = 0;
         total = 0;
@@ -34,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = '';
 
         const others = animals.filter(a => a !== currentAnimal);
-        const shuffled = shuffleArray(others);
-        const options = shuffleArray([currentAnimal, ...shuffled.slice(0, 3)]);
+        var shuffled = MenteAtiva.utils.shuffleArray(others);
+        var options = MenteAtiva.utils.shuffleArray([currentAnimal].concat(shuffled.slice(0, 3)));
 
         options.forEach(opt => {
             const btn = document.createElement('button');

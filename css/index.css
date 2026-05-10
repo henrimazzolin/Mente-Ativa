@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -53,8 +53,8 @@ body {
 }
 
 .logo-icon {
-    width: 120px;
-    height: 120px;
+    width: 7.5em;
+    height: 7.5em;
     border-radius: 18px;
     align-items: center;
     justify-content: center;
@@ -260,7 +260,7 @@ h1 {
 }
 
 .group-desc {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--cor-texto-claro);
 }
@@ -292,7 +292,7 @@ footer {
     text-align: center;
     padding: 24px 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -325,6 +325,11 @@ footer {
 }
 
 @media (max-width: 600px) {
+
+    .groups-container {
+        display: flex;
+        align-items: center;
+    }
     .logo-text {
         font-size: 28px;
     }
@@ -336,6 +341,49 @@ footer {
     .group-btn {
         width: 100%;
         max-width: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 10px;
+    }
+    
+    .logo {
+        gap: 10px;
+        margin-bottom: 32px;
+    }
+    
+    .logo-icon {
+        width: 5em;
+        height: 5em;
+    }
+    
+    .logo-text {
+        font-size: 24px;
+    }
+    
+    header {
+        margin-bottom: 32px;
+    }
+    
+    .group-btn {
+        padding: 20px 18px;
+        gap: 14px;
+    }
+    
+    .group-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+    }
+    
+    .group-title {
+        font-size: 18px;
+    }
+    
+    .group-desc {
+        font-size: 18px;
     }
 }
 

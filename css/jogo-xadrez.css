@@ -2,8 +2,8 @@
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
-            --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
+            --cor-texto: #000000;
+            --cor-texto-claro: #1E293B;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -79,8 +79,8 @@
         }
 
         .logo-icon {
-            width: 200px;
-            height: 55px;
+            width: 12.5em;
+            height: 3.4375em;
             background: var(--cor-fundo-card);
             border-radius: 12px;
             display: flex;
@@ -185,7 +185,7 @@
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -492,7 +492,7 @@
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -509,7 +509,7 @@
             text-align: center;
             padding: 30px 20px;
             color: var(--cor-texto-claro);
-            font-size: 14px;
+            font-size: 18px;
             margin-top: 40px;
         }
 
@@ -597,7 +597,7 @@
 
             .game-over-btn {
                 padding: 12px 30px;
-                font-size: 14px;
+                font-size: 18px;
             }
 
             .escolhe {
@@ -606,11 +606,29 @@
             }
 
             .logo-icon {
-                width: 140px;
-                height: 40px;
+                width: 8.75em;
+                height: 2.5em;
             }
 
             body {
                 overflow-x: hidden;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 10px;
+            }
+            
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .logo-icon {
+                width: 7.5em;
+                height: 2.25em;
             }
         }

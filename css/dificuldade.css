@@ -9,7 +9,7 @@
 }
 
 .dificuldade-label {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--cor-texto-claro);
     margin-right: 4px;
@@ -21,7 +21,7 @@
     background: transparent;
     color: #F97316;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
@@ -75,13 +75,25 @@ html.modo-escuro .dif-btn.active {
     }
     .dif-btn {
         padding: 8px 16px;
-        font-size: 14px;
+        font-size: 18px;
         min-width: 68px;
     }
     .dificuldade-label {
-        font-size: 14px;
+        font-size: 18px;
         width: 100%;
         text-align: center;
         margin-bottom: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dificuldade-selector {
+        gap: 6px;
+        margin: 12px 0 16px;
+    }
+    .dif-btn {
+        padding: 6px 14px;
+        font-size: 18px;
+        min-width: 60px;
     }
 }

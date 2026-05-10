@@ -2,8 +2,8 @@
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
-            --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
+            --cor-texto: #000000;
+            --cor-texto-claro: #1E293B;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -64,8 +64,8 @@
         .logo { display: flex; align-items: center; gap: 10px; }
 
         .logo-icon {
-            width: 200px;
-            height: 55px;
+            width: 12.5em;
+            height: 3.4375em;
             background: var(--cor-fundo-card);
             border-radius: 12px;
             display: flex;
@@ -107,7 +107,7 @@
             text-align: center;
         }
 
-        .info-label { font-size: 14px; color: var(--cor-texto-claro); }
+        .info-label { font-size: 18px; color: var(--cor-texto-claro); }
         .info-value { font-size: 24px; font-weight: 700; color: var(--cor-primaria); }
 
         .game-area {
@@ -294,14 +294,32 @@
             text-align: center;
             padding: 20px;
             color: var(--cor-texto-claro);
-            font-size: 14px;
+            font-size: 18px;
         }
 
         @media (max-width: 600px) {
             .seq-item { width: 55px; height: 55px; font-size: 24px; }
             .option-btn { font-size: 24px; padding: 20px; min-width: 65px; }
-            .logo-icon { width: 140px; height: 40px; }
+            .logo-icon { width: 8.75em; height: 2.5em; }
             .feedback h2 { font-size: 22px; }
             body { overflow-x: hidden; }
             .container { padding: 20px 12px; overflow-x: hidden; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 10px;
+            }
+            
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .logo-icon {
+                width: 7.5em;
+                height: 2.25em;
+            }
         }

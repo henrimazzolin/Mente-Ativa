@@ -45,7 +45,20 @@ document.addEventListener('DOMContentLoaded', function() {
             { left: 'Bússola', right: 'Norte' }
         ];
 
-        const correctSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+        function playCorrectSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = 880;
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.3);
+            } catch (e) {}
+        }
 
         let currentPairs = [];
         let selectedLeftCard = null;
@@ -53,15 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let matchedPairs = 0;
         let correctCount = 0;
         let isLocked = false;
-
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
 
         function initGame() {
             matchedPairs = 0;
@@ -79,9 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
             leftContainer.innerHTML = '';
             rightContainer.innerHTML = '';
             
-            currentPairs = shuffleArray(wordPairs).slice(0, 4);
+            currentPairs = MenteAtiva.utils.shuffleArray(wordPairs).slice(0, 4);
             
-            const shuffledRight = shuffleArray([...currentPairs]);
+            const shuffledRight = MenteAtiva.utils.shuffleArray(currentPairs.slice());
             
             currentPairs.forEach((pair, index) => {
                 const card = document.createElement('div');
@@ -134,8 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedLeftCard.classList.add('matched');
                 card.classList.add('matched');
                 
-                correctSound.currentTime = 0;
-                correctSound.play();
+                playCorrectSound();
                 
                 selectedLeftCard = null;
                 selectedLeftWord = null;

@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -123,8 +123,8 @@ body {
 }
 
 .logo-icon {
-    width: 200px;
-    height: 55px;
+    width: 12.5em;
+    height: 3.4375em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -172,7 +172,7 @@ body {
 }
 
 .page-title p {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
     font-weight: 500;
 }
@@ -258,7 +258,7 @@ body {
 }
 
 .tip-content p {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--cor-texto-claro);
     line-height: 1.6;
@@ -293,7 +293,7 @@ body {
 }
 
 .warning-box li {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto);
     margin-bottom: 10px;
     padding-left: 24px;
@@ -333,7 +333,7 @@ body {
 }
 
 .help-box p {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto);
     line-height: 1.6;
 }
@@ -342,7 +342,7 @@ footer {
     text-align: center;
     padding: 30px 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {
@@ -367,12 +367,12 @@ footer {
     }
     
     .logo-icon {
-        width: 140px;
-        height: 40px;
+        width: 8.75em;
+        height: 2.5em;
     }
     
     .intro p {
-        font-size: 16px;
+        font-size: 18px;
     }
     
     .section-title {
@@ -402,5 +402,21 @@ footer {
     .container {
         padding: 20px 12px;
         overflow-x: hidden;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 16px 10px;
+    }
+    
+    .header {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .logo-icon {
+        width: 7.5em;
+        height: 2.25em;
     }
 }

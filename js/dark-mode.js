@@ -1,23 +1,19 @@
-// Mente Ativa - Modo Escuro
-// Gerencia a troca entre backgrounds claro e escuro
-
-
-// Mapeamento de backgrounds: claro -> escuro
 const BACKGROUND_MAP = {
     'neutralbkg.png': 'darkneutralbkg.png',
     'bluebkg.png': 'darkbluebkg.png',
     'greenbkg.png': 'darkgreenbkg.png',
 };
 
-// Configuração do localStorage
 const STORAGE_KEY = 'mente-ativa-modo-escuro';
+const FONT_STEPS = [80, 90, 100, 110, 120, 130, 140, 150];
+const FONT_STORAGE_KEY = 'mente-ativa-fonte-pct';
 
-// Classe para gerenciar o modo escuro
 class DarkModeManager {
     constructor() {
         this.isEscuro = false;
         this.backgroundAtual = '';
         this.botao = null;
+        this.fontPct = 100;
     }
 
     possuiFundoMapeavel(backgroundImage) {
@@ -26,9 +22,9 @@ class DarkModeManager {
     }
 
     substituirParaEscuro(backgroundImage) {
-        let s = backgroundImage;
-        Object.keys(BACKGROUND_MAP).forEach((light) => {
-            const dark = BACKGROUND_MAP[light];
+        var s = backgroundImage;
+        Object.keys(BACKGROUND_MAP).forEach(function (light) {
+            var dark = BACKGROUND_MAP[light];
             s = s.split(light).join(dark);
         });
         return s;
@@ -38,7 +34,6 @@ class DarkModeManager {
         document.documentElement.classList.toggle('modo-escuro', Boolean(this.isEscuro));
     }
 
-    // Inicializar o modo escuro
     init() {
         this.isEscuro = localStorage.getItem(STORAGE_KEY) === 'true';
 
@@ -48,172 +43,182 @@ class DarkModeManager {
             this.sincronizarClasseDocumento();
         }
 
-        this.criarBotao();
+        this.fontPct = parseInt(localStorage.getItem(FONT_STORAGE_KEY), 10) || 100;
+        this.aplicarFontePct();
 
-        document.addEventListener('mente-ativa-intro-fechada', () => {
-            this.reposicionarBotaoAposIntro();
-        });
+        this.criarBotoes();
+        this.atualizarVisibilidadeBotoes();
     }
 
-    // Obter o background atual
-    obterBackgroundAtual() {
-        const bodyStyle = window.getComputedStyle(document.body);
-        const backgroundImage = bodyStyle.backgroundImage;
-
-        const match = backgroundImage.match(/url\(['"]?(?:.*\/)?([^/'")]+)['"]?\)/);
-        return match ? match[1] : '';
-    }
-
-    resolverAlvoBotao() {
-        const intro = document.getElementById('intro-overlay');
-        if (intro) {
-            const cs = window.getComputedStyle(intro);
-            if (cs.display !== 'none' && cs.visibility !== 'hidden') {
-                const ic = intro.querySelector('.intro-content');
-                if (ic) {
-                    return { el: ic, modo: 'intro' };
-                }
-            }
-        }
-
-        const tituloComTts =
-            document.querySelector('header .titulo-com-tts') ||
-            document.querySelector('.titulo-com-tts');
-
-        if (tituloComTts) {
-            return { el: tituloComTts, modo: 'header' };
-        }
-
-        const header = document.querySelector('header') || document.querySelector('.header');
-
-        if (header) {
-            return { el: header, modo: 'header' };
-        }
-
-        return { el: document.body, modo: 'fixed' };
-    }
-
-    aplicarClassePosicaoBotao(modo) {
-        if (!this.botao) return;
-        this.botao.classList.remove('dark-mode-btn--intro', 'dark-mode-btn--fixed');
-        if (modo === 'intro') {
-            this.botao.classList.add('dark-mode-btn--intro');
-        } else if (modo === 'fixed') {
-            this.botao.classList.add('dark-mode-btn--fixed');
-        }
-    }
-
-    reposicionarBotaoAposIntro() {
-        if (!this.botao) return;
-        const { el, modo } = this.resolverAlvoBotao();
-        if (this.botao.parentElement !== el) {
-            el.appendChild(this.botao);
-        }
-        this.aplicarClassePosicaoBotao(modo);
-    }
-
-    // Alternar modo escuro
     toggleModoEscuro() {
         if (this.isEscuro) {
             this.aplicarModoClaro();
         } else {
             this.aplicarModoEscuro();
         }
+        this.atualizarTextoBotao();
     }
 
-    // Aplicar modo escuro
     aplicarModoEscuro() {
         this.isEscuro = true;
 
-        const bg = window.getComputedStyle(document.body).backgroundImage;
+        var bg = window.getComputedStyle(document.body).backgroundImage;
         if (this.possuiFundoMapeavel(bg)) {
-            const proximo = this.substituirParaEscuro(bg);
+            var proximo = this.substituirParaEscuro(bg);
             if (proximo && proximo !== bg) {
                 document.body.style.backgroundImage = proximo;
             }
         }
 
         localStorage.setItem(STORAGE_KEY, 'true');
-
-        if (this.botao) {
-            this.botao.setAttribute('data-escuro', 'true');
-            this.botao.setAttribute('aria-label', 'Modo claro');
-            this.botao.title = 'Clique para ativar modo claro';
-        }
-
         this.sincronizarClasseDocumento();
-
-        const header = document.querySelector('.header');
-        if (header) {
-            header.style.backgroundColor = '#1f1f1f';
-        } if (header) {
-            header.style.backgroundColor = '';
-        }
     }
 
-    // Aplicar modo claro
     aplicarModoClaro() {
         this.isEscuro = false;
-
         document.body.style.backgroundImage = '';
-
         localStorage.setItem(STORAGE_KEY, 'false');
-
-        if (this.botao) {
-            this.botao.setAttribute('data-escuro', 'false');
-            this.botao.setAttribute('aria-label', 'Modo escuro');
-            this.botao.title = 'Clique para ativar modo escuro';
-        }
-
         this.sincronizarClasseDocumento();
     }
 
-    // Criar o botão de modo escuro
-    criarBotao() {
-        // Não criar o botão durante a intro
-        const intro = document.getElementById('intro-overlay');
-        if (intro) {
-            const cs = window.getComputedStyle(intro);
-            if (cs.display !== 'none' && cs.visibility !== 'hidden') {
-                return;
+    atualizarTextoBotao() {
+        var btn = document.getElementById('btn-dark-mode-toggle');
+        if (btn) {
+            if (this.isEscuro) {
+                btn.textContent = 'Modo Claro';
+                btn.setAttribute('aria-label', 'Mudar para modo claro');
+            } else {
+                btn.textContent = 'Modo Escuro';
+                btn.setAttribute('aria-label', 'Mudar para modo escuro');
             }
         }
+    }
 
-        const { el, modo } = this.resolverAlvoBotao();
+    // --- Font size control ---
 
-        this.botao = document.createElement('button');
-        this.botao.id = 'btn-dark-mode';
-        this.botao.className = 'dark-mode-btn';
-        this.botao.setAttribute('aria-label', 'Modo escuro');
-        this.botao.title = 'Clique para ativar modo escuro';
-        this.botao.setAttribute('data-escuro', this.isEscuro ? 'true' : 'false');
+    aplicarFontePct() {
+        var base = 16;
+        document.body.style.fontSize = Math.round(base * this.fontPct / 100) + 'px';
+        localStorage.setItem(FONT_STORAGE_KEY, String(this.fontPct));
+        this.criarStyleFonte();
+    }
 
-        this.botao.innerHTML = `
-            
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="moon-icon" viewBox="0 0 16 16">
-      <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-    </svg>
-                <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                </svg>
-            `;
+    criarStyleFonte() {
+        if (document.getElementById('ma-font-style')) return;
+        var styleEl = document.createElement('style');
+        styleEl.id = 'ma-font-style';
+        styleEl.textContent = 'body * { font-size: inherit !important; }';
+        document.head.appendChild(styleEl);
+    }
 
-        this.botao.addEventListener('click', () => this.toggleModoEscuro());
+    aumentarFonte() {
+        var idx = FONT_STEPS.indexOf(this.fontPct);
+        if (idx === -1) { this.fontPct = 100; idx = 2; }
+        if (this.fontPct >= 150) return;
+        this.fontPct = FONT_STEPS[Math.min(idx + 1, FONT_STEPS.length - 1)];
+        this.aplicarFontePct();
+        this.atualizarLabelFonte();
+        this.atualizarVisibilidadeBotoes();
+    }
 
-        el.appendChild(this.botao);
-        this.aplicarClassePosicaoBotao(modo);
+    diminuirFonte() {
+        var idx = FONT_STEPS.indexOf(this.fontPct);
+        if (idx === -1) { this.fontPct = 100; idx = 2; }
+        if (this.fontPct <= 80) return;
+        this.fontPct = FONT_STEPS[Math.max(idx - 1, 0)];
+        this.aplicarFontePct();
+        this.atualizarLabelFonte();
+        this.atualizarVisibilidadeBotoes();
+    }
 
-        if (this.isEscuro) {
-            this.botao.setAttribute('data-escuro', 'true');
-            this.botao.setAttribute('aria-label', 'Modo claro');
-            this.botao.title = 'Clique para ativar modo claro';
+    atualizarLabelFonte() {
+        var el = document.getElementById('ma-font-pct');
+        if (el) el.textContent = this.fontPct + '%';
+    }
+
+    atualizarVisibilidadeBotoes() {
+        var btnMinus = document.querySelector('.ma-btn-font-minus');
+        var btnPlus = document.querySelector('.ma-btn-font-plus');
+        if (btnMinus) {
+            if (this.fontPct <= 80) {
+                btnMinus.classList.add('ma-btn-font-hidden');
+            } else {
+                btnMinus.classList.remove('ma-btn-font-hidden');
+            }
         }
+        if (btnPlus) {
+            if (this.fontPct >= 150) {
+                btnPlus.classList.add('ma-btn-font-hidden');
+            } else {
+                btnPlus.classList.remove('ma-btn-font-hidden');
+            }
+        }
+    }
+
+    // --- Button creation ---
+
+    criarBotoes() {
+        var container = document.createElement('div');
+        container.id = 'mente-ativa-controls';
+        container.className = 'mente-ativa-controls';
+
+        // Font-size control: [ - ] [ label ] [ + ]
+        var fontGroup = document.createElement('div');
+        fontGroup.className = 'ma-btn ma-btn-font-size';
+
+        var btnMinus = document.createElement('button');
+        btnMinus.className = 'ma-btn-font-minus';
+        btnMinus.setAttribute('aria-label', 'Diminuir tamanho da letra');
+        btnMinus.textContent = '\u2212';
+        btnMinus.addEventListener('click', this.diminuirFonte.bind(this));
+
+        var fontLabel = document.createElement('span');
+        fontLabel.className = 'ma-btn-font-label';
+        fontLabel.innerHTML = 'Tamanho das letras <span id="ma-font-pct" class="ma-btn-font-pct">' + this.fontPct + '%</span>';
+
+        var btnPlus = document.createElement('button');
+        btnPlus.className = 'ma-btn-font-plus';
+        btnPlus.setAttribute('aria-label', 'Aumentar tamanho da letra');
+        btnPlus.textContent = '+';
+        btnPlus.addEventListener('click', this.aumentarFonte.bind(this));
+
+        fontGroup.appendChild(btnMinus);
+        fontGroup.appendChild(fontLabel);
+        fontGroup.appendChild(btnPlus);
+
+        // Dark mode button
+        var btnDarkMode = document.createElement('button');
+        btnDarkMode.id = 'btn-dark-mode-toggle';
+        btnDarkMode.className = 'ma-btn ma-btn-darkmode';
+        if (this.isEscuro) {
+            btnDarkMode.textContent = 'Modo Claro';
+            btnDarkMode.setAttribute('aria-label', 'Mudar para modo claro');
+        } else {
+            btnDarkMode.textContent = 'Modo Escuro';
+            btnDarkMode.setAttribute('aria-label', 'Mudar para modo escuro');
+        }
+        btnDarkMode.addEventListener('click', this.toggleModoEscuro.bind(this));
+
+        // Assistente button
+        var btnAssistente = document.createElement('button');
+        btnAssistente.className = 'ma-btn ma-btn-assistente';
+        btnAssistente.textContent = 'Tirar D\u00FAvidas';
+        btnAssistente.setAttribute('aria-label', 'Abrir assistente virtual');
+        btnAssistente.addEventListener('click', function () {
+            document.dispatchEvent(new CustomEvent('mente-ativa-abrir-assistente'));
+        });
+
+        container.appendChild(fontGroup);
+        container.appendChild(btnDarkMode);
+        container.appendChild(btnAssistente);
+        document.body.appendChild(container);
     }
 }
 
 function iniciarDarkMode() {
-    const darkMode = new DarkModeManager();
-    darkMode.init();
+    window.MenteAtiva = window.MenteAtiva || {};
+    window.MenteAtiva.darkMode = new DarkModeManager();
+    window.MenteAtiva.darkMode.init();
 }
 
 if (document.readyState === 'loading') {

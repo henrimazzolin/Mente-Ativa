@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -74,8 +74,8 @@ body {
 }
 
 .logo-icon {
-    width: 200px;
-    height: 55px;
+    width: 12.5em;
+    height: 3.4375em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -256,7 +256,7 @@ body {
     .next-btn { font-size: 22px; padding: 18px 35px; }
     .feedback-icon { font-size: 50px; }
     .feedback-text { font-size: 20px; }
-    .logo-icon { width: 140px; height: 40px; }
+    .logo-icon { width: 8.75em; height: 2.5em; }
     body { overflow-x: hidden; }
 }
 
@@ -267,3 +267,17 @@ html.modo-escuro .instruction-text { color: #FBBF24; }
 html.modo-escuro .color-display { background: rgba(240, 249, 255, 0.1); }
 html.modo-escuro .feedback-text { color: var(--cor-texto); }
 html.modo-escuro .score-display { color: var(--cor-secundaria); }
+
+@media (max-width: 480px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .logo-icon {
+        width: 7.5em;
+        height: 2.25em;
+    }
+}

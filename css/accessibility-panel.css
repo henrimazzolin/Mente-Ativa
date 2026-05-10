@@ -25,7 +25,7 @@
 }
 
 .accessibility-panel h3 {
-    font-size: 14px;
+    font-size: 18px;
     margin: 15px 0 10px;
     color: var(--cor-texto-claro, #64748B);
 }
@@ -36,38 +36,9 @@
 
 .accessibility-option label {
     display: block;
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 8px;
     color: var(--cor-texto, #1E293B);
-}
-
-/* Toggle Button */
-.accessibility-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--cor-primaria, #3B82F6);
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9998;
-    transition: transform 0.2s ease;
-}
-
-.accessibility-toggle:hover {
-    transform: scale(1.1);
-}
-
-.accessibility-toggle svg {
-    width: 28px;
-    height: 28px;
-    fill: white;
 }
 
 /* Close Button */
@@ -114,7 +85,7 @@
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 18px;
     height: 100%;
     transition: all 0.3s ease;
 }
@@ -191,7 +162,7 @@
     color: var(--cor-texto, #1E293B);
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
     transition: all 0.2s;
 }
 
@@ -303,14 +274,16 @@ html.modo-escuro body.contrast-blue {
     .accessibility-panel.open {
         right: 0;
     }
-    .accessibility-toggle {
-        width: 48px;
-        height: 48px;
-        bottom: 16px;
-        right: 16px;
+}
+
+@media (max-width: 480px) {
+    .accessibility-panel {
+        width: calc(100vw - 32px);
+        max-width: 280px;
+        right: -300px;
+        padding: 16px;
     }
-    .accessibility-toggle svg {
-        width: 22px;
-        height: 22px;
+    .accessibility-panel.open {
+        right: 0;
     }
 }

@@ -1,9 +1,8 @@
 :root {
-    /* Light theme (default) */
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -17,27 +16,11 @@
     --primary-light: rgba(59, 130, 246, 0.1);
     --secondary: #1e40af;
     --primary: #2563eb;
-    --light: #60a5fa;
-    --accent: #3b82f6;
-    --background: #0f172a;
-    --surface: #1e293b;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-}
-
-
-
-
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url(../img/bluebkg.png), 
+    background-image: url(../img/bluebkg.png),
         radial-gradient(circle at 10% 90%, rgba(20, 145, 155, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 90% 10%, rgba(69, 223, 177, 0.05) 0%, transparent 40%);
     background-size: cover;
@@ -47,50 +30,6 @@ body {
     color: var(--cor-texto);
     min-height: 100vh;
     font-weight: 500;
-}
-
-.tts-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    background: var(--cor-fundo-card);
-    color: rgba(52, 119, 158, 0.644);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-
-.tts-btn:hover {
-    background: var(--cor-primaria);
-    color: white;
-    transform: scale(1.08);
-    box-shadow: 0 4px 20px rgba(20, 145, 155, 0.35);
-}
-
-.tts-btn:focus {
-    outline: 3px solid var(--cor-terceira);
-    outline-offset: 2px;
-}
-
-.tts-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-.tts-btn.lendo {
-    background: rgba(20, 102, 196, 0.1);
-    color: #0f53a1;
-    animation: pulsando 1.5s ease-in-out infinite;
-}
-
-@keyframes pulsando {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
 }
 
 .container {
@@ -139,8 +78,8 @@ body {
 }
 
 .logo-icon {
-    width: 200px;
-    height: 55px;
+    width: 12.5em;
+    height: 3.4375em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -155,22 +94,13 @@ body {
     object-fit: cover;
 }
 
-.logo-text {
-    font-size: 22px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #0B6477, #0AD1C8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
 .welcome {
     text-align: center;
     margin-bottom: 40px;
 }
 
 .welcome h1 {
-    font-size: clamp(24px, 4vw, 34px);
+    font-size: clamp(1.5rem, 4vw, 2.125rem);
     font-weight: 700;
     color: var(--cor-texto);
     margin-bottom: 12px;
@@ -185,7 +115,7 @@ body {
 }
 
 .welcome p {
-    font-size: 16px;
+    font-size: 1.125rem;
     color: var(--cor-texto-claro);
     font-weight: 500;
 }
@@ -209,37 +139,18 @@ body {
     cursor: pointer;
     transition: all 0.35s ease;
     text-decoration: none;
-    box-sizing: border-box;
 }
 
 .menu-btn:hover {
     transform: translateY(-5px);
     box-shadow: var(--sombra-hover);
+    border-color: var(--secondary);
+    background: linear-gradient(to bottom, var(--primary-light), var(--cor-fundo-card));
 }
 
 .menu-btn:focus {
     outline: 3px solid var(--cor-primaria);
     outline-offset: 3px;
-}
-
-.menu-btn.jogos:hover {
-    border-color: var(--secondary);
-    background: linear-gradient(to bottom, var(--primary-light), var(--cor-fundo-card));
-}
-
-.menu-btn.calendario:hover {
-    border-color: var(--secondary);
-    background: linear-gradient(to bottom, var(--primary-light), var(--cor-fundo-card));
-}
-
-.menu-btn.exercicios:hover {
-    border-color: var(--secondary);
-    background: linear-gradient(to bottom, var(--primary-light), var(--cor-fundo-card));
-}
-
-.menu-btn.seguranca:hover {
-    border-color: var(--secondary);
-    background: linear-gradient(to bottom, var(--primary-light), var(--cor-fundo-card));
 }
 
 .menu-btn.assistente {
@@ -248,11 +159,6 @@ body {
     gap: 16px;
     padding: 20px 32px;
     background: var(--cor-fundo-card);
-}
-
-.menu-btn.assistente:hover {
-    border-color: var(--secondary);
-    background: linear-gradient(to bottom, var(--primary-light), var(--cor-fundo-card));
 }
 
 .menu-btn.assistente .icon {
@@ -265,7 +171,7 @@ body {
 }
 
 .menu-btn.assistente .text {
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .menu-btn .icon {
@@ -289,103 +195,227 @@ body {
 }
 
 .menu-btn .text {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--cor-texto);
 }
 
-.menu-btn.jogos .icon {
-    background: linear-gradient(135deg, var(--primary-light), white);
-}
+.menu-btn.jogos .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.jogos .icon svg { fill: #2196f3; }
 
-.menu-btn.calendario .icon {
-    background: linear-gradient(135deg, var(--primary-light), white);
-}
+.menu-btn.calendario .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.calendario .icon svg { fill: #2196f3; }
 
-.menu-btn.exercicios .icon {
-    background: linear-gradient(135deg, var(--primary-light), white);
-}
+.menu-btn.exercicios .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.exercicios .icon svg { fill: #2196f3; }
 
-.menu-btn.seguranca .icon {
-    background: linear-gradient(135deg, var(--primary-light), white);
-}
+.menu-btn.seguranca .icon { background: linear-gradient(135deg, var(--primary-light), white); }
 .menu-btn.seguranca .icon svg { fill: #2196f3; }
 
 footer {
     text-align: center;
     padding: 32px 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 1.125rem;
     font-weight: 500;
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding: 28px 16px;
+    }
+
+    .header {
+        margin-bottom: 32px;
+    }
+
+    .menu-grid {
+        gap: 16px;
+    }
+
+    .menu-btn {
+        padding: 24px 16px;
+    }
+
+    .menu-btn .icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .menu-btn .icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .logo-icon {
+        width: 10em;
+        height: 3em;
+    }
+}
+
 @media (max-width: 600px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        overflow-x: hidden;
+        padding: 20px 12px;
+    }
+
     .header {
         flex-wrap: wrap;
         justify-content: center;
+        margin-bottom: 24px;
     }
-    
+
     .logo {
         width: 100%;
         justify-content: center;
         margin-top: 10px;
     }
-    
+
+    .logo-icon {
+        width: 8.75em;
+        height: 2.5em;
+    }
+
+    .welcome {
+        margin-bottom: 24px;
+    }
+
+    .welcome h1 {
+        font-size: clamp(1.25rem, 5vw, 1.75rem);
+    }
+
+    .welcome p {
+        font-size: 1.125rem;
+    }
+
     .menu-grid {
         grid-template-columns: 1fr;
+        gap: 14px;
     }
-    
+
     .menu-btn {
-        padding: 24px 20px;
+        padding: 20px 20px;
         flex-direction: row;
         gap: 16px;
     }
-    
+
     .menu-btn .icon {
         width: 56px;
         height: 56px;
         margin-bottom: 0;
     }
-    
+
     .menu-btn .icon svg {
         width: 28px;
         height: 28px;
     }
 
     .menu-btn .text {
-        font-size: 16px;
+        font-size: 1.125rem;
     }
-    
+
+    .menu-btn.assistente {
+        grid-column: span 1;
+    }
+
+    footer {
+        padding: 24px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 16px 10px;
+    }
+
+    .menu-btn {
+        padding: 16px 14px;
+    }
+
+    .menu-btn .icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .menu-btn .icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .menu-btn .text {
+        font-size: 1rem;
+    }
+
+    .menu-btn.assistente .text {
+        font-size: 1.125rem;
+    }
+
     .logo-icon {
-        width: 140px;
+        width: 7.5em;
+        height: 2.25em;
+    }
+
+    .welcome h1 {
+        font-size: clamp(1.125rem, 5vw, 1.5rem);
+    }
+
+    .welcome p {
+        font-size: 1rem;
+    }
+
+    footer {
+        padding: 20px 10px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding: 12px 8px;
+    }
+
+    .menu-btn {
+        padding: 12px 12px;
+        gap: 12px;
+    }
+
+    .menu-btn .icon {
+        width: 40px;
         height: 40px;
     }
-    
-    .logo-text {
-        font-size: 18px;
+
+    .menu-btn .icon svg {
+        width: 20px;
+        height: 20px;
     }
-    
+
+    .menu-btn .text {
+        font-size: 0.875rem;
+    }
+
+    .menu-btn.assistente .text {
+        font-size: 1rem;
+    }
+
+    .logo-icon {
+        width: 6.25em;
+        height: 2em;
+    }
+
     .welcome h1 {
-        font-size: clamp(20px, 5vw, 28px);
+        font-size: clamp(1rem, 5vw, 1.25rem);
     }
-    
+
     .welcome p {
-        font-size: 15px;
+        font-size: 0.875rem;
     }
-    
-    .menu-grid {
-        gap: 14px;
-    }
-    
-    body {
-        overflow-x: hidden;
-    }
-    
-    .container {
-        overflow-x: hidden;
-        padding: 20px 12px;
+
+    footer {
+        padding: 16px 8px;
+        font-size: 0.875rem;
     }
 }

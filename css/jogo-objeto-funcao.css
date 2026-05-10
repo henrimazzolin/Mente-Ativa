@@ -2,8 +2,8 @@
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
-            --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
+            --cor-texto: #000000;
+            --cor-texto-claro: #1E293B;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -75,8 +75,8 @@
         }
 
         .logo-icon {
-            width: 200px;
-            height: 55px;
+            width: 12.5em;
+            height: 3.4375em;
             background: var(--cor-fundo-card);
             border-radius: 12px;
             display: flex;
@@ -238,7 +238,7 @@
         }
 
         .score-label {
-            font-size: 16px;
+            font-size: 18px;
             color: #64748B;
         }
 
@@ -347,7 +347,7 @@
             text-align: center;
             padding: 20px;
             color: #64748B;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         @media (max-width: 600px) {
@@ -357,11 +357,25 @@
             .game-area { gap: 30px; }
             .emoji-item { width: 80px; height: 80px; font-size: 45px; }
             .column-title { font-size: 18px; }
-            .logo-icon { width: 140px; height: 40px; }
+            .logo-icon { width: 8.75em; height: 2.5em; }
             .game-area { flex-wrap: wrap; gap: 20px; }
             .column { flex: 1 1 100%; }
             .feedback-title { font-size: 26px; }
             body { overflow-x: hidden; }
             .container { padding: 20px 12px; overflow-x: hidden; }
             .emoji-item { width: 70px; height: 70px; }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .logo-icon {
+                width: 7.5em;
+                height: 2.25em;
+            }
         }

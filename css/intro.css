@@ -156,9 +156,16 @@
 @media (max-width: 600px) {
     .intro-welcome { font-size: 1.2rem; padding: 0 12px; }
     .intro-text { font-size: 1rem; }
-    .intro-skip-hint { font-size: 0.9rem; bottom: 20px; }
+    .intro-skip-hint { font-size: 1rem; bottom: 20px; }
 }
 
 body {
     overflow-x: hidden;
+}
+
+@media (max-width: 480px) {
+    .intro-welcome { font-size: 1rem; padding: 0 8px; }
+    .intro-text { font-size: 0.9rem; padding: 0 4%; }
+    .intro-skip-hint { font-size: 0.9rem; bottom: 16px; }
+    .intro-title { font-size: clamp(1.5rem, 5vw, 1.8rem); }
 }

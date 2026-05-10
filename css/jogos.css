@@ -1,8 +1,8 @@
 /* :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -133,8 +133,8 @@ body {
 }
 
 .logo-icon {
-    width: 44px;
-    height: 44px;
+    width: 2.75em;
+    height: 2.75em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -196,7 +196,7 @@ body {
 }
 
 .game-desc {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
     font-weight: 500;
     line-height: 1.5;
@@ -281,7 +281,7 @@ body {
 }
 
 .game-desc {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
     line-height: 1.5;
 }
@@ -291,7 +291,7 @@ body {
     padding: 12px 28px;
     border: none;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -329,7 +329,7 @@ footer {
     text-align: center;
     padding: 30px 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {
@@ -346,5 +346,23 @@ footer {
     
     .games-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 16px 10px;
+    }
+    
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .logo-icon {
+        width: 7.5em;
+        height: 2.25em;
     }
 } */

@@ -59,9 +59,14 @@
             },
 
             toggle() {
-                this.isEscuro = !this.isEscuro;
-                localStorage.setItem(Accessibility.STORAGE_KEYS.darkMode, this.isEscuro);
-                this.aplicar();
+                if (window.MenteAtiva && window.MenteAtiva.darkMode) {
+                    window.MenteAtiva.darkMode.toggleModoEscuro();
+                    this.isEscuro = window.MenteAtiva.darkMode.isEscuro;
+                } else {
+                    this.isEscuro = !this.isEscuro;
+                    localStorage.setItem(Accessibility.STORAGE_KEYS.darkMode, this.isEscuro);
+                    this.aplicar();
+                }
             },
 
             aplicar() {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jogo de pareamento de formas geométricas para idosos - Mente Ativa">
+    <meta name="description" content="pareamento de formas geométricas - Mente Ativa">
     <title>Mente Ativa - Pareamento de Formas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,10 +11,13 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/jogo-pareamento-formas.css">
     <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/assistente-flutuante.css">
     <link rel="stylesheet" href="css/dificuldade.css">
-    <link rel="shortcut icon" href="/TCC---Idosos/img/unnamed.jpg" type="image/x-icon">
-    <script src="js/acessibilidade.js" defer></script>
+    <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
+    <script src="js/lib/utils.js" defer></script>
+    <script src="js/components/accessibility.js" defer></script>
     <script src="js/dark-mode.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
     <div class="header">
@@ -40,7 +43,7 @@
                 <span class="dificuldade-label">Dificuldade:</span>
                 <button class="dif-btn facil active">Fácil</button>
                 <button class="dif-btn medio">Médio</button>
-                <button class="dif-btn dificil">Díficil</button>
+                <button class="dif-btn dificil">Difícil</button>
             </div>
 
             <div class="game-area" id="gameArea">
@@ -64,5 +67,6 @@
     </div>
 
     <script src="js/jogo-pareamento-formas.js"></script>
+    <script src="js/assistente-flutuante.js"></script>
 </body>
 </html>

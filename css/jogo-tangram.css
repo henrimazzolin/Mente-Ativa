@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -77,8 +77,8 @@ body {
 }
 
 .logo-icon {
-    width: 200px;
-    height: 55px;
+    width: 12.5em;
+    height: 3.4375em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -145,7 +145,7 @@ body {
 }
 
 .selector-label {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--cor-texto-claro);
 }
@@ -161,7 +161,7 @@ body {
     background: var(--cor-fundo);
     border: 2px solid var(--border);
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -273,7 +273,7 @@ body {
 }
 
 .info-label {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
     font-weight: 500;
 }
@@ -371,7 +371,7 @@ footer {
     text-align: center;
     padding: 30px 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {
@@ -389,8 +389,8 @@ footer {
     }
 
     .logo-icon {
-        width: 140px;
-        height: 40px;
+        width: 8.75em;
+        height: 2.5em;
     }
 
     body {
@@ -404,5 +404,19 @@ footer {
 
     .message h2 {
         font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .logo-icon {
+        width: 7.5em;
+        height: 2.25em;
     }
 }

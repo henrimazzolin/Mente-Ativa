@@ -1,18 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     var assistenteHTML = `
-        <button class="floating-assistente-trigger" id="floatingAssistenteBtn" aria-label="Abrir assistente virtual">Assistente</button>
         <div class="assistente-overlay" id="assistenteOverlay">
             <div class="assistente-sidebar">
                 <div class="assistente-sidebar-header">
-                    <h2>Assistente Virtual</h2>
-                    <button class="assistente-sidebar-close" id="assistenteCloseBtn" aria-label="Fechar assistente">&times;</button>
+                    <h2>Tirar Dúvidas</h2>
+                    <button class="assistente-sidebar-close" id="assistenteCloseBtn" aria-label="Fechar assistente" style="width:48px;height:48px;border:none;border-radius:12px;background:#EF4444;color:#fff;font-size:32px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;" onmouseover="this.style.background='#DC2626'" onmouseout="this.style.background='#EF4444'">&times;</button>
                 </div>
                 <div class="chat-messages" id="chatMessages">
                     <div class="message assistant">
                         <div class="message-avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:linear-gradient(135deg,#0B6477,#0AD1C8);">🤖</div>
                         <div class="message-content" style="max-width:80%;padding:12px 16px;border-radius:16px;line-height:1.5;background:#fff;border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                            <p style="font-size:15px;word-wrap:break-word;margin:0;">Olá! Eu sou o assistente virtual do Mente Ativa. Posso ajudar você com dúvidas sobre o site, jogos, exercícios e muito mais. Digite sua pergunta abaixo!</p>
+                            <p style="font-size:18px;word-wrap:break-word;margin:0;">Olá! Eu sou o assistente virtual do Mente Ativa. Posso ajudar você com dúvidas sobre o site, jogos, exercícios e muito mais. Digite sua pergunta abaixo!</p>
                         </div>
                     </div>
                 </div>
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var speakLastBtn = document.getElementById('speakLastBtn');
     var overlay = document.getElementById('assistenteOverlay');
     var closeBtn = document.getElementById('assistenteCloseBtn');
-    var triggerBtn = document.getElementById('floatingAssistenteBtn');
 
     var speechSynthesis = window.speechSynthesis;
     var lastAssistantMessage = '';
@@ -89,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         contentDiv.style.cssText = 'max-width:80%;padding:12px 16px;border-radius:16px;line-height:1.5;' + (isUser ? 'background:#3B82F6;color:#fff;border-bottom-right-radius:4px;' : 'background:#fff;border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.08);');
 
         var p = document.createElement('p');
-        p.style.cssText = 'font-size:15px;word-wrap:break-word;margin:0;';
+        p.style.cssText = 'font-size:18px;word-wrap:break-word;margin:0;';
         if (isUser) p.style.color = '#fff';
         p.textContent = content;
         contentDiv.appendChild(p);
@@ -215,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
         pararFala();
     }
 
-    triggerBtn.addEventListener('click', openAssistente);
     closeBtn.addEventListener('click', closeAssistente);
 
     overlay.addEventListener('click', function (e) {
@@ -224,6 +221,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeAssistente();
+    });
+
+    document.addEventListener('mente-ativa-abrir-assistente', function () {
+        if (overlay.classList.contains('open')) {
+            closeAssistente();
+        } else {
+            openAssistente();
+        }
     });
 
     sendBtn.addEventListener('click', sendQuestion);

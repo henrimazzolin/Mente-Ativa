@@ -2,8 +2,8 @@
     /* Light theme (default) */
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -122,8 +122,8 @@ body {
 }
 
 .logo-icon {
-    width: 200px;
-    height: 55px;
+    width: 12.5em;
+    height: 3.4375em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -171,7 +171,7 @@ body {
 }
 
 .page-title p {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
     font-weight: 500;
 }
@@ -244,7 +244,7 @@ body {
 
 .weekdays span {
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--cor-texto-claro);
     padding: 8px 0;
@@ -318,7 +318,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
 }
 
@@ -388,14 +388,14 @@ body {
 }
 
 .event-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--cor-texto);
     margin-bottom: 4px;
 }
 
 .event-time {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
 }
 
@@ -405,7 +405,7 @@ body {
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -438,7 +438,7 @@ body {
 }
 
 .no-events p {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .add-event-btn {
@@ -511,7 +511,7 @@ body {
 
 .form-group label {
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--cor-texto);
     margin-bottom: 8px;
@@ -523,7 +523,7 @@ body {
     padding: 14px 16px;
     border: 2px solid #E2E8F0;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 18px;
     font-family: inherit;
     font-weight: 500;
     color: var(--cor-texto);
@@ -547,7 +547,7 @@ body {
     padding: 14px 20px;
     border: none;
     border-radius: 30px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -607,7 +607,7 @@ body {
 }
 
 .delete-event-info span {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
 }
 
@@ -615,7 +615,7 @@ footer {
     text-align: center;
     padding: 30px 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {
@@ -635,17 +635,17 @@ footer {
     }
     
     .day {
-        font-size: 14px;
+        font-size: 18px;
         min-height: 36px;
     }
     
     .weekday {
-        font-size: 12px;
+        font-size: 18px;
     }
     
     .logo-icon {
-        width: 140px;
-        height: 40px;
+        width: 8.75em;
+        height: 2.5em;
     }
     
     .calendar-header h2 {
@@ -653,7 +653,7 @@ footer {
     }
     
     .add-event-btn {
-        font-size: 15px;
+        font-size: 18px;
         padding: 10px 18px;
     }
     
@@ -677,5 +677,21 @@ footer {
     .modal {
         width: 95%;
         max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 16px 10px;
+    }
+    
+    .header {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .logo-icon {
+        width: 7.5em;
+        height: 2.25em;
     }
 }

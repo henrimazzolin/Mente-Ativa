@@ -1,8 +1,8 @@
 :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto: #000000;
+    --cor-texto-claro: #1E293B;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -81,8 +81,8 @@ body {
 }
 
 .logo-icon {
-    width: 200px;
-    height: 55px;
+    width: 12.5em;
+    height: 3.4375em;
     background: var(--cor-fundo-card);
     border-radius: 12px;
     display: flex;
@@ -141,7 +141,7 @@ body {
     color: white;
     padding: 8px 20px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     margin-bottom: 12px;
 }
@@ -222,7 +222,7 @@ body {
     position: absolute;
     top: 2px;
     left: 4px;
-    font-size: 11px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--cor-primaria);
     line-height: 1;
@@ -288,7 +288,7 @@ body {
 }
 
 .hint-text {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-texto-claro);
     line-height: 1.4;
     flex: 1;
@@ -300,7 +300,7 @@ body {
     color: white;
     border: none;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -418,7 +418,7 @@ footer {
     text-align: center;
     padding: 20px;
     color: var(--cor-texto-claro);
-    font-size: 14px;
+    font-size: 18px;
 }
 
 @media (max-width: 600px) {
@@ -446,8 +446,8 @@ footer {
     }
 
     .logo-icon {
-        width: 140px;
-        height: 40px;
+        width: 8.75em;
+        height: 2.5em;
     }
 
     .cell {
@@ -472,7 +472,21 @@ footer {
         overflow-x: hidden;
     }
 
-    .message h2 {
-        font-size: 28px;
-    }
-}
+            .message h2 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .logo-icon {
+                width: 7.5em;
+                height: 2.25em;
+            }
+        }

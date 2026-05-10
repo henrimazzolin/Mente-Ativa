@@ -278,7 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else if (verifica_possivel(x, y, cont_possiveis)) {
                 if (peca[x][y]['peca'] == "rei") {
-                    mostrarFimDeJogo(movimenta['selecionada']['cor']);
                     return;
                 }
 
@@ -316,7 +315,127 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (playerColor) {
                     atualizarStatus();
                 }
+
+                if (vez !== playerColor && !gameEnded) {
+                    setTimeout(vezRobo, 500);
+                }
             }
+        }
+
+        function vezRobo() {
+            if (gameEnded) return;
+            if (vez === playerColor) return;
+
+            const pecasRobo = [];
+            for (let x = 1; x <= 8; x++) {
+                for (let y = 1; y <= 8; y++) {
+                    if (peca[x][y]['peca'] && peca[x][y]['cor'] === robotColor) {
+                        pecasRobo.push({ x, y });
+                    }
+                }
+            }
+
+            const movimentosPossiveis = [];
+            for (const p of pecasRobo) {
+                movimenta['selecionada']['x'] = p.x;
+                movimenta['selecionada']['y'] = p.y;
+                movimenta['selecionada']['peca'] = peca[p.x][p.y]['peca'];
+                movimenta['selecionada']['cor'] = peca[p.x][p.y]['cor'];
+                cont_possiveis = possiveis_movimentos();
+
+                for (let cp = 1; cp < cont_possiveis; cp++) {
+                    const id = possiveis[cp];
+                    if (id) {
+                        const tx = parseInt(id.charAt(1));
+                        const ty = parseInt(id.charAt(2));
+                        if (!(peca[tx][ty]['peca'] === 'rei')) {
+                            const copiaPeca = peca[tx][ty]['peca'];
+                            const copiaCor = peca[tx][ty]['cor'];
+                            const mov = {
+                                deX: p.x, deY: p.y,
+                                paraX: tx, paraY: ty,
+                                peca: peca[p.x][p.y]['peca'],
+                                captura: copiaPeca,
+                                capturaCor: copiaCor
+                            };
+                            movimentosPossiveis.push(mov);
+                        }
+                    }
+                }
+            }
+            volta_fundo();
+
+            if (movimentosPossiveis.length === 0) {
+                mostrarFimDeJogo(playerColor);
+                return;
+            }
+
+            const escolhido = movimentosPossiveis[Math.floor(Math.random() * movimentosPossiveis.length)];
+
+            document.getElementById('t' + escolhido.deX + escolhido.deY).innerHTML = "";
+            document.getElementById('t' + escolhido.paraX + escolhido.paraY).innerHTML = il[robotColor][escolhido.peca];
+            peca[escolhido.paraX][escolhido.paraY]['peca'] = escolhido.peca;
+            peca[escolhido.paraX][escolhido.paraY]['cor'] = robotColor;
+            peca[escolhido.deX][escolhido.deY]['peca'] = false;
+            peca[escolhido.deX][escolhido.deY]['cor'] = false;
+
+            if (vez === 'branco') {
+                vez = 'preto';
+            } else {
+                vez = 'branco';
+            }
+
+            atualizarStatus();
+
+            if (verificaXequeMate(playerColor)) {
+                mostrarFimDeJogo(robotColor);
+            } else if (verificaXequeMate(robotColor)) {
+                mostrarFimDeJogo(playerColor);
+            }
+        }
+
+        function verificaXequeMate(cor) {
+            if (!estaEmCheque(cor)) return false;
+
+            for (let x = 1; x <= 8; x++) {
+                for (let y = 1; y <= 8; y++) {
+                    if (peca[x][y]['peca'] && peca[x][y]['cor'] === cor) {
+                        movimenta['selecionada']['x'] = x;
+                        movimenta['selecionada']['y'] = y;
+                        movimenta['selecionada']['peca'] = peca[x][y]['peca'];
+                        movimenta['selecionada']['cor'] = peca[x][y]['cor'];
+                        cont_possiveis = possiveis_movimentos();
+
+                        for (let cp = 1; cp < cont_possiveis; cp++) {
+                            const id = possiveis[cp];
+                            if (id) {
+                                const tx = parseInt(id.charAt(1));
+                                const ty = parseInt(id.charAt(2));
+                                const pecaOrigP = peca[tx][ty]['peca'];
+                                const corOrig = peca[tx][ty]['cor'];
+                                peca[tx][ty]['peca'] = peca[x][y]['peca'];
+                                peca[tx][ty]['cor'] = peca[x][y]['cor'];
+                                peca[x][y]['peca'] = false;
+                                peca[x][y]['cor'] = false;
+
+                                const aindaEmCheque = estaEmCheque(cor);
+
+                                peca[x][y]['peca'] = peca[tx][ty]['peca'];
+                                peca[x][y]['cor'] = peca[tx][ty]['cor'];
+                                peca[tx][ty]['peca'] = pecaOrigP;
+                                peca[tx][ty]['cor'] = corOrig;
+
+                                if (!aindaEmCheque) {
+                                    volta_fundo();
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            volta_fundo();
+            return true;
         }
 
         function escolhecor_incio(cor) {
