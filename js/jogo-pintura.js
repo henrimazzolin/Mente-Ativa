@@ -89,10 +89,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearCanvas() {
-        if (confirm('Tem certeza que deseja limpar todo o desenho?')) {
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
+        exibirConfirmacao('Tem certeza que deseja limpar todo o desenho?', function (ok) {
+            if (ok) {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        });
     }
 
     function saveCanvas() {

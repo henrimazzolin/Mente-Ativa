@@ -151,14 +151,47 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedCell = null;
     let timerInterval = null;
     let seconds = 0;
+    let currentDifficulty = 'facil';
+
+    function gerarPuzzle(solution, dificuldade) {
+        var config = {
+            facil: [20, 25],
+            medio: [35, 42],
+            dificil: [50, 58]
+        };
+        var range = config[dificuldade] || config.facil;
+        var qtd = range[0] + Math.floor(Math.random() * (range[1] - range[0] + 1));
+
+        var puzzle = solution.map(function(row) { return row.slice(); });
+
+        var posicoes = [];
+        for (var r = 0; r < 9; r++) {
+            for (var c = 0; c < 9; c++) {
+                posicoes.push({ row: r, col: c });
+            }
+        }
+
+        for (var i = posicoes.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = posicoes[i];
+            posicoes[i] = posicoes[j];
+            posicoes[j] = temp;
+        }
+
+        for (var k = 0; k < qtd; k++) {
+            puzzle[posicoes[k].row][posicoes[k].col] = 0;
+        }
+
+        return puzzle;
+    }
 
     function initGame() {
         const gridEl = document.getElementById('grid');
         gridEl.innerHTML = '';
 
         const randomIndex = Math.floor(Math.random() * puzzles.length);
-        currentPuzzle = puzzles[randomIndex].puzzle;
         currentSolution = puzzles[randomIndex].solution;
+        currentPuzzle = gerarPuzzle(currentSolution, currentDifficulty);
 
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
@@ -320,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (!allFilled) {
-            alert('Preencha todas as células antes de verificar.');
+            exibirAlerta('Preencha todas as células antes de verificar.', 'aviso');
         } else if (allCorrect) {
             clearInterval(timerInterval);
             document.getElementById('overlay').classList.add('show');
@@ -329,16 +362,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showSolution() {
-        if (confirm('Deseja ver a solução? O jogo será reiniciado.')) {
-            for (let row = 0; row < 9; row++) {
-                for (let col = 0; col < 9; col++) {
-                    const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
-                    const input = cell.querySelector('input');
-                    input.value = currentSolution[row][col];
+        exibirConfirmacao('Deseja ver a solução? O jogo será reiniciado.', function (ok) {
+            if (ok) {
+                for (let row = 0; row < 9; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+                        const input = cell.querySelector('input');
+                        input.value = currentSolution[row][col];
+                    }
                 }
+                clearInterval(timerInterval);
             }
-            clearInterval(timerInterval);
-        }
+        });
     }
 
     function resetGame() {
@@ -350,6 +385,23 @@ document.addEventListener('DOMContentLoaded', function () {
     function closeMessage() {
         document.getElementById('overlay').classList.remove('show');
         document.getElementById('message').classList.remove('show');
+    }
+
+    function setupDificuldadeButtons() {
+        var buttons = document.querySelectorAll('.dif-btn');
+
+        buttons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                buttons.forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+
+                if (this.classList.contains('facil')) currentDifficulty = 'facil';
+                else if (this.classList.contains('medio')) currentDifficulty = 'medio';
+                else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
+
+                resetGame();
+            });
+        });
     }
 
     // Event listeners
@@ -371,5 +423,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('overlay').addEventListener('click', closeMessage);
     document.getElementById('btn-play-again').addEventListener('click', resetGame);
 
+    setupDificuldadeButtons();
     initGame();
 });

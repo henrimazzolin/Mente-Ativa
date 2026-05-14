@@ -314,7 +314,7 @@ html.modo-escuro .back-btn svg {
     fill: var(--cor-texto);
 }
 
-html.modo-escuro .modal {
+html.modo-escuro .modal-overlay .modal {
     background: var(--cor-fundo-card);
     color: var(--cor-texto);
     border: 1px solid var(--dm-border);
@@ -387,4 +387,63 @@ html.modo-escuro .stat-label {
 
 html.modo-escuro footer {
     color: var(--cor-texto-claro);
+}
+
+/* Bootstrap modais em dark mode */
+html.modo-escuro .modal-content {
+    background: var(--cor-fundo-card);
+    color: var(--cor-texto);
+    border: 1px solid var(--dm-border);
+}
+
+html.modo-escuro .modal-header,
+html.modo-escuro .modal-footer {
+    border-color: var(--dm-border);
+}
+
+html.modo-escuro .btn-close {
+    filter: invert(1) brightness(200%);
+}
+
+/* Botões de ação em dark mode */
+html.modo-escuro .btn {
+    background: #3B82F6;
+    color: white;
+}
+
+html.modo-escuro .btn:hover {
+    background: #60A5FA;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(96, 165, 250, 0.35);
+}
+
+html.modo-escuro .btn-secondary {
+    background: var(--cor-terceira);
+    color: #0f172a;
+}
+
+html.modo-escuro .btn-secondary:hover {
+    background: #FDE68A;
+    color: #0f172a;
+}
+
+html.modo-escuro .btn-outline {
+    border-color: var(--cor-primaria);
+    color: var(--cor-primaria);
+    background: transparent;
+}
+
+html.modo-escuro .btn-outline:hover {
+    background: var(--cor-primaria);
+    color: #0f172a;
+}
+
+html.modo-escuro .next-btn {
+    background: #34d399;
+    color: #0f172a;
+}
+
+html.modo-escuro .next-btn:hover {
+    background: #6EE7B7;
+    transform: scale(1.05);
 }

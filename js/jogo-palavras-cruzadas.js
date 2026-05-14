@@ -200,7 +200,7 @@ function podeColocarVertical(palavra, linha, coluna, grid, tamanho) {
 }
 
 function podeColocarPrimeira(palavra, linha, coluna, direcao, grid, tamanho) {
-    if (direcao === 'horizontal') {
+    if (direcao === 'h') {
         if (coluna + palavra.length > tamanho) return false;
     } else {
         if (linha + palavra.length > tamanho) return false;
@@ -211,7 +211,7 @@ function podeColocarPrimeira(palavra, linha, coluna, direcao, grid, tamanho) {
 function colocarPalavra(palavra, linha, coluna, direcao, grid) {
     for (let i = 0; i < palavra.length; i++) {
         let r, c;
-        if (direcao === 'horizontal') {
+        if (direcao === 'h') {
             r = linha;
             c = coluna + i;
         } else {
@@ -329,7 +329,8 @@ function gerarPalavrasCruzadas(dificuldade) {
                         row: pos.row,
                         col: pos.col,
                         number: 1,
-                        reveladas: new Array(primeiraPalavra.palavra.length).fill(false)
+                        reveladas: new Array(primeiraPalavra.palavra.length).fill(false),
+                        hintUsed: false
                     });
                     colocouPrimeira = true;
                     break;
@@ -359,7 +360,8 @@ function gerarPalavrasCruzadas(dificuldade) {
                         row: escolhida.row,
                         col: escolhida.col,
                         number: palavrasColocadas.length + 1,
-                        reveladas: new Array(escolhida.word.length).fill(false)
+                        reveladas: new Array(escolhida.word.length).fill(false),
+                        hintUsed: false
                     });
                     colocada = true;
                 } else {
@@ -403,7 +405,7 @@ function initGame() {
     }
     
     if (!resultado) {
-        alert('Não foi possível gerar um jogo. Tente novamente.');
+        exibirAlerta('Não foi possível gerar um jogo. Tente novamente.', 'erro');
         return;
     }
     
@@ -617,6 +619,18 @@ function handleInput(e) {
     if (value) {
         const row = parseInt(e.target.dataset.row);
         const col = parseInt(e.target.dataset.col);
+        
+        if (currentWord) {
+            var pos = (currentWord.direction === 'h') ? col - currentWord.col : row - currentWord.row;
+            if (pos >= 0 && pos < currentWord.word.length) {
+                if (currentWord.word[pos] === value) {
+                    e.target.classList.add('letter-ok');
+                } else {
+                    e.target.classList.remove('letter-ok');
+                }
+            }
+        }
+        
         moveToNextCell(row, col);
         checkWord();
     }
@@ -646,7 +660,7 @@ function handleKeydown(e) {
 }
 
 function moveToNextCell(row, col) {
-    const word = getWordAt(row, col);
+    const word = currentWord || getWordAt(row, col);
     if (!word) return;
     
     if (word.direction === 'h') {
@@ -661,7 +675,7 @@ function moveToNextCell(row, col) {
 }
 
 function moveToPrevCell(row, col) {
-    const word = getWordAt(row, col);
+    const word = currentWord || getWordAt(row, col);
     if (!word) return;
     
     if (word.direction === 'h') {
@@ -709,6 +723,12 @@ function checkWord() {
         inputs.forEach(function(input) { input.classList.add('correct'); });
         const hintEl = document.querySelector('.hint-item[data-word="' + currentWord.number + '"]');
         if (hintEl) hintEl.classList.add('correct');
+        var btn = document.querySelector('.hint-btn[data-word-number="' + currentWord.number + '"]');
+        if (btn && !btn.disabled) {
+            btn.textContent = 'Completo';
+            btn.disabled = true;
+            btn.classList.add('hint-btn-disabled');
+        }
         checkAllWords();
     } else {
         inputs.forEach(function(input) { input.classList.remove('correct'); });
@@ -753,6 +773,7 @@ function resetGame() {
         input.classList.remove('correct');
         input.classList.remove('active-row');
         input.classList.remove('active-col');
+        input.classList.remove('letter-ok');
         input.readOnly = false;
     });
     document.querySelectorAll('.hint-item').forEach(function(el) {
@@ -769,6 +790,7 @@ function resetGame() {
     if (currentTema && currentTema.words) {
         currentTema.words.forEach(function(w) {
             w.reveladas = new Array(w.word.length).fill(false);
+            w.hintUsed = false;
         });
     }
 }
@@ -779,36 +801,63 @@ function closeMessage() {
 }
 
 function revelarLetra(palavra) {
-    if (!palavra || !palavra.reveladas) return;
+    if (!palavra) return;
+    if (palavra.hintUsed) return;
     
-    for (let i = 0; i < palavra.word.length; i++) {
-        if (!palavra.reveladas[i]) {
-            palavra.reveladas[i] = true;
-            
-            let input;
-            if (palavra.direction === 'h') {
-                input = document.querySelector('input[data-row="' + palavra.row + '"][data-col="' + (palavra.col + i) + '"]');
-            } else {
-                input = document.querySelector('input[data-row="' + (palavra.row + i) + '"][data-col="' + palavra.col + '"]');
+    var todasCertas = true;
+    for (var i = 0; i < palavra.word.length; i++) {
+        var input;
+        if (palavra.direction === 'h') {
+            input = document.querySelector('input[data-row="' + palavra.row + '"][data-col="' + (palavra.col + i) + '"]');
+        } else {
+            input = document.querySelector('input[data-row="' + (palavra.row + i) + '"][data-col="' + palavra.col + '"]');
+        }
+        if (input) {
+            if (input.value.toUpperCase() !== palavra.word[i]) {
+                todasCertas = false;
             }
-            if (input) {
-                input.value = palavra.word[i];
-                input.classList.add('correct');
-                input.readOnly = true;
-            }
+        } else {
+            todasCertas = false;
+        }
+    }
+    
+    if (todasCertas) {
+        var btn = document.querySelector('.hint-btn[data-word-number="' + palavra.number + '"]');
+        if (btn) {
+            btn.textContent = 'Completo';
+            btn.disabled = true;
+            btn.classList.add('hint-btn-disabled');
+        }
+        return;
+    }
+    
+    for (var j = 0; j < palavra.word.length; j++) {
+        if (palavra.reveladas[j]) continue;
+        
+        var inp;
+        if (palavra.direction === 'h') {
+            inp = document.querySelector('input[data-row="' + palavra.row + '"][data-col="' + (palavra.col + j) + '"]');
+        } else {
+            inp = document.querySelector('input[data-row="' + (palavra.row + j) + '"][data-col="' + palavra.col + '"]');
+        }
+        if (!inp) continue;
+        
+        if (inp.value.toUpperCase() !== palavra.word[j]) {
+            palavra.hintUsed = true;
+            palavra.reveladas[j] = true;
+            inp.value = palavra.word[j];
+            inp.classList.add('correct');
+            inp.classList.remove('letter-ok');
+            inp.readOnly = true;
             
-            const allRevealed = palavra.reveladas.every(r => r === true);
-            if (allRevealed) {
-                const btn = document.querySelector('.hint-btn[data-word-number="' + palavra.number + '"]');
-                if (btn) {
-                    btn.textContent = 'Completo';
-                    btn.disabled = true;
-                    btn.classList.add('hint-btn-disabled');
-                }
-                checkAllWords();
+            var b = document.querySelector('.hint-btn[data-word-number="' + palavra.number + '"]');
+            if (b) {
+                b.textContent = 'Usado';
+                b.disabled = true;
+                b.classList.add('hint-btn-disabled');
             }
-            
-            break;
+            checkAllWords();
+            return;
         }
     }
 }

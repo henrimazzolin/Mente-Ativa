@@ -5,7 +5,7 @@ const BACKGROUND_MAP = {
 };
 
 const STORAGE_KEY = 'mente-ativa-modo-escuro';
-const FONT_STEPS = [80, 90, 100, 110, 120, 130, 140, 150];
+const FONT_STEPS = [80, 90, 100, 110, 120, 130, 140];
 const FONT_STORAGE_KEY = 'mente-ativa-fonte-pct';
 
 class DarkModeManager {
@@ -114,7 +114,7 @@ class DarkModeManager {
     aumentarFonte() {
         var idx = FONT_STEPS.indexOf(this.fontPct);
         if (idx === -1) { this.fontPct = 100; idx = 2; }
-        if (this.fontPct >= 150) return;
+        if (this.fontPct >= 140) return;
         this.fontPct = FONT_STEPS[Math.min(idx + 1, FONT_STEPS.length - 1)];
         this.aplicarFontePct();
         this.atualizarLabelFonte();
@@ -147,7 +147,7 @@ class DarkModeManager {
             }
         }
         if (btnPlus) {
-            if (this.fontPct >= 150) {
+            if (this.fontPct >= 140) {
                 btnPlus.classList.add('ma-btn-font-hidden');
             } else {
                 btnPlus.classList.remove('ma-btn-font-hidden');

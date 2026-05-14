@@ -205,6 +205,10 @@ body {
     background: var(--cor-destaque);
 }
 
+.cell input.letter-ok {
+    background: rgba(16, 185, 129, 0.15);
+}
+
 .cell input.correct {
     background: var(--cor-correto);
     color: #065F46;
@@ -329,32 +333,6 @@ body {
     justify-content: center;
     margin-top: 24px;
     flex-wrap: wrap;
-}
-
-.btn {
-    padding: 16px 36px;
-    background: var(--cor-primaria);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 18px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    background: #1D4ED8;
-    transform: scale(1.05);
-}
-
-.btn-secondary {
-    background: var(--cor-terceira);
-}
-
-.btn-secondary:hover {
-    background: #D97706;
 }
 
 .message {

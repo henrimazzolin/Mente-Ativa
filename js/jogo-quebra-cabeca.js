@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
             'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=300&h=300&fit=crop',
             'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=300&h=300&fit=crop',
             'https://images.unsplash.com/photo-1519052537078-e6302da7c5b?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=300&h=300&fit=crop',
             'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop',
             'https://images.unsplash.com/photo-1514888286974-6d03bde4ba49?w=300&h=300&fit=crop',
             'https://images.unsplash.com/photo-1548245644-3c2cc7743fca?w=300&h=300&fit=crop',
@@ -23,17 +22,26 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
         
         let currentImageUrl = images[Math.floor(Math.random() * images.length)];
-        const gridSize = 3;
-        const totalPieces = gridSize * gridSize;
         
         let pieces = [];
         let selectedPiece = null;
         let isProcessing = false;
+        let currentDifficulty = 'facil';
+        var difficultyConfig = {
+            facil: { size: 3 },
+            medio: { size: 4 },
+            dificil: { size: 5 }
+        };
+        let gridSize = 3;
+        let totalPieces = 9;
 
         function initGame() {
             closeMessage();
             selectedPiece = null;
             isProcessing = false;
+
+            gridSize = difficultyConfig[currentDifficulty].size;
+            totalPieces = gridSize * gridSize;
 
             currentImageUrl = images[Math.floor(Math.random() * images.length)];
 
@@ -64,8 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
         function renderPuzzle() {
             const container = document.getElementById('puzzleContainer');
             container.innerHTML = '';
+            container.style.gridTemplateColumns = 'repeat(' + gridSize + ', 1fr)';
 
-            pieces.forEach((pieceIndex, positionIndex) => {
+            pieces.forEach(function(pieceIndex, positionIndex) {
                 const piece = document.createElement('div');
                 piece.className = 'puzzle-piece';
                 piece.dataset.position = positionIndex;
@@ -73,10 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const row = Math.floor(pieceIndex / gridSize);
                 const col = pieceIndex % gridSize;
-                piece.style.backgroundImage = `url(${currentImageUrl})`;
-                piece.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+                piece.style.backgroundImage = 'url(' + currentImageUrl + ')';
+                piece.style.backgroundSize = (gridSize * 100) + '%';
+                var bgX = gridSize > 1 ? (col / (gridSize - 1)) * 100 : 0;
+                var bgY = gridSize > 1 ? (row / (gridSize - 1)) * 100 : 0;
+                piece.style.backgroundPosition = bgX + '% ' + bgY + '%';
 
-                piece.addEventListener('click', () => handlePieceClick(positionIndex));
+                piece.addEventListener('click', function() { handlePieceClick(positionIndex); });
 
                 container.appendChild(piece);
             });
@@ -85,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function handlePieceClick(positionIndex) {
             if (isProcessing) return;
 
-            const clickedPiece = document.querySelector(`.puzzle-piece[data-position="${positionIndex}"]`);
+            const clickedPiece = document.querySelector('.puzzle-piece[data-position="' + positionIndex + '"]');
 
             if (selectedPiece === null) {
                 selectedPiece = positionIndex;
@@ -96,12 +108,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 isProcessing = true;
                 
-                const firstPiece = document.querySelector(`.puzzle-piece[data-position="${selectedPiece}"]`);
+                const firstPiece = document.querySelector('.puzzle-piece[data-position="' + selectedPiece + '"]');
                 firstPiece.classList.remove('selected');
 
                 swapPieces(selectedPiece, positionIndex);
 
-                setTimeout(() => {
+                setTimeout(function() {
                     selectedPiece = null;
                     isProcessing = false;
 
@@ -130,11 +142,26 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('message').classList.remove('show');
         }
 
+        function setupDificuldadeButtons() {
+            var buttons = document.querySelectorAll('.dif-btn');
+            buttons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    if (this.classList.contains('facil')) currentDifficulty = 'facil';
+                    else if (this.classList.contains('medio')) currentDifficulty = 'medio';
+                    else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
+                    initGame();
+                });
+            });
+        }
+
         // Event listeners
         document.getElementById('btn-restart').addEventListener('click', initGame);
         document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'grupo-moderado.html'; });
         document.getElementById('btn-play-again').addEventListener('click', initGame);
         document.getElementById('overlay').addEventListener('click', closeMessage);
 
+        setupDificuldadeButtons();
         initGame();
 });

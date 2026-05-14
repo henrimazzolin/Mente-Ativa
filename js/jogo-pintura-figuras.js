@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showWinMessage() {
         setTimeout(() => {
-            alert('Parabéns! Você preencheu o ' + figures[currentFigure].name + '!');
+            exibirAlerta('Parabéns! Você preencheu o ' + figures[currentFigure].name + '!', 'sucesso');
         }, 300);
     }
 
@@ -288,9 +288,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Botões de ferramentas
     document.getElementById('btn-clear').addEventListener('click', function() {
-        if (confirm('Tem certeza que deseja limpar o desenho?')) {
-            initGame();
-        }
+        exibirConfirmacao('Tem certeza que deseja limpar o desenho?', function (ok) {
+            if (ok) initGame();
+        });
     });
 
     document.getElementById('btn-save').addEventListener('click', function() {

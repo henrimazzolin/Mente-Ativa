@@ -108,8 +108,8 @@
         // TAMANHO DA FONTE
         // ======================
         FontSize: {
-            opcoes: [18, 20, 24, 28],
-            atual: 20,
+            opcoes: [100, 120, 130, 140],
+            atual: 120,
 
             init() {
                 const salvo = localStorage.getItem(Accessibility.STORAGE_KEYS.fontSize);
@@ -120,7 +120,7 @@
 
             aplicar(tamanho) {
                 this.atual = tamanho;
-                document.body.style.fontSize = tamanho + 'px';
+                document.body.style.fontSize = tamanho + '%';
                 localStorage.setItem(Accessibility.STORAGE_KEYS.fontSize, tamanho);
             }
         },

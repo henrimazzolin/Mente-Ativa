@@ -250,25 +250,6 @@
             color: #45DFB1;
         }
 
-        .restart-btn {
-            background: #45DFB1;
-            color: white;
-            border: none;
-            border-radius: 16px;
-            padding: 18px 40px;
-            font-size: 22px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            margin-top: 25px;
-        }
-
-        .restart-btn:hover {
-            background: #059669;
-            transform: scale(1.03);
-        }
-
         .feedback-overlay {
             position: fixed;
             top: 0;
@@ -324,25 +305,6 @@
         .feedback-subtitle {
             font-size: 22px;
             color: #64748B;
-        }
-
-        .feedback-btn {
-            background: #45DFB1;
-            color: white;
-            border: none;
-            border-radius: 16px;
-            padding: 18px 45px;
-            font-size: 24px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            margin-top: 25px;
-        }
-
-        .feedback-btn:hover {
-            background: #059669;
-            transform: scale(1.03);
         }
 
         footer {

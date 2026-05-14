@@ -311,25 +311,6 @@
             color: #64748B;
         }
 
-        .feedback-btn {
-            background: #45DFB1;
-            color: white;
-            border: none;
-            border-radius: 16px;
-            padding: 18px 45px;
-            font-size: 24px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            margin-top: 25px;
-        }
-
-        .feedback-btn:hover {
-            background: #059669;
-            transform: scale(1.03);
-        }
-
         footer {
             text-align: center;
             padding: 20px;

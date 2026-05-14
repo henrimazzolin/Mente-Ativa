@@ -23,10 +23,10 @@
             '<div class="accessibility-option">',
             '  <h3>Tamanho da Fonte</h3>',
             '  <div class="font-buttons">',
-            '    <button class="font-btn" data-size="18" aria-label="Fonte pequeno">A-</button>',
-            '    <button class="font-btn active" data-size="20" aria-label="Fonte normal">A</button>',
-            '    <button class="font-btn" data-size="24" aria-label="Fonte grande">A+</button>',
-            '    <button class="font-btn" data-size="28" aria-label="Fonte extra grande">A++</button>',
+            '    <button class="font-btn" data-size="100" aria-label="Fonte pequeno">A-</button>',
+            '    <button class="font-btn active" data-size="120" aria-label="Fonte normal">A</button>',
+            '    <button class="font-btn" data-size="130" aria-label="Fonte grande">A+</button>',
+            '    <button class="font-btn" data-size="140" aria-label="Fonte extra grande">A++</button>',
             '  </div>',
             '</div>',
             '<div class="accessibility-option">',
@@ -65,7 +65,7 @@
             btn.addEventListener('click', function () {
                 document.querySelectorAll('.font-btn').forEach(function (b) { b.classList.remove('active'); });
                 btn.classList.add('active');
-                document.body.style.fontSize = btn.dataset.size + 'px';
+                document.body.style.fontSize = btn.dataset.size + '%';
                 localStorage.setItem('accessibility_fontSize', btn.dataset.size);
             });
         });
@@ -125,7 +125,7 @@
 
         var fontSize = localStorage.getItem('accessibility_fontSize');
         if (fontSize) {
-            document.body.style.fontSize = fontSize + 'px';
+            document.body.style.fontSize = fontSize + '%';
             document.querySelectorAll('.font-btn').forEach(function (btn) {
                 btn.classList.toggle('active', btn.dataset.size === fontSize);
             });

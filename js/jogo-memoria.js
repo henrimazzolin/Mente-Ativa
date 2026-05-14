@@ -71,17 +71,36 @@ document.addEventListener('DOMContentLoaded', function() {
         let matchedPairs = 0;
         let attempts = 0;
         let isLocked = false;
+        let currentDifficulty = 'facil';
+        var difficultyConfig = {
+            facil: { pairs: 3, cols: 3 },
+            medio: { pairs: 6, cols: 4 },
+            dificil: { pairs: 10, cols: 5 }
+        };
 
         function initGame() {
             const board = document.getElementById('gameBoard');
             board.innerHTML = '';
 
-            // Escolher categoria aleatória a cada novo jogo
-            const newCategory = categories[Math.floor(Math.random() * categories.length)];
-            images = MenteAtiva.utils.shuffleArray(imageSets[newCategory]).slice(0, 8);
+            var config = difficultyConfig[currentDifficulty];
+            var numPairs = config.pairs;
+            var numCols = config.cols;
 
-            // Criar pares de imagens
-            const cardImages = images.concat(images);
+            // Escolher imagem(ns) conforme a dificuldade
+            var imagensSelecionadas;
+            if (currentDifficulty === 'dificil') {
+                // Pool de todas as categorias para ter variedade
+                var todas = [];
+                Object.keys(imageSets).forEach(function(c) {
+                    todas = todas.concat(imageSets[c]);
+                });
+                imagensSelecionadas = MenteAtiva.utils.shuffleArray(todas).slice(0, numPairs);
+            } else {
+                var cat = categories[Math.floor(Math.random() * categories.length)];
+                imagensSelecionadas = MenteAtiva.utils.shuffleArray(imageSets[cat]).slice(0, numPairs);
+            }
+
+            var cardImages = imagensSelecionadas.concat(imagensSelecionadas);
             cards = MenteAtiva.utils.shuffleArray(cardImages);
 
             flippedCards = [];
@@ -92,19 +111,21 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('pairs').textContent = '0';
             document.getElementById('attempts').textContent = '0';
 
-            cards.forEach((imgUrl, index) => {
-                const card = document.createElement('div');
+            board.style.gridTemplateColumns = 'repeat(' + numCols + ', 1fr)';
+
+            cards.forEach(function(imgUrl, index) {
+                var card = document.createElement('div');
                 card.className = 'card';
                 card.dataset.index = index;
                 card.dataset.image = imgUrl;
-                const img = document.createElement('img');
+                var img = document.createElement('img');
                 img.src = imgUrl;
                 img.alt = 'Carta';
                 img.loading = 'lazy';
                 img.onerror = function() { imgOnError(this); };
                 card.innerHTML = '<div class="card-image"></div>';
                 card.querySelector('.card-image').appendChild(img);
-                card.addEventListener('click', () => flipCard(card));
+                card.addEventListener('click', function() { flipCard(card); });
                 board.appendChild(card);
             });
         }
@@ -142,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     flippedCards = [];
                     isLocked = false;
 
-                    if (matchedPairs === 8) {
+                    if (matchedPairs === difficultyConfig[currentDifficulty].pairs) {
                         setTimeout(() => {
                             showWinMessage();
                         }, 500);
@@ -186,6 +207,20 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('feedback').classList.remove('show');
         }
 
+        function setupDificuldadeButtons() {
+            var buttons = document.querySelectorAll('.dif-btn');
+            buttons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    if (this.classList.contains('facil')) currentDifficulty = 'facil';
+                    else if (this.classList.contains('medio')) currentDifficulty = 'medio';
+                    else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
+                    initGame();
+                });
+            });
+        }
+
         // Event listeners
         document.getElementById('btn-restart').addEventListener('click', initGame);
         document.getElementById('btn-como-jogar').addEventListener('click', function() {
@@ -200,5 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('overlay').classList.remove('show');
         });
 
+        setupDificuldadeButtons();
         initGame();
     });

@@ -202,7 +202,7 @@ function salvarEvento() {
     const periodo = document.getElementById('eventPeriod').value.trim();
     
     if (!titulo) {
-        alert('Por favor, digite o nome do evento');
+        exibirAlerta('Por favor, digite o nome do evento', 'aviso');
         return;
     }
     
@@ -262,7 +262,7 @@ function removerEvento() {
     renderizarCalendario();
     renderizarEventos();
     
-    alert('Atividade removida com sucesso');
+    exibirAlerta('Atividade removida com sucesso', 'sucesso');
 }
 
 function excluirEvento(index) {

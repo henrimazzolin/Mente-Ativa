@@ -136,11 +136,22 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 24px;
-    border-radius: 12px;
+    padding: 14px 28px;
+    background: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 14px;
     font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-hover);
 }
 
 .btn-primary {
@@ -148,24 +159,21 @@ footer {
     color: white;
 }
 
-.btn-primary:hover {
-    background: #2563EB;
-    transform: translateY(-2px);
-    box-shadow: var(--sombra-hover);
-}
-
 .btn-secondary {
-    background: var(--cor-secundaria);
+    background: var(--cor-terceira);
     color: white;
 }
 
 .btn-secondary:hover {
-    background: #059669;
+    background: #D97706;
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-hover);
 }
 
 .btn-outline {
-    border: 2px solid var(--cor-primaria);
+    background: transparent;
     color: var(--cor-primaria);
+    border: 2px solid var(--cor-primaria);
 }
 
 .btn-outline:hover {
@@ -203,7 +211,7 @@ footer {
     display: flex;
 }
 
-.modal {
+.modal-overlay .modal {
     background: white;
     border-radius: var(--borda-radius);
     padding: 30px;
@@ -279,8 +287,8 @@ footer {
     }
     
     .btn {
-        font-size: 1rem;
-        padding: 10px 18px;
+        font-size: 15px;
+        padding: 12px 22px;
     }
     
     footer {
@@ -299,8 +307,8 @@ footer {
     }
     
     .btn {
-        padding: 8px 14px;
-        font-size: 18px;
+        padding: 10px 18px;
+        font-size: 15px;
     }
     
     .logo-text {

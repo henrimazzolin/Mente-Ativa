@@ -296,26 +296,35 @@ body {
 
 .jogar-btn {
     margin-top: 10px;
-    padding: 8px 20px;
-    background: var(--cor-primaria);
-    color: white;
-    border: none;
+    padding: 10px 22px;
+    background: #fff;
+    color: #000;
+    border: 1px solid var(--cor-primaria);
     border-radius: 12px;
     font-size: 15px;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(20, 145, 155, 0.3);
+    box-shadow: none;
 }
 
 .jogar-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(20, 145, 155, 0.45);
+    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.25);
 }
 
 .game-card:hover .jogar-btn {
-    background: var(--cor-primaria);
+    background: #fff;
+}
+
+html.modo-escuro .jogar-btn {
+    background: #2a2a3a;
+    color: #e0e0e0;
+    border-color: var(--cor-primaria);
+}
+
+html.modo-escuro .jogar-btn:hover {
+    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
 }
 
 footer {

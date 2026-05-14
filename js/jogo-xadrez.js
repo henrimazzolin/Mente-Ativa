@@ -1,608 +1,355 @@
-document.addEventListener('DOMContentLoaded', function() {
-        let playerColor = null;
-        let robotColor = null;
-        let gameEnded = false;
-        let vez = "branco";
-        let peca = [];
-        let il = [];
-        let movimenta = [];
-        let possiveis = [];
-        let cont_possiveis = 0;
+document.addEventListener('DOMContentLoaded', function () {
+    let engine = new ChessEngine();
+    let playerColor = null;
+    let robotColor = null;
+    let gameEnded = false;
+    let isProcessing = false;
+    let selectedSquare = null;
+    let validMoves = [];
+    let moveHistory = [];
+    let moveCount = 0;
 
-        function inicia_jogo() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('game-screen').style.display = 'flex';
-            document.getElementById('escolhecor-inicio').style.display = 'flex';
-            document.getElementById('escolhecor-inicio').classList.remove('hidden');
+    const ICONS = {
+        'k': { 'W': '\u2654', 'B': '\u265A' },
+        'q': { 'W': '\u2655', 'B': '\u265B' },
+        'r': { 'W': '\u2656', 'B': '\u265C' },
+        'b': { 'W': '\u2657', 'B': '\u265D' },
+        'n': { 'W': '\u2658', 'B': '\u265E' },
+        'p': { 'W': '\u2659', 'B': '\u265F' }
+    };
+    const NAMES = { 'k': 'Rei', 'q': 'Rainha', 'r': 'Torre', 'b': 'Bispo', 'n': 'Cavalo', 'p': 'Peao' };
+    const VALUES = { 'q': 9, 'r': 5, 'b': 3, 'n': 3, 'p': 1, 'k': 0 };
+
+    function getIcon(tipo, cor) {
+        return (ICONS[tipo] && ICONS[tipo][cor]) || '';
+    }
+
+    function htmlToEngine(hRow, hCol) {
+        if (playerColor === 'W') {
+            return { row: hRow - 1, col: hCol - 1 };
         }
+        return { row: 8 - hRow, col: 8 - hCol };
+    }
 
-        function configura_tabuleiro() {
-            vez = "branco";
-
-            document.getElementById("t11").innerHTML = "&#9820;";
-            document.getElementById("t12").innerHTML = "&#9822;";
-            document.getElementById("t13").innerHTML = "&#9821;";
-            document.getElementById("t14").innerHTML = "&#9819;";
-            document.getElementById("t15").innerHTML = "&#9818;";
-            document.getElementById("t16").innerHTML = "&#9821;";
-            document.getElementById("t17").innerHTML = "&#9822;";
-            document.getElementById("t18").innerHTML = "&#9820;";
-
-            document.getElementById("t21").innerHTML = "&#9823;";
-            document.getElementById("t22").innerHTML = "&#9823;";
-            document.getElementById("t23").innerHTML = "&#9823;";
-            document.getElementById("t24").innerHTML = "&#9823;";
-            document.getElementById("t25").innerHTML = "&#9823;";
-            document.getElementById("t26").innerHTML = "&#9823;";
-            document.getElementById("t27").innerHTML = "&#9823;";
-            document.getElementById("t28").innerHTML = "&#9823;";
-
-            document.getElementById("t81").innerHTML = "&#9814;";
-            document.getElementById("t82").innerHTML = "&#9816;";
-            document.getElementById("t83").innerHTML = "&#9815;";
-            document.getElementById("t84").innerHTML = "&#9813;";
-            document.getElementById("t85").innerHTML = "&#9812;";
-            document.getElementById("t86").innerHTML = "&#9815;";
-            document.getElementById("t87").innerHTML = "&#9816;";
-            document.getElementById("t88").innerHTML = "&#9814;";
-
-            document.getElementById("t71").innerHTML = "&#9817;";
-            document.getElementById("t72").innerHTML = "&#9817;";
-            document.getElementById("t73").innerHTML = "&#9817;";
-            document.getElementById("t74").innerHTML = "&#9817;";
-            document.getElementById("t75").innerHTML = "&#9817;";
-            document.getElementById("t76").innerHTML = "&#9817;";
-            document.getElementById("t77").innerHTML = "&#9817;";
-            document.getElementById("t78").innerHTML = "&#9817;";
-
-            cria_array();
+    function engineToHtml(eRow, eCol) {
+        if (playerColor === 'W') {
+            return { row: eRow + 1, col: eCol + 1 };
         }
+        return { row: 8 - eRow, col: 8 - eCol };
+    }
 
-        function cria_array() {
-            var x, y;
+    function sqName(eRow, eCol) {
+        return String.fromCharCode(97 + eCol) + (8 - eRow);
+    }
 
-            peca = new Array();
+    function renderNotation() {
+        const files = playerColor === 'W'
+            ? ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+            : ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
+        const ranks = playerColor === 'W'
+            ? ['8', '7', '6', '5', '4', '3', '2', '1']
+            : ['1', '2', '3', '4', '5', '6', '7', '8'];
 
-            for (x = 1; x <= 8; x++) {
-                peca[x] = new Array();
-                for (y = 1; y <= 8; y++) {
-                    peca[x][y] = new Array();
-                    peca[x][y]['peca'] = false;
-                    peca[x][y]['cor'] = false;
-                }
-            }
+        var topEl = document.getElementById('notation-top');
+        var bottomEl = document.getElementById('notation-bottom');
+        var leftEl = document.getElementById('notation-left');
+        var rightEl = document.getElementById('notation-right');
 
-            il = new Array();
-            il['preto'] = new Array();
-            il['branco'] = new Array();
+        if (topEl) topEl.innerHTML = files.map(function (f) { return '<span>' + f + '</span>'; }).join('');
+        if (bottomEl) bottomEl.innerHTML = files.map(function (f) { return '<span>' + f + '</span>'; }).join('');
+        if (leftEl) leftEl.innerHTML = ranks.map(function (r) { return '<span>' + r + '</span>'; }).join('');
+        if (rightEl) rightEl.innerHTML = ranks.map(function (r) { return '<span>' + r + '</span>'; }).join('');
+    }
 
-            peca[1][1]['peca'] = "torre"; peca[1][1]['cor'] = "preto"; peca[1][1]['mov'] = 0; il['preto']['torre'] = "&#9820;";
-            peca[1][2]['peca'] = "cavalo"; peca[1][2]['cor'] = "preto"; peca[1][2]['mov'] = 0; il['preto']['cavalo'] = "&#9822;";
-            peca[1][3]['peca'] = "bispo"; peca[1][3]['cor'] = "preto"; peca[1][3]['mov'] = 0; il['preto']['bispo'] = "&#9821;";
-            peca[1][4]['peca'] = "rainha"; peca[1][4]['cor'] = "preto"; peca[1][4]['mov'] = 0; il['preto']['rainha'] = "&#9819;";
-            peca[1][5]['peca'] = "rei"; peca[1][5]['cor'] = "preto"; peca[1][5]['mov'] = 0; il['preto']['rei'] = "&#9818;";
-            peca[1][6]['peca'] = "bispo"; peca[1][6]['cor'] = "preto"; peca[1][6]['mov'] = 0;
-            peca[1][7]['peca'] = "cavalo"; peca[1][7]['cor'] = "preto"; peca[1][7]['mov'] = 0;
-            peca[1][8]['peca'] = "torre"; peca[1][8]['cor'] = "preto"; peca[1][8]['mov'] = 0;
-
-            peca[2][1]['peca'] = "peao"; peca[2][1]['cor'] = "preto"; peca[2][1]['mov'] = 0; il['preto']['peao'] = "&#9823;";
-            peca[2][2]['peca'] = "peao"; peca[2][2]['cor'] = "preto"; peca[2][2]['mov'] = 0;
-            peca[2][3]['peca'] = "peao"; peca[2][3]['cor'] = "preto"; peca[2][3]['mov'] = 0;
-            peca[2][4]['peca'] = "peao"; peca[2][4]['cor'] = "preto"; peca[2][4]['mov'] = 0;
-            peca[2][5]['peca'] = "peao"; peca[2][5]['cor'] = "preto"; peca[2][5]['mov'] = 0;
-            peca[2][6]['peca'] = "peao"; peca[2][6]['cor'] = "preto"; peca[2][6]['mov'] = 0;
-            peca[2][7]['peca'] = "peao"; peca[2][7]['cor'] = "preto"; peca[2][7]['mov'] = 0;
-            peca[2][8]['peca'] = "peao"; peca[2][8]['cor'] = "preto"; peca[2][8]['mov'] = 0;
-
-            peca[8][1]['peca'] = "torre"; peca[8][1]['cor'] = "branco"; peca[8][1]['mov'] = 0; il['branco']['torre'] = "&#9814;";
-            peca[8][2]['peca'] = "cavalo"; peca[8][2]['cor'] = "branco"; peca[8][2]['mov'] = 0; il['branco']['cavalo'] = "&#9816;";
-            peca[8][3]['peca'] = "bispo"; peca[8][3]['cor'] = "branco"; peca[8][3]['mov'] = 0; il['branco']['bispo'] = "&#9815;";
-            peca[8][4]['peca'] = "rainha"; peca[8][4]['cor'] = "branco"; peca[8][4]['mov'] = 0; il['branco']['rainha'] = "&#9813;";
-            peca[8][5]['peca'] = "rei"; peca[8][5]['cor'] = "branco"; peca[8][5]['mov'] = 0; il['branco']['rei'] = "&#9812;";
-            peca[8][6]['peca'] = "bispo"; peca[8][6]['cor'] = "branco"; peca[8][6]['mov'] = 0;
-            peca[8][7]['peca'] = "cavalo"; peca[8][7]['cor'] = "branco"; peca[8][7]['mov'] = 0;
-            peca[8][8]['peca'] = "torre"; peca[8][8]['cor'] = "branco"; peca[8][8]['mov'] = 0;
-
-            peca[7][1]['peca'] = "peao"; peca[7][1]['cor'] = "branco"; peca[7][1]['mov'] = 0; il['branco']['peao'] = "&#9817;";
-            peca[7][2]['peca'] = "peao"; peca[7][2]['cor'] = "branco"; peca[7][2]['mov'] = 0;
-            peca[7][3]['peca'] = "peao"; peca[7][3]['cor'] = "branco"; peca[7][3]['mov'] = 0;
-            peca[7][4]['peca'] = "peao"; peca[7][4]['cor'] = "branco"; peca[7][4]['mov'] = 0;
-            peca[7][5]['peca'] = "peao"; peca[7][5]['cor'] = "branco"; peca[7][5]['mov'] = 0;
-            peca[7][6]['peca'] = "peao"; peca[7][6]['cor'] = "branco"; peca[7][6]['mov'] = 0;
-            peca[7][7]['peca'] = "peao"; peca[7][7]['cor'] = "branco"; peca[7][7]['mov'] = 0;
-            peca[7][8]['peca'] = "peao"; peca[7][8]['cor'] = "branco"; peca[7][8]['mov'] = 0;
-
-            movimenta = new Array();
-            movimenta['selecionada'] = new Array();
-            movimenta['selecionada']['x'] = 0;
-            movimenta['selecionada']['y'] = 0;
-            movimenta['selecionada']['peca'] = "0";
-            movimenta['selecionada']['cor'] = "0";
-
-            movimenta['destino'] = new Array();
-            movimenta['destino']['x'] = 0;
-            movimenta['destino']['y'] = 0;
-            movimenta['destino']['peca'] = "0";
-            movimenta['destino']['cor'] = "0";
-
-            possiveis = new Array();
-        }
-
-        function possiveis_movimentos() {
-            var x, y;
-            var c = 0;
-            var i;
-            x = movimenta['selecionada']['x'];
-            y = movimenta['selecionada']['y'];
-
-            document.getElementById('t' + x + y).style.backgroundColor = "#3C9";
-            possiveis[c] = "t" + x + y;
-            c++;
-
-            if (peca[x][y]['peca'] == 'peao') {
-                if (peca[x][y]['cor'] == "branco") {
-                    if (!peca[x - 1][y]['peca']) {
-                        possivel(x - 1, y);
-                    }
-                    if (y - 1 > 0 && peca[x - 1][y - 1]['peca']) {
-                        possivel(x - 1, y - 1);
-                    }
-                    if (y + 1 < 9 && peca[x - 1][y + 1]['peca']) {
-                        possivel(x - 1, y + 1);
-                    }
-                    if (x == 7) {
-                        if (!peca[x - 2][y]['peca'] && !peca[x - 1][y]['peca']) {
-                            possivel(x - 2, y);
-                        }
-                    }
-                }
-
-                if (peca[x][y]['cor'] == "preto") {
-                    if (!peca[x + 1][y]['peca']) {
-                        possivel(x + 1, y);
-                    }
-                    if (y - 1 > 0 && peca[x + 1][y - 1]['peca']) {
-                        possivel(x + 1, y - 1);
-                    }
-                    if (y + 1 < 9 && peca[x + 1][y + 1]['peca']) {
-                        possivel(x + 1, y + 1);
-                    }
-                    if (x == 2) {
-                        if (!peca[x + 2][y]['peca'] && !peca[x + 1][y]['peca']) {
-                            possivel(x + 2, y);
-                        }
-                    }
-                }
-            }
-
-            if (peca[x][y]['peca'] == 'cavalo') {
-                possivel(x - 1, y - 2);
-                possivel(x + 1, y + 2);
-                possivel(x + 1, y - 2);
-                possivel(x - 1, y + 2);
-                possivel(x - 2, y - 1);
-                possivel(x + 2, y + 1);
-                possivel(x + 2, y - 1);
-                possivel(x - 2, y + 1);
-            }
-
-            if (peca[x][y]['peca'] == 'rei') {
-                possivel(x - 1, y);
-                possivel(x, y - 1);
-                possivel(x - 1, y - 1);
-                possivel(x + 1, y);
-                possivel(x, y + 1);
-                possivel(x + 1, y + 1);
-                possivel(x - 1, y + 1);
-                possivel(x + 1, y - 1);
-            }
-
-            if (peca[x][y]['peca'] == 'torre') {
-                for (i = 1; possivel(x - i, y); i++);
-                for (i = 1; possivel(x + i, y); i++);
-                for (i = 1; possivel(x, y - i); i++);
-                for (i = 1; possivel(x, y + i); i++);
-            }
-
-            if (peca[x][y]['peca'] == 'bispo') {
-                for (i = 1; possivel(x - i, y - i); i++);
-                for (i = 1; possivel(x + i, y + i); i++);
-                for (i = 1; possivel(x - i, y + i); i++);
-                for (i = 1; possivel(x + i, y - i); i++);
-            }
-
-            if (peca[x][y]['peca'] == 'rainha') {
-                for (i = 1; possivel(x - i, y - i); i++);
-                for (i = 1; possivel(x + i, y + i); i++);
-                for (i = 1; possivel(x - i, y + i); i++);
-                for (i = 1; possivel(x + i, y - i); i++);
-                for (i = 1; possivel(x - i, y); i++);
-                for (i = 1; possivel(x + i, y); i++);
-                for (i = 1; possivel(x, y - i); i++);
-                for (i = 1; possivel(x, y + i); i++);
-            }
-
-            function possivel(px, py) {
-                if (px > 0 && px < 9 && py > 0 && py < 9 && peca[px][py]['cor'] != movimenta['selecionada']['cor']) {
-                    document.getElementById('t' + (px) + (py)).style.backgroundColor = "#3C9";
-                    possiveis[c] = "t" + (px) + (py);
-                    c++;
-
-                    if (!peca[px][py]['peca']) {
-                        return true;
-                    }
+    function renderBoard() {
+        for (let eRow = 0; eRow < 8; eRow++) {
+            for (let eCol = 0; eCol < 8; eCol++) {
+                const h = engineToHtml(eRow, eCol);
+                const cell = document.getElementById('t' + h.row + h.col);
+                if (!cell) continue;
+                const piece = engine.tabuleiro[eRow][eCol];
+                cell.innerHTML = piece ? getIcon(piece.tipo, piece.cor) : '';
+                cell.className = (eRow + eCol) % 2 === 0 ? 'light' : 'dark';
+                if (piece) {
+                    const cn = piece.cor === 'W' ? 'branco' : 'preto';
+                    cell.setAttribute('aria-label', NAMES[piece.tipo] + ' ' + cn + ', ' + sqName(eRow, eCol));
                 } else {
-                    return false;
+                    cell.setAttribute('aria-label', 'Vazio, ' + sqName(eRow, eCol));
                 }
-            }
-
-            return c;
-        }
-
-        function volta_fundo() {
-            var cf;
-            for (cf = 0; cf < possiveis.length; cf++) {
-                if (possiveis[cf]) {
-                    document.getElementById(possiveis[cf]).style.backgroundColor = "";
-                }
+                cell.setAttribute('role', 'gridcell');
+                cell.setAttribute('tabindex', '0');
             }
         }
-
-        function verifica_possivel(x, y, c) {
-            var pode = 0;
-            var cp;
-            var div = "t" + x + y;
-
-            for (cp = 1; cp < c; cp++) {
-                if (possiveis[cp] == div) {
-                    pode++;
-                }
-                if (pode > 0) {
-                    return 1;
+        if (selectedSquare) {
+            const h = engineToHtml(selectedSquare.row, selectedSquare.col);
+            const c = document.getElementById('t' + h.row + h.col);
+            if (c) c.classList.add('selected');
+        }
+        for (const mv of validMoves) {
+            const h = engineToHtml(mv.linha, mv.coluna);
+            const c = document.getElementById('t' + h.row + h.col);
+            if (c) {
+                c.classList.add('possible-move');
+                if (engine.tabuleiro[mv.linha][mv.coluna]) {
+                    c.classList.add('possible-capture');
                 }
             }
         }
-
-        function seleciona(x, y) {
-            if ((movimenta['selecionada']['x'] == 0 || peca[x][y]['cor'] == movimenta['selecionada']['cor']) && peca[x][y]['cor'] == vez) {
-                if (movimenta['selecionada']['x'] != 0) {
-                    volta_fundo();
-                }
-                if (peca[x][y]['peca']) {
-                    movimenta['selecionada']['x'] = x;
-                    movimenta['selecionada']['y'] = y;
-                    movimenta['selecionada']['peca'] = peca[x][y]['peca'];
-                    movimenta['selecionada']['cor'] = peca[x][y]['cor'];
-
-                    cont_possiveis = possiveis_movimentos();
-                }
-            } else if (verifica_possivel(x, y, cont_possiveis)) {
-                if (peca[x][y]['peca'] == "rei") {
-                    return;
-                }
-
-                if (peca[x][y]['cor'] != movimenta['selecionada']['cor']) {
-                    movimenta['destino']['x'] = x;
-                    movimenta['destino']['y'] = y;
-
-                    if (peca[x][y]['peca']) {
-                        movimenta['destino']['peca'] = peca[x][y]['peca'];
-                        movimenta['destino']['cor'] = peca[x][y]['cor'];
-                    }
-
-                    document.getElementById("t" + movimenta['selecionada']['x'] + "" + movimenta['selecionada']['y']).innerHTML = "";
-                    document.getElementById("t" + x + "" + y).innerHTML = il[movimenta['selecionada']['cor']][movimenta['selecionada']['peca']];
-                    peca[x][y]['peca'] = movimenta['selecionada']['peca'];
-                    peca[x][y]['cor'] = movimenta['selecionada']['cor'];
-
-                    peca[movimenta['selecionada']['x']][movimenta['selecionada']['y']]['peca'] = false;
-                    peca[movimenta['selecionada']['x']][movimenta['selecionada']['y']]['cor'] = false;
-
-                    movimenta['selecionada']['x'] = 0;
-                    movimenta['selecionada']['y'] = 0;
-                    movimenta['selecionada']['peca'] = "0";
-                    movimenta['selecionada']['cor'] = "0";
-                }
-
-                volta_fundo();
-
-                if (vez == "branco") {
-                    vez = "preto";
-                } else {
-                    vez = "branco";
-                }
-
-                if (playerColor) {
-                    atualizarStatus();
-                }
-
-                if (vez !== playerColor && !gameEnded) {
-                    setTimeout(vezRobo, 500);
+        for (const cor of ['W', 'B']) {
+            if (engine.emXeque(cor)) {
+                const rp = engine.reiPosicoes[cor];
+                if (rp) {
+                    const h = engineToHtml(rp.linha, rp.coluna);
+                    const c = document.getElementById('t' + h.row + h.col);
+                    if (c) c.classList.add('in-check');
                 }
             }
         }
+    }
 
-        function vezRobo() {
-            if (gameEnded) return;
-            if (vez === playerColor) return;
-
-            const pecasRobo = [];
-            for (let x = 1; x <= 8; x++) {
-                for (let y = 1; y <= 8; y++) {
-                    if (peca[x][y]['peca'] && peca[x][y]['cor'] === robotColor) {
-                        pecasRobo.push({ x, y });
+    function getAllMoves(cor) {
+        const moves = [];
+        for (let l = 0; l < 8; l++) {
+            for (let c = 0; c < 8; c++) {
+                if (engine.tabuleiro[l][c] && engine.tabuleiro[l][c].cor === cor) {
+                    const ms = engine.obterMovimentosValidos(l, c);
+                    for (const mv of ms) {
+                        moves.push({ origem: { l, c }, destino: { l: mv.linha, c: mv.coluna } });
                     }
                 }
             }
+        }
+        return moves;
+    }
 
-            const movimentosPossiveis = [];
-            for (const p of pecasRobo) {
-                movimenta['selecionada']['x'] = p.x;
-                movimenta['selecionada']['y'] = p.y;
-                movimenta['selecionada']['peca'] = peca[p.x][p.y]['peca'];
-                movimenta['selecionada']['cor'] = peca[p.x][p.y]['cor'];
-                cont_possiveis = possiveis_movimentos();
+    function addHistory(who, pieceType, fromSq, toSq) {
+        moveCount++;
+        var nome = NAMES[pieceType] || 'Peca';
+        var from = fromSq.toUpperCase();
+        var to = toSq.toUpperCase();
+        moveHistory.push({ num: moveCount, who: who, nome: nome, from: from, to: to });
+        renderHistory();
+    }
 
-                for (let cp = 1; cp < cont_possiveis; cp++) {
-                    const id = possiveis[cp];
-                    if (id) {
-                        const tx = parseInt(id.charAt(1));
-                        const ty = parseInt(id.charAt(2));
-                        if (!(peca[tx][ty]['peca'] === 'rei')) {
-                            const copiaPeca = peca[tx][ty]['peca'];
-                            const copiaCor = peca[tx][ty]['cor'];
-                            const mov = {
-                                deX: p.x, deY: p.y,
-                                paraX: tx, paraY: ty,
-                                peca: peca[p.x][p.y]['peca'],
-                                captura: copiaPeca,
-                                capturaCor: copiaCor
-                            };
-                            movimentosPossiveis.push(mov);
-                        }
-                    }
-                }
-            }
-            volta_fundo();
+    function renderHistory() {
+        var el = document.getElementById('move-history');
+        if (!el) return;
+        if (moveHistory.length === 0) {
+            el.innerHTML = '<div class="history-empty">Nenhuma jogada ainda</div>';
+            return;
+        }
+        var html = '';
+        for (var i = 0; i < moveHistory.length; i++) {
+            var m = moveHistory[i];
+            var cls = m.who === 'you' ? 'you' : 'robo';
+            var label = m.who === 'you' ? 'Voce' : 'Robo';
+            html += '<div class="history-item">' +
+                '<span class="history-num">' + m.num + '.</span>' +
+                '<span class="history-player ' + cls + '">(' + label + ')</span>' +
+                '<span class="history-piece">' + m.nome + '</span>' +
+                '<span class="history-from">' + m.from + '</span>' +
+                '<span class="history-arrow">\u2192</span>' +
+                '<span class="history-to">' + m.to + '</span>' +
+            '</div>';
+        }
+        el.innerHTML = html;
+        el.scrollTop = el.scrollHeight;
+    }
 
-            if (movimentosPossiveis.length === 0) {
-                mostrarFimDeJogo(playerColor);
+    function handleCellClick(hRow, hCol) {
+        if (gameEnded || isProcessing) return;
+        if (engine.turno !== playerColor) return;
+        const e = htmlToEngine(hRow, hCol);
+        const clicked = engine.tabuleiro[e.row][e.col];
+        if (selectedSquare) {
+            if (clicked && clicked.cor === playerColor) {
+                selectedSquare = { row: e.row, col: e.col };
+                validMoves = engine.obterMovimentosValidos(e.row, e.col);
+                renderBoard();
                 return;
             }
-
-            const escolhido = movimentosPossiveis[Math.floor(Math.random() * movimentosPossiveis.length)];
-
-            document.getElementById('t' + escolhido.deX + escolhido.deY).innerHTML = "";
-            document.getElementById('t' + escolhido.paraX + escolhido.paraY).innerHTML = il[robotColor][escolhido.peca];
-            peca[escolhido.paraX][escolhido.paraY]['peca'] = escolhido.peca;
-            peca[escolhido.paraX][escolhido.paraY]['cor'] = robotColor;
-            peca[escolhido.deX][escolhido.deY]['peca'] = false;
-            peca[escolhido.deX][escolhido.deY]['cor'] = false;
-
-            if (vez === 'branco') {
-                vez = 'preto';
-            } else {
-                vez = 'branco';
-            }
-
-            atualizarStatus();
-
-            if (verificaXequeMate(playerColor)) {
-                mostrarFimDeJogo(robotColor);
-            } else if (verificaXequeMate(robotColor)) {
-                mostrarFimDeJogo(playerColor);
+            if (engine.fazerMovimento(selectedSquare.row, selectedSquare.col, e.row, e.col)) {
+                var pieceType = engine.tabuleiro[e.row][e.col].tipo;
+                var fromSq = sqName(selectedSquare.row, selectedSquare.col);
+                var toSq = sqName(e.row, e.col);
+                addHistory('you', pieceType, fromSq, toSq);
+                selectedSquare = null;
+                validMoves = [];
+                renderBoard();
+                updateStatus();
+                if (!checkGameEnd()) {
+                    isProcessing = true;
+                    var d = 800 + Math.random() * 400;
+                    showThinking();
+                    setTimeout(robotTurn, d);
+                }
+                return;
             }
         }
+        if (clicked && clicked.cor === playerColor) {
+            selectedSquare = { row: e.row, col: e.col };
+            validMoves = engine.obterMovimentosValidos(e.row, e.col);
+            renderBoard();
+        }
+    }
 
-        function verificaXequeMate(cor) {
-            if (!estaEmCheque(cor)) return false;
+    function showThinking() {
+        var st = document.getElementById('status-text');
+        if (st) st.innerHTML = '<span class="status-robo thinking">\uD83E\uDD16 ROB\u00D4 PENSANDO<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>';
+    }
 
-            for (let x = 1; x <= 8; x++) {
-                for (let y = 1; y <= 8; y++) {
-                    if (peca[x][y]['peca'] && peca[x][y]['cor'] === cor) {
-                        movimenta['selecionada']['x'] = x;
-                        movimenta['selecionada']['y'] = y;
-                        movimenta['selecionada']['peca'] = peca[x][y]['peca'];
-                        movimenta['selecionada']['cor'] = peca[x][y]['cor'];
-                        cont_possiveis = possiveis_movimentos();
+    function robotTurn() {
+        if (gameEnded) { isProcessing = false; return; }
+        if (engine.turno !== robotColor) { isProcessing = false; return; }
+        var allMoves = getAllMoves(robotColor);
+        if (allMoves.length === 0) {
+            isProcessing = false;
+            checkGameEnd();
+            return;
+        }
+        var chosen = null;
+        var captures = allMoves.filter(function (m) {
+            var t = engine.tabuleiro[m.destino.l][m.destino.c];
+            return t && t.cor !== robotColor;
+        });
+        if (captures.length > 0) {
+            captures.sort(function (a, b) {
+                var va = VALUES[engine.tabuleiro[a.destino.l][a.destino.c] ? engine.tabuleiro[a.destino.l][a.destino.c].tipo : ''] || 0;
+                var vb = VALUES[engine.tabuleiro[b.destino.l][b.destino.c] ? engine.tabuleiro[b.destino.l][b.destino.c].tipo : ''] || 0;
+                return vb - va;
+            });
+            chosen = captures[0];
+        } else {
+            chosen = allMoves[Math.floor(Math.random() * allMoves.length)];
+        }
+        if (!chosen) { isProcessing = false; checkGameEnd(); return; }
+        var fromSq = sqName(chosen.origem.l, chosen.origem.c);
+        var toSq = sqName(chosen.destino.l, chosen.destino.c);
+        engine.fazerMovimento(chosen.origem.l, chosen.origem.c, chosen.destino.l, chosen.destino.c);
+        var pieceType = engine.tabuleiro[chosen.destino.l][chosen.destino.c].tipo;
+        addHistory('robo', pieceType, fromSq, toSq);
+        renderBoard();
+        updateStatus();
+        checkGameEnd();
+        isProcessing = false;
+    }
 
-                        for (let cp = 1; cp < cont_possiveis; cp++) {
-                            const id = possiveis[cp];
-                            if (id) {
-                                const tx = parseInt(id.charAt(1));
-                                const ty = parseInt(id.charAt(2));
-                                const pecaOrigP = peca[tx][ty]['peca'];
-                                const corOrig = peca[tx][ty]['cor'];
-                                peca[tx][ty]['peca'] = peca[x][y]['peca'];
-                                peca[tx][ty]['cor'] = peca[x][y]['cor'];
-                                peca[x][y]['peca'] = false;
-                                peca[x][y]['cor'] = false;
-
-                                const aindaEmCheque = estaEmCheque(cor);
-
-                                peca[x][y]['peca'] = peca[tx][ty]['peca'];
-                                peca[x][y]['cor'] = peca[tx][ty]['cor'];
-                                peca[tx][ty]['peca'] = pecaOrigP;
-                                peca[tx][ty]['cor'] = corOrig;
-
-                                if (!aindaEmCheque) {
-                                    volta_fundo();
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            volta_fundo();
+    function checkGameEnd() {
+        if (gameEnded) return true;
+        if (engine.ehXequeMate()) {
+            var winner = engine.turno === 'W' ? 'B' : 'W';
+            showGameOver(winner);
             return true;
         }
-
-        function escolhecor_incio(cor) {
-            document.getElementById('escolhecor-inicio').style.display = 'none';
-            document.getElementById('fundo').style.display = 'none';
-            document.getElementById('game-status').style.display = 'block';
-            
-            configura_tabuleiro();
-            
-            playerColor = cor;
-            robotColor = (cor === 'branco') ? 'preto' : 'branco';
-            
-            vez = cor;
-            
-            atualizarStatus();
+        if (engine.ehEmpate()) {
+            showDraw();
+            return true;
         }
+        return false;
+    }
 
-        function atualizarStatus() {
-            const statusDiv = document.getElementById('status-text');
-            let html = '';
-            
-            if (vez === playerColor) {
-                html = '<span class="status-you">🔵 SUA VEZ (VOCÊ)</span>';
-            } else {
-                html = '<span class="status-robo">🤖 VEZ DO ROBÔ</span>';
-            }
-            
-            if (estaEmCheque(playerColor)) {
-                html += ' <span style="color: #FF6B6B; font-weight: 800; font-size: 14px; margin-left: 10px;">⚠️ SEU REI ESTÁ EM CHEQUE!</span>';
-            } else if (estaEmCheque(robotColor)) {
-                html += ' <span style="color: #FF6B6B; font-weight: 800; font-size: 14px; margin-left: 10px;">⚠️ REI DO ROBÔ EM CHEQUE!</span>';
-            }
-            
-            statusDiv.innerHTML = html;
+    function showGameOver(winner) {
+        if (gameEnded) return;
+        gameEnded = true;
+        document.getElementById('game-over-emoji').textContent = winner === playerColor ? '\uD83C\uDFC6' : '\uD83D\uDE14';
+        var title = document.getElementById('game-over-title');
+        if (winner === playerColor) {
+            title.textContent = 'Voce Ganhou!';
+            title.className = 'game-over-title won';
+            document.getElementById('game-over-message').textContent = 'Parabens! Sua estrategia foi melhor!';
+        } else {
+            title.textContent = 'Voce Perdeu!';
+            title.className = 'game-over-title lost';
+            document.getElementById('game-over-message').textContent = 'O robo venceu desta vez. Tente novamente!';
         }
+        document.getElementById('game-over-modal').classList.add('active');
+        var st = document.getElementById('status-text');
+        if (st) st.innerHTML = '<span class="status-end">' + title.textContent + '</span>';
+    }
 
-        function estaEmCheque(cor) {
-            let reiX = -1, reiY = -1;
-            for (let x = 1; x <= 8; x++) {
-                for (let y = 1; y <= 8; y++) {
-                    if (peca[x][y]['peca'] === 'rei' && peca[x][y]['cor'] === cor) {
-                        reiX = x;
-                        reiY = y;
-                        break;
-                    }
-                }
-                if (reiX !== -1) break;
-            }
+    function showDraw() {
+        if (gameEnded) return;
+        gameEnded = true;
+        document.getElementById('game-over-emoji').textContent = '\uD83E\uDD1D';
+        var title = document.getElementById('game-over-title');
+        title.textContent = 'Empate!';
+        title.className = 'game-over-title';
+        title.style.color = '#F59E0B';
+        document.getElementById('game-over-message').textContent = 'O jogo terminou empatado. Ninguem venceu!';
+        document.getElementById('game-over-modal').classList.add('active');
+        var st = document.getElementById('status-text');
+        if (st) st.innerHTML = '<span style="color:#F59E0B;font-weight:800;">\uD83E\uDD1D EMPATE!</span>';
+    }
 
-            if (reiX === -1) return false;
-
-            const corInimiga = (cor === 'branco') ? 'preto' : 'branco';
-            
-            for (let x = 1; x <= 8; x++) {
-                for (let y = 1; y <= 8; y++) {
-                    if (peca[x][y]['peca'] && peca[x][y]['cor'] === corInimiga) {
-                        const podeAtacar = verificaAtaque(x, y, reiX, reiY);
-                        if (podeAtacar) return true;
-                    }
-                }
-            }
-            return false;
+    function updateStatus() {
+        var st = document.getElementById('status-text');
+        if (!st) return;
+        var html = '';
+        if (engine.turno === playerColor) {
+            html = '<span class="status-you">\uD83D\uDD35 SUA VEZ (VOCE)</span>';
+        } else {
+            html = '<span class="status-robo">\uD83E\uDD16 VEZ DO ROBO</span>';
         }
-
-        function verificaAtaque(px, py, tx, ty) {
-            const tipo = peca[px][py]['peca'];
-            
-            if (tipo === 'peao') {
-                if (peca[px][py]['cor'] === 'branco') {
-                    if (px - 1 === tx && (py - 1 === ty || py + 1 === ty)) return true;
-                } else {
-                    if (px + 1 === tx && (py - 1 === ty || py + 1 === ty)) return true;
-                }
-            }
-            else if (tipo === 'cavalo') {
-                const movsCavalo = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]];
-                for (const [dx, dy] of movsCavalo) {
-                    if (px + dx === tx && py + dy === ty) return true;
-                }
-            }
-            else if (tipo === 'rei') {
-                for (let dx = -1; dx <= 1; dx++) {
-                    for (let dy = -1; dy <= 1; dy++) {
-                        if (dx === 0 && dy === 0) continue;
-                        if (px + dx === tx && py + dy === ty) return true;
-                    }
-                }
-            }
-            else if (tipo === 'torre' || tipo === 'rainha') {
-                if (px === tx) {
-                    const start = Math.min(py, ty) + 1;
-                    const end = Math.max(py, ty);
-                    let bloqueado = false;
-                    for (let i = start; i < end; i++) {
-                        if (peca[px][i]['peca']) { bloqueado = true; break; }
-                    }
-                    if (!bloqueado) return true;
-                }
-                if (py === ty) {
-                    const start = Math.min(px, tx) + 1;
-                    const end = Math.max(px, tx);
-                    let bloqueado = false;
-                    for (let i = start; i < end; i++) {
-                        if (peca[i][py]['peca']) { bloqueado = true; break; }
-                    }
-                    if (!bloqueado) return true;
-                }
-            }
-            
-            if (tipo === 'bispo' || tipo === 'rainha') {
-                if (Math.abs(px - tx) === Math.abs(py - ty) && Math.abs(px - tx) > 0) {
-                    const dx = tx > px ? 1 : -1;
-                    const dy = ty > py ? 1 : -1;
-                    let x = px + dx, y = py + dy;
-                    let bloqueado = false;
-                    while (x !== tx || y !== ty) {
-                        if (peca[x][y]['peca']) { bloqueado = true; break; }
-                        x += dx;
-                        y += dy;
-                    }
-                    if (!bloqueado) return true;
-                }
-            }
-            
-            return false;
+        if (engine.emXeque(playerColor)) {
+            html += ' <span class="check-warn">\u26A0\uFE0F SEU REI ESTA EM XEQUE!</span>';
+        } else if (engine.emXeque(robotColor)) {
+            html += ' <span class="check-warn">\u26A0\uFE0F REI DO ROBO EM XEQUE!</span>';
         }
+        st.innerHTML = html;
+    }
 
-        function mostrarFimDeJogo(vencedorCor) {
-            if (gameEnded) return;
-            gameEnded = true;
-            
-            const modal = document.getElementById('game-over-modal');
-            const emoji = document.getElementById('game-over-emoji');
-            const title = document.getElementById('game-over-title');
-            const message = document.getElementById('game-over-message');
-            
-            if (vencedorCor === playerColor) {
-                emoji.textContent = '🏆';
-                title.textContent = 'Você Ganhou!';
-                title.className = 'game-over-title won';
-                message.textContent = 'Parabéns! Você conseguiu uma vitória impressionante no xadrez!';
-            } else {
-                emoji.textContent = '😔';
-                title.textContent = 'Você Perdeu!';
-                title.className = 'game-over-title lost';
-                message.textContent = 'O robô foi mais estratégico desta vez. Tente novamente!';
-            }
-            
-            modal.classList.add('active');
-            document.getElementById('fundo').style.display = 'block';
+    function iniciaJogo() {
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'flex';
+        document.getElementById('escolhecor-inicio').classList.add('visible');
+        document.getElementById('escolhecor-inicio').style.display = 'flex';
+    }
+
+    function escolheCor(cor) {
+        playerColor = cor;
+        robotColor = cor === 'W' ? 'B' : 'W';
+        engine = new ChessEngine();
+        gameEnded = false;
+        isProcessing = false;
+        selectedSquare = null;
+        validMoves = [];
+        moveHistory = [];
+        moveCount = 0;
+        document.getElementById('escolhecor-inicio').classList.remove('visible');
+        document.getElementById('escolhecor-inicio').style.display = 'none';
+        document.getElementById('game-status').style.display = 'block';
+        renderNotation();
+        renderBoard();
+        updateStatus();
+        renderHistory();
+        if (engine.turno !== playerColor) {
+            isProcessing = true;
+            var d = 800 + Math.random() * 400;
+            showThinking();
+            setTimeout(robotTurn, d);
         }
+    }
 
-        // Add event listeners
-        document.getElementById('btn-start-game').addEventListener('click', inicia_jogo);
-        document.getElementById('color-white').addEventListener('click', function() { escolhecor_incio('branco'); });
-        document.getElementById('color-black').addEventListener('click', function() { escolhecor_incio('preto'); });
-        document.getElementById('btn-reload').addEventListener('click', function() { location.reload(); });
+    // Event listeners
+    document.getElementById('btn-start-game').addEventListener('click', iniciaJogo);
+    document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
+    document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
+    document.getElementById('btn-reload').addEventListener('click', function () { location.reload(); });
 
-        // Add click handlers for all board cells
-        for (let row = 1; row <= 8; row++) {
-            for (let col = 1; col <= 8; col++) {
-                document.getElementById('t' + row + col).addEventListener('click', function() {
-                    const id = this.id;
-                    const row = parseInt(id.charAt(1));
-                    const col = parseInt(id.charAt(2));
-                    seleciona(row, col);
-                });
-            }
+    for (var r = 1; r <= 8; r++) {
+        for (var c = 1; c <= 8; c++) {
+            (function (row, col) {
+                var cell = document.getElementById('t' + row + col);
+                if (cell) {
+                    cell.addEventListener('click', function () { handleCellClick(row, col); });
+                    cell.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleCellClick(row, col);
+                        }
+                    });
+                }
+            })(r, c);
         }
+    }
 });

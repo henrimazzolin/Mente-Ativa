@@ -281,6 +281,11 @@ class ChessEngine {
             this.reiPosicoes[peca.cor] = { linha: linhaDestino, coluna: colunaDestino };
         }
         
+        // Auto-promover peão para rainha
+        if (peca.tipo === PEAO && (linhaDestino === 0 || linhaDestino === 7)) {
+            this.tabuleiro[linhaDestino][colunaDestino] = { tipo: RAINHA, cor: peca.cor };
+        }
+
         // Lidar com movimentos especiais
         if (movimentoValido.enPassant) {
             this.tabuleiro[linhaOrigem][colunaDestino] = VAZIO;

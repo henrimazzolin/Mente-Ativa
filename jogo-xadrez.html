@@ -14,10 +14,8 @@
     <link rel="stylesheet" href="css/jogo-xadrez.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="css/assistente-flutuante.css">
-    <link rel="stylesheet" href="css/dificuldade.css">
     <script src="js/components/accessibility.js" defer></script>
     <script src="js/dark-mode.js" defer></script>
-    
 </head>
 <body>
     <div class="container">
@@ -35,76 +33,83 @@
         </div>
 
         <div class="instrucao-destaque">
-            <p>Instrução: Clique em "Começar Jogo" e mova as peças clicando nelas. Tente dar xeque-mate no computador!</p>
+            <p>Clique em "Começar Jogo" e mova as peças clicando nelas e depois no destino.</p>
         </div>
 
-        <div class="dificuldade-selector">
-            <span class="dificuldade-label">Dificuldade:</span>
-            <button class="dif-btn facil active">Fácil</button>
-            <button class="dif-btn medio">Médio</button>
-            <button class="dif-btn dificil">Difícil</button>
-        </div>
-        
         <div id="intro-screen" class="game-area">
-            <div class="game-icon"><svg viewBox="0 0 24 24">
-                <path d="M19 22H5v-2h14v2zm-5-6H10v-2h4v2zM7.5 7c.83 0 1.5.67 1.5 1.5S8.33 10 7.5 10 6 9.33 6 8.5 6.67 7 7.5 7zm9 0c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" />
+            <div class="game-icon"><svg viewBox="0 0 24 24" fill="#8B5CF6">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg></div>
             <p class="game-description">O xadrez é um jogo estratégico que estimula o raciocínio lógico e o planejamento. Desafie sua mente com partidas contra o computador.</p>
             <button class="btn" id="btn-start-game">Começar Jogo</button>
         </div>
 
-        <div id="game-screen" class="game-area" style="display: none;">
+        <div id="game-screen">
             <div id="fundo"></div>
+            <div class="game-layout">
+                <div class="board-section">
+                    <div id="game-status" aria-live="polite" aria-atomic="true">
+                        <span id="status-text"></span>
+                    </div>
+                    <div class="board-area">
+                        <div class="notation-file top" id="notation-top"></div>
+                        <div class="notation-rank left" id="notation-left"></div>
+                        <div id="tabuleiro" role="grid" aria-label="Tabuleiro de xadrez">
+                            <div id="t11" role="gridcell"></div> <div id="t12" role="gridcell"></div>
+                            <div id="t13" role="gridcell"></div> <div id="t14" role="gridcell"></div>
+                            <div id="t15" role="gridcell"></div> <div id="t16" role="gridcell"></div>
+                            <div id="t17" role="gridcell"></div> <div id="t18" role="gridcell"></div>
 
-            <div id="game-status" style="display: none; text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: 700;">
-                <span id="status-text"></span>
-            </div>
+                            <div id="t21" role="gridcell"></div> <div id="t22" role="gridcell"></div>
+                            <div id="t23" role="gridcell"></div> <div id="t24" role="gridcell"></div>
+                            <div id="t25" role="gridcell"></div> <div id="t26" role="gridcell"></div>
+                            <div id="t27" role="gridcell"></div> <div id="t28" role="gridcell"></div>
 
-            <div id="tabuleiro">
-                <div id="t11"></div> <div id="t12"></div>
-                <div id="t13"></div> <div id="t14"></div>
-                <div id="t15"></div> <div id="t16"></div>
-                <div id="t17"></div> <div id="t18"></div>
+                            <div id="t31" role="gridcell"></div> <div id="t32" role="gridcell"></div>
+                            <div id="t33" role="gridcell"></div> <div id="t34" role="gridcell"></div>
+                            <div id="t35" role="gridcell"></div> <div id="t36" role="gridcell"></div>
+                            <div id="t37" role="gridcell"></div> <div id="t38" role="gridcell"></div>
 
-                <div id="t21"></div> <div id="t22"></div>
-                <div id="t23"></div> <div id="t24"></div>
-                <div id="t25"></div> <div id="t26"></div>
-                <div id="t27"></div> <div id="t28"></div>
+                            <div id="t41" role="gridcell"></div> <div id="t42" role="gridcell"></div>
+                            <div id="t43" role="gridcell"></div> <div id="t44" role="gridcell"></div>
+                            <div id="t45" role="gridcell"></div> <div id="t46" role="gridcell"></div>
+                            <div id="t47" role="gridcell"></div> <div id="t48" role="gridcell"></div>
 
-                <div id="t31"></div> <div id="t32"></div>
-                <div id="t33"></div> <div id="t34"></div>
-                <div id="t35"></div> <div id="t36"></div>
-                <div id="t37"></div> <div id="t38"></div>
+                            <div id="t51" role="gridcell"></div> <div id="t52" role="gridcell"></div>
+                            <div id="t53" role="gridcell"></div> <div id="t54" role="gridcell"></div>
+                            <div id="t55" role="gridcell"></div> <div id="t56" role="gridcell"></div>
+                            <div id="t57" role="gridcell"></div> <div id="t58" role="gridcell"></div>
 
-                <div id="t41"></div> <div id="t42"></div>
-                <div id="t43"></div> <div id="t44"></div>
-                <div id="t45"></div> <div id="t46"></div>
-                <div id="t47"></div> <div id="t48"></div>
+                            <div id="t61" role="gridcell"></div> <div id="t62" role="gridcell"></div>
+                            <div id="t63" role="gridcell"></div> <div id="t64" role="gridcell"></div>
+                            <div id="t65" role="gridcell"></div> <div id="t66" role="gridcell"></div>
+                            <div id="t67" role="gridcell"></div> <div id="t68" role="gridcell"></div>
 
-                <div id="t51"></div> <div id="t52"></div>
-                <div id="t53"></div> <div id="t54"></div>
-                <div id="t55"></div> <div id="t56"></div>
-                <div id="t57"></div> <div id="t58"></div>
+                            <div id="t71" role="gridcell"></div> <div id="t72" role="gridcell"></div>
+                            <div id="t73" role="gridcell"></div> <div id="t74" role="gridcell"></div>
+                            <div id="t75" role="gridcell"></div> <div id="t76" role="gridcell"></div>
+                            <div id="t77" role="gridcell"></div> <div id="t78" role="gridcell"></div>
 
-                <div id="t61"></div> <div id="t62"></div>
-                <div id="t63"></div> <div id="t64"></div>
-                <div id="t65"></div> <div id="t66"></div>
-                <div id="t67"></div> <div id="t68"></div>
-
-                <div id="t71"></div> <div id="t72"></div>
-                <div id="t73"></div> <div id="t74"></div>
-                <div id="t75"></div> <div id="t76"></div>
-                <div id="t77"></div> <div id="t78"></div>
-
-                <div id="t81"></div> <div id="t82"></div>
-                <div id="t83"></div> <div id="t84"></div>
-                <div id="t85"></div> <div id="t86"></div>
-                <div id="t87"></div> <div id="t88"></div>
+                            <div id="t81" role="gridcell"></div> <div id="t82" role="gridcell"></div>
+                            <div id="t83" role="gridcell"></div> <div id="t84" role="gridcell"></div>
+                            <div id="t85" role="gridcell"></div> <div id="t86" role="gridcell"></div>
+                            <div id="t87" role="gridcell"></div> <div id="t88" role="gridcell"></div>
+                        </div>
+                        <div class="notation-rank right" id="notation-right"></div>
+                        <div class="notation-file bottom" id="notation-bottom"></div>
+                    </div>
+                </div>
+                <div class="history-section">
+                    <div class="history-title">Histórico de Jogadas</div>
+                    <div id="move-history">
+                        <div class="history-empty">Nenhuma jogada ainda</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="escolhecor-inicio" class="escolhe" style="display: none;">
+    <div id="escolhecor-inicio">
         <a href="grupo-moderado.html" class="back-btn-escolha">
             <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
         </a>
@@ -112,11 +117,11 @@
             <div class="escolha-lado-titulo">ESCOLHA SEU LADO</div>
             <div class="color-choice-container">
                 <div class="color-option" id="color-white">
-                    <div class="color-piece">&#9812;</div>
+                    <div class="color-piece white-piece">&#9812;</div>
                     <div class="color-label">BRANCO</div>
                 </div>
                 <div class="color-option" id="color-black">
-                    <div class="color-piece">&#9818;</div>
+                    <div class="color-piece black-piece">&#9818;</div>
                     <div class="color-label">PRETO</div>
                 </div>
             </div>
@@ -125,16 +130,19 @@
 
     <div id="game-over-modal">
         <div class="game-over-content">
-            <div class="game-over-emoji" id="game-over-emoji">🏆</div>
+            <div class="game-over-emoji" id="game-over-emoji">&#x1F3C6;</div>
             <h2 class="game-over-title" id="game-over-title">Você Ganhou!</h2>
-            <p class="game-over-message" id="game-over-message">Parabéns! Você conseguiu uma vitória impressionante!</p>
-            <button class="game-over-btn" id="btn-reload">Jogar Novamente</button>
+            <p class="game-over-message" id="game-over-message">Parabéns!</p>
+            <button class="btn" id="btn-reload">Jogar Novamente</button>
         </div>
     </div>
-    
-    <footer><p>Desafie sua mente com xadrez estratégico | Mente Ativa — Exercite sua mente</p></footer>
 
+    <footer><p>Mente Ativa — Exercite sua mente</p></footer>
+
+    <script src="js/lib/chess-engine.js"></script>
     <script src="js/jogo-xadrez.js"></script>
     <script src="js/assistente-flutuante.js"></script>
+    <script src="js/alerts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

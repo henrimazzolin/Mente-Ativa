@@ -289,44 +289,6 @@
             flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 14px 28px;
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 17px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #1D4ED8;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary {
-            background: var(--cor-terceira);
-        }
-
-        .btn-secondary:hover {
-            background: #D97706;
-        }
-
-        .btn-outline {
-            background: white;
-            color: var(--cor-texto);
-            border: 2px solid #CBD5E1;
-        }
-
-        .btn-outline:hover {
-            background: #F1F5F9;
-            border-color: var(--cor-primaria);
-            color: black
-        }
-
         .message {
             display: none;
             position: fixed;
@@ -408,11 +370,6 @@
             .num-btn {
                 width: 36px;
                 height: 42px;
-                font-size: 18px;
-            }
-
-            .btn {
-                padding: 12px 20px;
                 font-size: 18px;
             }
 

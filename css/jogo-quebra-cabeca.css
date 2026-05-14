@@ -177,7 +177,6 @@
 
         .puzzle-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 6px;
             background: var(--cor-texto);
             padding: 6px;
@@ -188,7 +187,6 @@
         }
 
         .puzzle-piece {
-            background-size: 300% 300%;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -230,32 +228,6 @@
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 20px;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 17px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #1D4ED8;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary {
-            background: var(--cor-terceira);
-        }
-
-        .btn-secondary:hover {
-            background: #D97706;
         }
 
         .message {
@@ -320,11 +292,6 @@
             .preview-image {
                 width: 100px;
                 height: 100px;
-            }
-
-            .btn {
-                padding: 12px 20px;
-                font-size: 18px;
             }
 
             .logo-icon {

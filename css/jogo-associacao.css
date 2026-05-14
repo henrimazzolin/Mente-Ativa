@@ -298,23 +298,8 @@
         }
 
         .btn {
-            padding: 14px 36px;
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
             display: block;
             margin: 0 auto;
-        }
-
-        .btn:hover {
-            background: #1D4ED8;
-            transform: scale(1.05);
         }
 
         .feedback {

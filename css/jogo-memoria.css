@@ -222,35 +222,9 @@
             flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 14px 32px;
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 17px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #1D4ED8;
-            transform: scale(1.05);
-        }
-
-        .btn-secondary {
-            background: var(--cor-terceira);
-        }
-
-        .btn-secondary:hover {
-            background: #D97706;
-        }
 
         .game-board {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
             margin-bottom: 30px;
             max-width: 500px;
@@ -389,10 +363,6 @@
             margin-top: 20px;
         }
 
-        .btn:hover {
-            background: #1D4ED8;
-            transform: scale(1.05);
-        }
         .overlay {
             position: fixed;
             top: 0;
@@ -431,7 +401,6 @@
             }
             
             .game-board {
-                grid-template-columns: repeat(4, 1fr);
                 gap: 10px;
             }
             
@@ -456,7 +425,7 @@
                 font-size: 18px;
             }
 
-            .modal-content {
+            #comoJogarModal .modal-content {
                 max-height: 80vh;
                 overflow-y: auto;
             }
@@ -490,7 +459,7 @@
         }
         
         /* Modal Styles */
-        .modal {
+        #comoJogarModal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -502,7 +471,7 @@
             background-color: rgba(0,0,0,0.4);
         }
         
-        .modal-content {
+        #comoJogarModal .modal-content {
             background-color: var(--cor-fundo-card);
             margin: 15% auto;
             padding: 20px;
@@ -513,7 +482,7 @@
             position: relative;
         }
         
-        .modal-header {
+        #comoJogarModal .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -522,12 +491,12 @@
             border-bottom: 1px solid var(--border);
         }
         
-        .modal-header h3 {
+        #comoJogarModal .modal-header h3 {
             margin: 0;
             color: var(--cor-texto);
         }
         
-        .modal-close {
+        #comoJogarModal .modal-close {
             background: none;
             border: none;
             font-size: 28px;
@@ -542,37 +511,18 @@
             border-radius: 50%;
         }
         
-        .modal-close:hover {
+        #comoJogarModal .modal-close:hover {
             background-color: var(--primary-light);
             color: var(--cor-texto);
         }
         
-        .modal-body {
+        #comoJogarModal .modal-body {
             color: var(--cor-texto);
             line-height: 1.6;
         }
         
-        .modal-body p {
+        #comoJogarModal .modal-body p {
             margin: 10px 0;
         }
         
-        /* Button Styles */
-        .btn-secondary {
-            background: var(--primary-light);
-            color: var(--cor-texto);
-            border: 1px solid var(--border);
-            padding: 12px 24px;
-            border-radius: var(--borda-radius);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-secondary:hover {
-            background: var(--cor-primaria);
-            color: white;
-            border-color: var(--cor-primaria);
-        }
+

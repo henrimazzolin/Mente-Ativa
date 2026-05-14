@@ -144,30 +144,7 @@
         }
 
         .btn {
-            padding: 18px 48px;
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 22px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s ease;
             margin: 10px;
-        }
-
-        .btn:hover {
-            background: #1D4ED8;
-            transform: scale(1.05);
-        }
-
-        .btn.secondary {
-            background: #45DFB1;
-        }
-
-        .btn.secondary:hover {
-            background: #059669;
         }
 
         .btn:disabled {
@@ -246,7 +223,6 @@
             .feedback h2 { font-size: 22px; }
             body { overflow-x: hidden; }
             .container { padding: 20px 12px; overflow-x: hidden; }
-            .btn { font-size: 18px; padding: 12px 24px; }
             .question { font-size: 18px; }
             .instrucao p { font-size: 18px; }
         }
