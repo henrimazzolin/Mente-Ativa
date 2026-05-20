@@ -1,4 +1,4 @@
-        :root {
+﻿        :root {
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
@@ -79,6 +79,7 @@
         }
 
         .logo-icon {
+        max-width: 280px;
             width: 12.5em;
             height: 3.4375em;
             background: var(--cor-fundo-card);
@@ -192,6 +193,7 @@
             transition: all 0.2s ease;
             position: relative;
             border: 3px solid transparent;
+            background-color: #e2e8f0;
         }
 
         .puzzle-piece:hover {
@@ -205,6 +207,9 @@
         }
 
         .preview-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
 
@@ -295,6 +300,7 @@
             }
 
             .logo-icon {
+        max-width: 280px;
                 width: 8.75em;
                 height: 2.5em;
             }
@@ -319,13 +325,12 @@
             }
             
             .header {
-                flex-wrap: wrap;
-                justify-content: center;
                 gap: 8px;
                 padding: 10px;
             }
             
             .logo-icon {
+        max-width: 280px;
                 width: 7.5em;
                 height: 2.25em;
             }

@@ -1,8 +1,44 @@
 /* Mente Ativa - Container de controles (Tamanho das letras, Modo Escuro, Tirar Dúvidas) */
 
-.mente-ativa-controls {
+/* Toggle button to open/close the panel */
+.ma-toggle-btn {
     position: fixed;
     top: 16px;
+    right: 16px;
+    z-index: 100001;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cor-fundo-card, #ffffff);
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.13);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: all 0.25s ease;
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1;
+}
+
+.ma-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    background: var(--cor-primaria, #3b82f6);
+    color: #ffffff;
+}
+
+.ma-toggle-btn:focus-visible {
+    outline: 3px solid var(--cor-terceira, #F59E0B);
+    outline-offset: 2px;
+}
+
+/* Panel - hidden by default, slides in when .open */
+.mente-ativa-controls {
+    position: fixed;
+    top: 72px;
     right: 16px;
     z-index: 100000;
     display: flex;
@@ -10,6 +46,33 @@
     gap: 10px;
     align-items: stretch;
     max-width: 320px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.97);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
+
+.mente-ativa-controls.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Backdrop to detect clicks outside the panel */
+.ma-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: none;
+}
+
+.ma-backdrop.visible {
+    display: block;
 }
 
 .ma-btn {
@@ -95,13 +158,34 @@ html.modo-escuro .ma-btn:hover {
     color: #0f172a;
 }
 
-body.assistente-aberto #mente-ativa-controls {
+html.modo-escuro .ma-toggle-btn {
+    background: var(--dm-surface-elevated, rgba(51, 65, 85, 0.96));
+    color: var(--dm-text, #f8fafc);
+    border: 2px solid var(--dm-border, rgba(255, 255, 255, 0.28));
+}
+
+html.modo-escuro .ma-toggle-btn:hover {
+    background: var(--cor-primaria, #3b82f6);
+    color: #ffffff;
+    border-color: transparent;
+}
+
+body.assistente-aberto #mente-ativa-controls,
+body.assistente-aberto .ma-toggle-btn {
     display: none;
 }
 
 @media (max-width: 768px) {
-    .mente-ativa-controls {
+    .ma-toggle-btn {
         top: 12px;
+        right: 12px;
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+    }
+
+    .mente-ativa-controls {
+        top: 62px;
         right: 12px;
         gap: 6px;
         max-width: 260px;
@@ -130,8 +214,16 @@ body.assistente-aberto #mente-ativa-controls {
 }
 
 @media (max-width: 600px) {
-    .mente-ativa-controls {
+    .ma-toggle-btn {
         top: 8px;
+        right: 8px;
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .mente-ativa-controls {
+        top: 54px;
         right: 8px;
         gap: 5px;
         max-width: 230px;
@@ -161,8 +253,16 @@ body.assistente-aberto #mente-ativa-controls {
 }
 
 @media (max-width: 480px) {
-    .mente-ativa-controls {
+    .ma-toggle-btn {
         top: 6px;
+        right: 6px;
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .mente-ativa-controls {
+        top: 48px;
         right: 6px;
         gap: 4px;
         max-width: 190px;
@@ -192,8 +292,16 @@ body.assistente-aberto #mente-ativa-controls {
 }
 
 @media (max-width: 380px) {
-    .mente-ativa-controls {
+    .ma-toggle-btn {
         top: 4px;
+        right: 4px;
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .mente-ativa-controls {
+        top: 42px;
         right: 4px;
         gap: 3px;
         max-width: 160px;

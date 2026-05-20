@@ -1,4 +1,4 @@
-        :root {
+﻿        :root {
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
@@ -64,6 +64,7 @@
         .logo { display: flex; align-items: center; gap: 10px; }
 
         .logo-icon {
+        max-width: 280px;
             width: 12.5em;
             height: 3.4375em;
             background: var(--cor-fundo-card);
@@ -251,7 +252,8 @@
             .option-btn { font-size: 20px; padding: 20px; }
             .instrument-icon { width: 100px; height: 100px; }
             .instrument-icon svg { width: 50px; height: 50px; }
-            .logo-icon { width: 8.75em; height: 2.5em; }
+            .logo-icon {
+        max-width: 280px; width: 8.75em; height: 2.5em; }
             .feedback h2 { font-size: 22px; }
             body { overflow-x: hidden; }
             .container { padding: 20px 12px; overflow-x: hidden; }
@@ -263,13 +265,12 @@
             }
             
             .header {
-                flex-wrap: wrap;
-                justify-content: center;
                 gap: 8px;
                 padding: 10px;
             }
             
             .logo-icon {
+        max-width: 280px;
                 width: 7.5em;
                 height: 2.25em;
             }

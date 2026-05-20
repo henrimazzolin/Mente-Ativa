@@ -66,6 +66,7 @@ input, select, textarea {
 
 .header {
     display: flex;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 15px;
     padding: 20px;
@@ -74,8 +75,20 @@ input, select, textarea {
     border-radius: 10px;
 }
 
+.container .header {
+    max-width: 560px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo {
+    flex-shrink: 0;
+}
+
 .back-btn {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     width: 50px;
@@ -112,6 +125,7 @@ input, select, textarea {
 .logo-icon {
     width: 3.125em;
     height: 3.125em;
+    max-width: 280px;
     border-radius: 12px;
     overflow: hidden;
     background: none !important;
@@ -264,10 +278,6 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .header {
-        flex-wrap: wrap;
-    }
-    
     .logo-text {
         font-size: 1.2rem;
     }

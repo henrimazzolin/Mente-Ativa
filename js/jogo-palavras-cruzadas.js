@@ -890,7 +890,7 @@ document.getElementById('btn-reset').addEventListener('click', function() {
 });
 
 document.getElementById('btn-back').addEventListener('click', function() {
-    window.location.href = 'grupo-moderado.html';
+    window.location.href = 'jogos-individuais.html';
 });
 
 document.getElementById('overlay').addEventListener('click', closeMessage);

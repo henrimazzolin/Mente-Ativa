@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let engine = new ChessEngine();
+    let engine = new DamasEngine();
     let playerColor = null;
     let robotColor = null;
     let gameEnded = false;
@@ -9,46 +9,16 @@ document.addEventListener('DOMContentLoaded', function () {
     let moveHistory = [];
     let moveCount = 0;
 
-    const ICONS = {
-        'k': { 'W': '\u2654', 'B': '\u265A' },
-        'q': { 'W': '\u2655', 'B': '\u265B' },
-        'r': { 'W': '\u2656', 'B': '\u265C' },
-        'b': { 'W': '\u2657', 'B': '\u265D' },
-        'n': { 'W': '\u2658', 'B': '\u265E' },
-        'p': { 'W': '\u2659', 'B': '\u265F' }
-    };
-    const NAMES = { 'k': 'Rei', 'q': 'Rainha', 'r': 'Torre', 'b': 'Bispo', 'n': 'Cavalo', 'p': 'Peao' };
-    const VALUES = { 'q': 9, 'r': 5, 'b': 3, 'n': 3, 'p': 1, 'k': 0 };
+    const NAMES = { 'p': 'Peao', 'd': 'Dama' };
 
     function getIcon(tipo, cor) {
-        return (ICONS[tipo] && ICONS[tipo][cor]) || '';
-    }
-
-    function htmlToEngine(hRow, hCol) {
-        if (playerColor === 'W') {
-            return { row: hRow - 1, col: hCol - 1 };
-        }
-        return { row: 8 - hRow, col: 8 - hCol };
-    }
-
-    function engineToHtml(eRow, eCol) {
-        if (playerColor === 'W') {
-            return { row: eRow + 1, col: eCol + 1 };
-        }
-        return { row: 8 - eRow, col: 8 - eCol };
-    }
-
-    function sqName(eRow, eCol) {
-        return String.fromCharCode(97 + eCol) + (8 - eRow);
+        if (tipo === 'd') return cor === 'W' ? '\u26AA' : '\uD83D\uDD34';
+        return cor === 'W' ? '\u26AA' : '\u26AB';
     }
 
     function renderNotation() {
-        const files = playerColor === 'W'
-            ? ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-            : ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
-        const ranks = playerColor === 'W'
-            ? ['8', '7', '6', '5', '4', '3', '2', '1']
-            : ['1', '2', '3', '4', '5', '6', '7', '8'];
+        const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+        const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
         var topEl = document.getElementById('notation-top');
         var bottomEl = document.getElementById('notation-bottom');
@@ -62,33 +32,31 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderBoard() {
-        for (let eRow = 0; eRow < 8; eRow++) {
-            for (let eCol = 0; eCol < 8; eCol++) {
-                const h = engineToHtml(eRow, eCol);
-                const cell = document.getElementById('t' + h.row + h.col);
+        for (let l = 0; l < 8; l++) {
+            for (let c = 0; c < 8; c++) {
+                const cell = document.getElementById('t' + l + c);
                 if (!cell) continue;
-                const piece = engine.tabuleiro[eRow][eCol];
+                const piece = engine.tabuleiro[l][c];
                 cell.innerHTML = piece ? getIcon(piece.tipo, piece.cor) : '';
-                cell.className = (eRow + eCol) % 2 === 0 ? 'light' : 'dark';
+                cell.className = (l + c) % 2 === 0 ? 'light' : 'dark';
                 if (piece) {
                     const cn = piece.cor === 'W' ? 'branco' : 'preto';
                     cell.classList.add(cn);
-                    cell.setAttribute('aria-label', NAMES[piece.tipo] + ' ' + cn + ', ' + sqName(eRow, eCol));
+                    if (piece.tipo === 'd') cell.classList.add('king');
+                    cell.setAttribute('aria-label', NAMES[piece.tipo] + ' ' + cn + ', ' + sqName(l, c));
                 } else {
-                    cell.setAttribute('aria-label', 'Vazio, ' + sqName(eRow, eCol));
+                    cell.setAttribute('aria-label', 'Vazio, ' + sqName(l, c));
                 }
                 cell.setAttribute('role', 'gridcell');
                 cell.setAttribute('tabindex', '0');
             }
         }
         if (selectedSquare) {
-            const h = engineToHtml(selectedSquare.row, selectedSquare.col);
-            const c = document.getElementById('t' + h.row + h.col);
+            const c = document.getElementById('t' + selectedSquare.l + selectedSquare.c);
             if (c) c.classList.add('selected');
         }
         for (const mv of validMoves) {
-            const h = engineToHtml(mv.linha, mv.coluna);
-            const c = document.getElementById('t' + h.row + h.col);
+            const c = document.getElementById('t' + mv.linha + mv.coluna);
             if (c) {
                 c.classList.add('possible-move');
                 if (engine.tabuleiro[mv.linha][mv.coluna]) {
@@ -96,66 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-        for (const cor of ['W', 'B']) {
-            if (engine.emXeque(cor)) {
-                const rp = engine.reiPosicoes[cor];
-                if (rp) {
-                    const h = engineToHtml(rp.linha, rp.coluna);
-                    const c = document.getElementById('t' + h.row + h.col);
-                    if (c) c.classList.add('in-check');
-                }
-            }
-        }
     }
 
-    function animateMove(fromRow, fromCol, toRow, toCol, callback) {
-        var fromCell = document.getElementById('t' + fromRow + fromCol);
-        var toCell = document.getElementById('t' + toRow + toCol);
-        var pieceHTML = fromCell ? fromCell.innerHTML : '';
-        if (!pieceHTML || !fromCell || !toCell) { if (callback) callback(); return; }
-        var fontSize = window.getComputedStyle(fromCell).fontSize;
-        var fromRect = fromCell.getBoundingClientRect();
-        var toRect = toCell.getBoundingClientRect();
-        fromCell.innerHTML = '';
-        var floater = document.createElement('div');
-        floater.innerHTML = pieceHTML;
-        floater.style.cssText = [
-            'position: fixed;',
-            'z-index: 1000;',
-            'font-size: ' + fontSize + ';',
-            'width: ' + fromRect.width + 'px;',
-            'height: ' + fromRect.height + 'px;',
-            'display: flex;',
-            'align-items: center;',
-            'justify-content: center;',
-            'pointer-events: none;',
-            'left: ' + fromRect.left + 'px;',
-            'top: ' + fromRect.top + 'px;',
-            'transition: left 400ms ease, top 400ms ease;'
-        ].join(' ');
-        document.body.appendChild(floater);
-        floater.offsetHeight;
-        floater.style.left = toRect.left + 'px';
-        floater.style.top = toRect.top + 'px';
-        floater.addEventListener('transitionend', function () {
-            floater.remove();
-            if (callback) callback();
-        }, { once: true });
-    }
-
-    function getAllMoves(cor) {
-        const moves = [];
-        for (let l = 0; l < 8; l++) {
-            for (let c = 0; c < 8; c++) {
-                if (engine.tabuleiro[l][c] && engine.tabuleiro[l][c].cor === cor) {
-                    const ms = engine.obterMovimentosValidos(l, c);
-                    for (const mv of ms) {
-                        moves.push({ origem: { l, c }, destino: { l: mv.linha, c: mv.coluna } });
-                    }
-                }
-            }
-        }
-        return moves;
+    function sqName(l, c) {
+        return String.fromCharCode(97 + c) + (8 - l);
     }
 
     function addHistory(who, pieceType, fromSq, toSq) {
@@ -192,33 +104,35 @@ document.addEventListener('DOMContentLoaded', function () {
         el.scrollTop = el.scrollHeight;
     }
 
-    function handleCellClick(hRow, hCol) {
+    function handleCellClick(l, c) {
         if (gameEnded || isProcessing) return;
         if (engine.turno !== playerColor) return;
-        const e = htmlToEngine(hRow, hCol);
-        const clicked = engine.tabuleiro[e.row][e.col];
+        const clicked = engine.tabuleiro[l][c];
         if (selectedSquare) {
             if (clicked && clicked.cor === playerColor) {
-                selectedSquare = { row: e.row, col: e.col };
-                validMoves = engine.obterMovimentosValidos(e.row, e.col);
+                selectedSquare = { l: l, c: c };
+                validMoves = engine.obterMovimentosValidos(l, c);
                 renderBoard();
                 return;
             }
-            if (engine.fazerMovimento(selectedSquare.row, selectedSquare.col, e.row, e.col)) {
-                var pieceType = engine.tabuleiro[e.row][e.col].tipo;
-                var fromSq = sqName(selectedSquare.row, selectedSquare.col);
-                var toSq = sqName(e.row, e.col);
-                var hFrom = engineToHtml(selectedSquare.row, selectedSquare.col);
-                var hTo = engineToHtml(e.row, e.col);
+            const jogada = validMoves.find(function (m) { return m.linha === l && m.coluna === c; });
+            if (jogada) {
+                var srcL = selectedSquare.l, srcC = selectedSquare.c;
+                var pieceType = engine.tabuleiro[srcL][srcC].tipo;
+                var fromSq = sqName(srcL, srcC);
+                var toSq = sqName(l, c);
+                var srcCell = document.getElementById('t' + srcL + srcC);
+                var pieceHTML = srcCell ? srcCell.innerHTML : '';
+                engine.fazerMovimento(srcL, srcC, l, c, jogada.capturaLinha, jogada.capturaColuna);
                 selectedSquare = null;
                 validMoves = [];
                 isProcessing = true;
-                animateMove(hFrom.row, hFrom.col, hTo.row, hTo.col, function () {
+                animateMove(srcL, srcC, l, c, pieceHTML, function () {
                     renderBoard();
                     updateStatus();
                     addHistory('you', pieceType, fromSq, toSq);
                     if (!checkGameEnd()) {
-                        var d = 800 + Math.random() * 400;
+                        var d = 600 + Math.random() * 300;
                         showThinking();
                         setTimeout(robotTurn, d);
                     } else {
@@ -229,10 +143,52 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         if (clicked && clicked.cor === playerColor) {
-            selectedSquare = { row: e.row, col: e.col };
-            validMoves = engine.obterMovimentosValidos(e.row, e.col);
+            selectedSquare = { l: l, c: c };
+            const capturas = engine.obterCapturasDisponiveis(playerColor);
+            if (capturas.length > 0) {
+                validMoves = capturas.filter(function (cap) { return cap.origemL === l && cap.origemC === c; });
+                validMoves.forEach(function (m) { delete m.origemL; delete m.origemC; });
+                if (validMoves.length === 0) {
+                    selectedSquare = null;
+                    return;
+                }
+            } else {
+                validMoves = engine.obterMovimentosValidos(l, c);
+            }
             renderBoard();
         }
+    }
+
+    function animateMove(srcL, srcC, destL, destC, pieceHTML, callback) {
+        var srcCell = document.getElementById('t' + srcL + srcC);
+        var destCell = document.getElementById('t' + destL + destC);
+        if (!srcCell || !destCell) {
+            if (callback) setTimeout(callback, 200);
+            return;
+        }
+        var srcRect = srcCell.getBoundingClientRect();
+        var destRect = destCell.getBoundingClientRect();
+        var floater = document.createElement('div');
+        floater.id = 'peca-flutuante';
+        floater.innerHTML = '<span class="floater-content">' + pieceHTML + '</span>';
+        var srcClasses = srcCell.className;
+        if (srcClasses) floater.className = srcClasses;
+        floater.style.left = srcRect.left + 'px';
+        floater.style.top = srcRect.top + 'px';
+        floater.style.width = srcRect.width + 'px';
+        floater.style.height = srcRect.height + 'px';
+        document.body.appendChild(floater);
+        srcCell.style.visibility = 'hidden';
+        requestAnimationFrame(function () {
+            floater.style.left = destRect.left + 'px';
+            floater.style.top = destRect.top + 'px';
+            floater.style.width = destRect.width + 'px';
+            floater.style.height = destRect.height + 'px';
+        });
+        var tid = setTimeout(function () {
+            if (floater.parentNode) floater.parentNode.removeChild(floater);
+            if (callback) callback();
+        }, 400);
     }
 
     function showThinking() {
@@ -243,35 +199,19 @@ document.addEventListener('DOMContentLoaded', function () {
     function robotTurn() {
         if (gameEnded) { isProcessing = false; return; }
         if (engine.turno !== robotColor) { isProcessing = false; return; }
-        var allMoves = getAllMoves(robotColor);
-        if (allMoves.length === 0) {
-            isProcessing = false;
-            checkGameEnd();
-            return;
-        }
-        var chosen = null;
-        var captures = allMoves.filter(function (m) {
-            var t = engine.tabuleiro[m.destino.l][m.destino.c];
-            return t && t.cor !== robotColor;
-        });
-        if (captures.length > 0) {
-            captures.sort(function (a, b) {
-                var va = VALUES[engine.tabuleiro[a.destino.l][a.destino.c] ? engine.tabuleiro[a.destino.l][a.destino.c].tipo : ''] || 0;
-                var vb = VALUES[engine.tabuleiro[b.destino.l][b.destino.c] ? engine.tabuleiro[b.destino.l][b.destino.c].tipo : ''] || 0;
-                return vb - va;
-            });
-            chosen = captures[0];
-        } else {
-            chosen = allMoves[Math.floor(Math.random() * allMoves.length)];
-        }
+        var chosen = engine.escolherJogadaIA(robotColor);
         if (!chosen) { isProcessing = false; checkGameEnd(); return; }
+        var pieceType = engine.tabuleiro[chosen.origem.l][chosen.origem.c].tipo;
         var fromSq = sqName(chosen.origem.l, chosen.origem.c);
         var toSq = sqName(chosen.destino.l, chosen.destino.c);
-        engine.fazerMovimento(chosen.origem.l, chosen.origem.c, chosen.destino.l, chosen.destino.c);
-        var pieceType = engine.tabuleiro[chosen.destino.l][chosen.destino.c].tipo;
-        var hFrom = engineToHtml(chosen.origem.l, chosen.origem.c);
-        var hTo = engineToHtml(chosen.destino.l, chosen.destino.c);
-        animateMove(hFrom.row, hFrom.col, hTo.row, hTo.col, function () {
+        var rSrcL = chosen.origem.l, rSrcC = chosen.origem.c;
+        var rDestL = chosen.destino.l, rDestC = chosen.destino.c;
+        var rSrcCell = document.getElementById('t' + rSrcL + rSrcC);
+        var rPieceHTML = rSrcCell ? rSrcCell.innerHTML : '';
+        engine.fazerMovimento(rSrcL, rSrcC, rDestL, rDestC,
+            chosen.captura ? chosen.captura.l : undefined,
+            chosen.captura ? chosen.captura.c : undefined);
+        animateMove(rSrcL, rSrcC, rDestL, rDestC, rPieceHTML, function () {
             renderBoard();
             updateStatus();
             addHistory('robo', pieceType, fromSq, toSq);
@@ -282,9 +222,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function checkGameEnd() {
         if (gameEnded) return true;
-        if (engine.ehXequeMate()) {
+        if (engine.ehVencedor(robotColor)) {
             var winner = engine.turno === 'W' ? 'B' : 'W';
             showGameOver(winner);
+            return true;
+        }
+        if (engine.ehVencedor(playerColor)) {
+            var altWinner = playerColor === 'W' ? 'B' : 'W';
+            showGameOver(altWinner);
             return true;
         }
         if (engine.ehEmpate()) {
@@ -336,11 +281,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             html = '<span class="status-robo">\uD83E\uDD16 VEZ DO ROBO</span>';
         }
-        if (engine.emXeque(playerColor)) {
-            html += ' <span class="check-warn">\u26A0\uFE0F SEU REI ESTA EM XEQUE!</span>';
-        } else if (engine.emXeque(robotColor)) {
-            html += ' <span class="check-warn">\u26A0\uFE0F REI DO ROBO EM XEQUE!</span>';
-        }
         st.innerHTML = html;
     }
 
@@ -354,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function escolheCor(cor) {
         playerColor = cor;
         robotColor = cor === 'W' ? 'B' : 'W';
-        engine = new ChessEngine();
+        engine = new DamasEngine();
         gameEnded = false;
         isProcessing = false;
         selectedSquare = null;
@@ -370,20 +310,19 @@ document.addEventListener('DOMContentLoaded', function () {
         renderHistory();
         if (engine.turno !== playerColor) {
             isProcessing = true;
-            var d = 800 + Math.random() * 400;
+            var d = 600 + Math.random() * 300;
             showThinking();
             setTimeout(robotTurn, d);
         }
     }
 
-    // Event listeners
     document.getElementById('btn-start-game').addEventListener('click', iniciaJogo);
     document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
     document.getElementById('btn-reload').addEventListener('click', function () { location.reload(); });
 
-    for (var r = 1; r <= 8; r++) {
-        for (var c = 1; c <= 8; c++) {
+    for (var r = 0; r < 8; r++) {
+        for (var c = 0; c < 8; c++) {
             (function (row, col) {
                 var cell = document.getElementById('t' + row + col);
                 if (cell) {

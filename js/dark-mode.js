@@ -155,9 +155,51 @@ class DarkModeManager {
         }
     }
 
+    // --- Panel toggle ---
+
+    togglePanel() {
+        var container = document.getElementById('mente-ativa-controls');
+        var backdrop = document.querySelector('.ma-backdrop');
+        if (!container) return;
+        var isOpen = container.classList.toggle('open');
+        if (backdrop) backdrop.classList.toggle('visible', isOpen);
+        var toggle = document.getElementById('ma-toggle');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', String(isOpen));
+            toggle.setAttribute('aria-label', isOpen ? 'Fechar painel de acessibilidade' : 'Abrir painel de acessibilidade');
+        }
+    }
+
+    closePanel() {
+        var container = document.getElementById('mente-ativa-controls');
+        var backdrop = document.querySelector('.ma-backdrop');
+        if (container) container.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('visible');
+        var toggle = document.getElementById('ma-toggle');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-label', 'Abrir painel de acessibilidade');
+        }
+    }
+
     // --- Button creation ---
 
     criarBotoes() {
+        // Toggle button
+        var toggle = document.createElement('button');
+        toggle.id = 'ma-toggle';
+        toggle.className = 'ma-toggle-btn';
+        toggle.setAttribute('aria-label', 'Abrir painel de acessibilidade');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.innerHTML = '\u2699';
+        toggle.addEventListener('click', this.togglePanel.bind(this));
+
+        // Backdrop for outside-click detection
+        var backdrop = document.createElement('div');
+        backdrop.className = 'ma-backdrop';
+        backdrop.addEventListener('click', this.closePanel.bind(this));
+
+        // Panel container
         var container = document.createElement('div');
         container.id = 'mente-ativa-controls';
         container.className = 'mente-ativa-controls';
@@ -211,6 +253,9 @@ class DarkModeManager {
         container.appendChild(fontGroup);
         container.appendChild(btnDarkMode);
         container.appendChild(btnAssistente);
+
+        document.body.appendChild(toggle);
+        document.body.appendChild(backdrop);
         document.body.appendChild(container);
     }
 }

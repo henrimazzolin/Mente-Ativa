@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('puzzleContainer');
             container.innerHTML = '';
             container.style.gridTemplateColumns = 'repeat(' + gridSize + ', 1fr)';
+            container.style.gridTemplateRows = 'repeat(' + gridSize + ', 1fr)';
 
             pieces.forEach(function(pieceIndex, positionIndex) {
                 const piece = document.createElement('div');
@@ -158,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Event listeners
         document.getElementById('btn-restart').addEventListener('click', initGame);
-        document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'grupo-moderado.html'; });
+        document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'jogos-individuais.html'; });
         document.getElementById('btn-play-again').addEventListener('click', initGame);
         document.getElementById('overlay').addEventListener('click', closeMessage);
 

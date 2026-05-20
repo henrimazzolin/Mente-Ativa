@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Event listeners
-        document.getElementById('btn-back').addEventListener('click', function() { location.href = 'grupo-simples.html'; });
+        document.getElementById('btn-back').addEventListener('click', function() { location.href = 'jogos-acompanhados.html'; });
         document.getElementById('nextBtn').addEventListener('click', proximaQuestao);
         document.getElementById('feedbackBtn').addEventListener('click', fecharFeedback);
 

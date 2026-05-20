@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -76,6 +76,7 @@ body {
 }
 
 .logo-icon {
+        max-width: 280px;
     width: 12.5em;
     height: 3.4375em;
     background: var(--cor-fundo-card);
@@ -261,7 +262,8 @@ body {
     .next-btn { font-size: 22px; padding: 18px 35px; }
     .feedback-icon { font-size: 50px; }
     .feedback-text { font-size: 20px; }
-    .logo-icon { width: 8.75em; height: 2.5em; }
+    .logo-icon {
+        max-width: 280px; width: 8.75em; height: 2.5em; }
     body { overflow-x: hidden; }
 }
 
@@ -276,13 +278,12 @@ html.modo-escuro .option-btn { background: var(--cor-fundo-card); border-color: 
 
 @media (max-width: 480px) {
     .header {
-        flex-wrap: wrap;
-        justify-content: center;
         gap: 8px;
         padding: 10px;
     }
     
     .logo-icon {
+        max-width: 280px;
         width: 7.5em;
         height: 2.25em;
     }

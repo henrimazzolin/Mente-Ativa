@@ -53,13 +53,12 @@ body {
 }
 
 .logo-icon {
+    max-width: 280px;
     width: 7.5em;
     height: 7.5em;
     border-radius: 18px;
     align-items: center;
     justify-content: center;
-    
-
 }
 @keyframes float {
   0% {

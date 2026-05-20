@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --board-light: #F0D9B5;
     --board-dark: #B58863;
     --board-border: #333;
@@ -241,13 +241,6 @@ body {
     100% { opacity: 0; }
 }
 
-.check-warn {
-    color: #FF6B6B;
-    font-weight: 800;
-    font-size: 14px;
-    margin-left: 10px;
-}
-
 /* ===== BOARD + NOTATION ===== */
 .board-area {
     display: grid;
@@ -306,7 +299,7 @@ body {
     grid-row: 2;
 }
 
-/* ===== CHESS BOARD ===== */
+/* ===== CHECKERS BOARD ===== */
 #tabuleiro {
     width: 100%;
     aspect-ratio: 1;
@@ -349,6 +342,7 @@ body {
     position: relative;
 }
 
+/* Pieces */
 #tabuleiro div.branco {
     color: #ffffff;
     text-shadow:
@@ -370,26 +364,11 @@ body {
     filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
 }
 
-html.modo-escuro #tabuleiro div.branco {
-    color: #ffffff;
-    text-shadow:
-        -0.7px -0.7px 0 #555,
-         0.7px -0.7px 0 #555,
-        -0.7px  0.7px 0 #555,
-         0.7px  0.7px 0 #555,
-         0 0 4px rgba(0,0,0,0.3);
+#tabuleiro div.king {
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
 }
 
-html.modo-escuro #tabuleiro div.preto {
-    color: #111;
-    text-shadow:
-        -0.5px -0.5px 0 rgba(255,255,255,0.4),
-         0.5px -0.5px 0 rgba(255,255,255,0.4),
-        -0.5px  0.5px 0 rgba(255,255,255,0.4),
-         0.5px  0.5px 0 rgba(255,255,255,0.4);
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
-}
-
+/* Square colors */
 #tabuleiro .light {
     background-color: var(--board-light);
 }
@@ -435,10 +414,29 @@ html.modo-escuro #tabuleiro div.preto {
     background-color: rgba(255, 255, 100, 0.4) !important;
 }
 
-#tabuleiro .in-check {
-    background: radial-gradient(ellipse at center, rgba(255,0,0,0.6) 0%, rgba(255,0,0,0.15) 60%, transparent 80%) !important;
+/* ===== ANIMATION FLOATER ===== */
+#peca-flutuante {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    opacity: 0.95;
 }
 
+#peca-flutuante .floater-content {
+    font-size: min(6.5vw, 48px);
+    line-height: 1;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== BACKGROUND OVERLAY ===== */
 #fundo {
     background: #000;
     position: fixed;
@@ -664,7 +662,6 @@ html.modo-escuro #tabuleiro div.preto {
     letter-spacing: 2px;
 }
 
-/* Back button in color choice */
 .back-btn-escolha {
     position: absolute;
     top: 15px;
@@ -848,10 +845,6 @@ html.modo-escuro #game-status {
 html.modo-escuro .game-over-content {
     background: var(--cor-fundo-card);
     border: 1px solid var(--dm-border);
-}
-
-html.modo-escuro .check-warn {
-    color: #FF8A8A;
 }
 
 html.modo-escuro .history-section {
@@ -1046,10 +1039,6 @@ html.modo-escuro .black-piece {
         height: 18px;
     }
 
-    .check-warn {
-        font-size: 12px;
-    }
-
     .history-section {
         max-height: 200px;
     }
@@ -1174,5 +1163,11 @@ html.modo-escuro .black-piece {
     .notation-file span,
     .notation-rank span {
         font-size: 9px;
+    }
+
+    .color-choice-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
 }

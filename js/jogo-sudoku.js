@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btn-check').addEventListener('click', checkSolution);
     document.getElementById('btn-reset').addEventListener('click', resetGame);
     document.getElementById('btn-solution').addEventListener('click', showSolution);
-    document.getElementById('btn-back').addEventListener('click', function () { window.location.href = 'grupo-moderado.html'; });
+    document.getElementById('btn-back').addEventListener('click', function () { window.location.href = 'jogos-individuais.html'; });
 
     document.getElementById('overlay').addEventListener('click', closeMessage);
     document.getElementById('btn-play-again').addEventListener('click', resetGame);

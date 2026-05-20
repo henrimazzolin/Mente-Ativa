@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Event listeners
-        document.getElementById('btn-back').addEventListener('click', function() { location.href = 'grupo-simples.html'; });
+        document.getElementById('btn-back').addEventListener('click', function() { location.href = 'jogos-acompanhados.html'; });
         document.getElementById('btn-restart').addEventListener('click', iniciarJogo);
         document.getElementById('feedbackBtn').addEventListener('click', fecharFeedback);
 

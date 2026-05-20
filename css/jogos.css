@@ -1,4 +1,4 @@
-/* :root {
+﻿/* :root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -133,6 +133,7 @@ body {
 }
 
 .logo-icon {
+        max-width: 280px;
     width: 2.75em;
     height: 2.75em;
     background: var(--cor-fundo-card);
@@ -334,8 +335,6 @@ footer {
 
 @media (max-width: 600px) {
     .header {
-        flex-wrap: wrap;
-        justify-content: center;
     }
     
     .logo {
@@ -355,13 +354,12 @@ footer {
     }
     
     .header {
-        flex-wrap: wrap;
-        justify-content: center;
         gap: 8px;
         padding: 10px;
     }
     
     .logo-icon {
+        max-width: 280px;
         width: 7.5em;
         height: 2.25em;
     }

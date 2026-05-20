@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -125,6 +125,7 @@ body {
 }
 
 .logo-icon {
+        max-width: 280px;
     width: 12.5em;
     height: 3.4375em;
     background: var(--cor-fundo-card);
@@ -202,7 +203,7 @@ body {
 }
 
 .game-card {
-    background: var(--cor-fundo-card);
+    background: rgba(59, 130, 246, 0.30);
     border-radius: var(--borda-radius);
     padding: 24px 16px;
     box-shadow: var(--sombra);
@@ -223,7 +224,7 @@ body {
     transform: translateY(-6px);
     box-shadow: var(--sombra-hover);
     border-color: var(--cor-primaria);
-    background: linear-gradient(to bottom, rgba(59, 130, 246, 0.03), var(--cor-fundo-card));
+    background: rgba(59, 130, 246, 0.40);
 }
 
 .game-card:focus {
@@ -251,34 +252,8 @@ body {
 .game-icon svg {
     width: 28px;
     height: 28px;
+    fill: var(--cor-primaria);
 }
-
-.game-card:nth-child(1) .game-icon svg { fill: #14919B; }
-.game-card:nth-child(1):hover { border-color: #14919B; }
-
-.game-card:nth-child(2) .game-icon svg { fill: #45DFB1; }
-.game-card:nth-child(2):hover { border-color: #45DFB1; }
-
-.game-card:nth-child(3) .game-icon svg { fill: #0AD1C8; }
-.game-card:nth-child(3):hover { border-color: #0AD1C8; }
-
-.game-card:nth-child(4) .game-icon svg { fill: #EF4444; }
-.game-card:nth-child(4):hover { border-color: #EF4444; }
-
-.game-card:nth-child(5) .game-icon svg { fill: #0B6477; }
-.game-card:nth-child(5):hover { border-color: #0B6477; }
-
-.game-card:nth-child(6) .game-icon svg { fill: #0B6477; }
-.game-card:nth-child(6):hover { border-color: #0B6477; }
-
-.game-card:nth-child(7) .game-icon svg { fill: #06B6D4; }
-.game-card:nth-child(7):hover { border-color: #06B6D4; }
-
-.game-card:nth-child(8) .game-icon svg { fill: #EAB308; }
-.game-card:nth-child(8):hover { border-color: #EAB308; }
-
-.game-card:nth-child(9) .game-icon svg { fill: #22C55E; }
-.game-card:nth-child(9):hover { border-color: #22C55E; }
 
 .game-title {
     font-size: 17px;
@@ -317,6 +292,16 @@ body {
     background: #fff;
 }
 
+html.modo-escuro .game-card {
+    background: rgba(59, 130, 246, 0.38);
+    border-color: transparent;
+}
+
+html.modo-escuro .game-card:hover {
+    border-color: var(--cor-primaria);
+    background: rgba(59, 130, 246, 0.50);
+}
+
 html.modo-escuro .jogar-btn {
     background: #2a2a3a;
     color: #e0e0e0;
@@ -334,7 +319,7 @@ footer {
     font-size: 14px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .games-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -344,11 +329,6 @@ footer {
 }
 
 @media (max-width: 600px) {
-    .header {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
     .logo {
         width: 100%;
         justify-content: center;
@@ -359,7 +339,13 @@ footer {
         grid-template-columns: 1fr;
     }
     
+    .game-card {
+        aspect-ratio: auto;
+        padding: 20px 16px;
+    }
+    
     .logo-icon {
+        max-width: 280px;
         width: 8.75em;
         height: 2.5em;
     }
@@ -370,11 +356,6 @@ footer {
     
     .instrucao-destaque p {
         font-size: 18px;
-    }
-    
-    .game-card {
-        padding: 20px 16px;
-        aspect-ratio: auto;
     }
     
     body {
@@ -397,7 +378,12 @@ footer {
         gap: 8px;
     }
     
+    .game-card {
+        padding: 16px 12px;
+    }
+    
     .logo-icon {
+        max-width: 280px;
         width: 7.5em;
         height: 2.25em;
     }

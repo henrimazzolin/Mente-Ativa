@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('comoJogarModal').style.display = 'block';
             document.getElementById('overlay').classList.add('show');
         });
-        document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'grupo-moderado.html'; });
+        document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'jogos-individuais.html'; });
         document.getElementById('feedbackBtn').addEventListener('click', hideFeedback);
         document.getElementById('overlay').addEventListener('click', hideFeedback);
         document.getElementById('btn-fechar-modal').addEventListener('click', function() {

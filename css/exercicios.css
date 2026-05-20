@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     /* Light theme (default) */
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
@@ -130,6 +130,7 @@ body {
 }
 
 .logo-icon {
+        max-width: 280px;
     width: 12.5em;
     height: 3.4375em;
     background: var(--cor-fundo-card);
@@ -335,8 +336,6 @@ footer {
 
 @media (max-width: 600px) {
     .header {
-        flex-wrap: wrap;
-        justify-content: center;
     }
     
     .logo {
@@ -350,6 +349,7 @@ footer {
     }
     
     .logo-icon {
+        max-width: 280px;
         width: 8.75em;
         height: 2.5em;
     }
@@ -387,6 +387,7 @@ footer {
     }
     
     .logo-icon {
+        max-width: 280px;
         width: 7.5em;
         height: 2.25em;
     }
