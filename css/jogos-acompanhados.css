@@ -118,7 +118,7 @@ body {
 
 .logo {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
@@ -321,6 +321,11 @@ html.modo-escuro .super-simples-card .jogar-btn:hover {
     box-shadow: 0 2px 12px rgba(16, 185, 129, 0.35);
 }
 
+html.modo-escuro .super-simples-card:hover .jogar-btn {
+    background: #3a3a4a;
+    color: #fff;
+}
+
 html.modo-escuro .super-simples-card {
     background: rgba(16, 185, 129, 0.45);
     border-color: rgba(255, 255, 255, 0.28);
@@ -339,9 +344,14 @@ html.modo-escuro .super-simples-title {
 
 @media (max-width: 1024px) {
     .super-simples-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
     }
     .super-simples-card {
+        flex: 0 0 calc(50% - 8px);
+        max-width: calc(50% - 8px);
         aspect-ratio: auto;
     }
 }
@@ -349,15 +359,20 @@ html.modo-escuro .super-simples-title {
 @media (max-width: 600px) {
     .logo {
         width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         margin-top: 12px;
     }
     
     .super-simples-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
     }
     
     .super-simples-card {
+        flex: 0 0 100%;
+        max-width: 100%;
         aspect-ratio: auto;
         padding: 20px 16px;
     }

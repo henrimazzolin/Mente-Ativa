@@ -61,7 +61,7 @@
         .back-btn:hover { transform: translateX(-4px); }
         .back-btn svg { width: 24px; height: 24px; fill: var(--cor-texto); }
 
-        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo { display: flex; align-items: flex-start; gap: 10px; }
 
         .logo-icon {
         max-width: 280px;

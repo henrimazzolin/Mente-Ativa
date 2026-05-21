@@ -311,3 +311,310 @@ html.modo-escuro .assistente-sidebar .action-btn:hover {
 html.modo-escuro .assistente-sidebar .help-box li {
     background: rgba(59, 130, 246, 0.15);
 }
+
+/* ============================================
+   FAQ Sidebar Styles
+   ============================================ */
+
+.faq-header {
+    padding: 12px 20px 8px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.faq-header p {
+    font-size: 18px;
+    color: var(--cor-texto-claro);
+    margin: 0;
+}
+
+.faq-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    background: var(--cor-fundo);
+}
+
+.faq-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.faq-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--cor-fundo-card);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid transparent;
+}
+
+.faq-item:hover {
+    transform: translateX(4px);
+    border-color: var(--cor-primaria);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.faq-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.faq-text {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--cor-texto);
+    line-height: 1.4;
+}
+
+.faq-arrow {
+    font-size: 24px;
+    color: var(--cor-texto-claro);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+.faq-item:hover .faq-arrow {
+    transform: translateX(3px);
+    color: var(--cor-primaria);
+}
+
+html.modo-escuro .faq-header {
+    border-color: #334155;
+}
+
+html.modo-escuro .faq-header p {
+    color: #94A3B8;
+}
+
+html.modo-escuro .faq-list {
+    background: #0F172A;
+}
+
+html.modo-escuro .faq-item {
+    background: rgba(30, 41, 59, 0.94);
+    border-color: rgba(255,255,255,0.08);
+}
+
+html.modo-escuro .faq-item:hover {
+    border-color: var(--cor-primaria);
+}
+
+html.modo-escuro .faq-text {
+    color: #F1F5F9;
+}
+
+html.modo-escuro .faq-arrow {
+    color: #94A3B8;
+}
+
+/* ============================================
+   FAQ Modal Styles
+   ============================================ */
+
+.faq-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.faq-modal-overlay.open {
+    display: flex;
+}
+
+.faq-modal {
+    background: var(--cor-fundo-card);
+    border-radius: 20px;
+    padding: 40px 32px 28px;
+    max-width: 560px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.faq-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: #EF4444;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.faq-modal-close:hover {
+    background: #DC2626;
+}
+
+.faq-modal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.faq-modal-icon svg {
+    width: 28px;
+    height: 28px;
+    color: #fff;
+}
+
+.faq-modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.faq-modal-body {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--cor-texto);
+    text-align: left;
+    padding: 0 4px;
+}
+
+.faq-modal-body strong {
+    color: var(--cor-primaria);
+}
+
+.faq-modal-btn {
+    display: block;
+    margin: 24px auto 0;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(11, 100, 119, 0.3);
+}
+
+.faq-modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(11, 100, 119, 0.4);
+}
+
+.faq-modal-btn:active {
+    transform: scale(0.97);
+}
+
+html.modo-escuro .faq-modal {
+    background: rgba(30, 41, 59, 0.98);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+html.modo-escuro .faq-modal-title {
+    color: #F1F5F9;
+}
+
+html.modo-escuro .faq-modal-body {
+    color: #E2E8F0;
+}
+
+html.modo-escuro .faq-modal-body strong {
+    color: #93C5FD;
+}
+
+@media (max-width: 600px) {
+    .faq-modal {
+        padding: 28px 20px 24px;
+        max-width: 95%;
+    }
+
+    .faq-modal-title {
+        font-size: 19px;
+    }
+
+    .faq-modal-body {
+        font-size: 18px;
+    }
+
+    .faq-item {
+        padding: 12px 14px;
+    }
+
+    .faq-text {
+        font-size: 18px;
+    }
+
+    .faq-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-modal {
+        padding: 24px 16px 20px;
+    }
+
+    .faq-modal-title {
+        font-size: 17px;
+    }
+
+    .faq-modal-body {
+        font-size: 18px;
+    }
+}

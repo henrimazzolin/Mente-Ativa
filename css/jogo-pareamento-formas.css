@@ -70,9 +70,9 @@ body {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
 }
 
 .logo-icon {

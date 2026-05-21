@@ -117,7 +117,7 @@ body {
 
 .logo {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
@@ -625,7 +625,7 @@ footer {
     
     .logo {
         width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         margin-top: 12px;
     }
     

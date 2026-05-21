@@ -120,7 +120,7 @@ body {
 
 .logo {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
@@ -312,6 +312,11 @@ html.modo-escuro .jogar-btn:hover {
     box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
 }
 
+html.modo-escuro .game-card:hover .jogar-btn {
+    background: #3a3a4a;
+    color: #fff;
+}
+
 footer {
     text-align: center;
     padding: 30px 20px;
@@ -321,9 +326,14 @@ footer {
 
 @media (max-width: 1024px) {
     .games-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
     }
     .game-card {
+        flex: 0 0 calc(50% - 8px);
+        max-width: calc(50% - 8px);
         aspect-ratio: auto;
     }
 }
@@ -331,15 +341,20 @@ footer {
 @media (max-width: 600px) {
     .logo {
         width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         margin-top: 12px;
     }
     
     .games-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
     }
     
     .game-card {
+        flex: 0 0 100%;
+        max-width: 100%;
         aspect-ratio: auto;
         padding: 20px 16px;
     }
