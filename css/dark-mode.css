@@ -78,7 +78,7 @@
 .ma-btn {
     padding: 14px 20px;
     font-family: 'Poppins', sans-serif;
-    font-size: 18px;
+    font-size: 18px !important;
     font-weight: 600;
     border: 2px solid transparent;
     border-radius: 12px;
@@ -118,22 +118,25 @@
     border: none;
     background: transparent;
     font-family: 'Poppins', sans-serif;
-    font-size: 24px;
+    font-size: 24px !important;
     font-weight: 700;
     cursor: pointer;
     color: inherit;
     transition: background 0.2s ease, color 0.2s ease;
 }
 
-.ma-btn-font-hidden {
-    visibility: hidden !important;
+.ma-btn-font-disabled,
+.ma-btn-font-minus:disabled,
+.ma-btn-font-plus:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
 .ma-btn-font-label {
     flex: 1;
     text-align: center;
     padding: 14px 4px;
-    font-size: 18px;
+    font-size: 18px !important;
     font-weight: 600;
     line-height: 1.2;
     white-space: nowrap;
@@ -141,7 +144,7 @@
 
 .ma-btn-font-pct {
     display: block;
-    font-size: 13px;
+    font-size: 13px !important;
     font-weight: 400;
     opacity: 0.75;
     margin-top: 2px;
@@ -193,23 +196,23 @@ body.assistente-aberto .ma-toggle-btn {
 
     .ma-btn {
         padding: 10px 14px;
-        font-size: 15px;
+        font-size: 15px !important;
     }
 
     .ma-btn-font-minus,
     .ma-btn-font-plus {
         width: 38px;
-        font-size: 20px;
+        font-size: 20px !important;
         padding: 10px 0;
     }
 
     .ma-btn-font-label {
-        font-size: 15px;
+        font-size: 15px !important;
         padding: 10px 4px;
     }
 
     .ma-btn-font-pct {
-        font-size: 12px;
+        font-size: 12px !important;
     }
 }
 
@@ -231,24 +234,24 @@ body.assistente-aberto .ma-toggle-btn {
 
     .ma-btn {
         padding: 8px 10px;
-        font-size: 13px;
+        font-size: 13px !important;
         border-radius: 8px;
     }
 
     .ma-btn-font-minus,
     .ma-btn-font-plus {
         width: 34px;
-        font-size: 18px;
+        font-size: 18px !important;
         padding: 8px 0;
     }
 
     .ma-btn-font-label {
-        font-size: 13px;
+        font-size: 13px !important;
         padding: 8px 2px;
     }
 
     .ma-btn-font-pct {
-        font-size: 11px;
+        font-size: 11px !important;
     }
 }
 
@@ -270,24 +273,24 @@ body.assistente-aberto .ma-toggle-btn {
 
     .ma-btn {
         padding: 6px 8px;
-        font-size: 12px;
+        font-size: 12px !important;
         border-radius: 6px;
     }
 
     .ma-btn-font-minus,
     .ma-btn-font-plus {
         width: 30px;
-        font-size: 16px;
+        font-size: 16px !important;
         padding: 6px 0;
     }
 
     .ma-btn-font-label {
-        font-size: 11px;
+        font-size: 11px !important;
         padding: 6px 2px;
     }
 
     .ma-btn-font-pct {
-        font-size: 10px;
+        font-size: 10px !important;
     }
 }
 
@@ -309,26 +312,26 @@ body.assistente-aberto .ma-toggle-btn {
 
     .ma-btn {
         padding: 5px 6px;
-        font-size: 11px;
+        font-size: 11px !important;
         border-radius: 5px;
     }
 
     .ma-btn-font-minus,
     .ma-btn-font-plus {
         width: 26px;
-        font-size: 14px;
+        font-size: 14px !important;
         padding: 5px 0;
     }
 
     .ma-btn-font-label {
-        font-size: 10px;
+        font-size: 10px !important;
         padding: 5px 1px;
         white-space: normal;
         line-height: 1.1;
     }
 
     .ma-btn-font-pct {
-        font-size: 9px;
+        font-size: 9px !important;
     }
 }
 

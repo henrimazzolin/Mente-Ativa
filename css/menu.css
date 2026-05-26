@@ -33,6 +33,9 @@ body {
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     max-width: 800px;
     margin: 0 auto;
     padding: 32px 20px;
@@ -123,7 +126,9 @@ body {
 
 .menu-grid {
     display: grid;
+    flex: 1;
     grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
     gap: 16px;
 }
 
@@ -222,7 +227,11 @@ footer {
     }
 
     .header {
-        margin-bottom: 32px;
+        margin-bottom: 24px;
+    }
+
+    .welcome {
+        margin-bottom: 24px;
     }
 
     .menu-grid {

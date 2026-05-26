@@ -286,20 +286,27 @@ body {
 
 .day.has-event {
     position: relative;
+    background: rgba(59, 130, 246, 0.08);
 }
 
 .day.has-event::after {
     content: '';
     position: absolute;
-    bottom: 6px;
-    width: 6px;
-    height: 6px;
-    background: #EF4444;
+    bottom: 4px;
+    width: 8px;
+    height: 8px;
+    background: #3B82F6;
     border-radius: 50%;
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
 }
 
 .day.today.has-event::after {
     background: white;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+.day.today.has-event {
+    background: var(--cor-primaria);
 }
 
 .day.selected {
@@ -307,31 +314,6 @@ body {
     color: white;
     font-weight: 700;
 }
-
-.event-types {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.event-type {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 18px;
-    color: var(--cor-texto-claro);
-}
-
-.event-type .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.event-type .dot.medic { background: #EF4444; }
-.event-type .dot.medical { background: #14919B; }
-.event-type .dot.activity { background: #45DFB1; }
 
 .events-list {
     background: var(--cor-fundo-card);
@@ -368,21 +350,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(16, 185, 129, 0.15);
 }
 
 .event-icon svg {
     width: 24px;
     height: 24px;
+    fill: #10B981;
 }
-
-.event-icon.medic { background: rgba(239, 68, 68, 0.15); }
-.event-icon.medic svg { fill: #EF4444; }
-
-.event-icon.medical { background: rgba(20, 145, 155, 0.15); }
-.event-icon.medical svg { fill: #14919B; }
-
-.event-icon.activity { background: rgba(69, 223, 177, 0.15); }
-.event-icon.activity svg { fill: #45DFB1; }
 
 .event-details {
     flex: 1;
@@ -430,6 +405,36 @@ body {
     width: 20px;
     height: 20px;
     fill: white;
+}
+
+.event-item.comemorativo {
+    background: rgba(245, 158, 11, 0.1);
+    border: 2px solid #F59E0B;
+    pointer-events: none;
+}
+
+.event-item.comemorativo .event-icon {
+    background: rgba(245, 158, 11, 0.2);
+}
+
+.event-item.comemorativo .event-icon svg {
+    fill: #F59E0B;
+}
+
+.event-item.comemorativo .event-title {
+    color: #92400E;
+}
+
+.comemorativo-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #F59E0B;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    white-space: nowrap;
 }
 
 .no-events {

@@ -47,7 +47,7 @@ class DarkModeManager {
         this.aplicarFontePct();
 
         this.criarBotoes();
-        this.atualizarVisibilidadeBotoes();
+        this.atualizarEstadoBotoes();
     }
 
     toggleModoEscuro() {
@@ -107,7 +107,7 @@ class DarkModeManager {
         if (document.getElementById('ma-font-style')) return;
         var styleEl = document.createElement('style');
         styleEl.id = 'ma-font-style';
-        styleEl.textContent = 'body * { font-size: inherit !important; } .ma-btn, .ma-btn * { font-size: 18px !important; } .ma-btn-font-label { font-size: 18px !important; } .ma-btn-font-pct { font-size: 13px !important; } .ma-btn-font-minus, .ma-btn-font-plus { font-size: 24px !important; }';
+        styleEl.textContent = 'body * { font-size: inherit !important; }';
         document.head.appendChild(styleEl);
     }
 
@@ -118,7 +118,7 @@ class DarkModeManager {
         this.fontPct = FONT_STEPS[Math.min(idx + 1, FONT_STEPS.length - 1)];
         this.aplicarFontePct();
         this.atualizarLabelFonte();
-        this.atualizarVisibilidadeBotoes();
+        this.atualizarEstadoBotoes();
     }
 
     diminuirFonte() {
@@ -128,7 +128,7 @@ class DarkModeManager {
         this.fontPct = FONT_STEPS[Math.max(idx - 1, 0)];
         this.aplicarFontePct();
         this.atualizarLabelFonte();
-        this.atualizarVisibilidadeBotoes();
+        this.atualizarEstadoBotoes();
     }
 
     atualizarLabelFonte() {
@@ -136,21 +136,25 @@ class DarkModeManager {
         if (el) el.textContent = this.fontPct + '%';
     }
 
-    atualizarVisibilidadeBotoes() {
+    atualizarEstadoBotoes() {
         var btnMinus = document.querySelector('.ma-btn-font-minus');
         var btnPlus = document.querySelector('.ma-btn-font-plus');
         if (btnMinus) {
             if (this.fontPct <= 80) {
-                btnMinus.classList.add('ma-btn-font-hidden');
+                btnMinus.classList.add('ma-btn-font-disabled');
+                btnMinus.disabled = true;
             } else {
-                btnMinus.classList.remove('ma-btn-font-hidden');
+                btnMinus.classList.remove('ma-btn-font-disabled');
+                btnMinus.disabled = false;
             }
         }
         if (btnPlus) {
             if (this.fontPct >= 140) {
-                btnPlus.classList.add('ma-btn-font-hidden');
+                btnPlus.classList.add('ma-btn-font-disabled');
+                btnPlus.disabled = true;
             } else {
-                btnPlus.classList.remove('ma-btn-font-hidden');
+                btnPlus.classList.remove('ma-btn-font-disabled');
+                btnPlus.disabled = false;
             }
         }
     }
