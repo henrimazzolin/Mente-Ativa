@@ -19,15 +19,18 @@
     const LogoConfig = {
         tipos: {
             simples: {
-                src: 'img/LogoVerde.png',
+                claro: 'img/LogoVerdeClaroNovo.png',
+                escuro: 'img/LogoVerdeEscuroNovo.png',
                 alt: 'Logo Mente Ativa - Nível Simples'
             },
             moderado: {
-                src: 'img/LogoAzul.png',
+                claro: 'img/LogoAzulClaroNovo.png',
+                escuro: 'img/LogoAzulEscuroNovo.png',
                 alt: 'Logo Mente Ativa - Nível Moderado'
             },
             principal: {
-                src: 'img/Logo.png',
+                claro: 'img/Logo.png',
+                escuro: 'img/Logo.png',
                 alt: 'Logo Mente Ativa'
             }
         },
@@ -36,6 +39,14 @@
             moderado: ['moderado', 'menu', 'seguranca']
         }
     };
+
+    function isModoEscuro() {
+        return document.documentElement.classList.contains('modo-escuro');
+    }
+
+    function getSrc(config) {
+        return isModoEscuro() ? config.escuro : config.claro;
+    }
 
     function detectarTipo() {
         const path = window.location.pathname.toLowerCase();
@@ -51,7 +62,7 @@
     }
 
     function aplicarLogo() {
-        const logos = document.querySelectorAll('[data-logo-tipo], .logo .logo-icon img');
+        const logos = document.querySelectorAll('[data-logo-tipo]');
 
         if (logos.length === 0) return;
 
@@ -68,8 +79,10 @@
             const img = logoContainer.querySelector('img') || logoContainer;
 
             if (img.tagName === 'IMG') {
-                img.src = config.src;
+                img.src = getSrc(config);
                 img.alt = config.alt;
+                img.style.width = '100%';
+                img.style.height = '100%';
             }
         });
     }
@@ -81,6 +94,14 @@
         aplicarLogo();
     }
 
+    // Observa mudanças de tema (modo-escuro) e reaplica
+    if (document.documentElement) {
+        var observer = new MutationObserver(function() {
+            aplicarLogo();
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+
     // Expõe globalmente
     window.LogoComponent = {
         setTipo: function(container, tipo) {
@@ -89,8 +110,10 @@
 
             const img = container.querySelector('img') || container;
             if (img.tagName === 'IMG') {
-                img.src = config.src;
+                img.src = getSrc(config);
                 img.alt = config.alt;
+                img.style.width = '100%';
+                img.style.height = '100%';
             }
         },
         getTipo: detectarTipo,

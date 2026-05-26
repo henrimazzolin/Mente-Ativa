@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let timerInterval = null;
     let seconds = 0;
     let currentDifficulty = 'facil';
+    let solutionShown = false;
 
     function gerarPuzzle(solution, dificuldade) {
         var config = {
@@ -210,6 +211,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     input.value = currentPuzzle[row][col];
                     input.readOnly = true;
                     cell.classList.add('fixed');
+                } else {
+                    cell.classList.add('empty');
                 }
 
                 input.addEventListener('focus', handleFocus);
@@ -268,8 +271,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         e.target.value = value.replace(/[^1-9]/g, '');
 
-        const row = parseInt(e.target.dataset.row);
-        const col = parseInt(e.target.dataset.col);
+        const cell = e.target.closest('.cell');
+        if (e.target.value) {
+            cell.classList.remove('empty');
+        } else {
+            cell.classList.add('empty');
+        }
 
         document.querySelectorAll('.cell').forEach(c => c.classList.remove('same-number'));
         if (e.target.value) {
@@ -324,6 +331,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function checkSolution() {
+        if (solutionShown) {
+            exibirAlerta('A solução já foi exibida. Reinicie o jogo para jogar novamente.', 'aviso');
+            return;
+        }
+
         let allCorrect = true;
         let allFilled = true;
 
@@ -358,6 +370,8 @@ document.addEventListener('DOMContentLoaded', function () {
             clearInterval(timerInterval);
             document.getElementById('overlay').classList.add('show');
             document.getElementById('message').classList.add('show');
+        } else {
+            exibirAlerta('Algumas células estão incorretas. Revise os números em vermelho.', 'erro');
         }
     }
 
@@ -369,14 +383,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
                         const input = cell.querySelector('input');
                         input.value = currentSolution[row][col];
+                        input.readOnly = true;
+                        cell.classList.remove('empty');
+                        if (!cell.classList.contains('fixed')) {
+                            cell.classList.add('solution');
+                        }
                     }
                 }
+                solutionShown = true;
+                document.getElementById('btn-check').disabled = true;
                 clearInterval(timerInterval);
             }
         });
     }
 
     function resetGame() {
+        solutionShown = false;
+        document.getElementById('btn-check').disabled = false;
         closeMessage();
         document.getElementById('grid').innerHTML = '';
         initGame();

@@ -249,6 +249,23 @@
             background: #DBEAFE;
         }
 
+        .cell.empty {
+            background: #FEF9C3;
+        }
+
+        .cell.empty input {
+            color: #92400E;
+        }
+
+        .cell.solution {
+            background: #D1FAE5;
+        }
+
+        .cell.solution input {
+            color: #047857;
+            font-weight: 700;
+        }
+
         .numpad {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
@@ -306,7 +323,8 @@
 
         .message.show {
             display: block;
-            animation: popIn 0.3s ease;
+            animation: popIn 0.3s ease forwards;
+            transform: translate(-50%, -50%) scale(1);
         }
 
         @keyframes popIn {

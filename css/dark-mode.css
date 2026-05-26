@@ -558,3 +558,60 @@ html.modo-escuro .next-btn:hover {
     background: #6EE7B7;
     transform: scale(1.05);
 }
+
+/* Sudoku cells - dark mode */
+html.modo-escuro .cell {
+    background: rgba(30, 41, 59, 0.94);
+}
+
+html.modo-escuro .cell.fixed {
+    background: rgba(51, 65, 85, 0.96);
+}
+
+html.modo-escuro .cell.highlight {
+    background: rgba(251, 191, 36, 0.2);
+}
+
+html.modo-escuro .cell.same-number {
+    background: rgba(59, 130, 246, 0.25);
+}
+
+html.modo-escuro .cell input:focus {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+html.modo-escuro .cell.fixed input {
+    color: #f8fafc;
+}
+
+html.modo-escuro .cell.correct {
+    background: rgba(4, 120, 87, 0.35);
+}
+
+html.modo-escuro .cell.correct input {
+    color: #6EE7B7;
+}
+
+html.modo-escuro .cell.wrong {
+    background: rgba(185, 28, 28, 0.4);
+}
+
+html.modo-escuro .cell.wrong input {
+    color: #FCA5A5;
+}
+
+html.modo-escuro .cell.empty {
+    background: rgba(251, 191, 36, 0.2);
+}
+
+html.modo-escuro .cell.empty input {
+    color: #FDE68A;
+}
+
+html.modo-escuro .cell.solution {
+    background: rgba(4, 120, 87, 0.3);
+}
+
+html.modo-escuro .cell.solution input {
+    color: #6EE7B7;
+}
