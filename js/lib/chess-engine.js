@@ -448,7 +448,27 @@ class ChessEngine {
 
     ehEmpate() {
         const movimentos = this.obterMovimentosValidosGlobal(this.turno);
-        return !this.emXeque() && movimentos.length === 0;
+        if (!this.emXeque() && movimentos.length === 0) return true;
+        if (this.temMaterialInsuficiente()) return true;
+        return false;
+    }
+
+    temMaterialInsuficiente() {
+        let pecas = { W: [], B: [] };
+        for (let l = 0; l < 8; l++) {
+            for (let c = 0; c < 8; c++) {
+                const p = this.tabuleiro[l][c];
+                if (p) pecas[p.cor].push(p.tipo);
+            }
+        }
+        const total = pecas.W.length + pecas.B.length;
+        if (total <= 2) return true;
+        if (total === 3) {
+            const soRei = (arr) => arr.length === 1;
+            const soReiEUm = (arr) => arr.length === 2 && (arr.includes(BISPO) || arr.includes(CAVALO));
+            if ((soRei(pecas.W) && soReiEUm(pecas.B)) || (soRei(pecas.B) && soReiEUm(pecas.W))) return true;
+        }
+        return false;
     }
 
     obterFEN() {

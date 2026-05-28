@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let isProcessing = false;
     let selectedSquare = null;
     let validMoves = [];
-    let moveHistory = [];
-    let moveCount = 0;
 
     const NAMES = { 'p': 'Peao', 'd': 'Dama' };
 
@@ -16,26 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return cor === 'W' ? '\u26AA' : '\u26AB';
     }
 
-    function renderNotation() {
-        const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-        const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
-
-        var topEl = document.getElementById('notation-top');
-        var bottomEl = document.getElementById('notation-bottom');
-        var leftEl = document.getElementById('notation-left');
-        var rightEl = document.getElementById('notation-right');
-
-        if (topEl) topEl.innerHTML = files.map(function (f) { return '<span>' + f + '</span>'; }).join('');
-        if (bottomEl) bottomEl.innerHTML = files.map(function (f) { return '<span>' + f + '</span>'; }).join('');
-        if (leftEl) leftEl.innerHTML = ranks.map(function (r) { return '<span>' + r + '</span>'; }).join('');
-        if (rightEl) rightEl.innerHTML = ranks.map(function (r) { return '<span>' + r + '</span>'; }).join('');
-    }
-
     function renderBoard() {
+        document.querySelectorAll('.must-capture').forEach(function(el) { el.classList.remove('must-capture'); });
         for (let l = 0; l < 8; l++) {
             for (let c = 0; c < 8; c++) {
                 const cell = document.getElementById('t' + l + c);
                 if (!cell) continue;
+                cell.style.visibility = '';
                 const piece = engine.tabuleiro[l][c];
                 cell.innerHTML = piece ? getIcon(piece.tipo, piece.cor) : '';
                 cell.className = (l + c) % 2 === 0 ? 'light' : 'dark';
@@ -64,44 +49,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
+        if (!gameEnded && !selectedSquare && engine.turno === playerColor && !isProcessing) {
+            var caps = engine.obterCapturasDisponiveis(playerColor);
+            if (caps.length > 0) {
+                var pecasCapture = {};
+                caps.forEach(function(cap) {
+                    pecasCapture['t' + cap.origemL + cap.origemC] = true;
+                });
+                Object.keys(pecasCapture).forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) el.classList.add('must-capture');
+                });
+            }
+        }
     }
 
     function sqName(l, c) {
         return String.fromCharCode(97 + c) + (8 - l);
     }
 
-    function addHistory(who, pieceType, fromSq, toSq) {
-        moveCount++;
-        var nome = NAMES[pieceType] || 'Peca';
-        var from = fromSq.toUpperCase();
-        var to = toSq.toUpperCase();
-        moveHistory.push({ num: moveCount, who: who, nome: nome, from: from, to: to });
-        renderHistory();
-    }
 
-    function renderHistory() {
-        var el = document.getElementById('move-history');
-        if (!el) return;
-        if (moveHistory.length === 0) {
-            el.innerHTML = '<div class="history-empty">Nenhuma jogada ainda</div>';
-            return;
-        }
-        var html = '';
-        for (var i = 0; i < moveHistory.length; i++) {
-            var m = moveHistory[i];
-            var cls = m.who === 'you' ? 'you' : 'robo';
-            var label = m.who === 'you' ? 'Voce' : 'Robo';
-            html += '<div class="history-item">' +
-                '<span class="history-num">' + m.num + '.</span>' +
-                '<span class="history-player ' + cls + '">(' + label + ')</span>' +
-                '<span class="history-piece">' + m.nome + '</span>' +
-                '<span class="history-from">' + m.from + '</span>' +
-                '<span class="history-arrow">\u2192</span>' +
-                '<span class="history-to">' + m.to + '</span>' +
-            '</div>';
-        }
-        el.innerHTML = html;
-        el.scrollTop = el.scrollHeight;
+    function highlightCapturablePieces(capturas) {
+        document.querySelectorAll('.must-capture').forEach(function(el) { el.classList.remove('must-capture'); });
+        var pecasCapture = {};
+        capturas.forEach(function(cap) {
+            var chave = 't' + cap.origemL + cap.origemC;
+            pecasCapture[chave] = true;
+        });
+        Object.keys(pecasCapture).forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.classList.add('must-capture');
+        });
     }
 
     function handleCellClick(l, c) {
@@ -118,9 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const jogada = validMoves.find(function (m) { return m.linha === l && m.coluna === c; });
             if (jogada) {
                 var srcL = selectedSquare.l, srcC = selectedSquare.c;
-                var pieceType = engine.tabuleiro[srcL][srcC].tipo;
-                var fromSq = sqName(srcL, srcC);
-                var toSq = sqName(l, c);
                 var srcCell = document.getElementById('t' + srcL + srcC);
                 var pieceHTML = srcCell ? srcCell.innerHTML : '';
                 engine.fazerMovimento(srcL, srcC, l, c, jogada.capturaLinha, jogada.capturaColuna);
@@ -130,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 animateMove(srcL, srcC, l, c, pieceHTML, function () {
                     renderBoard();
                     updateStatus();
-                    addHistory('you', pieceType, fromSq, toSq);
                     if (!checkGameEnd()) {
                         var d = 600 + Math.random() * 300;
                         showThinking();
@@ -150,12 +124,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 validMoves.forEach(function (m) { delete m.origemL; delete m.origemC; });
                 if (validMoves.length === 0) {
                     selectedSquare = null;
+                    renderBoard();
                     return;
                 }
             } else {
                 validMoves = engine.obterMovimentosValidos(l, c);
             }
             renderBoard();
+            highlightCapturablePieces(capturas);
         }
     }
 
@@ -182,8 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
         requestAnimationFrame(function () {
             floater.style.left = destRect.left + 'px';
             floater.style.top = destRect.top + 'px';
-            floater.style.width = destRect.width + 'px';
-            floater.style.height = destRect.height + 'px';
         });
         var tid = setTimeout(function () {
             if (floater.parentNode) floater.parentNode.removeChild(floater);
@@ -201,9 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (engine.turno !== robotColor) { isProcessing = false; return; }
         var chosen = engine.escolherJogadaIA(robotColor);
         if (!chosen) { isProcessing = false; checkGameEnd(); return; }
-        var pieceType = engine.tabuleiro[chosen.origem.l][chosen.origem.c].tipo;
-        var fromSq = sqName(chosen.origem.l, chosen.origem.c);
-        var toSq = sqName(chosen.destino.l, chosen.destino.c);
         var rSrcL = chosen.origem.l, rSrcC = chosen.origem.c;
         var rDestL = chosen.destino.l, rDestC = chosen.destino.c;
         var rSrcCell = document.getElementById('t' + rSrcL + rSrcC);
@@ -211,13 +182,12 @@ document.addEventListener('DOMContentLoaded', function () {
         engine.fazerMovimento(rSrcL, rSrcC, rDestL, rDestC,
             chosen.captura ? chosen.captura.l : undefined,
             chosen.captura ? chosen.captura.c : undefined);
-        animateMove(rSrcL, rSrcC, rDestL, rDestC, rPieceHTML, function () {
-            renderBoard();
-            updateStatus();
-            addHistory('robo', pieceType, fromSq, toSq);
-            checkGameEnd();
-            isProcessing = false;
-        });
+            animateMove(rSrcL, rSrcC, rDestL, rDestC, rPieceHTML, function () {
+                isProcessing = false;
+                renderBoard();
+                updateStatus();
+                checkGameEnd();
+            });
     }
 
     function checkGameEnd() {
@@ -299,15 +269,11 @@ document.addEventListener('DOMContentLoaded', function () {
         isProcessing = false;
         selectedSquare = null;
         validMoves = [];
-        moveHistory = [];
-        moveCount = 0;
         document.getElementById('escolhecor-inicio').classList.remove('visible');
         document.getElementById('escolhecor-inicio').style.display = 'none';
         document.getElementById('game-status').style.display = 'block';
-        renderNotation();
         renderBoard();
         updateStatus();
-        renderHistory();
         if (engine.turno !== playerColor) {
             isProcessing = true;
             var d = 600 + Math.random() * 300;

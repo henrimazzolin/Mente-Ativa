@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
             'https://images.unsplash.com/photo-1548245644-3c2cc7743fca?w=300&h=300&fit=crop',
             'https://images.unsplash.com/photo-1564349683136-afaaaa4e8bde?w=300&h=300&fit=crop'
         ];
+
+        const easyImages = [
+            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=300&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1519052537078-e6302da7c5b?w=300&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=300&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1514888286974-6d03bde4ba49?w=300&h=300&fit=crop'
+        ];
         
         let currentImageUrl = images[Math.floor(Math.random() * images.length)];
         
@@ -43,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gridSize = difficultyConfig[currentDifficulty].size;
             totalPieces = gridSize * gridSize;
 
-            currentImageUrl = images[Math.floor(Math.random() * images.length)];
+            currentImageUrl = (currentDifficulty === 'facil' ? easyImages : images)[Math.floor(Math.random() * (currentDifficulty === 'facil' ? easyImages : images).length)];
 
             const previewImg = document.getElementById('previewImage');
             if (previewImg) {

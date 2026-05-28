@@ -1,28 +1,4 @@
-﻿        :root {
-            /* Light theme (default) */
-            --cor-fundo: #F8FAFC;
-            --cor-fundo-card: #FFFFFF;
-            --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
-            --cor-primaria: #3B82F6;
-            --cor-secundaria: #10B981;
-            --cor-terceira: #F59E0B;
-            --cor-sucesso: #10B981;
-            --cor-erro: #EF4444;
-            --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
-            --borda-radius: 16px;
-            --border: #E2E8F0;
-            --primary-light: rgba(59, 130, 246, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
+﻿        body {
             font-family: 'Poppins', sans-serif;
             background-image: url(../img/bluebkg.png);
             
@@ -94,15 +70,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        .logo-text {
-            font-size: 22px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0B6477, #0AD1C8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .logo-text {
@@ -242,11 +209,23 @@
         }
 
         .cell.highlight {
-            background: #FEF3C7;
+            background: #F1F5F9;
         }
 
         .cell.same-number {
             background: #DBEAFE;
+        }
+
+        .cell.highlight.empty {
+            background: #F1F5F9;
+        }
+
+        .cell.highlight.fixed {
+            background: #F1F5F9;
+        }
+
+        .cell.highlight.same-number {
+            background: #F1F5F9;
         }
 
         .cell.empty {
@@ -436,4 +415,67 @@
                 width: 7.5em;
                 height: 2.25em;
             }
+        }
+
+        @media (max-width: 400px) {
+            .cell {
+                width: calc((100vw - 42px) / 9);
+                height: calc((100vw - 42px) / 9);
+                min-width: 28px;
+                min-height: 28px;
+                max-width: 38px;
+                max-height: 38px;
+            }
+
+            .cell input {
+                font-size: clamp(14px, 5vw, 20px);
+            }
+
+            .numpad {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 4px;
+                max-width: 100%;
+            }
+
+            .num-btn {
+                width: 100%;
+                height: 42px;
+                font-size: 18px;
+            }
+
+            .game-container {
+                padding: 15px 10px;
+            }
+
+            .sudoku-grid {
+                width: fit-content;
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            .timer {
+                font-size: 16px;
+                padding: 8px;
+            }
+
+            .page-title h1 {
+                font-size: 22px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        /* Dark mode for numpad */
+        html.modo-escuro .num-btn {
+            background: var(--dm-surface);
+            color: var(--dm-text);
+            border-color: var(--dm-border);
+        }
+
+        html.modo-escuro .num-btn:hover {
+            background: var(--cor-primaria);
+            color: white;
+            border-color: var(--cor-primaria);
         }

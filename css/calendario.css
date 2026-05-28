@@ -1,28 +1,4 @@
-﻿:root {
-    /* Light theme (default) */
-    --cor-fundo: #F8FAFC;
-    --cor-fundo-card: #FFFFFF;
-    --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
-    --cor-primaria: #3B82F6;
-    --cor-secundaria: #10B981;
-    --cor-terceira: #F59E0B;
-    --cor-sucesso: #10B981;
-    --cor-erro: #EF4444;
-    --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
-    --borda-radius: 16px;
-    --border: #E2E8F0;
-    --primary-light: rgba(59, 130, 246, 0.1);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
+﻿body {
     font-family: 'Poppins', sans-serif;
     background-image: url(../img/bluebkg.png);
     background-size: cover;
@@ -177,12 +153,6 @@ body {
     font-weight: 500;
 }
 
-.calendar-header h2 {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--cor-texto);
-}
-
 .calendar {
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);
@@ -200,7 +170,7 @@ body {
 
 .calendar-header h2 {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--cor-texto);
 }
 
@@ -485,7 +455,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 10000;
     justify-content: center;
     align-items: center;
 }
@@ -495,6 +465,7 @@ body {
 }
 
 .modal-overlay .modal {
+    display: block;
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);
     padding: 32px;
@@ -699,5 +670,67 @@ footer {
         max-width: 280px;
         width: 7.5em;
         height: 2.25em;
+    }
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding: 10px 6px;
+    }
+
+    .page-title h1 {
+        font-size: 20px;
+    }
+
+    .page-title p {
+        font-size: 14px;
+    }
+
+    .calendar {
+        padding: 8px;
+        gap: 4px;
+    }
+
+    .day {
+        font-size: 14px;
+        min-height: 28px;
+    }
+
+    .weekday {
+        font-size: 13px;
+    }
+
+    .calendar-header h2 {
+        font-size: 16px;
+    }
+
+    .calendar-nav-btn {
+        font-size: 18px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .add-event-btn {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+
+    .modal-overlay .modal {
+        padding: 16px;
+        width: 98%;
+    }
+
+    .modal-overlay .modal input,
+    .modal-overlay .modal textarea,
+    .modal-overlay .modal select {
+        font-size: 14px;
+    }
+
+    .evento-item {
+        font-size: 1rem;
+    }
+
+    body {
+        padding: 0;
     }
 }

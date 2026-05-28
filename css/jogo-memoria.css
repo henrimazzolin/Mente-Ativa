@@ -498,16 +498,17 @@
         #comoJogarModal .modal-close {
             background: none;
             border: none;
-            font-size: 28px;
+            font-size: 36px;
             font-weight: bold;
             cursor: pointer;
             color: var(--cor-texto-claro);
-            width: 40px;
-            height: 40px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            transition: all 0.2s ease;
         }
         
         #comoJogarModal .modal-close:hover {

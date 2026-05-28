@@ -241,62 +241,10 @@ body {
     100% { opacity: 0; }
 }
 
-/* ===== BOARD + NOTATION ===== */
+/* ===== BOARD ===== */
 .board-area {
-    display: grid;
-    grid-template-columns: 30px 1fr 30px;
-    grid-template-rows: 26px 1fr 26px;
     width: 100%;
     margin: 0 auto;
-}
-
-.notation-file {
-    display: flex;
-    align-items: center;
-}
-
-.notation-file span {
-    flex: 1;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--cor-texto-claro);
-}
-
-.notation-rank {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.notation-rank span {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--cor-texto-claro);
-}
-
-.notation-file.top {
-    grid-column: 2;
-    grid-row: 1;
-}
-
-.notation-file.bottom {
-    grid-column: 2;
-    grid-row: 3;
-}
-
-.notation-rank.left {
-    grid-column: 1;
-    grid-row: 2;
-}
-
-.notation-rank.right {
-    grid-column: 3;
-    grid-row: 2;
 }
 
 /* ===== CHECKERS BOARD ===== */
@@ -313,8 +261,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     background: var(--board-border);
     overflow: hidden;
-    grid-column: 2;
-    grid-row: 2;
 }
 
 #tabuleiro div {
@@ -379,6 +325,14 @@ body {
 
 #tabuleiro .selected {
     background-color: #7FC97F !important;
+}
+
+#tabuleiro .must-capture {
+    box-shadow: inset 0 0 0 3px #EF4444;
+}
+
+html.modo-escuro #tabuleiro .must-capture {
+    box-shadow: inset 0 0 0 3px #FCA5A5;
 }
 
 #tabuleiro .possible-move {
@@ -447,104 +401,6 @@ body {
     left: 0;
     opacity: 0.5;
     display: none;
-}
-
-/* ===== MOVE HISTORY ===== */
-.history-section {
-    flex: 1;
-    min-width: 200px;
-    max-width: 280px;
-    background: var(--cor-fundo-card);
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: var(--sombra);
-    border: 2px solid var(--cor-primaria);
-    display: flex;
-    flex-direction: column;
-}
-
-.history-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: var(--cor-texto);
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-#move-history {
-    flex: 1;
-    overflow-y: auto;
-    max-height: 520px;
-    min-height: 100px;
-}
-
-.history-empty {
-    text-align: center;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-    padding: 20px 10px;
-    font-style: italic;
-}
-
-.history-item {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    padding: 6px 8px;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: nowrap;
-}
-
-.history-item:last-child {
-    border-bottom: none;
-    background: rgba(59, 130, 246, 0.06);
-    border-radius: 0 0 8px 8px;
-}
-
-.history-num {
-    color: var(--cor-texto-claro);
-    min-width: 22px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.history-player {
-    font-weight: 600;
-    font-size: 12px;
-}
-
-.history-player.you {
-    color: var(--cor-primaria);
-}
-
-.history-player.robo {
-    color: #FF6B6B;
-}
-
-.history-piece {
-    font-weight: 600;
-    font-size: 13px;
-    min-width: 36px;
-}
-
-.history-from {
-    font-weight: 400;
-    font-size: 12px;
-    color: var(--cor-texto-claro);
-}
-
-.history-arrow {
-    color: var(--cor-texto-claro);
-    font-size: 12px;
-}
-
-.history-to {
-    margin-left: auto;
-    font-weight: 700;
-    font-size: 13px;
 }
 
 /* ===== COLOR CHOICE OVERLAY ===== */
@@ -813,11 +669,6 @@ html.modo-escuro #tabuleiro div:focus-visible {
     outline-color: #60A5FA;
 }
 
-html.modo-escuro .notation-file span,
-html.modo-escuro .notation-rank span {
-    color: #94A3B8;
-}
-
 html.modo-escuro .escolha-lado-container {
     background: var(--cor-fundo-card);
     border-color: var(--dm-border);
@@ -847,19 +698,6 @@ html.modo-escuro .game-over-content {
     border: 1px solid var(--dm-border);
 }
 
-html.modo-escuro .history-section {
-    background: var(--cor-fundo-card);
-    border-color: var(--dm-border);
-}
-
-html.modo-escuro .history-item {
-    border-bottom-color: var(--dm-border);
-}
-
-html.modo-escuro .history-item:last-child {
-    background: rgba(96, 165, 250, 0.1);
-}
-
 html.modo-escuro .white-piece {
     background: #666;
     border-color: #888;
@@ -886,16 +724,6 @@ html.modo-escuro .black-piece {
         max-width: 100%;
     }
 
-    .history-section {
-        max-width: 100%;
-        width: 100%;
-        min-width: 0;
-        max-height: 250px;
-    }
-
-    #move-history {
-        max-height: 180px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -970,16 +798,6 @@ html.modo-escuro .black-piece {
         min-height: 32px;
     }
 
-    .board-area {
-        grid-template-columns: 24px 1fr 24px;
-        grid-template-rows: 22px 1fr 22px;
-    }
-
-    .notation-file span,
-    .notation-rank span {
-        font-size: 11px;
-    }
-
     #game-status {
         padding: 10px 15px;
     }
@@ -1039,23 +857,6 @@ html.modo-escuro .black-piece {
         height: 18px;
     }
 
-    .history-section {
-        max-height: 200px;
-    }
-
-    #move-history {
-        max-height: 140px;
-    }
-
-    .history-item {
-        font-size: 12px;
-        padding: 5px 6px;
-    }
-
-    .history-piece {
-        min-width: 30px;
-        font-size: 12px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1077,16 +878,6 @@ html.modo-escuro .black-piece {
         font-size: min(10vw, 28px);
         min-width: 24px;
         min-height: 24px;
-    }
-
-    .board-area {
-        grid-template-columns: 20px 1fr 20px;
-        grid-template-rows: 18px 1fr 18px;
-    }
-
-    .notation-file span,
-    .notation-rank span {
-        font-size: 10px;
     }
 
     .game-over-title {
@@ -1153,16 +944,6 @@ html.modo-escuro .black-piece {
         font-size: min(11vw, 24px);
         min-width: 20px;
         min-height: 20px;
-    }
-
-    .board-area {
-        grid-template-columns: 16px 1fr 16px;
-        grid-template-rows: 16px 1fr 16px;
-    }
-
-    .notation-file span,
-    .notation-rank span {
-        font-size: 9px;
     }
 
     .color-choice-container {

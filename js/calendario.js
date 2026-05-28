@@ -123,7 +123,11 @@ function renderizarCalendario() {
 }
 
 function selecionarDia(dia) {
-    dataSelecionada = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dia);
+    const ano = dataAtual.getFullYear();
+    const mes = dataAtual.getMonth();
+    const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+    const diaSeguro = Math.min(dia, diasNoMes);
+    dataSelecionada = new Date(ano, mes, diaSeguro);
     renderizarCalendario();
     renderizarEventos();
 }
@@ -201,7 +205,10 @@ function mudarMes(delta) {
     const ano = dataAtual.getFullYear();
     const mes = dataAtual.getMonth();
     dataAtual = new Date(ano, mes + delta, 1);
-    dataSelecionada = new Date(dataAtual);
+    const diaAtual = dataSelecionada.getDate();
+    const diasNoMes = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0).getDate();
+    const diaSeguro = Math.min(diaAtual, diasNoMes);
+    dataSelecionada = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), diaSeguro);
     renderizarCalendario();
     renderizarEventos();
 }
@@ -254,21 +261,24 @@ function confirmarExclusao(index) {
     const evento = eventos[dataStr][index];
 
     document.getElementById('deleteModalOverlay').classList.add('active');
+    document.getElementById('deleteModalOverlay').dataset.index = index;
+    document.getElementById('deleteModalOverlay').dataset.dataStr = dataStr;
     document.getElementById('deleteEventTitle').textContent = evento.titulo;
     document.getElementById('deleteEventTime').textContent = evento.hora;
-
-    window.eventoParaExcluir = { index: index, dataStr: dataStr };
 }
 
 function fecharModalExclusao() {
     document.getElementById('deleteModalOverlay').classList.remove('active');
-    window.eventoParaExcluir = null;
+    delete document.getElementById('deleteModalOverlay').dataset.index;
+    delete document.getElementById('deleteModalOverlay').dataset.dataStr;
 }
 
 function removerEvento() {
-    if (!window.eventoParaExcluir) return;
+    const overlay = document.getElementById('deleteModalOverlay');
+    const index = parseInt(overlay.dataset.index);
+    const dataStr = overlay.dataset.dataStr;
 
-    const { index, dataStr } = window.eventoParaExcluir;
+    if (isNaN(index) || !dataStr) return;
 
     eventos[dataStr].splice(index, 1);
 

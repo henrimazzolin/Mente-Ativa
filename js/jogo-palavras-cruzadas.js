@@ -117,6 +117,7 @@ let currentDifficulty = 'facil';
 let currentTema = null;
 let currentWord = null;
 let currentHint = null;
+let lastSelectedWord = null;
 
 function embaralharArray(arr) {
     const resultado = [...arr];
@@ -480,8 +481,9 @@ function getWordNumberAt(row, col) {
     return null;
 }
 
-function getWordAt(row, col) {
+function getWordAt(row, col, dirFilter) {
     for (const word of currentTema.words) {
+        if (dirFilter && word.direction !== dirFilter) continue;
         if (word.direction === 'h') {
             if (row === word.row && col >= word.col && col < word.col + word.word.length) {
                 return word;
@@ -554,6 +556,7 @@ function createHintElement(word) {
 
 function selectWord(word) {
     currentWord = word;
+    lastSelectedWord = word;
     document.querySelectorAll('.hint-item').forEach(el => el.classList.remove('active'));
     const target = document.querySelector('.hint-item[data-word="' + word.number + '"]');
     if (target) target.classList.add('active');
@@ -567,10 +570,21 @@ function selectWord(word) {
 function handleFocus(e) {
     const row = parseInt(e.target.dataset.row);
     const col = parseInt(e.target.dataset.col);
-    const word = getWordAt(row, col);
+    const hWord = getWordAt(row, col, 'h');
+    const vWord = getWordAt(row, col, 'v');
+    
+    let word = null;
+    if (hWord && vWord) {
+        word = lastSelectedWord && (lastSelectedWord.number === hWord.number || lastSelectedWord.number === vWord.number)
+            ? lastSelectedWord
+            : lastSelectedWord || hWord;
+    } else {
+        word = hWord || vWord;
+    }
     
     if (word) {
         currentWord = word;
+        lastSelectedWord = word;
         
         document.querySelectorAll('.hint-item').forEach(el => el.classList.remove('active'));
         const hintEl = document.querySelector('.hint-item[data-word="' + word.number + '"]');
@@ -660,7 +674,7 @@ function handleKeydown(e) {
 }
 
 function moveToNextCell(row, col) {
-    const word = currentWord || getWordAt(row, col);
+    const word = currentWord || (lastSelectedWord || getWordAt(row, col));
     if (!word) return;
     
     if (word.direction === 'h') {
@@ -675,7 +689,7 @@ function moveToNextCell(row, col) {
 }
 
 function moveToPrevCell(row, col) {
-    const word = currentWord || getWordAt(row, col);
+    const word = currentWord || (lastSelectedWord || getWordAt(row, col));
     if (!word) return;
     
     if (word.direction === 'h') {

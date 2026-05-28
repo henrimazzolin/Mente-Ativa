@@ -516,6 +516,40 @@ html.modo-escuro .btn-close {
     filter: invert(1) brightness(200%);
 }
 
+/* Palavras Cruzadas – dark mode */
+html.modo-escuro .hints-section {
+    background: transparent;
+}
+
+html.modo-escuro .hint-item {
+    background: var(--cor-fundo-card);
+    border: 1px solid var(--dm-border);
+    color: var(--cor-texto);
+}
+
+html.modo-escuro .hint-item:hover {
+    background: var(--primary-light);
+}
+
+html.modo-escuro .hint-item.active {
+    background: rgba(59, 130, 246, 0.25);
+    border: 2px solid var(--cor-primaria);
+}
+
+html.modo-escuro .hint-text {
+    color: var(--cor-texto-claro);
+}
+
+html.modo-escuro .hint-btn:disabled,
+html.modo-escuro .hint-btn-disabled {
+    background: #374151;
+    color: #9CA3AF;
+}
+
+html.modo-escuro .hint-btn {
+    color: white;
+}
+
 /* Botões de ação em dark mode */
 html.modo-escuro .btn {
     background: #3B82F6;
@@ -560,6 +594,10 @@ html.modo-escuro .next-btn:hover {
 }
 
 /* Sudoku cells - dark mode */
+html.modo-escuro .cell input {
+    background: transparent;
+}
+
 html.modo-escuro .cell {
     background: rgba(30, 41, 59, 0.94);
 }
@@ -569,7 +607,19 @@ html.modo-escuro .cell.fixed {
 }
 
 html.modo-escuro .cell.highlight {
-    background: rgba(251, 191, 36, 0.2);
+    background: rgba(55, 65, 81, 0.35);
+}
+
+html.modo-escuro .cell.highlight.empty {
+    background: rgba(55, 65, 81, 0.35);
+}
+
+html.modo-escuro .cell.highlight.fixed {
+    background: rgba(55, 65, 81, 0.35);
+}
+
+html.modo-escuro .cell.highlight.same-number {
+    background: rgba(55, 65, 81, 0.35);
 }
 
 html.modo-escuro .cell.same-number {
@@ -601,7 +651,7 @@ html.modo-escuro .cell.wrong input {
 }
 
 html.modo-escuro .cell.empty {
-    background: rgba(251, 191, 36, 0.2);
+    background: rgba(30, 58, 138, 0.15);
 }
 
 html.modo-escuro .cell.empty input {
@@ -614,4 +664,36 @@ html.modo-escuro .cell.solution {
 
 html.modo-escuro .cell.solution input {
     color: #6EE7B7;
+}
+
+/* Palavras Cruzadas – dark mode */
+html.modo-escuro .crossword-grid {
+    background: var(--dm-border);
+    border-color: var(--dm-border);
+}
+
+html.modo-escuro .crossword-grid .cell {
+    background: var(--dm-surface-elevated);
+}
+
+html.modo-escuro .crossword-grid .cell.blocked {
+    background: var(--dm-input-bg);
+}
+
+html.modo-escuro .crossword-grid .cell input:focus {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+html.modo-escuro .crossword-grid .cell input.letter-ok {
+    background: rgba(16, 185, 129, 0.25);
+}
+
+html.modo-escuro .crossword-grid .cell input.correct {
+    background: rgba(16, 185, 129, 0.35);
+    color: #6EE7B7;
+}
+
+html.modo-escuro .crossword-grid .cell input.active-row,
+html.modo-escuro .crossword-grid .cell input.active-col {
+    background: rgba(59, 130, 246, 0.2);
 }

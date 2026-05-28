@@ -18,44 +18,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const imageSets = {
             frutas: [
-                getImgUrl('1615485290382-441e4d049cb5'),
+                cdnUrl('1615485290382-441e4d049cb5'),
                 cdnUrl('1594308147232-878815737889'),
                 cdnUrl('1601493700631-2b16ec4b6d1e'),
                 cdnUrl('1606787366850-dd62e0e6a4f3'),
-                getImgUrl('1587049352846-4a222e784d38'),
+                cdnUrl('1587049352846-4a222e784d38'),
                 cdnUrl('1561136594-7f68413bb03f'),
                 cdnUrl('1595436065982-95f4c4e0e939'),
-                getImgUrl('1609505848912-b7c3b8b4beda')
+                cdnUrl('1609505848912-b7c3b8b4beda')
             ],
             animais: [
                 cdnUrl('1583337130417-3346a1be1dee'),
-                getImgUrl('1514888286974-6c03e2ca1dba'),
-                getImgUrl('1574158622682-e40e69881006'),
-                getImgUrl('1543466835-00a7907e9de1'),
-                getImgUrl('1587300003388-59208cc962cb'),
-                getImgUrl('1533738363-b7f9aef128ce'),
-                getImgUrl('1517849845537-4d257902454a'),
-                getImgUrl('1583511655857-d19b40a7a54e')
+                cdnUrl('1514888286974-6c03e2ca1dba'),
+                cdnUrl('1574158622682-e40e69881006'),
+                cdnUrl('1543466835-00a7907e9de1'),
+                cdnUrl('1587300003388-59208cc962cb'),
+                cdnUrl('1533738363-b7f9aef128ce'),
+                cdnUrl('1517849845537-4d257902454a'),
+                cdnUrl('1583511655857-d19b40a7a54e')
             ],
             natureza: [
-                getImgUrl('1506905925346-21bda4d32df4'),
-                getImgUrl('1469474968028-56623f02e42e'),
-                getImgUrl('1441974231531-c6227db76b6e'),
+                cdnUrl('1506905925346-21bda4d32df4'),
+                cdnUrl('1469474968028-56623f02e42e'),
+                cdnUrl('1441974231531-c6227db76b6e'),
                 cdnUrl('1507003211169-0a1dd3628f8d'),
                 cdnUrl('1518173946687-a4c036bc1d9c'),
                 cdnUrl('1470071459604-3b5ec3a551c4'),
-                getImgUrl('1501854140801-50d01698950b'),
-                getImgUrl('1433086966358-54859d0ed716')
+                cdnUrl('1501854140801-50d01698950b'),
+                cdnUrl('1433086966358-54859d0ed716')
             ],
             objetos: [
-                getImgUrl('1526170375885-4d8ecf77b99f'),
-                getImgUrl('1585386959984-a4155224a1ad'),
-                getImgUrl('1505740420928-5e560c06d30e'),
-                getImgUrl('1525966222134-fcfa99b8ae77'),
+                cdnUrl('1526170375885-4d8ecf77b99f'),
+                cdnUrl('1585386959984-a4155224a1ad'),
+                cdnUrl('1505740420928-5e560c06d30e'),
+                cdnUrl('1525966222134-fcfa99b8ae77'),
                 cdnUrl('1573939338218-4f26bf5186e8'),
-                getImgUrl('1542291026-7eec264c27ff'),
+                cdnUrl('1542291026-7eec264c27ff'),
                 cdnUrl('1606107557195-0e29a4b5b4ee'),
-                getImgUrl('1583394838336-acd977736f90')
+                cdnUrl('1583394838336-acd977736f90')
             ]
         };
 
