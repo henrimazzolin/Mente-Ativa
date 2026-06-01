@@ -82,7 +82,7 @@
                 img.src = getSrc(config);
                 img.alt = config.alt;
                 img.style.width = '100%';
-                img.style.height = '100%';
+                img.style.height = 'auto';
             }
         });
     }
@@ -113,7 +113,7 @@
                 img.src = getSrc(config);
                 img.alt = config.alt;
                 img.style.width = '100%';
-                img.style.height = '100%';
+                img.style.height = 'auto';
             }
         },
         getTipo: detectarTipo,

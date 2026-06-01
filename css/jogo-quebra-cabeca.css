@@ -93,7 +93,7 @@
         .logo-icon img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -224,7 +224,7 @@
             height: 120px;
             border-radius: 10px;
             border: 3px solid var(--cor-primaria);
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .buttons {

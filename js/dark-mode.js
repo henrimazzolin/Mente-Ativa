@@ -195,7 +195,7 @@ class DarkModeManager {
         toggle.className = 'ma-toggle-btn';
         toggle.setAttribute('aria-label', 'Abrir painel de acessibilidade');
         toggle.setAttribute('aria-expanded', 'false');
-        toggle.innerHTML = '\u2699';
+        toggle.textContent = 'Acessibilidade';
         toggle.addEventListener('click', this.togglePanel.bind(this));
 
         // Backdrop for outside-click detection
