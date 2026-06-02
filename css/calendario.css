@@ -466,6 +466,7 @@
 
 .modal-overlay .modal {
     display: block;
+    position: relative;
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);
     padding: 32px;

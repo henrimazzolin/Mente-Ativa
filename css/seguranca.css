@@ -302,7 +302,7 @@ body {
 }
 
 .warning-box li::before {
-    content: 'Ã—';
+    content: '×';
     position: absolute;
     left: 0;
     color: var(--cor-aviso);
