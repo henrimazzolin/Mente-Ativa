@@ -176,7 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Event listeners
-        document.getElementById('restartBtn').addEventListener('click', restartGame);
+        document.getElementById('restartBtn').addEventListener('click', function() {
+            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+                restartGame();
+            });
+        });
         document.getElementById('feedbackBtn').addEventListener('click', restartGame);
         document.getElementById('overlay').addEventListener('click', restartGame);
 

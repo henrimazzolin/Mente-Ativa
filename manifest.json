@@ -1,0 +1,24 @@
+{
+    "name": "Mente Ativa",
+    "short_name": "MenteAtiva",
+    "description": "Jogos cognitivos para idosos — exercite sua mente",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#F8FAFC",
+    "theme_color": "#3B82F6",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "img/unnamed.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg"
+        },
+        {
+            "src": "img/unnamed.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+        }
+    ],
+    "categories": ["health", "games", "education"],
+    "lang": "pt-BR"
+}

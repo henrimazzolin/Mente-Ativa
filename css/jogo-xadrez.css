@@ -457,6 +457,7 @@ html.modo-escuro #tabuleiro div.preto {
     min-width: 200px;
     max-width: 280px;
     background: var(--cor-fundo-card);
+    font-size: 0.85em !important;
     border-radius: 12px;
     padding: 16px;
     box-shadow: var(--sombra);
@@ -477,6 +478,7 @@ html.modo-escuro #tabuleiro div.preto {
 
 #move-history {
     flex: 1;
+    overflow-x: auto;
     overflow-y: auto;
     max-height: 520px;
     min-height: 100px;

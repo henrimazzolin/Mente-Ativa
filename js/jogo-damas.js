@@ -285,7 +285,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btn-start-game').addEventListener('click', iniciaJogo);
     document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
-    document.getElementById('btn-reload').addEventListener('click', function () { location.reload(); });
+    document.getElementById('btn-reload').addEventListener('click', function () {
+        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function () {
+            location.reload();
+        });
+    });
 
     for (var r = 0; r < 8; r++) {
         for (var c = 0; c < 8; c++) {

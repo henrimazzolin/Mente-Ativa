@@ -899,8 +899,10 @@ function setupDificuldadeButtons() {
 }
 
 document.getElementById('btn-reset').addEventListener('click', function() {
-    resetGame();
-    initGame();
+    exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+        resetGame();
+        initGame();
+    });
 });
 
 document.getElementById('btn-back').addEventListener('click', function() {
@@ -910,8 +912,10 @@ document.getElementById('btn-back').addEventListener('click', function() {
 document.getElementById('overlay').addEventListener('click', closeMessage);
 
 document.getElementById('btn-play-again').addEventListener('click', function() {
-    resetGame();
-    initGame();
+    exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+        resetGame();
+        initGame();
+    });
 });
 
 setupDificuldadeButtons();

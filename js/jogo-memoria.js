@@ -192,6 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             feedbackTitle.textContent = 'Parabéns!';
             feedbackText.textContent = `Você encontrou todos os pares em ${attempts} tentativas!`;
+
             feedbackBtn.textContent = 'Jogar Novamente';
             feedbackBtn.onclick = () => {
                 hideFeedback();
@@ -222,7 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Event listeners
-        document.getElementById('btn-restart').addEventListener('click', initGame);
+        document.getElementById('btn-restart').addEventListener('click', function() {
+            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+                initGame();
+            });
+        });
         document.getElementById('btn-como-jogar').addEventListener('click', function() {
             document.getElementById('comoJogarModal').style.display = 'block';
             document.getElementById('overlay').classList.add('show');

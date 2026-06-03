@@ -143,7 +143,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Event listeners
         document.getElementById('btn-back').addEventListener('click', function() { location.href = 'jogos-acompanhados.html'; });
-        document.getElementById('btn-restart').addEventListener('click', iniciarJogo);
+        document.getElementById('btn-restart').addEventListener('click', function() {
+            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+                iniciarJogo();
+            });
+        });
         document.getElementById('feedbackBtn').addEventListener('click', fecharFeedback);
 
         iniciarJogo();

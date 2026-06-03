@@ -435,7 +435,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btn-num-9').addEventListener('click', function () { inputNumber(9); });
 
     document.getElementById('btn-check').addEventListener('click', checkSolution);
-    document.getElementById('btn-reset').addEventListener('click', resetGame);
+    document.getElementById('btn-reset').addEventListener('click', function() {
+        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+            resetGame();
+        });
+    });
     document.getElementById('btn-solution').addEventListener('click', showSolution);
     document.getElementById('btn-back').addEventListener('click', function () { window.location.href = 'jogos-individuais.html'; });
 

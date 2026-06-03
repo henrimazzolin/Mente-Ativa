@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jogo da memória - Mente Ativa">
-    <title>Mente Ativa - Jogo da Memória</title>
+    <meta name="description" content="Dedução Lógica - Mente Ativa">
+    <title>Mente Ativa - Dedução Lógica</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,14 +13,13 @@
     <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/jogo-memoria.css">
+    <link rel="stylesheet" href="css/jogo-deducao-logica.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="css/assistente-flutuante.css">
     <link rel="stylesheet" href="css/dificuldade.css">
     <script src="js/dark-mode.js" defer></script>
     <script src="js/components/logo.js" defer></script>
 
-    
 </head>
 <body>
     <div class="container">
@@ -39,64 +38,60 @@
 
         <div class="page-title">
             <div class="titulo-com-tts">
-                <h1>Jogo da Memória</h1>
-
+                <h1>Dedução Lógica</h1>
             </div>
-            <p>Encontre os pares de cartas iguais</p>
+            <p>Use as pistas para resolver cada desafio</p>
         </div>
 
         <div class="instrucao-destaque">
-            <p>Como jogar: Clique em uma carta para ver a figura. Depois clique em outra para encontrar o par!</p>
+            <p>Leia o cenário e as pistas com atenção. Depois escolha a alternativa correta!</p>
         </div>
 
         <div class="dificuldade-selector">
             <span class="dificuldade-label">Dificuldade:</span>
-            <button class="dif-btn facil active">Fácil</button>
-            <button class="dif-btn medio">Médio</button>
-            <button class="dif-btn dificil">Difícil</button>
+            <button class="dif-btn facil active" data-dif="facil">Fácil</button>
+            <button class="dif-btn medio" data-dif="medio">Médio</button>
+            <button class="dif-btn dificil" data-dif="dificil">Difícil</button>
         </div>
 
-        <div class="game-info">
-            <div class="info-item">
-                <div class="info-label">Pares encontrados</div>
-                <div class="info-value" id="pairs">0</div>
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-label">Acertos</div>
+                <div class="stat-value" id="score">0</div>
             </div>
-            <div class="info-item">
-                <div class="info-label">Tentativas</div>
-                <div class="info-value" id="attempts">0</div>
+            <div class="stat-item">
+                <div class="stat-label">Sequência</div>
+                <div class="stat-value" id="streak">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Puzzle</div>
+                <div class="stat-value" id="puzzleNum">1/10</div>
             </div>
         </div>
 
-        <div class="game-board" id="gameBoard"></div>
+        <div class="puzzle-container" id="puzzleContainer">
+            <div class="puzzle-scenario" id="scenario"></div>
+            <div class="puzzle-clues" id="cluesContainer">
+                <h3>Pistas</h3>
+                <ul id="cluesList"></ul>
+            </div>
+            <div class="puzzle-question" id="question"></div>
+            <div class="puzzle-options" id="optionsContainer"></div>
+            <div class="puzzle-explanation" id="explanation"></div>
+        </div>
 
         <div class="buttons">
-            <button class="btn" id="btn-restart">Reiniciar Jogo</button>
-            <button class="btn btn-secondary" id="btn-como-jogar">Como jogar?</button>
-            <button class="btn btn-secondary" id="btn-back">Voltar</button>
+            <button class="btn btn-secondary" id="btn-restart">Reiniciar</button>
+            <button class="btn" id="btn-next" style="display:none;">Próximo</button>
         </div>
     </div>
 
-    <div class="overlay" id="overlay"></div>
-    <div class="feedback" id="feedback">
-        <div class="feedback-icon" id="feedbackIcon"></div>
-        <h2 id="feedbackTitle">Muito bem!</h2>
-        <p id="feedbackText">Você encontrou um par!</p>
-        <button class="btn" id="feedbackBtn">Continuar</button>
-    </div>
-
-    <!-- Modal Como Jogar -->
-    <div class="modal" id="comoJogarModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Como Jogar</h3>
-                <button class="modal-close" id="btn-fechar-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Clique nas cartas para virá-las.</p>
-                <p>Encontre os pares iguais.</p>
-                <p>Tente completar no menor tempo possível.</p>
-            </div>
-        </div>
+    <div class="feedback-overlay" id="overlay"></div>
+    <div class="feedback-modal" id="feedbackModal">
+        <div class="icon" id="feedbackIcon"></div>
+        <h2 id="feedbackTitle">Parabéns!</h2>
+        <p id="feedbackText">Você completou todos os puzzles deste nível.</p>
+        <button class="btn" id="feedbackBtn">Jogar Novamente</button>
     </div>
 
     <footer>
@@ -104,11 +99,11 @@
         <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="js/jogo-memoria.js"></script>
+    <script src="js/jogo-deducao-logica.js"></script>
     <script src="js/assistente-flutuante.js"></script>
     <script src="js/alerts.js"></script>
     <script>if('serviceWorker'in navigator){navigator.serviceWorker.register('service-worker.js').catch(function(){})}</script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <a href="sobre.html" class="sobre-flutuante">Sobre</a>
 </body>
 </html>

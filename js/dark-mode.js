@@ -13,7 +13,7 @@ class DarkModeManager {
         this.isEscuro = false;
         this.backgroundAtual = '';
         this.botao = null;
-        this.fontPct = 100;
+        this.fontPct = 120;
     }
 
     possuiFundoMapeavel(backgroundImage) {
@@ -43,7 +43,7 @@ class DarkModeManager {
             this.sincronizarClasseDocumento();
         }
 
-        this.fontPct = parseInt(localStorage.getItem(FONT_STORAGE_KEY), 10) || 100;
+        this.fontPct = parseInt(localStorage.getItem(FONT_STORAGE_KEY), 10) || 120;
         this.aplicarFontePct();
 
         this.criarBotoes();
