@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --board-light: #F0D9B5;
     --board-dark: #B58863;
     --board-border: #333;
@@ -767,15 +767,6 @@ html.modo-escuro #tabuleiro div.preto {
     margin-bottom: 25px;
     line-height: 1.5;
 }
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-    margin-top: 40px;
-}
-
 /* ===== DARK MODE ===== */
 html.modo-escuro .instrucao-destaque {
     background: rgba(254, 243, 199, 0.12);

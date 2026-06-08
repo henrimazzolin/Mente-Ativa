@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -203,7 +203,7 @@ body {
 }
 
 .game-card {
-    background: rgba(59, 130, 246, 0.30);
+    background: rgba(59, 130, 246, 0.55);
     border-radius: var(--borda-radius);
     padding: 24px 16px;
     box-shadow: var(--sombra);
@@ -224,7 +224,7 @@ body {
     transform: translateY(-6px);
     box-shadow: var(--sombra-hover);
     border-color: var(--cor-primaria);
-    background: rgba(59, 130, 246, 0.40);
+    background: rgba(59, 130, 246, 0.70);
 }
 
 .game-card:focus {
@@ -242,6 +242,7 @@ body {
     margin-bottom: 10px;
     transition: transform 0.3s ease;
     background: var(--cor-fundo-card);
+    overflow: hidden;
 }
 
 .game-card:hover .game-icon {
@@ -255,6 +256,24 @@ body {
     fill: var(--cor-primaria);
 }
 
+.game-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-card.ilustrado .game-icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 18px;
+    margin-bottom: 14px;
+    background: #F8FAFC;
+}
+
+html.modo-escuro .game-card.ilustrado .game-icon {
+    background: #1E293B;
+}
+
 .game-title {
     font-size: 17px;
     font-weight: 700;
@@ -262,66 +281,14 @@ body {
     margin-bottom: 4px;
 }
 
-.game-desc {
-    font-size: 13px;
-    color: var(--cor-texto-claro);
-    font-weight: 500;
-    line-height: 1.3;
-}
-
-.jogar-btn {
-    margin-top: 10px;
-    padding: 10px 22px;
-    background: #fff;
-    color: #000;
-    border: 1px solid var(--cor-primaria);
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: none;
-}
-
-.jogar-btn:hover {
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.25);
-}
-
-.game-card:hover .jogar-btn {
-    background: #fff;
-}
-
 html.modo-escuro .game-card {
-    background: rgba(59, 130, 246, 0.38);
+    background: rgba(59, 130, 246, 0.60);
     border-color: transparent;
 }
 
 html.modo-escuro .game-card:hover {
     border-color: var(--cor-primaria);
-    background: rgba(59, 130, 246, 0.50);
-}
-
-html.modo-escuro .jogar-btn {
-    background: #2a2a3a;
-    color: #e0e0e0;
-    border-color: var(--cor-primaria);
-}
-
-html.modo-escuro .jogar-btn:hover {
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
-}
-
-html.modo-escuro .game-card:hover .jogar-btn {
-    background: #3a3a4a;
-    color: #fff;
-}
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
+    background: rgba(59, 130, 246, 0.75);
 }
 
 @media (max-width: 1024px) {

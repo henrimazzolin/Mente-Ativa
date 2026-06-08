@@ -1,4 +1,4 @@
-﻿        :root {
+        :root {
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
@@ -281,15 +281,7 @@
         .overlay.show {
             display: block;
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--cor-texto-claro);
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
+@media (max-width: 600px) {
             .puzzle-container {
                 max-width: 300px;
             }

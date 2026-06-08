@@ -311,17 +311,6 @@ h1 {
 .moderado:hover .arrow-icon {
     fill: var(--cor-terceira);
 }
-
-footer {
-    text-align: center;
-    padding: 24px 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-    font-weight: 500;
-}
-
-
-
 @media (min-width: 640px) {
     .groups-container {
         flex-direction: row;

@@ -1,4 +1,4 @@
-﻿        :root {
+        :root {
             --cor-primaria: #14919B;
             --cor-secundaria: #45DFB1;
             --cor-terceira: #0AD1C8;
@@ -368,15 +368,7 @@
             opacity: 1;
             visibility: visible;
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--cor-texto-claro);
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
+@media (max-width: 600px) {
             .header {
             }
             

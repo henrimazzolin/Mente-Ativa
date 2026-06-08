@@ -337,20 +337,14 @@ footer {
     }
 }
 
-.sobre-flutuante {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    z-index: 9999;
-    background: var(--cor-primaria);
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
+.sobre-footer {
+    color: #1a73e8;
     text-decoration: none;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    transition: opacity 0.3s;
-    letter-spacing: 0.3px;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 4px;
 }
-.sobre-flutuante:hover { opacity: 0.85; color: #fff; }
+.sobre-footer:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

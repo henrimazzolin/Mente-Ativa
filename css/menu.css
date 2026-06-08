@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -212,15 +212,6 @@ body {
 .menu-btn.calendario .icon svg { fill: #2196f3; }
 .menu-btn.exercicios .icon svg { fill: #2196f3; }
 .menu-btn.seguranca .icon svg { fill: #2196f3; }
-
-footer {
-    text-align: center;
-    padding: 32px 20px;
-    color: var(--cor-texto-claro);
-    font-size: 1.125rem;
-    font-weight: 500;
-}
-
 @media (max-width: 768px) {
     .container {
         padding: 28px 16px;
@@ -321,10 +312,6 @@ footer {
     .menu-btn.assistente {
         grid-column: span 1;
     }
-
-    footer {
-        padding: 24px 12px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -365,11 +352,6 @@ footer {
     }
 
     .welcome p {
-        font-size: 1rem;
-    }
-
-    footer {
-        padding: 20px 10px;
         font-size: 1rem;
     }
 }
@@ -413,11 +395,6 @@ footer {
     }
 
     .welcome p {
-        font-size: 0.875rem;
-    }
-
-    footer {
-        padding: 16px 8px;
         font-size: 0.875rem;
     }
 }

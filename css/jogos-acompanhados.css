@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -178,43 +178,7 @@ body {
     font-weight: 500;
 }
 
-.jogar-btn {
-    margin-top: 10px;
-    padding: 10px 22px;
-    background: #fff;
-    color: #000;
-    border: 1px solid var(--cor-primaria);
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: none;
-}
-
-.jogar-btn:hover {
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.25);
-}
-
-html.modo-escuro .jogar-btn {
-    background: #2a2a3a;
-    color: #e0e0e0;
-    border-color: var(--cor-primaria);
-}
-
-html.modo-escuro .jogar-btn:hover {
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
-}
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-}
-
-/* SeÃ§Ã£o de jogos super simples */
+/* Seção de jogos super simples */
 .super-simples-section {
     margin-bottom: 48px;
 }
@@ -234,7 +198,7 @@ footer {
 }
 
 .super-simples-card {
-    background: rgba(16, 185, 129, 0.35);
+    background: rgba(16, 185, 129, 0.55);
     border-radius: 16px;
     padding: 24px 16px;
     aspect-ratio: 1;
@@ -254,7 +218,7 @@ footer {
     transform: translateY(-6px);
     box-shadow: var(--sombra-hover);
     border-color: var(--cor-secundaria);
-    background: rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.70);
 }
 
 .super-simples-card:focus {
@@ -272,6 +236,25 @@ footer {
     justify-content: center;
     margin-bottom: 10px;
     transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.super-simples-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.super-simples-card.ilustrado .super-simples-icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 18px;
+    margin-bottom: 14px;
+    background: #F8FAFC;
+}
+
+html.modo-escuro .super-simples-card.ilustrado .super-simples-icon {
+    background: #1E293B;
 }
 
 .super-simples-card:hover .super-simples-icon {
@@ -292,47 +275,13 @@ footer {
     margin-bottom: 4px;
 }
 
-.super-simples-card .jogar-btn {
-    margin-top: 10px;
-    padding: 10px 22px;
-    background: #fff;
-    color: #000;
-    border: 1px solid var(--cor-secundaria);
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: none;
-}
-
-.super-simples-card .jogar-btn:hover {
-    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.25);
-}
-
-html.modo-escuro .super-simples-card .jogar-btn {
-    background: #2a2a3a;
-    color: #e0e0e0;
-    border-color: var(--cor-secundaria);
-}
-
-html.modo-escuro .super-simples-card .jogar-btn:hover {
-    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.35);
-}
-
-html.modo-escuro .super-simples-card:hover .jogar-btn {
-    background: #3a3a4a;
-    color: #fff;
-}
-
 html.modo-escuro .super-simples-card {
-    background: rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.60);
     border-color: rgba(255, 255, 255, 0.28);
 }
 
 html.modo-escuro .super-simples-card:hover {
-    background: rgba(16, 185, 129, 0.55);
+    background: rgba(16, 185, 129, 0.75);
     border-color: var(--cor-secundaria);
 }
 

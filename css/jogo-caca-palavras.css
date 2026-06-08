@@ -400,14 +400,6 @@ body {
 .feedback-modal .btn {
     margin-top: 16px;
 }
-
-footer {
-    text-align: center;
-    padding: 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-}
-
 /* Dark mode */
 html.modo-escuro .word-grid {
     background: var(--cor-fundo-card);

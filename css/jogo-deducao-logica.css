@@ -472,14 +472,6 @@ body {
 .feedback-modal .btn {
     margin-top: 16px;
 }
-
-footer {
-    text-align: center;
-    padding: 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-}
-
 /* Dark mode overrides */
 html.modo-escuro .puzzle-scenario {
     background: rgba(59, 130, 246, 0.15);

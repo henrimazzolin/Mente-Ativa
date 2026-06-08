@@ -1,4 +1,4 @@
-﻿        body {
+        body {
             font-family: 'Poppins', sans-serif;
             background-image: url(../img/bluebkg.png);
             
@@ -343,15 +343,7 @@
         .overlay.show {
             display: block;
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--cor-texto-claro);
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
+@media (max-width: 600px) {
             .cell {
                 width: 36px;
                 height: 36px;

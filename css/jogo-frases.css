@@ -1,4 +1,4 @@
-﻿        :root {
+        :root {
             /* Light theme (default) */
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
@@ -133,15 +133,7 @@
             color: #64748B;
             font-weight: 500;
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #64748B;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
+@media (max-width: 600px) {
             .maintenance-title {
                 font-size: 36px;
                 letter-spacing: 2px;

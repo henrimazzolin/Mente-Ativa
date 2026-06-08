@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
@@ -273,14 +273,6 @@ body {
     max-width: 100%;
     height: auto;
 }
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--cor-texto-claro);
-    font-size: 14px;
-}
-
 @media (max-width: 600px) {
     .paint-tools {
         justify-content: center;
