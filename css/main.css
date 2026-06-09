@@ -23,7 +23,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url(../img/background2.png);
+    background-image: url(../img/neutralbkg.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -33,6 +33,12 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    animation: fadeInPage 0.5s ease;
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 a {
@@ -50,6 +56,8 @@ button {
     cursor: pointer;
     border: none;
     background: none;
+    min-height: 48px;
+    min-width: 48px;
 }
 
 input, select, textarea {

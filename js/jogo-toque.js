@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function clicarCelula(index, cell) {
-            if (roundAtual >= TOTAL_RODADAS) return;
+            if (rodadaAtual >= TOTAL_RODADAS) return;
             
             if (index === posicaoVerde) {
                 cell.classList.add('correct');
@@ -53,11 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        var roundAtual = 0;
-
         function iniciarJogo() {
             acertos = 0;
-            roundAtual = 0;
             rodadaAtual = 0;
             
             document.getElementById('acertos').textContent = '0';

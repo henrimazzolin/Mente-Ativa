@@ -399,30 +399,6 @@ body {
     }
 
     .cell {
-        width: 42px;
-        height: 42px;
-    }
-
-    .cell input {
-        font-size: 22px;
-    }
-
-    .hints-section {
-        width: 100%;
-        max-width: none;
-    }
-
-    .page-title h1 {
-        font-size: 26px;
-    }
-
-    .logo-icon {
-        max-width: 280px;
-        width: 8.75em;
-        height: 2.5em;
-    }
-
-    .cell {
         width: 38px;
         height: 38px;
     }
@@ -525,3 +501,5 @@ body {
                 padding: 10px;
             }
         }
+
+

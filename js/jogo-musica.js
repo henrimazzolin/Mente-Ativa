@@ -37,6 +37,22 @@ document.addEventListener('DOMContentLoaded', function() {
         let correctCount = 0;
         let isComplete = false;
 
+        function showFeedback(success, title, text) {
+            var overlay = document.getElementById('overlay');
+            var feedback = document.getElementById('feedback');
+            var feedbackIcon = document.getElementById('feedbackIcon');
+            var feedbackTitle = document.getElementById('feedbackTitle');
+            var feedbackText = document.getElementById('feedbackText');
+            feedbackIcon.className = 'feedback-icon ' + (success ? 'success' : 'error');
+            feedbackIcon.innerHTML = success
+                ? '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>'
+                : '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>';
+            feedbackTitle.textContent = title;
+            feedbackText.textContent = text;
+            overlay.classList.add('show');
+            feedback.classList.add('show');
+        }
+
         function initGame() {
             currentInstruments = MenteAtiva.utils.shuffleArray(instruments);
             currentIndex = 0;

@@ -80,6 +80,7 @@
 
 .ma-btn {
     padding: 14px 20px;
+    min-height: 48px;
     font-family: 'Poppins', sans-serif;
     font-size: 18px !important;
     font-weight: 600;
@@ -391,7 +392,7 @@ html.modo-escuro .dark-mode-btn:hover {
 /* Cabeçalhos e áreas: contorno explícito (não depender só da cor de fundo) */
 html.modo-escuro .header {
     border: 1px solid var(--dm-border);
-    background-color: var(--cor-fundo-card)
+    background-color: var(--cor-fundo-card);
 }
 
 html.modo-escuro .game-card,
@@ -697,3 +698,21 @@ html.modo-escuro .crossword-grid .cell input.active-row,
 html.modo-escuro .crossword-grid .cell input.active-col {
     background: rgba(59, 130, 246, 0.2);
 }
+
+#ma-btn-notificacao::before {
+    content: '🔔 ';
+    font-size: 18px;
+}
+
+html.modo-escuro #ma-btn-notificacao {
+    background: rgba(30, 41, 59, 0.8);
+    color: #E2E8F0;
+    border-color: transparent;
+}
+
+html.modo-escuro #ma-btn-notificacao:hover {
+    background: var(--cor-primaria, #3b82f6);
+    color: #ffffff;
+}
+
+

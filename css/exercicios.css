@@ -185,11 +185,6 @@ body {
     font-weight: 500;
 }
 
-.page-title p {
-    font-size: 18px;
-    color: var(--cor-texto-claro);
-}
-
 .intro {
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);
@@ -384,3 +379,5 @@ body {
         height: 2.25em;
     }
 }
+
+

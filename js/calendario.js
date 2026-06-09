@@ -11,40 +11,99 @@ let dataAtual = new Date();
 let dataSelecionada = new Date();
 let eventos = {};
 
-const datasComemorativas = {
-    '2026-1-1':  { titulo: 'Confraternização Universal', descricao: 'Ano Novo' },
-    '2026-2-17': { titulo: 'Carnaval', descricao: 'Terça-Feira de Carnaval' },
-    '2026-2-18': { titulo: 'Quarta-Feira de Cinzas', descricao: 'Início da Quaresma' },
-    '2026-3-8':  { titulo: 'Dia Internacional da Mulher', descricao: 'Homenagem às mulheres' },
-    '2026-4-3':  { titulo: 'Sexta-Feira Santa', descricao: 'Paixão de Cristo' },
-    '2026-4-7':  { titulo: 'Dia Mundial da Saúde', descricao: 'Promoção da saúde e bem-estar' },
-    '2026-4-21': { titulo: 'Tiradentes', descricao: 'Feriado Nacional' },
-    '2026-5-1':  { titulo: 'Dia do Trabalho', descricao: 'Dia Mundial do Trabalho' },
-    '2026-5-10': { titulo: 'Dia das Mães', descricao: 'Homenagem às mães' },
-    '2026-6-4':  { titulo: 'Corpus Christi', descricao: 'Corpo e Sangue de Cristo' },
-    '2026-6-12': { titulo: 'Dia dos Namorados', descricao: 'Data especial para os casais' },
-    '2026-8-9':  { titulo: 'Dia dos Pais', descricao: 'Homenagem aos pais' },
-    '2026-9-7':  { titulo: 'Independência do Brasil', descricao: 'Independência do Brasil' },
-    '2026-10-1': { titulo: 'Dia Internacional do Idoso', descricao: 'Valorização da pessoa idosa' },
-    '2026-10-12':{ titulo: 'Nossa Senhora Aparecida', descricao: 'Padroeira do Brasil' },
-    '2026-10-31':{ titulo: 'Halloween', descricao: 'Dia das Bruxas' },
-    '2026-11-2': { titulo: 'Finados', descricao: 'Dia de Finados' },
-    '2026-11-15':{ titulo: 'Proclamação da República', descricao: 'Proclamação da República do Brasil' },
-    '2026-11-20':{ titulo: 'Consciência Negra', descricao: 'Dia da Consciência Negra' },
-    '2026-12-25':{ titulo: 'Natal', descricao: 'Natal' },
-    '2026-12-31':{ titulo: 'Réveillon', descricao: 'Véspera do Ano Novo' }
+var datasFixas = {
+    '1-1':   { titulo: 'Confraternização Universal', descricao: 'Ano Novo' },
+    '3-8':   { titulo: 'Dia Internacional da Mulher', descricao: 'Homenagem às mulheres' },
+    '4-7':   { titulo: 'Dia Mundial da Saúde', descricao: 'Promoção da saúde e bem-estar' },
+    '4-21':  { titulo: 'Tiradentes', descricao: 'Feriado Nacional' },
+    '5-1':   { titulo: 'Dia do Trabalho', descricao: 'Dia Mundial do Trabalho' },
+    '6-12':  { titulo: 'Dia dos Namorados', descricao: 'Data especial para os casais' },
+    '9-7':   { titulo: 'Independência do Brasil', descricao: 'Independência do Brasil' },
+    '10-1':  { titulo: 'Dia Internacional do Idoso', descricao: 'Valorização da pessoa idosa' },
+    '10-12': { titulo: 'Nossa Senhora Aparecida', descricao: 'Padroeira do Brasil' },
+    '10-31': { titulo: 'Halloween', descricao: 'Dia das Bruxas' },
+    '11-2':  { titulo: 'Finados', descricao: 'Dia de Finados' },
+    '11-15': { titulo: 'Proclamação da República', descricao: 'Proclamação da República do Brasil' },
+    '11-20': { titulo: 'Consciência Negra', descricao: 'Dia da Consciência Negra' },
+    '12-25': { titulo: 'Natal', descricao: 'Natal' },
+    '12-31': { titulo: 'Réveillon', descricao: 'Véspera do Ano Novo' }
 };
+
+function calcularPascoa(ano) {
+    var a = ano % 19;
+    var b = Math.floor(ano / 100);
+    var c = ano % 100;
+    var d = Math.floor(b / 4);
+    var e = b % 4;
+    var f = Math.floor((b + 8) / 25);
+    var g = Math.floor((b - f + 1) / 3);
+    var h = (19 * a + b - d - g + 15) % 30;
+    var i = Math.floor(c / 4);
+    var k = c % 4;
+    var l = (32 + 2 * e + 2 * i - h - k) % 7;
+    var m = Math.floor((a + 11 * h + 22 * l) / 451);
+    var mes = Math.floor((h + l - 7 * m + 114) / 31);
+    var dia = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(ano, mes - 1, dia);
+}
+
+function gerarDatasComemorativas(ano) {
+    var datas = {};
+    for (var key in datasFixas) {
+        var parts = key.split('-');
+        datas[ano + '-' + parts[0] + '-' + parts[1]] = datasFixas[key];
+    }
+    var pascoa = calcularPascoa(ano);
+    function addData(data, titulo, descricao) {
+        var k = data.getFullYear() + '-' + (data.getMonth() + 1) + '-' + data.getDate();
+        datas[k] = { titulo: titulo, descricao: descricao };
+    }
+    function subDias(data, n) {
+        var d = new Date(data);
+        d.setDate(d.getDate() - n);
+        return d;
+    }
+    function addDias(data, n) {
+        var d = new Date(data);
+        d.setDate(d.getDate() + n);
+        return d;
+    }
+    addData(subDias(pascoa, 47), 'Carnaval', 'Terça-Feira de Carnaval');
+    addData(subDias(pascoa, 46), 'Quarta-Feira de Cinzas', 'Início da Quaresma');
+    addData(subDias(pascoa, 2), 'Sexta-Feira Santa', 'Paixão de Cristo');
+    addData(addDias(pascoa, 60), 'Corpus Christi', 'Corpo e Sangue de Cristo');
+
+    var diaMaes = new Date(ano, 4, 1);
+    diaMaes.setDate(1 + ((0 - diaMaes.getDay() + 7) % 7) + 7);
+    addData(diaMaes, 'Dia das Mães', 'Homenagem às mães');
+
+    var diaPais = new Date(ano, 7, 1);
+    diaPais.setDate(1 + ((0 - diaPais.getDay() + 7) % 7) + 7);
+    addData(diaPais, 'Dia dos Pais', 'Homenagem aos pais');
+
+    return datas;
+}
+
+function getDatasComemorativas() {
+    var ano = dataAtual.getFullYear();
+    if (!getDatasComemorativas._cache || getDatasComemorativas._cache.ano !== ano) {
+        getDatasComemorativas._cache = { ano: ano, datas: gerarDatasComemorativas(ano) };
+    }
+    return getDatasComemorativas._cache.datas;
+}
 
 function getEventosDoDia(dataStr) {
     const eventosUsuario = eventos[dataStr] || [];
+    var dt = getDatasComemorativas();
     return {
         usuario: eventosUsuario,
-        comemorativo: datasComemorativas[dataStr] || null
+        comemorativo: dt[dataStr] || null
     };
 }
 
 function temEvento(dataStr) {
-    return (eventos[dataStr] && eventos[dataStr].length > 0) || !!datasComemorativas[dataStr];
+    var dt = getDatasComemorativas();
+    return (eventos[dataStr] && eventos[dataStr].length > 0) || !!dt[dataStr];
 }
 
 function inicializarCalendario() {

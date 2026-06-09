@@ -307,7 +307,7 @@ class ChessEngine {
         
         // Atualizar direitos de roque
         if (peca.tipo === REI || peca.tipo === TORRE) {
-            const chave = peca.cor === BRANCO ? (colunaOrigem === 4 ? 'W' : '') : 'B';
+            const chave = peca.cor === BRANCO ? 'W' : 'B';
             if (peca.tipo === REI) {
                 this.direitos_roque[chave + 'K'] = false;
                 this.direitos_roque[chave + 'Q'] = false;

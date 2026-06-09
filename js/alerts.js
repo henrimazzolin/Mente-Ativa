@@ -38,7 +38,11 @@ function exibirAlerta(mensagem, tipo) {
     });
 }
 
-function exibirConfirmacao(mensagem, callback) {
+function exibirConfirmacao(mensagem, descricao, callback) {
+    if (typeof descricao === 'function') {
+        callback = descricao;
+        descricao = '';
+    }
     var id = 'ma-confirm-' + Date.now();
 
     var el = document.createElement('div');
@@ -53,6 +57,7 @@ function exibirConfirmacao(mensagem, callback) {
         '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>' +
         '</svg>' +
         '<p style="font-size:17px;font-weight:500;margin:0;color:inherit;">' + mensagem + '</p>' +
+        (descricao ? '<p style="font-size:14px;color:#64748B;margin-top:8px;">' + descricao + '</p>' : '') +
         '</div>' +
         '<div class="modal-footer border-0 justify-content-center pt-0 pb-2 gap-2">' +
         '<button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal" style="border-radius:10px;font-weight:600;">Cancelar</button>' +
@@ -71,11 +76,12 @@ function exibirConfirmacao(mensagem, callback) {
     modalEl.querySelector('.btn-ma-confirmar').addEventListener('click', function () {
         confirmou = true;
         modal.hide();
+        if (callback) callback(true);
     });
 
     modalEl.addEventListener('hidden.bs.modal', function () {
         modalEl.remove();
-        if (callback) callback(confirmou);
+        if (!confirmou && callback) callback(false);
     });
 
     modal.show();

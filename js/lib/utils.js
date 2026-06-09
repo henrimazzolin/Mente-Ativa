@@ -31,9 +31,28 @@ MenteAtiva.utils = {
         if (el) el.classList.remove('show');
     },
 
+    _somAtivo: (function() { return localStorage.getItem('mente-ativa-som') !== 'false'; })(),
+    _audioCtx: null,
+    _getAudioCtx: function() {
+        if (!this._audioCtx) {
+            try {
+                this._audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) { return null; }
+        }
+        if (this._audioCtx.state === 'suspended') {
+            this._audioCtx.resume();
+        }
+        return this._audioCtx;
+    },
+    somAtivo: function(ativo) {
+        if (ativo !== undefined) this._somAtivo = ativo;
+        return this._somAtivo;
+    },
     playBeep: function(freq, duration) {
+        if (!this._somAtivo) return;
         try {
-            var ctx = new (window.AudioContext || window.webkitAudioContext)();
+            var ctx = this._getAudioCtx();
+            if (!ctx) return;
             var osc = ctx.createOscillator();
             var gain = ctx.createGain();
             osc.connect(gain);
@@ -43,6 +62,65 @@ MenteAtiva.utils = {
             gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + (duration || 0.3));
             osc.start(ctx.currentTime);
             osc.stop(ctx.currentTime + (duration || 0.3));
+        } catch (e) {}
+    },
+    playCorrect: function() {
+        if (!this._somAtivo) return;
+        try {
+            var ctx = this._getAudioCtx();
+            if (!ctx) return;
+            var osc1 = ctx.createOscillator();
+            var osc2 = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc1.connect(gain);
+            osc2.connect(gain);
+            gain.connect(ctx.destination);
+            gain.gain.setValueAtTime(0.25, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+            osc1.frequency.setValueAtTime(523, ctx.currentTime);
+            osc1.frequency.setValueAtTime(659, ctx.currentTime + 0.1);
+            osc2.frequency.setValueAtTime(784, ctx.currentTime + 0.2);
+            osc1.start(ctx.currentTime);
+            osc1.stop(ctx.currentTime + 0.3);
+            osc2.start(ctx.currentTime + 0.2);
+            osc2.stop(ctx.currentTime + 0.4);
+        } catch (e) {}
+    },
+    playWrong: function() {
+        if (!this._somAtivo) return;
+        try {
+            var ctx = this._getAudioCtx();
+            if (!ctx) return;
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            gain.gain.setValueAtTime(0.15, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+            osc.frequency.setValueAtTime(330, ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(220, ctx.currentTime + 0.3);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.3);
+        } catch (e) {}
+    },
+    playComplete: function() {
+        if (!this._somAtivo) return;
+        try {
+            var ctx = this._getAudioCtx();
+            if (!ctx) return;
+            var notes = [523, 587, 659, 784];
+            notes.forEach(function(n, i) {
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.12);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.12 + 0.25);
+                osc.frequency.value = n;
+                osc.start(ctx.currentTime + i * 0.12);
+                osc.stop(ctx.currentTime + i * 0.12 + 0.25);
+            });
         } catch (e) {}
     },
 

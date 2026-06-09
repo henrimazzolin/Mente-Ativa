@@ -302,7 +302,7 @@ body {
 }
 
 .warning-box li::before {
-    content: '×';
+    content: '\26A0 ';
     position: absolute;
     left: 0;
     color: var(--cor-aviso);
@@ -413,3 +413,5 @@ body {
         height: 2.25em;
     }
 }
+
+

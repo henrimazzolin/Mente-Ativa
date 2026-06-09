@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="css/assistente-flutuante.css">
     <link rel="stylesheet" href="css/dificuldade.css">
     <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
-    <script src="js/components/accessibility.js" defer></script>
-    <script src="js/dark-mode.js" defer></script>
+    <script src="js/accessibility-unified.js" defer></script>
     <script src="js/components/logo.js" defer></script>
     
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="container">
@@ -60,7 +60,7 @@
                 </a>
                 <a href="jogo-associacao-imagens.html" class="super-simples-card ilustrado">
                     <div class="super-simples-icon">
-                        <img src="img/cards/associacao-imagens.png" alt="Imagens Iguais">
+                        <img src="img/cards/imagens-iguais.png" alt="Imagens Iguais">
                     </div>
                     <h2>Imagens Iguais</h2>
                 </a>
@@ -72,9 +72,21 @@
                 </a>
                 <a href="jogo-pareamento-simples.html" class="super-simples-card ilustrado">
                     <div class="super-simples-icon">
-                        <img src="img/cards/pareamento-simples.png" alt="Jogo Visual Simples">
+                        <img src="img/cards/visual-simples.png" alt="Jogo Visual Simples">
                     </div>
                     <h2>Jogo Visual Simples</h2>
+                </a>
+                <a href="jogo-ordenacao.html" class="super-simples-card ilustrado">
+                    <div class="super-simples-icon" style="font-size:4.5rem;line-height:1">1️⃣2️⃣3️⃣</div>
+                    <h2>Ordenação</h2>
+                </a>
+                <a href="jogo-completar-figura.html" class="super-simples-card ilustrado">
+                    <div class="super-simples-icon" style="font-size:4.5rem;line-height:1">🧩</div>
+                    <h2>Completar a Figura</h2>
+                </a>
+                <a href="jogo-contagem.html" class="super-simples-card ilustrado">
+                    <div class="super-simples-icon" style="font-size:4.5rem;line-height:1">🔢</div>
+                    <h2>Contagem</h2>
                 </a>
             </div>
         </div>
@@ -86,10 +98,10 @@
         <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
             <a href="sobre.html" class="sobre-footer">Sobre</a>
     </footer>
-    <script src="js/pages/jogos-acompanhados.js"></script>
     <script src="js/assistente-flutuante.js"></script>
     <script src="js/alerts.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>if('serviceWorker'in navigator){navigator.serviceWorker.register('service-worker.js').catch(function(){})}</script>
 </body>
 </html>
