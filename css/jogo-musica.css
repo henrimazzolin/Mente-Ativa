@@ -3,7 +3,7 @@
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
             --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
+            --cor-texto-claro: #475569;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -21,7 +21,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-image: url(../img/greenbkg.png);
-      
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -76,7 +76,7 @@
         }
 
         .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
-        .logo-text { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #0B6477, #0AD1C8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-text { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #0B6477, #0B8A8A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         .page-title { text-align: center; margin-bottom: 20px; }
         .page-title h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; margin-bottom: 8px; }

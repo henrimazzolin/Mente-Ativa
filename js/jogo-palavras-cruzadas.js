@@ -800,6 +800,7 @@ function resetGame() {
         btn.classList.remove('hint-btn-disabled');
     });
     currentWord = null;
+    lastSelectedWord = null;
     
     if (currentTema && currentTema.words) {
         currentTema.words.forEach(function(w) {

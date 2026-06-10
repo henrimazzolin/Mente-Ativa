@@ -366,7 +366,7 @@ html.modo-escuro .assistente-sidebar .help-box li {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    background: linear-gradient(135deg, #0B6477, #0B8A8A);
     color: #fff;
     display: flex;
     align-items: center;
@@ -500,7 +500,7 @@ html.modo-escuro .faq-arrow {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    background: linear-gradient(135deg, #0B6477, #0B8A8A);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -540,7 +540,7 @@ html.modo-escuro .faq-arrow {
     padding: 12px 40px;
     border: none;
     border-radius: 30px;
-    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    background: linear-gradient(135deg, #0B6477, #0B8A8A);
     color: #fff;
     font-size: 18px;
     font-weight: 600;

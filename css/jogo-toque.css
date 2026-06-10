@@ -3,7 +3,7 @@
             --cor-fundo: #F8FAFC;
             --cor-fundo-card: #FFFFFF;
             --cor-texto: #1E293B;
-            --cor-texto-claro: #64748B;
+            --cor-texto-claro: #475569;
             --cor-primaria: #3B82F6;
             --cor-secundaria: #10B981;
             --cor-terceira: #F59E0B;
@@ -25,7 +25,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-image: url(../img/greenbkg.png);
-            
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -97,7 +97,7 @@
         .logo-text {
             font-size: 22px;
             font-weight: 700;
-            background: linear-gradient(135deg, #0B6477, #0AD1C8);
+            background: linear-gradient(135deg, #0B6477, #0B8A8A);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;

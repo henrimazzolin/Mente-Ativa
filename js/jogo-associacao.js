@@ -66,6 +66,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let matchedPairs = 0;
         let correctCount = 0;
         let isLocked = false;
+        let currentDifficulty = 'facil';
+        var difficultyConfig = {
+            facil: { pairs: 3 },
+            medio: { pairs: 6 },
+            dificil: { pairs: 10 }
+        };
 
         function initGame() {
             matchedPairs = 0;
@@ -74,8 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedLeftCard = null;
             selectedLeftWord = null;
             
+            var numPairs = difficultyConfig[currentDifficulty].pairs;
             document.getElementById('correct').textContent = '0';
-            document.getElementById('pairs').textContent = '0/4';
+            document.getElementById('pairs').textContent = '0/' + numPairs;
             
             const leftContainer = document.getElementById('leftWords');
             const rightContainer = document.getElementById('rightWords');
@@ -83,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             leftContainer.innerHTML = '';
             rightContainer.innerHTML = '';
             
-            currentPairs = MenteAtiva.utils.shuffleArray(wordPairs).slice(0, 4);
+            currentPairs = MenteAtiva.utils.shuffleArray(wordPairs).slice(0, numPairs);
             
             const shuffledRight = MenteAtiva.utils.shuffleArray(currentPairs.slice());
             
@@ -132,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 correctCount++;
                 matchedPairs++;
                 document.getElementById('correct').textContent = correctCount;
-                document.getElementById('pairs').textContent = matchedPairs + '/4';
+                document.getElementById('pairs').textContent = matchedPairs + '/' + difficultyConfig[currentDifficulty].pairs;
                 
                 selectedLeftCard.classList.remove('selected');
                 selectedLeftCard.classList.add('matched');
@@ -144,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedLeftWord = null;
                 isLocked = false;
                 
-                if (matchedPairs === 4) {
+                if (matchedPairs === difficultyConfig[currentDifficulty].pairs) {
                     setTimeout(() => {
                         showWinMessage();
                     }, 500);
@@ -175,6 +182,20 @@ document.addEventListener('DOMContentLoaded', function() {
             initGame();
         }
 
+        function setupDificuldadeButtons() {
+            var buttons = document.querySelectorAll('.dif-btn');
+            buttons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    if (this.classList.contains('facil')) currentDifficulty = 'facil';
+                    else if (this.classList.contains('medio')) currentDifficulty = 'medio';
+                    else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
+                    initGame();
+                });
+            });
+        }
+
         // Event listeners
         document.getElementById('restartBtn').addEventListener('click', function() {
             exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
@@ -184,5 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('feedbackBtn').addEventListener('click', restartGame);
         document.getElementById('overlay').addEventListener('click', restartGame);
 
+        setupDificuldadeButtons();
         initGame();
 });

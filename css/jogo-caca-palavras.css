@@ -2,7 +2,7 @@
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto-claro: #475569;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -26,6 +26,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-image: url(../img/bluebkg.png);
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;

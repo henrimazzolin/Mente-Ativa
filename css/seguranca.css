@@ -2,7 +2,7 @@
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto-claro: #475569;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
@@ -143,7 +143,7 @@ body {
 .logo-text {
     font-size: 20px;
     font-weight: 600;
-    background: linear-gradient(135deg, #0B6477, #0AD1C8);
+    background: linear-gradient(135deg, #0B6477, #0B8A8A);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -246,7 +246,7 @@ body {
 }
 
 .tip-card:nth-child(1) .tip-number { background: #EF4444; }
-.tip-card:nth-child(2) .tip-number { background: #0AD1C8; }
+.tip-card:nth-child(2) .tip-number { background: #0B8A8A; }
 .tip-card:nth-child(3) .tip-number { background: #14919B; }
 .tip-card:nth-child(4) .tip-number { background: #45DFB1; }
 .tip-card:nth-child(5) .tip-number { background: #0B6477; }

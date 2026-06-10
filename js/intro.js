@@ -4,24 +4,29 @@
 
 (function() {
     // Mostrar apenas na primeira vez que acessar o site
-    if (localStorage.getItem('intro_vista')) {
-        const intro = document.getElementById('intro-overlay');
-        if (intro) intro.style.display = 'none';
-        document.body.style.overflow = '';
-        return;
-    }
+    try {
+        if (localStorage.getItem('intro_vista')) {
+            const intro = document.getElementById('intro-overlay');
+            if (intro) intro.style.display = 'none';
+            document.body.style.overflow = '';
+            return;
+        }
+    } catch(e) {}
 
-    localStorage.setItem('intro_vista', 'true');
+    try { localStorage.setItem('intro_vista', 'true'); } catch(e) {}
 
-    const intro = document.getElementById('intro-overlay');
-    const title = document.getElementById('title');
-    const main = document.getElementById('main');
-    const desc = document.getElementById('desc');
+    var intro = document.getElementById('intro-overlay');
+    if (!intro) return;
 
-    const text = "Mente Ativa";
-    let index = 0;
+    var title = document.getElementById('title');
+    var main = document.getElementById('main');
+    var desc = document.getElementById('desc');
+
+    var text = "Mente Ativa";
+    var index = 0;
 
     function typeWriter() {
+        if (!title) return;
         if (index === 0) {
             title.textContent = "";
             title.style.opacity = 1;
@@ -38,15 +43,16 @@
 
     // Sequência de animações
     setTimeout(function() {
-        main.classList.add('move');
-        title.style.opacity = 1;
-        typeWriter();
+        if (main) main.classList.add('move');
+        if (title) { title.style.opacity = 1; typeWriter(); }
     }, 1800);
 
     setTimeout(function() {
-        desc.style.opacity = 1;
-        desc.style.transform = 'translateY(0)';
-        desc.style.transition = 'all 0.8s ease';
+        if (desc) {
+            desc.style.opacity = 1;
+            desc.style.transform = 'translateY(0)';
+            desc.style.transition = 'all 0.8s ease';
+        }
     }, 3500);
 
     function closeIntro() {

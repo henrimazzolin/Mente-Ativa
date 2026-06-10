@@ -2,12 +2,12 @@
     --cor-fundo: #F8FAFC;
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
-    --cor-texto-claro: #64748B;
+    --cor-texto-claro: #475569;
     --cor-primaria: #3B82F6;
     --cor-secundaria: #10B981;
     --cor-terceira: #F59E0B;
-    --cor-sucesso: #10B981;
-    --cor-erro: #EF4444;
+    --cor-sucesso: #059669;
+    --cor-erro: #DC2626;
     --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
     --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
     --borda-radius: 16px;
@@ -23,6 +23,8 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
     background-image: url(../img/neutralbkg.png);
     background-size: cover;
     background-position: center;
@@ -154,10 +156,14 @@ body > .header {
 
 footer {
     margin-top: auto;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     color: var(--cor-texto-claro);
-    font-size: 1rem;
+    font-size: 1.1rem;
+}
+
+footer > * {
+    margin: 4px 0;
 }
 
 .btn {
@@ -166,12 +172,12 @@ footer {
     justify-content: center;
     gap: 8px;
     padding: 14px 28px;
-    background: var(--cor-primaria);
+    background: #2563EB;
     color: white;
     border: none;
     border-radius: 14px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 18px;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -184,13 +190,13 @@ footer {
 }
 
 .btn-primary {
-    background: var(--cor-primaria);
+    background: #2563EB;
     color: white;
 }
 
 .btn-secondary {
     background: var(--cor-terceira);
-    color: white;
+    color: #1E293B;
 }
 
 .btn-secondary:hover {
@@ -312,7 +318,7 @@ footer {
     }
     
     .btn {
-        font-size: 15px;
+        font-size: 18px;
         padding: 12px 22px;
     }
     
@@ -333,7 +339,7 @@ footer {
     
     .btn {
         padding: 10px 18px;
-        font-size: 15px;
+        font-size: 18px;
     }
     
     .logo-text {
@@ -341,7 +347,30 @@ footer {
     }
     
     footer {
-        padding: 16px 10px;
+        padding: 8px 10px;
+    }
+}
+
+/* Título grande dentro da div titulo-com-tts */
+.titulo-com-tts h1 {
+    font-size: 2rem;
+}
+
+/* Focus visible para navegação por teclado */
+:focus-visible {
+    outline: 3px solid #2563EB;
+    outline-offset: 2px;
+}
+
+/* Respeitar preferência por animações reduzidas */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 

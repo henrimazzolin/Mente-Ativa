@@ -59,13 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         };
 
-        // Escolher uma categoria aleatória
-        const categories = Object.keys(imageSets);
-        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-        let images = imageSets[randomCategory];
-
-        images = MenteAtiva.utils.shuffleArray(images).slice(0, 8);
-
         let cards = [];
         let flippedCards = [];
         let matchedPairs = 0;
@@ -119,10 +112,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 card.dataset.index = index;
                 card.dataset.image = imgUrl;
                 var img = document.createElement('img');
-                img.src = imgUrl;
                 img.alt = 'Carta';
                 img.loading = 'lazy';
                 img.onerror = function() { imgOnError(this); };
+                img.src = imgUrl;
                 card.innerHTML = '<div class="card-image"></div>';
                 card.querySelector('.card-image').appendChild(img);
                 card.addEventListener('click', function() { flipCard(card); });
@@ -234,7 +227,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'jogos-individuais.html'; });
         document.getElementById('feedbackBtn').addEventListener('click', hideFeedback);
-        document.getElementById('overlay').addEventListener('click', hideFeedback);
+        document.getElementById('overlay').addEventListener('click', function() {
+            var modal = document.getElementById('comoJogarModal');
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            }
+            hideFeedback();
+        });
         document.getElementById('btn-fechar-modal').addEventListener('click', function() {
             document.getElementById('comoJogarModal').style.display = 'none';
             document.getElementById('overlay').classList.remove('show');

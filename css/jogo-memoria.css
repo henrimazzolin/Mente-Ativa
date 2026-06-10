@@ -1,7 +1,7 @@
         :root {
             --cor-primaria: #14919B;
             --cor-secundaria: #45DFB1;
-            --cor-terceira: #0AD1C8;
+            --cor-terceira: #0B8A8A;
             --cor-fundo: #F0F9FF;
             --cor-fundo-card: #FFFFFF;
             --cor-texto: #1E293B;
@@ -21,7 +21,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-image: url(../img/bluebkg.png);
-            
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -96,7 +96,7 @@
         .logo-text {
             font-size: 20px;
             font-weight: 700;
-            background: linear-gradient(135deg, #0B6477, #0AD1C8);
+            background: linear-gradient(135deg, #0B6477, #0B8A8A);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;

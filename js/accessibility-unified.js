@@ -71,7 +71,7 @@
         if (!document.getElementById('ma-font-style')) {
             var style = document.createElement('style');
             style.id = 'ma-font-style';
-            style.textContent = 'body * { font-size: inherit !important; }';
+            style.textContent = 'body *:not(svg):not([class*="ma-"]):not([class*="fa"]):not([class*="bi"]):not(.material-icons):not([class*="icon"]):not(.titulo-com-tts) { font-size: inherit !important; }';
             document.head.appendChild(style);
         }
     };
