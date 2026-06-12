@@ -31,6 +31,11 @@ function exibirAlerta(mensagem, tipo) {
     document.body.appendChild(el.firstElementChild);
 
     var modalEl = document.getElementById(id);
+    if (typeof bootstrap === 'undefined') {
+        alert(mensagem);
+        modalEl.remove();
+        return;
+    }
     var modal = new bootstrap.Modal(modalEl);
     modal.show();
     modalEl.addEventListener('hidden.bs.modal', function () {
@@ -70,6 +75,11 @@ function exibirConfirmacao(mensagem, descricao, callback) {
     document.body.appendChild(el.firstElementChild);
 
     var modalEl = document.getElementById(id);
+    if (typeof bootstrap === 'undefined') {
+        if (callback) callback(confirm('' + mensagem));
+        modalEl.remove();
+        return;
+    }
     var modal = new bootstrap.Modal(modalEl);
     var confirmou = false;
 

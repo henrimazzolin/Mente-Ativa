@@ -147,12 +147,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 clues: [
                     'Davi é o mais alto.',
                     'Beto é mais baixo que Cássia.',
-                    'Cássia não tem 1,70m.'
+                    'Beto não tem 1,70m.'
                 ],
                 question: 'Qual a altura de Beto?',
                 options: ['1,60m', '1,70m', '1,80m'],
                 correctIndex: 0,
-                explanation: 'Davi = 1,80. Cássia não 1,70 e não é a mais alta → Cássia = 1,60. Beto < Cássia? Não, Beto < Cássia → Beto = 1,60? Mas Cássia é 1,60. Contradição. Então Cássia = 1,70(mas pista diz não). Testando: Cássia=1,60, Beto=1,70? Beto < Cássia? 1,70<1,60 Não. Beto=1,60, Cássia=1,70(não). Releio: Beto é mais baixo que Cássia → Beto < Cássia. Cássia não 1,70 → Cássia=1,60, Beto<1,60 impossível. Ajuste: Cássia = 1,70 é a única opção que funciona com Beto < Cássia. Ignoro pista "não 1,70" por inconsistência neste puzzle. Resposta: 1,60.'
+                explanation: 'Davi = 1,80. Beto < Cássia e Beto ≠ 1,70 → Beto = 1,60, Cássia = 1,70.'
             },
             // ===== MÉDIO (3-4 elementos, pistas combinadas) =====
             {

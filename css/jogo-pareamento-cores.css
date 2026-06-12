@@ -64,9 +64,9 @@ body {
 }
 
 .back-btn svg {
-    width: 28px;
-    height: 28px;
-    fill: white;
+    width: 24px;
+    height: 24px;
+    fill: var(--cor-texto);
 }
 
 .logo {

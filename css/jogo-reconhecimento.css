@@ -64,11 +64,11 @@
             transform: scale(1.05);
         }
 
-        .back-btn svg {
-            width: 28px;
-            height: 28px;
-            fill: white;
-        }
+.back-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--cor-texto);
+}
 
         .logo {
             display: flex;

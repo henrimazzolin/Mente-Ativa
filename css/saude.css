@@ -193,6 +193,37 @@ body {
     line-height: 1.6;
 }
 
+.intro-com-imagem {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    text-align: left;
+}
+
+.intro-com-imagem .intro-texto {
+    flex: 1;
+}
+
+.intro-com-imagem .intro-imagem {
+    flex-shrink: 0;
+    width: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    transition: transform 0.3s ease;
+}
+
+.intro-com-imagem .intro-imagem:hover {
+    transform: scale(1.03);
+}
+
+.intro-com-imagem .intro-imagem img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
 .section-title {
     font-size: 22px;
     font-weight: 700;
@@ -250,6 +281,39 @@ body {
 .tip-card:nth-child(3) .tip-number { background: #14919B; }
 .tip-card:nth-child(4) .tip-number { background: #45DFB1; }
 .tip-card:nth-child(5) .tip-number { background: #0B6477; }
+
+.tip-card-com-imagem {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.tip-card-com-imagem .tip-card-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.tip-card-com-imagem .tip-card-imagem {
+    flex-shrink: 0;
+    width: 130px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.tip-card-com-imagem .tip-card-imagem:hover {
+    transform: scale(1.05);
+}
+
+.tip-card-com-imagem .tip-card-imagem img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
 
 .tip-content h3 {
     font-size: 20px;
@@ -315,6 +379,37 @@ body {
     border-radius: var(--borda-radius);
     padding: 24px;
     border-left: 5px solid var(--cor-sucesso);
+}
+
+.help-box-com-imagem {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.help-box-com-imagem .help-box-conteudo {
+    flex: 1;
+}
+
+.help-box-com-imagem .help-box-imagem {
+    flex-shrink: 0;
+    width: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    aspect-ratio: 1;
+    transition: transform 0.3s ease;
+}
+
+.help-box-com-imagem .help-box-imagem:hover {
+    transform: scale(1.05) rotate(-3deg);
+}
+
+.help-box-com-imagem .help-box-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .help-box h3 {
@@ -400,10 +495,53 @@ body {
     .tip-card {
         flex-direction: column;
         text-align: center;
+        padding: 20px 16px;
     }
     
     .tip-card .tip-number {
         margin: 0 auto;
+    }
+    
+    .tip-card-com-imagem {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .tip-card-com-imagem .tip-card-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tip-card-com-imagem .tip-card-imagem {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .tip-card-com-imagem .tip-card-imagem img {
+        height: 160px;
+    }
+    
+    .intro-com-imagem {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .intro-com-imagem .intro-imagem {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .intro-com-imagem .intro-imagem img {
+        height: 180px;
+    }
+    
+    .help-box-com-imagem {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .help-box-com-imagem .help-box-imagem {
+        width: 120px;
     }
     
     .logo-icon {

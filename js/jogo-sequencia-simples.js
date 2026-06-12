@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Event listeners
-        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        document.getElementById('nextBtn').onclick = nextQuestion;
         document.getElementById('feedbackBtn').addEventListener('click', handleFeedback);
         document.getElementById('overlay').addEventListener('click', handleFeedback);
 

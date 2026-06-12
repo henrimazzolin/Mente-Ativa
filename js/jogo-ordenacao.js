@@ -112,9 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             var correctIdx = currentShuffled.indexOf(expected);
             if (correctIdx !== -1 && items[correctIdx]) {
-                setTimeout(function() {
-                    items[correctIdx].classList.add('placed');
-                }, 400);
+                items[correctIdx].classList.add('placed');
             }
 
             document.getElementById('nextBtn').classList.add('show');

@@ -102,8 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (questaoAtual < 4) {
                 document.getElementById('nextBtn').classList.add('show');
-            } else {
-                setTimeout(mostrarResultadoFinal, 1200);
             }
         }
 

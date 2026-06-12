@@ -141,6 +141,12 @@ document.addEventListener('DOMContentLoaded', function () {
             floater.remove();
             if (callback) callback();
         }, { once: true });
+        setTimeout(function () {
+            if (floater.parentNode) {
+                floater.remove();
+                if (callback) callback();
+            }
+        }, 1000);
     }
 
     function getAllMoves(cor) {
@@ -344,13 +350,6 @@ document.addEventListener('DOMContentLoaded', function () {
         st.innerHTML = html;
     }
 
-    function iniciaJogo() {
-        document.getElementById('intro-screen').style.display = 'none';
-        document.getElementById('game-screen').style.display = 'flex';
-        document.getElementById('escolhecor-inicio').classList.add('visible');
-        document.getElementById('escolhecor-inicio').style.display = 'flex';
-    }
-
     function escolheCor(cor) {
         playerColor = cor;
         robotColor = cor === 'W' ? 'B' : 'W';
@@ -363,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
         moveCount = 0;
         document.getElementById('escolhecor-inicio').classList.remove('visible');
         document.getElementById('escolhecor-inicio').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'flex';
         document.getElementById('game-status').style.display = 'block';
         renderNotation();
         renderBoard();
@@ -377,7 +377,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Event listeners
-    document.getElementById('btn-start-game').addEventListener('click', iniciaJogo);
     document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
     document.getElementById('btn-reload').addEventListener('click', function () {

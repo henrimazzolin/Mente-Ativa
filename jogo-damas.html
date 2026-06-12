@@ -35,18 +35,6 @@
             <p>Jogue uma partida de damas</p>
         </div>
 
-        <div class="instrucao-destaque">
-            <p>Clique em "Começar Jogo" e mova as peças clicando nelas e depois no destino.</p>
-        </div>
-
-        <div id="intro-screen" class="game-area">
-            <div class="game-icon"><svg viewBox="0 0 24 24" fill="#8B5CF6">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-            </svg></div>
-            <p class="game-description">As damas é um jogo estratégico que estimula o raciocínio lógico. Capture todas as peças do oponente para vencer!</p>
-            <button class="btn" id="btn-start-game">Começar Jogo</button>
-        </div>
-
         <div id="game-screen">
             <div id="fundo"></div>
             <div class="game-layout">
@@ -102,19 +90,20 @@
         </div>
     </div>
 
-    <div id="escolhecor-inicio">
+    <div id="escolhecor-inicio" class="visible" style="display: flex;">
         <a href="jogos-individuais.html" class="back-btn-escolha">
             <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
         </a>
         <div class="escolha-lado-container">
-            <div class="escolha-lado-titulo">ESCOLHA SEU LADO</div>
+            <div class="escolha-lado-titulo"><span class="title-icon">&#9898;</span> ESCOLHA SEU LADO</div>
+            <p class="escolha-subtitulo">Você jogará contra o robô. As peças brancas sempre começam a partida.</p>
             <div class="color-choice-container">
                 <div class="color-option" id="color-white">
-                    <div class="color-piece white-piece">&#9898;</div>
+                    <div class="checkers-piece white"></div>
                     <div class="color-label">BRANCO</div>
                 </div>
                 <div class="color-option" id="color-black">
-                    <div class="color-piece black-piece">&#9899;</div>
+                    <div class="checkers-piece black"></div>
                     <div class="color-label">PRETO</div>
                 </div>
             </div>

@@ -38,6 +38,26 @@ var FAQ = [
     {
         pergunta: 'Como jogar o Jogo da Associação?',
         resposta: 'No <strong>Jogo da Associação</strong>, você precisa ligar figuras que combinam entre si. Por exemplo, ligar uma imagem de "sol" com "praia" ou "chave" com "porta". Clique em um item e depois no outro para fazer a ligação. O jogo ajuda a exercitar o <strong>raciocínio lógico</strong> e a <strong>memória</strong> de forma divertida.'
+    },
+    {
+        pergunta: 'Quantos jogos têm no site? Como escolher?',
+        resposta: 'O site tem <strong>mais de 20 jogos</strong> divididos em duas categorias:<br><br>— <strong>Jogos Individuais</strong> (para jogar sozinho): Palavras Cruzadas, Sudoku, Jogo da Memória, Quebra-Cabeça, Xadrez, Damas, Dedução Lógica, Pintura, Caça-Palavras e mais.<br><br>— <strong>Jogos Acompanhados</strong> (com auxílio de um cuidador ou familiar): Associação, Cores, Contagem, Escolha, Frases, Música, Pareamento, Reconhecimento e outros.<br><br>Se você gosta de desafios sozinho, comece pelos <strong>Individuais</strong>. Se prefere alguém ao lado para ajudar, escolha os <strong>Acompanhados</strong>. Todos são divertidos e fazem bem para a mente!'
+    },
+    {
+        pergunta: 'Como aumentar o tamanho das letras e ativar o modo escuro?',
+        resposta: 'É muito fácil! No canto direito da tela, clique no botão <strong>"Acessibilidade"</strong> para abrir o painel de ajustes. Lá você encontra:<br><br>— <strong>Tamanho das letras:</strong> use os botões <strong>−</strong> e <strong>+</strong> para diminuir ou aumentar a fonte. O tamanho atual aparece em porcentagem.<br><br>— <strong>Modo escuro:</strong> clique em "Modo Escuro" para deixar o fundo escuro e as letras claras, ideal para ambientes com pouca luz.<br><br>— <strong>Contraste:</strong> o site também se adapta a temas de alto contraste para facilitar a leitura.<br><br>Todas as configurações são salvas automaticamente para a sua próxima visita!'
+    },
+    {
+        pergunta: 'O site tem fundamento científico?',
+        resposta: 'Sim! O <strong>Mente Ativa</strong> foi desenvolvido com base em estudos científicos sobre estimulação cognitiva em idosos. A página <strong>"Sobre"</strong> do site explica os benefícios de cada jogo com referências de pesquisas das universidades, como:<br><br>— Palavras Cruzadas ajudam na <strong>reserva cognitiva</strong> (Wilson et al., 2021)<br>— Jogo da Memória melhora a <strong>memória imediata</strong> (Chen et al., 2025)<br>— Xadrez e Damas reduzem o <strong>risco de declínio cognitivo</strong> (Nature, 2024)<br>— Sudoku fortalece o <strong>raciocínio lógico</strong> e a <strong>atenção</strong><br><br>O projeto segue a metodologia <strong>Design Science Research (DSR)</strong>, com revisão da literatura e testes de usabilidade com idosos.'
+    },
+    {
+        pergunta: 'O que tem na página de Saúde e Bem-estar?',
+        resposta: 'Na seção <strong>"Saúde e Bem-estar"</strong> você encontra dicas práticas para o dia a dia:<br><br>— <strong>Alimentação saudável:</strong> sugestões de frutas, verduras e alimentos que fazem bem para a memória, com um vídeo explicativo da nossa nutricionista.<br><br>— <strong>Hidratação:</strong> a importância de beber água regularmente.<br><br>— <strong>Sono:</strong> dicas para ter uma boa noite de sono.<br><br>— <strong>Saúde mental:</strong> orientações para reduzir o estresse e manter a mente ativa.<br><br>— <strong>Quando procurar um médico:</strong> sinais de alerta que merecem atenção.<br><br>São informações simples e úteis para ajudar você a viver com mais saúde e qualidade de vida!'
+    },
+    {
+        pergunta: 'Quais dicas de segurança digital o site oferece?',
+        resposta: 'A página <strong>"Segurança"</strong> do Mente Ativa traz dicas importantes para você se proteger de golpes na internet e no telefone:<br><br>1) <strong>Não compartilhe suas senhas</strong> — Nenhum banco ou empresa pede senhas por telefone ou mensagem.<br><br>2) <strong>Cuidado com links desconhecidos</strong> — Não clique em links de mensagens de pessoas que você não conhece.<br><br>3) <strong>Desconfie de prêmios</strong> — Se pedem dinheiro para liberar um prêmio, é golpe.<br><br>4) <strong>Não atenda ligações suspeitas</strong> — Se disserem que é do banco, desligue e ligue você mesmo para o banco.<br><br>5) <strong>Verifique antes de pagar</strong> — Confirme com a pessoa ou empresa antes de fazer qualquer pagamento.<br><br>Fique atento e, se tiver dúvida, peça ajuda a um familiar de confiança!'
     }
 ];
 

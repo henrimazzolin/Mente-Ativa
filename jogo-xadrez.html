@@ -35,18 +35,6 @@
             <p>Jogue uma partida de xadrez</p>
         </div>
 
-        <div class="instrucao-destaque">
-            <p>Clique em "Começar Jogo" e mova as peças clicando nelas e depois no destino.</p>
-        </div>
-
-        <div id="intro-screen" class="game-area">
-            <div class="game-icon"><svg viewBox="0 0 24 24" fill="#8B5CF6">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg></div>
-            <p class="game-description">O xadrez é um jogo estratégico que estimula o raciocínio lógico e o planejamento. Desafie sua mente com partidas contra o computador.</p>
-            <button class="btn" id="btn-start-game">Começar Jogo</button>
-        </div>
-
         <div id="game-screen">
             <div id="fundo"></div>
             <div class="game-layout">
@@ -112,19 +100,20 @@
         </div>
     </div>
 
-    <div id="escolhecor-inicio">
+    <div id="escolhecor-inicio" class="visible" style="display: flex;">
         <a href="jogos-individuais.html" class="back-btn-escolha">
             <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
         </a>
         <div class="escolha-lado-container">
-            <div class="escolha-lado-titulo">ESCOLHA SEU LADO</div>
+            <div class="escolha-lado-titulo"><span class="title-icon">&#9812;</span> ESCOLHA SEU LADO</div>
+            <p class="escolha-subtitulo">Você jogará contra o robô. As peças brancas sempre começam a partida.</p>
             <div class="color-choice-container">
                 <div class="color-option" id="color-white">
-                    <div class="color-piece white-piece">&#9812;</div>
+                    <span class="chess-icon white-piece">&#9812;</span>
                     <div class="color-label">BRANCO</div>
                 </div>
                 <div class="color-option" id="color-black">
-                    <div class="color-piece black-piece">&#9818;</div>
+                    <span class="chess-icon black-piece">&#9818;</span>
                     <div class="color-label">PRETO</div>
                 </div>
             </div>

@@ -193,6 +193,37 @@ body {
     line-height: 1.6;
 }
 
+.intro-com-imagem {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    text-align: left;
+}
+
+.intro-com-imagem .intro-texto {
+    flex: 1;
+}
+
+.intro-com-imagem .intro-imagem {
+    flex-shrink: 0;
+    width: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    transition: transform 0.3s ease;
+}
+
+.intro-com-imagem .intro-imagem:hover {
+    transform: scale(1.03);
+}
+
+.intro-com-imagem .intro-imagem img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
 .section-title {
     font-size: 22px;
     font-weight: 700;
@@ -271,6 +302,36 @@ body {
     padding: 24px;
     border-left: 5px solid var(--cor-aviso);
     margin-bottom: 30px;
+}
+
+.warning-box-com-imagem {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.warning-box-com-imagem .warning-box-conteudo {
+    flex: 1;
+}
+
+.warning-box-com-imagem .warning-box-imagem {
+    flex-shrink: 0;
+    width: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    transition: transform 0.3s ease;
+}
+
+.warning-box-com-imagem .warning-box-imagem:hover {
+    transform: scale(1.03);
+}
+
+.warning-box-com-imagem .warning-box-imagem img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
 }
 
 .warning-box h3 {
@@ -355,6 +416,34 @@ body {
     
     .tip-card .tip-number {
         margin: 0 auto;
+    }
+    
+    .intro-com-imagem {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .intro-com-imagem .intro-imagem {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .intro-com-imagem .intro-imagem img {
+        height: 180px;
+    }
+    
+    .warning-box-com-imagem {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .warning-box-com-imagem .warning-box-imagem {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .warning-box-com-imagem .warning-box-imagem img {
+        height: 160px;
     }
     
     .logo-icon {

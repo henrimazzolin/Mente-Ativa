@@ -144,23 +144,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         var srcRect = srcCell.getBoundingClientRect();
         var destRect = destCell.getBoundingClientRect();
+        srcCell.innerHTML = '';
+        srcCell.className = (srcL + srcC) % 2 === 0 ? 'light' : 'dark';
         var floater = document.createElement('div');
         floater.id = 'peca-flutuante';
         floater.innerHTML = '<span class="floater-content">' + pieceHTML + '</span>';
-        var srcClasses = srcCell.className;
-        if (srcClasses) floater.className = srcClasses;
         floater.style.left = srcRect.left + 'px';
         floater.style.top = srcRect.top + 'px';
         floater.style.width = srcRect.width + 'px';
         floater.style.height = srcRect.height + 'px';
         document.body.appendChild(floater);
-        srcCell.style.visibility = 'hidden';
         requestAnimationFrame(function () {
             floater.style.left = destRect.left + 'px';
             floater.style.top = destRect.top + 'px';
         });
-        var tid = setTimeout(function () {
-            if (floater.parentNode) floater.parentNode.removeChild(floater);
+        setTimeout(function () {
+            if (floater.parentNode) floater.remove();
             if (callback) callback();
         }, 400);
     }
@@ -198,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
         if (engine.ehVencedor(playerColor)) {
-            var altWinner = playerColor === 'W' ? 'B' : 'W';
+            var altWinner = playerColor;
             showGameOver(altWinner);
             return true;
         }
@@ -254,13 +253,6 @@ document.addEventListener('DOMContentLoaded', function () {
         st.innerHTML = html;
     }
 
-    function iniciaJogo() {
-        document.getElementById('intro-screen').style.display = 'none';
-        document.getElementById('game-screen').style.display = 'flex';
-        document.getElementById('escolhecor-inicio').classList.add('visible');
-        document.getElementById('escolhecor-inicio').style.display = 'flex';
-    }
-
     function escolheCor(cor) {
         playerColor = cor;
         robotColor = cor === 'W' ? 'B' : 'W';
@@ -271,6 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
         validMoves = [];
         document.getElementById('escolhecor-inicio').classList.remove('visible');
         document.getElementById('escolhecor-inicio').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'flex';
         document.getElementById('game-status').style.display = 'block';
         renderBoard();
         updateStatus();
@@ -282,7 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    document.getElementById('btn-start-game').addEventListener('click', iniciaJogo);
     document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
     document.getElementById('btn-reload').addEventListener('click', function () {

@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     var groups = [
-        { items: ['🍎', '🍌', '🍇', '🍊'], missingIndex: 3 },
-        { items: ['🐶', '🐱', '🐰', '🐟'], missingIndex: 3 },
-        { items: ['🟥', '🟦', '🟩', '🟨'], missingIndex: 3 },
-        { items: ['✏️', '📚', '📏', '✂️'], missingIndex: 3 },
-        { items: ['☕', '🥤', '🍵', '🧃'], missingIndex: 3 },
-        { items: ['🎵', '🎶', '🎤', '🥁'], missingIndex: 3 },
-        { items: ['🧢', '🧣', '🧤', '👟'], missingIndex: 3 },
-        { items: ['🚗', '✈️', '🚢', '🚲'], missingIndex: 3 },
-        { items: ['🍕', '🍔', '🌭', '🍪'], missingIndex: 3 },
-        { items: ['🔵', '🔴', '🟠', '🟣'], missingIndex: 3 }
+        { items: ['🍎', '🍌', '🍇', '🍊'] },
+        { items: ['🐶', '🐱', '🐰', '🐟'] },
+        { items: ['🟥', '🟦', '🟩', '🟨'] },
+        { items: ['✏️', '📚', '📏', '✂️'] },
+        { items: ['☕', '🥤', '🍵', '🧃'] },
+        { items: ['🎵', '🎶', '🎤', '🥁'] },
+        { items: ['🧢', '🧣', '🧤', '👟'] },
+        { items: ['🚗', '✈️', '🚢', '🚲'] },
+        { items: ['🍕', '🍔', '🌭', '🍪'] },
+        { items: ['🔵', '🔴', '🟠', '🟣'] }
     ];
+    var missingIndex = 3;
 
     var currentGroup = null;
     var score = 0;
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showGroup() {
         var idx = Math.floor(Math.random() * groups.length);
         currentGroup = groups[idx];
+        missingIndex = Math.floor(Math.random() * currentGroup.items.length);
         answered = false;
 
         document.getElementById('nextBtn').classList.remove('show');
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentGroup.items.forEach(function(item, i) {
             var div = document.createElement('div');
             div.className = 'group-item';
-            if (i === currentGroup.missingIndex) {
+            if (i === missingIndex) {
                 div.textContent = '❓';
                 div.classList.add('missing');
             } else {
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var container = document.getElementById('optionsContainer');
         container.innerHTML = '';
 
-        var correct = currentGroup.items[currentGroup.missingIndex];
+        var correct = currentGroup.items[missingIndex];
         var pool = [];
         groups.forEach(function(g) {
             g.items.forEach(function(item) {
@@ -91,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         answered = true;
         total++;
 
-        var correct = currentGroup.items[currentGroup.missingIndex];
+        var correct = currentGroup.items[missingIndex];
         var buttons = document.querySelectorAll('.option-btn');
         buttons.forEach(function(b) { b.disabled = true; });
 

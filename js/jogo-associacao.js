@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { left: 'Porta', right: 'Maçaneta' },
             { left: 'Janela', right: 'Vidro' },
             { left: 'Travesseiro', right: 'Cabeça' },
-            { left: 'Chinelo', right: 'Pé' },
+            { left: 'Chinelo', right: 'Sandália' },
             { left: 'Talher', right: 'Garfo' },
             { left: 'Prato', right: 'Comida' },
             { left: 'Cadeira', right: 'Sentar' },

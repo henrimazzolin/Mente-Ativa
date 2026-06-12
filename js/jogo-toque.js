@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let acertos = 0;
         let rodadaAtual = 0;
         let posicaoVerde = -1;
+        let aguardandoProxima = false;
 
         function criarGrid() {
             const grid = document.getElementById('grid');
@@ -25,12 +26,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             posicaoVerde = Math.floor(Math.random() * TOTAL_CELULAS);
             cells[posicaoVerde].classList.add('green');
+            aguardandoProxima = false;
         }
 
         function clicarCelula(index, cell) {
             if (rodadaAtual >= TOTAL_RODADAS) return;
+            if (aguardandoProxima) return;
             
             if (index === posicaoVerde) {
+                aguardandoProxima = true;
                 cell.classList.add('correct');
                 acertos++;
                 rodadaAtual++;
@@ -56,9 +60,14 @@ document.addEventListener('DOMContentLoaded', function() {
         function iniciarJogo() {
             acertos = 0;
             rodadaAtual = 0;
+            aguardandoProxima = false;
             
             document.getElementById('acertos').textContent = '0';
             document.getElementById('falta').textContent = '5';
+            
+            const btn = document.getElementById('feedbackBtn');
+            btn.textContent = 'Continuar';
+            btn.onclick = fecharFeedback;
             
             criarGrid();
             posicionarVerde();

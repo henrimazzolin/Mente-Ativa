@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 imagensSelecionadas = MenteAtiva.utils.shuffleArray(todas).slice(0, numPairs);
             } else {
-                var cat = categories[Math.floor(Math.random() * categories.length)];
+                var categoriesList = Object.keys(imageSets);
+            var cat = categoriesList[Math.floor(Math.random() * categoriesList.length)];
                 imagensSelecionadas = MenteAtiva.utils.shuffleArray(imageSets[cat]).slice(0, numPairs);
             }
 

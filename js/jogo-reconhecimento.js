@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('acertos').textContent = '0';
             document.getElementById('questao').textContent = '1/5';
             document.getElementById('nextBtn').classList.remove('show');
+            document.getElementById('feedbackBtn').onclick = fecharFeedback;
             carregarQuestao();
         }
 
@@ -227,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Event listeners
         document.getElementById('btn-back').addEventListener('click', function() { location.href = 'jogos-acompanhados.html'; });
         document.getElementById('nextBtn').addEventListener('click', proximaQuestao);
-        document.getElementById('feedbackBtn').addEventListener('click', fecharFeedback);
+        feedbackBtn.onclick = fecharFeedback;
 
         iniciarJogo();
 });
