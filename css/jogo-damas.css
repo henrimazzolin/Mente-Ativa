@@ -26,9 +26,11 @@ body {
 }
 
 .container {
-    max-width: 960px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px 20px;
+    overflow-x: hidden;
 }
 
 .header {
@@ -37,6 +39,8 @@ body {
     gap: 16px;
     margin-bottom: 30px;
 }
+
+
 
 .back-btn {
     display: flex;

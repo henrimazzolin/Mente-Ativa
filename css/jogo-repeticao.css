@@ -30,11 +30,13 @@
             font-weight: 500;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    overflow-x: hidden;
+}
 
         .header {
             gap: 16px;

@@ -38,8 +38,12 @@ body {
     gap: 16px;
 }
 
-body > .header {
-    margin: 20px auto;
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    overflow-x: hidden;
 }
 
 .back-btn {
@@ -98,7 +102,7 @@ body > .header {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 30px 20px;
+    padding: 30px 0;
 }
 
 .game-card {
