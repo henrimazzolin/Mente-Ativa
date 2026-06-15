@@ -23,6 +23,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     font-size: 18px;
     line-height: 1.6;
     background-image: url(../img/neutralbkg.png);
@@ -159,6 +160,7 @@ footer {
     padding: 10px;
     text-align: center;
     color: var(--cor-texto-claro);
+    font-weight: 500;
     font-size: 1.1rem;
 }
 
