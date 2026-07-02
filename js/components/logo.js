@@ -29,7 +29,7 @@
                 alt: 'Logo Mente Ativa - Nível Moderado'
             },
             principal: {
-                claro: 'img/Logo.png',
+                claro: 'img/LogoEscura.png',
                 escuro: 'img/Logo.png',
                 alt: 'Logo Mente Ativa'
             }
