@@ -280,18 +280,22 @@ body {
 }
 
 html.modo-escuro .super-simples-card {
-    background: var(--cor-fundo-card);
+    background: rgba(26, 41, 37, 0.94);
     border-color: rgba(255,255,255,0.15);
 }
 
 html.modo-escuro .super-simples-card:hover {
     border-color: var(--cor-secundaria);
-    background: var(--cor-fundo-card);
+    background: rgba(18, 32, 28, 0.96);
 }
 
 html.modo-escuro .super-simples-card.ilustrado .game-title-box {
-    background: var(--cor-fundo-card);
+    background: rgba(26, 41, 37, 0.94);
     border-color: rgba(255,255,255,0.15);
+}
+
+html.modo-escuro .super-simples-card:hover .game-title-box {
+    background: rgba(18, 32, 28, 0.96);
 }
 
 html.modo-escuro .super-simples-title {

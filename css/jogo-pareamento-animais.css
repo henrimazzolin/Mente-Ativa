@@ -35,7 +35,8 @@ body {
 }
 
 .header {
-    gap: 16px;
+    gap: 16px; 
+
 }
 
 .container {
@@ -45,7 +46,6 @@ body {
     padding: 30px 20px;
     overflow-x: hidden;
 }
-
 .back-btn {
     display: flex;
     align-items: center;

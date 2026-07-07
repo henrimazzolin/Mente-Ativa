@@ -16,6 +16,8 @@ app.use(express.static(__dirname, {
             res.setHeader('Content-Type', 'text/css; charset=utf-8');
         } else if (path.endsWith('.js')) {
             res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        } else if (path.endsWith('.json')) {
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
         }
     }
 }));
@@ -26,9 +28,9 @@ const server = app.listen(PORT, () => {
 
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        console.error(`Porta ${PORT} já está em uso!`);
+        console.error(`Porta ${PORT} ja esta em uso.`);
         process.exit(1);
-    } else {
-        console.error('Erro no servidor:', err);
     }
+
+    console.error('Erro no servidor:', err);
 });

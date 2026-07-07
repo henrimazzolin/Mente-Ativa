@@ -33,6 +33,14 @@ body {
     
 }
 
+html.modo-escuro body {
+    background-image: url(../img/darkneutralbkg.jpeg) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -67,11 +75,19 @@ body {
 
 .logo-icon {
     max-width: 280px;
-    width: 7.5em;
-    height: 7.5em;
+    width: min(16em, 72vw);
+    height: auto;
+    min-height: 5em;
     border-radius: 18px;
     align-items: center;
     justify-content: center;
+}
+
+.logo-float[data-logo-tipo="inicial"] .logo-icon {
+    width: min(18em, 78vw);
+    height: auto;
+    min-height: 0;
+    border-radius: 0;
 }
 @keyframes float {
   0% {
@@ -98,22 +114,22 @@ body {
 /* Media queries responsivas para logo */
 @media (max-width: 768px) {
     .logo-icon {
-        width: 5em;
-        height: 5em;
+        width: min(14em, 70vw);
+        height: auto;
     }
 }
 
 @media (max-width: 600px) {
     .logo-icon {
-        width: 4em;
-        height: 4em;
+        width: min(12em, 70vw);
+        height: auto;
     }
 }
 
 @media (max-width: 480px) {
     .logo-icon {
-        width: 3.5em;
-        height: 3.5em;
+        width: min(11em, 76vw);
+        height: auto;
     }
 }
 
@@ -380,8 +396,8 @@ h1 {
     }
     
     .logo-icon {
-        width: 5em;
-        height: 5em;
+        width: min(11em, 76vw);
+        height: auto;
     }
     
     .logo-text {

@@ -114,16 +114,25 @@ function inicializarCalendario() {
 
 function carregarEventos() {
     const eventosSalvos = localStorage.getItem('menteativa_eventos');
-    if (eventosSalvos) {
-        eventos = JSON.parse(eventosSalvos);
-        for (const dataStr in eventos) {
-            eventos[dataStr] = eventos[dataStr].map(ev => {
-                const { tipo, ...rest } = ev;
-                return rest;
-            });
-        }
-    } else {
+    if (!eventosSalvos) {
         eventos = {};
+        return;
+    }
+
+    try {
+        const dados = JSON.parse(eventosSalvos);
+        eventos = {};
+        for (const dataStr in dados) {
+            if (!Array.isArray(dados[dataStr])) continue;
+            eventos[dataStr] = dados[dataStr].map(ev => ({
+                titulo: String(ev.titulo || '').slice(0, 80),
+                hora: String(ev.hora || '').slice(0, 10),
+                periodo: String(ev.periodo || '').slice(0, 120)
+            })).filter(ev => ev.titulo);
+        }
+    } catch (e) {
+        eventos = {};
+        localStorage.removeItem('menteativa_eventos');
     }
 }
 
@@ -138,7 +147,12 @@ function renderizarCalendario() {
     const hoje = new Date();
 
     const weekdaysDiv = document.querySelector('.weekdays');
-    weekdaysDiv.innerHTML = nomesDias.map(dia => `<span>${dia}</span>`).join('');
+    weekdaysDiv.replaceChildren();
+    nomesDias.forEach(dia => {
+        const span = document.createElement('span');
+        span.textContent = dia;
+        weekdaysDiv.appendChild(span);
+    });
 
     const daysDiv = document.querySelector('.days');
     daysDiv.innerHTML = '';
@@ -201,63 +215,92 @@ function renderizarEventos() {
     const dia = dataSelecionada.getDate();
     const mes = nomesMeses[dataSelecionada.getMonth()];
 
+    eventsListDiv.replaceChildren();
+
+    const heading = document.createElement('h3');
+    heading.textContent = `${nomeDiaSemana}, ${dia} de ${mes}`;
+    eventsListDiv.appendChild(heading);
+
     if (eventosDia.usuario.length === 0 && !eventosDia.comemorativo) {
-        eventsListDiv.innerHTML = `
-            <h3>${nomeDiaSemana}, ${dia} de ${mes}</h3>
-            <div class="no-events">
-                <p>Nenhum evento neste dia</p>
-            </div>
-        `;
-    } else {
-        let html = `<h3>${nomeDiaSemana}, ${dia} de ${mes}</h3>`;
-
-        if (eventosDia.comemorativo) {
-            const ev = eventosDia.comemorativo;
-            html += `
-                <div class="event-item comemorativo">
-                    <div class="event-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-                        </svg>
-                    </div>
-                    <div class="event-details">
-                        <div class="event-title">${ev.titulo}</div>
-                        <div class="event-time">${ev.descricao}</div>
-                    </div>
-                    <span class="comemorativo-badge">Feriado</span>
-                </div>
-            `;
-        }
-
-        eventosDia.usuario.forEach((evento, index) => {
-            html += `
-                <div class="event-item">
-                    <div class="event-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                    </div>
-                    <div class="event-details">
-                        <div class="event-title">${evento.titulo}</div>
-                        <div class="event-time">${evento.hora}${evento.periodo ? ' - ' + evento.periodo : ''}</div>
-                    </div>
-                    <button class="delete-event-btn" data-index="${index}" aria-label="Remover atividade ${evento.titulo}">
-                        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                        Remover
-                    </button>
-                </div>
-            `;
-        });
-
-        eventsListDiv.innerHTML = html;
-
-        eventsListDiv.querySelectorAll('.delete-event-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const index = parseInt(btn.dataset.index);
-                confirmarExclusao(index);
-            });
-        });
+        const empty = document.createElement('div');
+        empty.className = 'no-events';
+        const p = document.createElement('p');
+        p.textContent = 'Nenhum evento neste dia';
+        empty.appendChild(p);
+        eventsListDiv.appendChild(empty);
+        return;
     }
+
+    if (eventosDia.comemorativo) {
+        eventsListDiv.appendChild(criarItemEventoComemorativo(eventosDia.comemorativo));
+    }
+
+    eventosDia.usuario.forEach((evento, index) => {
+        eventsListDiv.appendChild(criarItemEventoUsuario(evento, index));
+    });
+}
+
+function criarIconeEvento(path) {
+    const wrap = document.createElement('div');
+    wrap.className = 'event-icon';
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.innerHTML = '<svg viewBox="0 0 24 24"><path d="' + path + '"/></svg>';
+    return wrap;
+}
+
+function criarItemEventoComemorativo(ev) {
+    const item = document.createElement('div');
+    item.className = 'event-item comemorativo';
+    item.appendChild(criarIconeEvento('M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z'));
+
+    const details = document.createElement('div');
+    details.className = 'event-details';
+    const title = document.createElement('div');
+    title.className = 'event-title';
+    title.textContent = ev.titulo;
+    const time = document.createElement('div');
+    time.className = 'event-time';
+    time.textContent = ev.descricao;
+    details.appendChild(title);
+    details.appendChild(time);
+
+    const badge = document.createElement('span');
+    badge.className = 'comemorativo-badge';
+    badge.textContent = 'Feriado';
+
+    item.appendChild(details);
+    item.appendChild(badge);
+    return item;
+}
+
+function criarItemEventoUsuario(evento, index) {
+    const item = document.createElement('div');
+    item.className = 'event-item';
+    item.appendChild(criarIconeEvento('M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'));
+
+    const details = document.createElement('div');
+    details.className = 'event-details';
+    const title = document.createElement('div');
+    title.className = 'event-title';
+    title.textContent = evento.titulo;
+    const time = document.createElement('div');
+    time.className = 'event-time';
+    time.textContent = evento.hora + (evento.periodo ? ' - ' + evento.periodo : '');
+    details.appendChild(title);
+    details.appendChild(time);
+
+    const btn = document.createElement('button');
+    btn.className = 'delete-event-btn';
+    btn.type = 'button';
+    btn.dataset.index = String(index);
+    btn.setAttribute('aria-label', 'Remover atividade ' + evento.titulo);
+    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+    btn.appendChild(document.createTextNode('Remover'));
+    btn.addEventListener('click', () => confirmarExclusao(index));
+
+    item.appendChild(details);
+    item.appendChild(btn);
+    return item;
 }
 
 function mudarMes(delta) {

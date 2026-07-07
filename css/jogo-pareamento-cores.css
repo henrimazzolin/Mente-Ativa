@@ -36,6 +36,15 @@ body {
 
 .header {
     gap: 16px;
+
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    overflow-x: hidden;
 }
 
 

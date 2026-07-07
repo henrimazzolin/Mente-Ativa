@@ -74,9 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var assistenteHTML = `
         <div class="assistente-overlay" id="assistenteOverlay">
-            <div class="assistente-sidebar">
+            <div class="assistente-sidebar" role="dialog" aria-modal="true" aria-labelledby="assistenteTitulo">
                 <div class="assistente-sidebar-header">
-                    <h2>Tirar Dúvidas</h2>
+                    <h2 id="assistenteTitulo">Tirar Dúvidas</h2>
                     <button class="assistente-sidebar-close" id="assistenteCloseBtn" aria-label="Fechar assistente">&times;</button>
                 </div>
                 <div class="faq-header">
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
         <div class="faq-modal-overlay" id="faqModalOverlay">
-            <div class="faq-modal">
+            <div class="faq-modal" role="dialog" aria-modal="true" aria-labelledby="faqModalTitle">
                 <button class="faq-modal-close" id="faqModalClose" aria-label="Fechar">&times;</button>
                 <div class="faq-modal-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function openAssistente() {
         overlay.classList.add('open');
         document.body.classList.add('assistente-aberto');
+        if (closeBtn) closeBtn.focus();
     }
 
     function closeAssistente() {
@@ -131,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modalBody.innerHTML = item.resposta;
         modalOverlay.classList.add('open');
         document.body.style.overflow = 'hidden';
+        modalClose.focus();
     }
 
     function closeModal() {
@@ -169,9 +171,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var faqItems = document.querySelectorAll('.faq-item');
     for (var j = 0; j < faqItems.length; j++) {
+        faqItems[j].setAttribute('role', 'button');
+        faqItems[j].setAttribute('tabindex', '0');
+        faqItems[j].setAttribute('aria-label', 'Abrir resposta: ' + FAQ[j].pergunta);
         faqItems[j].addEventListener('click', function () {
             var index = parseInt(this.getAttribute('data-index'), 10);
             openModal(index);
+        });
+        faqItems[j].addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                var index = parseInt(this.getAttribute('data-index'), 10);
+                openModal(index);
+            }
         });
     }
 

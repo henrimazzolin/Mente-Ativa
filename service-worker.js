@@ -1,4 +1,5 @@
-var CACHE_NAME = 'mente-ativa-v3';
+var CACHE_NAME = 'mente-ativa-v4';
+var OFFLINE_URL = '/index.html';
 var ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -47,45 +48,14 @@ var ASSETS_TO_CACHE = [
     '/js/lib/damas-engine.js',
     '/js/accessibility-unified.js',
     '/js/components/logo.js',
-    '/js/components/accessibility.js',
     '/js/assistente-flutuante.js',
     '/js/alerts.js',
     '/js/calendario.js',
     '/js/intro.js',
-    '/js/dark-mode.js',
-    '/js/accessibility-panel.js',
     '/js/pages/seguranca.js',
-    '/js/jogo-ordenacao.js',
-    '/js/jogo-completar-figura.js',
-    '/js/jogo-contagem.js',
-    '/js/jogo-associacao.js',
-    '/js/jogo-associacao-imagens.js',
-    '/js/jogo-caca-palavras.js',
-    '/js/jogo-cores.js',
-    '/js/jogo-damas.js',
-    '/js/jogo-deducao-logica.js',
-    '/js/jogo-escolha.js',
-    '/js/jogo-frases.js',
-    '/js/jogo-memoria.js',
-    '/js/jogo-musica.js',
-    '/js/jogo-objeto-funcao.js',
-    '/js/jogo-palavras-cruzadas.js',
-    '/js/jogo-pareamento-animais.js',
-    '/js/jogo-pareamento-cores.js',
-    '/js/jogo-pareamento-formas.js',
-    '/js/jogo-pareamento-simples.js',
-    '/js/jogo-pintura.js',
-    '/js/jogo-quebra-cabeca.js',
-    '/js/jogo-reconhecimento.js',
-    '/js/jogo-repeticao.js',
-    '/js/jogo-sequencia-simples.js',
-    '/js/jogo-sudoku.js',
-    '/js/jogo-toque.js',
-    '/js/jogo-xadrez.js',
     '/css/main.css',
     '/css/dark-mode.css',
     '/css/assistente-flutuante.css',
-    '/css/accessibility-panel.css',
     '/css/calendario.css',
     '/css/dificuldade.css',
     '/css/exercicios.css',
@@ -94,33 +64,6 @@ var ASSETS_TO_CACHE = [
     '/css/intro.css',
     '/css/jogos-individuais.css',
     '/css/jogos-acompanhados.css',
-    '/css/jogo-associacao.css',
-    '/css/jogo-associacao-imagens.css',
-    '/css/jogo-caca-palavras.css',
-    '/css/jogo-completar-figura.css',
-    '/css/jogo-contagem.css',
-    '/css/jogo-cores.css',
-    '/css/jogo-damas.css',
-    '/css/jogo-deducao-logica.css',
-    '/css/jogo-escolha.css',
-    '/css/jogo-frases.css',
-    '/css/jogo-memoria.css',
-    '/css/jogo-musica.css',
-    '/css/jogo-objeto-funcao.css',
-    '/css/jogo-ordenacao.css',
-    '/css/jogo-palavras-cruzadas.css',
-    '/css/jogo-pareamento-animais.css',
-    '/css/jogo-pareamento-cores.css',
-    '/css/jogo-pareamento-formas.css',
-    '/css/jogo-pareamento-simples.css',
-    '/css/jogo-pintura.css',
-    '/css/jogo-quebra-cabeca.css',
-    '/css/jogo-reconhecimento.css',
-    '/css/jogo-repeticao.css',
-    '/css/jogo-sequencia-simples.css',
-    '/css/jogo-sudoku.css',
-    '/css/jogo-toque.css',
-    '/css/jogo-xadrez.css',
     '/css/menu.css',
     '/css/saude.css',
     '/css/seguranca.css',
@@ -141,29 +84,20 @@ var ASSETS_TO_CACHE = [
     '/img/LogoVerdeEscuroNovo.png',
     '/img/Logotexto.png',
     '/img/unnamed.jpg',
-    '/img/placeholder.svg',
-    '/img/test.jpg',
-    '/img/cards/caca-palavras.png',
-    '/img/cards/damas.png',
-    '/img/cards/deducao-logica.png',
-    '/img/cards/imagens-iguais.png',
-    '/img/cards/jogo-memoria.png',
-    '/img/cards/palavras-cruzadas.png',
-    '/img/cards/pareamento-animais.png',
-    '/img/cards/pareamento-cores.png',
-    '/img/cards/pareamento-formas.png',
-    '/img/cards/pintura.png',
-    '/img/cards/quebra-cabeca.png',
-    '/img/cards/sudoku.png',
-    '/img/cards/visual-simples.png',
-    '/img/cards/xadrez.png'
+    '/img/placeholder.svg'
 ];
 
 self.addEventListener('install', function(event) {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(function(cache) {
-            return cache.addAll(ASSETS_TO_CACHE);
+            return Promise.all(
+                ASSETS_TO_CACHE.map(function(url) {
+                    return cache.add(url).catch(function() {
+                        return null;
+                    });
+                })
+            );
         })
     );
 });
@@ -174,6 +108,7 @@ self.addEventListener('activate', function(event) {
             return Promise.all(
                 cacheNames.map(function(name) {
                     if (name !== CACHE_NAME) return caches.delete(name);
+                    return null;
                 })
             );
         }).then(function() {
@@ -183,14 +118,49 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        fetch(event.request).then(function(response) {
-            return caches.open(CACHE_NAME).then(function(cache) {
-                cache.put(event.request, response.clone());
+    var request = event.request;
+    if (request.method !== 'GET') return;
+
+    var url = new URL(request.url);
+    if (url.origin !== self.location.origin) {
+        event.respondWith(fetch(request).catch(function() {
+            return caches.match('/img/placeholder.svg');
+        }));
+        return;
+    }
+
+    if (request.mode === 'navigate') {
+        event.respondWith(
+            fetch(request).then(function(response) {
+                var copy = response.clone();
+                caches.open(CACHE_NAME).then(function(cache) {
+                    cache.put(request, copy);
+                });
                 return response;
+            }).catch(function() {
+                return caches.match(request).then(function(match) {
+                    return match || caches.match(OFFLINE_URL);
+                });
+            })
+        );
+        return;
+    }
+
+    event.respondWith(
+        caches.match(request).then(function(cached) {
+            var networkFetch = fetch(request).then(function(response) {
+                if (response && response.status === 200) {
+                    var copy = response.clone();
+                    caches.open(CACHE_NAME).then(function(cache) {
+                        cache.put(request, copy);
+                    });
+                }
+                return response;
+            }).catch(function() {
+                return cached || caches.match('/img/placeholder.svg');
             });
-        }).catch(function() {
-            return caches.match(event.request);
+
+            return cached || networkFetch;
         })
     );
 });

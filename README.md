@@ -1,2 +1,12 @@
-# Mente-Ativa
-Projeto de desenvolvimento web para a criação de uma plataforma para idosos
+# Mente Ativa
+
+Aplicacao web estatica/PWA criada para apoiar idosos, cuidadores e responsaveis com jogos cognitivos, organizacao de rotina, informacoes de saude e dicas de seguranca digital.
+
+## Rodar localmente
+
+```bash
+npm install
+npm start
+```
+
+Depois acesse `http://localhost:3000`.

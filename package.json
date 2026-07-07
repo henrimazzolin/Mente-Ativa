@@ -1,5 +1,9 @@
 {
   "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "check:js": "node --check server.js"
+  },
   "dependencies": {
     "bootstrap": "^5.3.8",
     "express": "^5.2.1"

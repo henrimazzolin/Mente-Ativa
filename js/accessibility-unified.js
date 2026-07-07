@@ -3,7 +3,6 @@
 
     var STORAGE_KEYS = {
         darkMode: 'mente-ativa-modo-escuro',
-        contrast: 'mente-ativa-contraste',
         fontSize: 'mente-ativa-fonte',
         notifications: 'mente-ativa-notificacoes'
     };
@@ -16,16 +15,39 @@
         'greenbkg.png': 'darkgreenbkg.png'
     };
 
+    function storageGet(key, fallback) {
+        try {
+            var value = localStorage.getItem(key);
+            return value === null ? fallback : value;
+        } catch (e) {
+            return fallback;
+        }
+    }
+
+    function storageSet(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {}
+    }
+
+    function showMessage(message, type) {
+        if (typeof window.exibirAlerta === 'function') {
+            window.exibirAlerta(message, type || 'info');
+        } else {
+            window.alert(message);
+        }
+    }
+
     function DarkModeManager() {
         this.isEscuro = false;
         this.fontPct = 120;
     }
 
     DarkModeManager.prototype.init = function() {
-        this.isEscuro = localStorage.getItem(STORAGE_KEYS.darkMode) === 'true';
+        this.isEscuro = storageGet(STORAGE_KEYS.darkMode, 'false') === 'true';
         if (this.isEscuro) this.aplicarModoEscuro();
         else this.sincronizarClasseDocumento();
-        this.fontPct = parseInt(localStorage.getItem(FONT_STORAGE_KEY), 10) || 120;
+        this.fontPct = parseInt(storageGet(FONT_STORAGE_KEY, '120'), 10) || 120;
         this.aplicarFontePct();
     };
 
@@ -44,36 +66,35 @@
         var bg = window.getComputedStyle(document.body).backgroundImage;
         if (bg && bg !== 'none') {
             for (var light in BACKGROUND_MAP) {
-                if (bg.indexOf(light) !== -1) {
+                if (Object.prototype.hasOwnProperty.call(BACKGROUND_MAP, light) && bg.indexOf(light) !== -1) {
                     document.body.style.backgroundImage = bg.split(light).join(BACKGROUND_MAP[light]);
                     break;
                 }
             }
         }
-        localStorage.setItem(STORAGE_KEYS.darkMode, 'true');
+        storageSet(STORAGE_KEYS.darkMode, 'true');
         this.sincronizarClasseDocumento();
     };
 
     DarkModeManager.prototype.aplicarModoClaro = function() {
         this.isEscuro = false;
         document.body.style.backgroundImage = '';
-        localStorage.setItem(STORAGE_KEYS.darkMode, 'false');
+        storageSet(STORAGE_KEYS.darkMode, 'false');
         this.sincronizarClasseDocumento();
     };
 
     DarkModeManager.prototype.aplicarFontePct = function() {
         document.body.style.fontSize = Math.round(20 * this.fontPct / 100) + 'px';
-        localStorage.setItem(FONT_STORAGE_KEY, String(this.fontPct));
+        storageSet(FONT_STORAGE_KEY, String(this.fontPct));
         this._criarStyleFonte();
     };
 
     DarkModeManager.prototype._criarStyleFonte = function() {
-        if (!document.getElementById('ma-font-style')) {
-            var style = document.createElement('style');
-            style.id = 'ma-font-style';
-            style.textContent = 'body *:not(svg):not([class*="ma-"]):not([class*="bi"]):not(.material-icons):not([class*="icon"]):not(.titulo-com-tts) { font-size: inherit !important; }';
-            document.head.appendChild(style);
-        }
+        if (document.getElementById('ma-font-style')) return;
+        var style = document.createElement('style');
+        style.id = 'ma-font-style';
+        style.textContent = 'body *:not(svg):not([class*="ma-"]):not([class*="bi"]):not(.material-icons):not([class*="icon"]):not(.titulo-com-tts) { font-size: inherit !important; }';
+        document.head.appendChild(style);
     };
 
     DarkModeManager.prototype.aumentarFonte = function() {
@@ -145,14 +166,18 @@
             btn.textContent = this.isEscuro ? 'Modo Claro' : 'Modo Escuro';
             btn.setAttribute('aria-label', this.isEscuro ? 'Mudar para modo claro' : 'Mudar para modo escuro');
         }
-        var panelBtn = document.getElementById('panel-dark-mode-btn');
-        if (panelBtn) panelBtn.classList.toggle('active', this.isEscuro);
     };
 
     DarkModeManager.prototype.criarBotoes = function() {
+        if (document.getElementById('ma-toggle') || document.getElementById('mente-ativa-controls')) {
+            this._atualizarEstadoBotoes();
+            return;
+        }
+
         var toggle = document.createElement('button');
         toggle.id = 'ma-toggle';
         toggle.className = 'ma-toggle-btn';
+        toggle.type = 'button';
         toggle.setAttribute('aria-label', 'Abrir painel de acessibilidade');
         toggle.setAttribute('aria-expanded', 'false');
         toggle.textContent = 'Acessibilidade';
@@ -168,19 +193,28 @@
 
         var fontGroup = document.createElement('div');
         fontGroup.className = 'ma-btn ma-btn-font-size';
+        fontGroup.setAttribute('role', 'group');
+        fontGroup.setAttribute('aria-label', 'Tamanho das letras');
 
         var btnMinus = document.createElement('button');
         btnMinus.className = 'ma-btn-font-minus';
+        btnMinus.type = 'button';
         btnMinus.setAttribute('aria-label', 'Diminuir tamanho da letra');
-        btnMinus.textContent = '\u2212';
+        btnMinus.textContent = '-';
         btnMinus.addEventListener('click', this.diminuirFonte.bind(this));
 
         var fontLabel = document.createElement('span');
         fontLabel.className = 'ma-btn-font-label';
-        fontLabel.innerHTML = 'Tamanho das letras <span id="ma-font-pct" class="ma-btn-font-pct">' + this.fontPct + '%</span>';
+        fontLabel.appendChild(document.createTextNode('Tamanho das letras'));
+        var pctLabel = document.createElement('span');
+        pctLabel.id = 'ma-font-pct';
+        pctLabel.className = 'ma-btn-font-pct';
+        pctLabel.textContent = this.fontPct + '%';
+        fontLabel.appendChild(pctLabel);
 
         var btnPlus = document.createElement('button');
         btnPlus.className = 'ma-btn-font-plus';
+        btnPlus.type = 'button';
         btnPlus.setAttribute('aria-label', 'Aumentar tamanho da letra');
         btnPlus.textContent = '+';
         btnPlus.addEventListener('click', this.aumentarFonte.bind(this));
@@ -192,75 +226,74 @@
         var btnDarkMode = document.createElement('button');
         btnDarkMode.id = 'btn-dark-mode-toggle';
         btnDarkMode.className = 'ma-btn ma-btn-darkmode';
+        btnDarkMode.type = 'button';
         btnDarkMode.textContent = this.isEscuro ? 'Modo Claro' : 'Modo Escuro';
         btnDarkMode.setAttribute('aria-label', this.isEscuro ? 'Mudar para modo claro' : 'Mudar para modo escuro');
         btnDarkMode.addEventListener('click', this.toggleModoEscuro.bind(this));
 
         var btnAssistente = document.createElement('button');
         btnAssistente.className = 'ma-btn ma-btn-assistente';
-        btnAssistente.textContent = 'Tirar D\u00FAvidas';
+        btnAssistente.type = 'button';
+        btnAssistente.textContent = 'Tirar Duvidas';
         btnAssistente.setAttribute('aria-label', 'Abrir assistente virtual');
-        btnAssistente.addEventListener('click', function () {
+        btnAssistente.addEventListener('click', function() {
             document.dispatchEvent(new CustomEvent('mente-ativa-abrir-assistente'));
-        });
-
-        var notifToggle = document.createElement('button');
-        notifToggle.id = 'ma-btn-notificacao';
-        notifToggle.className = 'ma-btn ma-btn-notificacao';
-        var notifAtivo = localStorage.getItem(STORAGE_KEYS.notifications) === 'true';
-        notifToggle.textContent = notifAtivo ? 'Lembretes: Ligado' : 'Lembretes: Desligado';
-        notifToggle.setAttribute('aria-label', notifAtivo ? 'Desligar lembretes diários' : 'Ligar lembretes diários');
-        notifToggle.addEventListener('click', function() {
-            var ativo = localStorage.getItem(STORAGE_KEYS.notifications) === 'true';
-            if (ativo) {
-                localStorage.setItem(STORAGE_KEYS.notifications, 'false');
-                notifToggle.textContent = 'Lembretes: Desligado';
-                notifToggle.setAttribute('aria-label', 'Ligar lembretes diários');
-            } else {
-                if (!('Notification' in window)) return;
-                if (Notification.permission === 'denied') {
-                    exibirAlerta('Permissão de notificação negada. Ative nas configurações do navegador.', 'aviso');
-                    return;
-                }
-                if (Notification.permission === 'default') {
-                    Notification.requestPermission().then(function(permission) {
-                        if (permission === 'granted') {
-                            ativarNotif();
-                        } else {
-                            exibirAlerta('Permissão de notificação negada.', 'aviso');
-                        }
-                    });
-                } else {
-                    ativarNotif();
-                }
-            }
-            function ativarNotif() {
-                localStorage.setItem(STORAGE_KEYS.notifications, 'true');
-                notifToggle.textContent = 'Lembretes: Ligado';
-                notifToggle.setAttribute('aria-label', 'Desligar lembretes diários');
-                agendarNotificacaoDiaria();
-            }
         });
 
         var somToggle = document.createElement('button');
         somToggle.id = 'ma-btn-som';
         somToggle.className = 'ma-btn ma-btn-som';
-        var somAtivo = localStorage.getItem('mente-ativa-som') !== 'false';
+        somToggle.type = 'button';
+        var somAtivo = storageGet('mente-ativa-som', 'true') !== 'false';
         somToggle.textContent = somAtivo ? 'Sons: Ligado' : 'Sons: Desligado';
         somToggle.setAttribute('aria-label', somAtivo ? 'Desligar sons dos jogos' : 'Ligar sons dos jogos');
         somToggle.addEventListener('click', function() {
-            var ativo = localStorage.getItem('mente-ativa-som') !== 'false';
-            if (ativo) {
-                localStorage.setItem('mente-ativa-som', 'false');
-                somToggle.textContent = 'Sons: Desligado';
-                somToggle.setAttribute('aria-label', 'Ligar sons dos jogos');
-            } else {
-                localStorage.setItem('mente-ativa-som', 'true');
-                somToggle.textContent = 'Sons: Ligado';
-                somToggle.setAttribute('aria-label', 'Desligar sons dos jogos');
-            }
+            var ativo = storageGet('mente-ativa-som', 'true') !== 'false';
+            storageSet('mente-ativa-som', ativo ? 'false' : 'true');
+            somToggle.textContent = ativo ? 'Sons: Desligado' : 'Sons: Ligado';
+            somToggle.setAttribute('aria-label', ativo ? 'Ligar sons dos jogos' : 'Desligar sons dos jogos');
             if (window.MenteAtiva && window.MenteAtiva.utils) {
                 window.MenteAtiva.utils.somAtivo(!ativo);
+            }
+        });
+
+        var notifToggle = document.createElement('button');
+        notifToggle.id = 'ma-btn-notificacao';
+        notifToggle.className = 'ma-btn ma-btn-notificacao';
+        notifToggle.type = 'button';
+        var notifAtivo = storageGet(STORAGE_KEYS.notifications, 'false') === 'true';
+        notifToggle.textContent = notifAtivo ? 'Lembretes: Ligado' : 'Lembretes: Desligado';
+        notifToggle.setAttribute('aria-label', notifAtivo ? 'Desligar lembretes diarios' : 'Ligar lembretes diarios');
+        notifToggle.addEventListener('click', function() {
+            var ativo = storageGet(STORAGE_KEYS.notifications, 'false') === 'true';
+            if (ativo) {
+                storageSet(STORAGE_KEYS.notifications, 'false');
+                notifToggle.textContent = 'Lembretes: Desligado';
+                notifToggle.setAttribute('aria-label', 'Ligar lembretes diarios');
+                return;
+            }
+            if (!('Notification' in window)) {
+                showMessage('Este navegador nao oferece lembretes.', 'aviso');
+                return;
+            }
+            if (Notification.permission === 'denied') {
+                showMessage('Permissao de notificacao negada. Ative nas configuracoes do navegador.', 'aviso');
+                return;
+            }
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') ativarNotif();
+                    else showMessage('Permissao de notificacao negada.', 'aviso');
+                });
+            } else {
+                ativarNotif();
+            }
+
+            function ativarNotif() {
+                storageSet(STORAGE_KEYS.notifications, 'true');
+                notifToggle.textContent = 'Lembretes: Ligado';
+                notifToggle.setAttribute('aria-label', 'Desligar lembretes diarios');
+                agendarNotificacaoDiaria();
             }
         });
 
@@ -287,10 +320,10 @@
             }
         },
         falar: function(texto, velocidade) {
-            if (!this.ativa) return;
+            if (!this.ativa || !texto) return;
             velocidade = velocidade || 0.8;
             this.parar();
-            var utterance = new SpeechSynthesisUtterance(texto);
+            var utterance = new SpeechSynthesisUtterance(String(texto));
             utterance.lang = 'pt-BR';
             utterance.rate = velocidade;
             this.sintetizador.speak(utterance);
@@ -300,40 +333,53 @@
         }
     };
 
-    var Contraste = {
-        opcoes: ['normal', 'dark', 'high', 'yellow', 'blue'],
-        atual: 'normal',
-        init: function() {
-            var salvo = localStorage.getItem(STORAGE_KEYS.contrast);
-            if (salvo && this.opcoes.indexOf(salvo) !== -1) this.aplicar(salvo);
-        },
-        aplicar: function(tipo) {
-            this.atual = tipo;
-            document.body.setAttribute('data-contrast', tipo);
-            for (var i = 0; i < this.opcoes.length; i++) {
-                document.body.classList.remove('contrast-' + this.opcoes[i]);
-            }
-            if (tipo !== 'normal') document.body.classList.add('contrast-' + tipo);
-            localStorage.setItem(STORAGE_KEYS.contrast, tipo);
-        }
-    };
-
     function agendarNotificacaoDiaria() {
         if (!('Notification' in window)) return;
-        if (Notification.permission === 'denied') return;
-        if (localStorage.getItem(STORAGE_KEYS.notifications) !== 'true') return;
-        var agendadas = JSON.parse(localStorage.getItem('mente-ativa-notif-agendadas') || '[]');
+        if (Notification.permission !== 'granted') return;
+        if (storageGet(STORAGE_KEYS.notifications, 'false') !== 'true') return;
+
+        var agendadas;
+        try {
+            agendadas = JSON.parse(storageGet('mente-ativa-notif-agendadas', '[]')) || [];
+        } catch (e) {
+            agendadas = [];
+        }
+
         var hoje = new Date().toDateString();
         if (agendadas.indexOf(hoje) !== -1) return;
         agendadas.push(hoje);
-        localStorage.setItem('mente-ativa-notif-agendadas', JSON.stringify(agendadas));
+        storageSet('mente-ativa-notif-agendadas', JSON.stringify(agendadas.slice(-30)));
+
         try {
             var notif = new Notification('Mente Ativa', {
-                body: 'Hora de exercitar a mente! Que tal um joguinho hoje?',
+                body: 'Hora de exercitar a mente! Que tal um jogo hoje?',
                 icon: '/img/unnamed.jpg'
             });
             setTimeout(function() { notif.close(); }, 8000);
         } catch (e) {}
+    }
+
+    function melhorarSemanticaDaPagina() {
+        var backButtons = document.querySelectorAll('.back-btn');
+        for (var i = 0; i < backButtons.length; i++) {
+            if (!backButtons[i].getAttribute('aria-label')) {
+                backButtons[i].setAttribute('aria-label', 'Voltar para a pagina anterior');
+            }
+            backButtons[i].setAttribute('title', 'Voltar');
+        }
+
+        var mainContainer = document.querySelector('.container');
+        if (mainContainer && !mainContainer.getAttribute('role')) {
+            mainContainer.setAttribute('role', 'main');
+        }
+
+        var iconOnlyButtons = document.querySelectorAll('button');
+        for (var j = 0; j < iconOnlyButtons.length; j++) {
+            var btn = iconOnlyButtons[j];
+            if (!btn.getAttribute('aria-label') && !btn.textContent.trim()) {
+                btn.setAttribute('aria-label', 'Botao de acao');
+            }
+        }
     }
 
     window.MenteAtiva = window.MenteAtiva || {};
@@ -342,16 +388,15 @@
     window.Accessibility = {
         TTS: TTS,
         DarkMode: dm,
-        Contraste: Contraste,
         STORAGE_KEYS: STORAGE_KEYS
     };
 
     function init() {
         TTS.init();
         dm.init();
-        Contraste.init();
         dm.criarBotoes();
-        if (localStorage.getItem(STORAGE_KEYS.notifications) === 'true') {
+        melhorarSemanticaDaPagina();
+        if (storageGet(STORAGE_KEYS.notifications, 'false') === 'true') {
             agendarNotificacaoDiaria();
         }
     }

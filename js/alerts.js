@@ -19,7 +19,7 @@ function exibirAlerta(mensagem, tipo) {
         '<svg width="52" height="52" viewBox="0 0 24 24" fill="' + c.cor + '" style="margin-bottom:10px;">' +
         '<path d="' + c.icone + '"/>' +
         '</svg>' +
-        '<p style="font-size:17px;font-weight:500;margin:0;color:inherit;">' + mensagem + '</p>' +
+        '<p class="ma-alerta-mensagem" style="font-size:17px;font-weight:500;margin:0;color:inherit;"></p>' +
         '</div>' +
         '<div class="modal-footer border-0 justify-content-center pt-0 pb-2">' +
         '<button type="button" class="btn ' + c.btn + ' px-4" data-bs-dismiss="modal" style="border-radius:10px;font-weight:600;">OK</button>' +
@@ -31,6 +31,8 @@ function exibirAlerta(mensagem, tipo) {
     document.body.appendChild(el.firstElementChild);
 
     var modalEl = document.getElementById(id);
+    var msgEl = modalEl.querySelector('.ma-alerta-mensagem');
+    if (msgEl) msgEl.textContent = String(mensagem || '');
     if (typeof bootstrap === 'undefined') {
         alert(mensagem);
         modalEl.remove();
@@ -61,8 +63,8 @@ function exibirConfirmacao(mensagem, descricao, callback) {
         '<svg width="52" height="52" viewBox="0 0 24 24" fill="#F59E0B" style="margin-bottom:10px;">' +
         '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>' +
         '</svg>' +
-        '<p style="font-size:17px;font-weight:500;margin:0;color:inherit;">' + mensagem + '</p>' +
-        (descricao ? '<p style="font-size:14px;color:#64748B;margin-top:8px;">' + descricao + '</p>' : '') +
+        '<p class="ma-confirm-mensagem" style="font-size:17px;font-weight:500;margin:0;color:inherit;"></p>' +
+        (descricao ? '<p class="ma-confirm-descricao" style="font-size:14px;color:#64748B;margin-top:8px;"></p>' : '') +
         '</div>' +
         '<div class="modal-footer border-0 justify-content-center pt-0 pb-2 gap-2">' +
         '<button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal" style="border-radius:10px;font-weight:600;">Cancelar</button>' +
@@ -75,6 +77,10 @@ function exibirConfirmacao(mensagem, descricao, callback) {
     document.body.appendChild(el.firstElementChild);
 
     var modalEl = document.getElementById(id);
+    var msgEl = modalEl.querySelector('.ma-confirm-mensagem');
+    var descEl = modalEl.querySelector('.ma-confirm-descricao');
+    if (msgEl) msgEl.textContent = String(mensagem || '');
+    if (descEl) descEl.textContent = String(descricao || '');
     if (typeof bootstrap === 'undefined') {
         if (callback) callback(confirm('' + mensagem));
         modalEl.remove();

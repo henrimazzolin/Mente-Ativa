@@ -18,6 +18,11 @@
 
     const LogoConfig = {
         tipos: {
+            inicial: {
+                claro: 'img/Logopreta.png',
+                escuro: 'img/Logobranca.png',
+                alt: 'Logo Mente Ativa'
+            },
             simples: {
                 claro: 'img/LogoVerdeClaroNovo.png',
                 escuro: 'img/LogoVerdeEscuroNovo.png',
