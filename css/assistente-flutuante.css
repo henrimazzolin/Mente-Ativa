@@ -1,3 +1,62 @@
+.assistente-trigger {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 99997;
+    min-width: 132px;
+    min-height: 56px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 28px;
+    background: linear-gradient(135deg, #0B6477, #0B8A8A);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(11, 100, 119, 0.32);
+    font: 600 18px/1.2 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: right 0.28s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.assistente-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 24px rgba(11, 100, 119, 0.42);
+}
+
+.assistente-trigger:focus-visible {
+    outline: 3px solid var(--cor-terceira, #F59E0B);
+    outline-offset: 3px;
+}
+
+.assistente-trigger-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 32px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.assistente-trigger-text {
+    white-space: nowrap;
+}
+
+body.assistente-aberto .assistente-trigger {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+body.ma-accessibility-open .assistente-trigger {
+    right: calc(var(--ma-panel-width, 360px) + 20px);
+}
+
 .assistente-overlay {
     position: fixed;
     top: 0;
@@ -217,6 +276,15 @@
 }
 
 @media (max-width: 600px) {
+    .assistente-trigger {
+        right: 12px;
+        bottom: 12px;
+    }
+
+    body.ma-accessibility-open .assistente-trigger {
+        right: 12px;
+    }
+
     .assistente-overlay.open {
         width: 100vw;
     }
@@ -254,6 +322,18 @@
 
 html.modo-escuro .assistente-sidebar {
     background: #1E293B;
+}
+
+html.modo-escuro .assistente-trigger {
+    background: #0B6477;
+    border-color: rgba(255, 255, 255, 0.85);
+    color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .assistente-trigger {
+        transition: none;
+    }
 }
 
 html.modo-escuro .assistente-sidebar-header {

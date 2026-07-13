@@ -29,7 +29,7 @@ var FAQ = [
     },
     {
         pergunta: 'Como voltar para o menu principal?',
-        resposta: 'Em todas as páginas do site, você encontra uma <strong>seta de voltar</strong> (←) no canto superior esquerdo. Clique nela para voltar à página anterior. Se quiser ir direto para o menu principal, continue clicando na seta até chegar lá. Você também pode acessar o menu principal pelo <strong>botão de acessibilidade</strong> no canto superior direito da tela.'
+        resposta: 'Em todas as páginas do site, você encontra uma <strong>seta de voltar</strong> (←) no canto superior esquerdo. Clique nela para voltar à página anterior. Para retornar ao menu principal, use essa seta até chegar ao menu.'
     },
     {
         pergunta: 'O que significa "Usar sozinho" e "Usar com ajuda"?',
@@ -45,7 +45,7 @@ var FAQ = [
     },
     {
         pergunta: 'Como aumentar o tamanho das letras e ativar o modo escuro?',
-        resposta: 'É muito fácil! No canto direito da tela, clique no botão <strong>"Acessibilidade"</strong> para abrir o painel de ajustes. Lá você encontra:<br><br>— <strong>Tamanho das letras:</strong> use os botões <strong>−</strong> e <strong>+</strong> para diminuir ou aumentar a fonte. O tamanho atual aparece em porcentagem.<br><br>— <strong>Modo escuro:</strong> clique em "Modo Escuro" para deixar o fundo escuro e as letras claras, ideal para ambientes com pouca luz.<br><br>— <strong>Contraste:</strong> o site também se adapta a temas de alto contraste para facilitar a leitura.<br><br>Todas as configurações são salvas automaticamente para a sua próxima visita!'
+        resposta: 'É muito fácil! No canto superior direito da tela, clique no <strong>ícone de acessibilidade</strong>, representado por uma pessoa, para abrir o painel de ajustes. Lá você encontra:<br><br>— <strong>Tamanho das letras:</strong> use os botões <strong>−</strong> e <strong>+</strong> para diminuir ou aumentar a fonte. O tamanho atual aparece em porcentagem.<br><br>— <strong>Modo escuro:</strong> clique em "Modo Escuro" para deixar o fundo escuro e as letras claras, ideal para ambientes com pouca luz.<br><br>Suas configurações ficam salvas para a próxima visita.'
     },
     {
         pergunta: 'O site tem fundamento científico?',
@@ -73,6 +73,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var assistenteHTML = `
+        <button class="assistente-trigger" id="assistenteTrigger" type="button"
+            aria-label="Abrir ajuda e tirar dúvidas" aria-expanded="false" aria-controls="assistenteOverlay">
+            <span class="assistente-trigger-icon" aria-hidden="true">?</span>
+            <span class="assistente-trigger-text">Ajuda</span>
+        </button>
         <div class="assistente-overlay" id="assistenteOverlay">
             <div class="assistente-sidebar" role="dialog" aria-modal="true" aria-labelledby="assistenteTitulo">
                 <div class="assistente-sidebar-header">
@@ -106,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.body.insertAdjacentHTML('beforeend', assistenteHTML);
 
+    var trigger = document.getElementById('assistenteTrigger');
     var overlay = document.getElementById('assistenteOverlay');
     var closeBtn = document.getElementById('assistenteCloseBtn');
     var modalOverlay = document.getElementById('faqModalOverlay');
@@ -117,12 +123,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function openAssistente() {
         overlay.classList.add('open');
         document.body.classList.add('assistente-aberto');
+        trigger.setAttribute('aria-expanded', 'true');
         if (closeBtn) closeBtn.focus();
     }
 
     function closeAssistente() {
+        var estavaAberto = overlay.classList.contains('open');
         overlay.classList.remove('open');
         document.body.classList.remove('assistente-aberto');
+        trigger.setAttribute('aria-expanded', 'false');
+        if (estavaAberto) trigger.focus();
     }
 
     function openModal(index) {
@@ -139,6 +149,10 @@ document.addEventListener('DOMContentLoaded', function () {
         modalOverlay.classList.remove('open');
         document.body.style.overflow = '';
     }
+
+    trigger.addEventListener('click', function () {
+        document.dispatchEvent(new CustomEvent('mente-ativa-abrir-assistente'));
+    });
 
     closeBtn.addEventListener('click', closeAssistente);
     overlay.addEventListener('click', function (e) {

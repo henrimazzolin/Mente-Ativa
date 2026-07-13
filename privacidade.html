@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Informações sobre privacidade e dados locais no Mente Ativa">
+    <title>Mente Ativa - Privacidade e LGPD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/assistente-flutuante.css">
+    <link rel="stylesheet" href="css/privacidade.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <script src="js/accessibility-unified.js" defer></script>
+    <script src="js/components/logo.js" defer></script>
+    <script src="js/privacidade.js" defer></script>
+</head>
+<body>
+    <main class="privacy-container">
+        <header class="info-brand-header">
+            <a href="menu.html" class="info-back-link" aria-label="Voltar ao menu" title="Voltar ao menu">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path>
+                </svg>
+                <span>Voltar ao menu</span>
+            </a>
+            <div class="logo info-brand-logo">
+                <div class="logo-float" data-logo-tipo="inicial">
+                    <div class="logo-icon"><img alt="Logo Mente Ativa"></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="privacy-page-title">
+            <p class="privacy-eyebrow">Privacidade explicada de forma simples</p>
+            <h1>Privacidade e LGPD</h1>
+            <p>Veja quais informações ficam no seu dispositivo e como você pode apagá-las.</p>
+        </div>
+
+        <nav class="privacy-quick-nav" aria-label="Conteúdo de privacidade">
+            <a href="#dados-locais">Dados locais</a>
+            <a href="#gerenciar-dados">Gerenciar dados</a>
+            <a href="#politica-privacidade">Política de Privacidade</a>
+            <a href="#termos-de-uso">Termos de Uso</a>
+        </nav>
+
+        <section class="privacy-highlight" aria-labelledby="privacy-summary-title">
+            <div class="privacy-highlight-icon" aria-hidden="true">✓</div>
+            <div>
+                <h2 id="privacy-summary-title">O Mente Ativa não exige cadastro</h2>
+                <p>Não pedimos nome, CPF, telefone ou e-mail para você utilizar o site. Também não vendemos informações sobre os usuários.</p>
+            </div>
+        </section>
+
+        <section class="privacy-section" id="dados-locais" aria-labelledby="local-data-title">
+            <h2 id="local-data-title">O que fica salvo neste dispositivo</h2>
+            <p>Algumas informações são guardadas no navegador para facilitar a próxima visita:</p>
+            <div class="privacy-grid">
+                <article class="privacy-card">
+                    <span class="privacy-card-icon" aria-hidden="true">📅</span>
+                    <h3>Atividades do calendário</h3>
+                    <p>Nomes, horários e descrições que você decidir adicionar ao calendário.</p>
+                </article>
+                <article class="privacy-card">
+                    <span class="privacy-card-icon" aria-hidden="true">Aa</span>
+                    <h3>Preferências de acessibilidade</h3>
+                    <p>Tamanho das letras, modo escuro, sons, lembretes e estado do painel.</p>
+                </article>
+                <article class="privacy-card">
+                    <span class="privacy-card-icon" aria-hidden="true">⚙</span>
+                    <h3>Preferências de navegação</h3>
+                    <p>Registro de que a introdução e este aviso já foram apresentados.</p>
+                </article>
+            </div>
+            <p class="privacy-note"><strong>Importante:</strong> essas informações permanecem no navegador e não são enviadas pelo Mente Ativa para um banco de dados.</p>
+        </section>
+
+        <section class="privacy-section" aria-labelledby="external-title">
+            <h2 id="external-title">Serviços usados para mostrar o site</h2>
+            <p>Alguns recursos visuais são carregados pela internet. Por isso, serviços externos podem receber dados técnicos básicos da conexão, como endereço IP, navegador e horário do acesso.</p>
+            <ul class="privacy-list">
+                <li><strong>Google Fonts:</strong> fornece as fontes usadas nos textos.</li>
+                <li><strong>jsDelivr:</strong> fornece arquivos visuais do Bootstrap.</li>
+                <li><strong>Unsplash:</strong> fornece algumas imagens utilizadas nos jogos.</li>
+                <li><strong>Hospedagem:</strong> o serviço que publica o site pode manter registros técnicos necessários para segurança e funcionamento.</li>
+            </ul>
+            <p>O Mente Ativa não usa ferramentas próprias de publicidade, criação de perfil ou acompanhamento de comportamento.</p>
+        </section>
+
+        <section class="privacy-section" aria-labelledby="notifications-title">
+            <h2 id="notifications-title">Lembretes e notificações</h2>
+            <p>As notificações só são ativadas quando você escolhe essa opção e autoriza o navegador. A permissão pode ser removida nas configurações do próprio navegador.</p>
+        </section>
+
+        <section class="privacy-section privacy-management" id="gerenciar-dados" aria-labelledby="manage-title">
+            <h2 id="manage-title">Seus dados neste dispositivo</h2>
+            <div class="privacy-status" aria-live="polite">
+                <p><strong>Calendário:</strong> <span id="privacyEventCount">Verificando...</span></p>
+                <p><strong>Preferências:</strong> <span id="privacyPreferenceStatus">Verificando...</span></p>
+            </div>
+            <div class="privacy-actions">
+                <button id="clearCalendarData" class="privacy-button privacy-button-secondary" type="button">Apagar atividades do calendário</button>
+                <button id="clearAllLocalData" class="privacy-button privacy-button-danger" type="button">Redefinir dados e preferências</button>
+            </div>
+            <p id="privacyActionStatus" class="privacy-action-status" role="status"></p>
+            <p class="privacy-note">Esses botões atuam somente neste navegador. Permissões concedidas ao navegador, como notificações, precisam ser alteradas nas configurações dele.</p>
+        </section>
+
+        <section class="privacy-section" aria-labelledby="research-title">
+            <h2 id="research-title">Pesquisa acadêmica</h2>
+            <p>Testes de usabilidade, questionários SUS, termos de consentimento e eventuais gravações são atividades separadas do uso normal do site. Elas somente acontecem com participantes convidados e devidamente informados.</p>
+        </section>
+
+        <section class="privacy-section privacy-legal-section" id="politica-privacidade" aria-labelledby="policy-title">
+            <p class="privacy-legal-label">Normas de privacidade</p>
+            <h2 id="policy-title">Política de Privacidade e Proteção de Dados</h2>
+            <p class="privacy-updated"><strong>Última atualização:</strong> julho de 2026.</p>
+
+            <h3>1. Introdução</h3>
+            <p>O Mente Ativa valoriza a privacidade e a proteção dos dados de seus usuários. Esta Política explica quais informações podem ser tratadas durante a utilização da plataforma, como são utilizadas e quais cuidados são adotados, em conformidade com a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 — LGPD).</p>
+            <p>Ao utilizar o Mente Ativa, o usuário declara estar ciente das informações apresentadas nesta Política.</p>
+
+            <h3>2. Sobre o Mente Ativa</h3>
+            <p>O Mente Ativa é uma plataforma voltada ao estímulo cognitivo, à inclusão digital e à acessibilidade para pessoas idosas, oferecendo jogos e atividades educativas em um ambiente simples, intuitivo e seguro.</p>
+
+            <h3>3. Dados tratados</h3>
+            <p>O Mente Ativa não exige cadastro, criação de conta, login ou fornecimento de informações pessoais para o uso de suas funcionalidades principais.</p>
+            <p>As atividades do calendário e as preferências de acessibilidade e navegação ficam armazenadas localmente no navegador. Serviços de hospedagem e recursos externos também podem processar informações técnicas indispensáveis ao funcionamento e à segurança, como:</p>
+            <ul class="privacy-list">
+                <li>tipo de navegador e sistema operacional;</li>
+                <li>resolução da tela;</li>
+                <li>data e horário do acesso;</li>
+                <li>endereço IP e informações relacionadas ao desempenho e à segurança da plataforma.</li>
+            </ul>
+            <p>Essas informações técnicas não são utilizadas pelo Mente Ativa para criar perfis comerciais ou tentar identificar pessoalmente seus usuários.</p>
+
+            <h3>4. Cookies e armazenamento local</h3>
+            <p>Atualmente, o Mente Ativa utiliza o armazenamento local do navegador para guardar preferências e atividades. Não são utilizados cookies de publicidade, venda de informações ou criação de perfis comerciais.</p>
+            <p>Caso futuramente sejam adotados cookies estatísticos, analíticos ou outras tecnologias opcionais, esta Política será atualizada e os usuários serão informados antes de sua utilização.</p>
+
+            <h3>5. Compartilhamento de informações</h3>
+            <p>O Mente Ativa não vende nem comercializa dados pessoais. Serviços externos necessários para apresentar ou hospedar a plataforma podem processar informações técnicas conforme suas próprias políticas de privacidade, como explicado na seção “Serviços usados para mostrar o site”.</p>
+
+            <h3>6. Segurança</h3>
+            <p>São adotadas boas práticas de desenvolvimento para preservar a integridade, a disponibilidade e a segurança da aplicação, reduzindo riscos de acesso não autorizado, alteração indevida e outras situações que possam comprometer seu funcionamento.</p>
+
+            <h3>7. Direitos do usuário</h3>
+            <p>Nos termos da LGPD, os usuários podem solicitar informações e esclarecimentos sobre eventual tratamento de dados pessoais, quando aplicável, além de exercer os direitos previstos na legislação. Os dados salvos localmente podem ser consultados e apagados na seção “Seus dados neste dispositivo”.</p>
+
+            <h3>8. Alterações e contato</h3>
+            <p>Esta Política poderá ser atualizada sempre que houver mudanças nas funcionalidades do Mente Ativa ou na legislação aplicável. Em caso de dúvidas, o usuário poderá procurar os canais oficiais divulgados pelo projeto.</p>
+        </section>
+
+        <section class="privacy-section privacy-legal-section" id="termos-de-uso" aria-labelledby="terms-title">
+            <p class="privacy-legal-label">Condições de utilização</p>
+            <h2 id="terms-title">Termos de Uso</h2>
+            <p class="privacy-updated"><strong>Última atualização:</strong> julho de 2026.</p>
+
+            <h3>1. Objetivo</h3>
+            <p>Estes Termos estabelecem as condições para utilização da plataforma Mente Ativa. Ao acessar a plataforma, o usuário declara estar ciente e concordar com estas condições.</p>
+
+            <h3>2. Finalidade da plataforma</h3>
+            <p>O Mente Ativa oferece jogos e atividades voltados ao estímulo cognitivo, à inclusão digital e à promoção do bem-estar de pessoas idosas.</p>
+            <p class="privacy-note"><strong>Atenção:</strong> as atividades têm caráter educativo e recreativo e não substituem acompanhamento médico, psicológico, terapêutico ou de outro profissional especializado.</p>
+
+            <h3>3. Utilização responsável</h3>
+            <p>O usuário compromete-se a utilizar a plataforma de forma ética, responsável e de acordo com a legislação. É vedado usar o Mente Ativa para finalidades ilícitas ou tentar comprometer sua segurança, funcionamento ou disponibilidade.</p>
+
+            <h3>4. Cadastro</h3>
+            <p>Atualmente, o Mente Ativa não exige cadastro, criação de conta ou autenticação. Caso essa funcionalidade seja implementada futuramente, estes Termos e a Política de Privacidade serão atualizados.</p>
+
+            <h3>5. Propriedade intelectual</h3>
+            <p>Os textos, logotipos, interfaces, jogos, elementos gráficos e demais materiais pertencem ao projeto Mente Ativa ou são utilizados a partir de fontes e autorizações aplicáveis. Sua reprodução, distribuição ou utilização fora das permissões legais depende de autorização dos respectivos responsáveis.</p>
+
+            <h3>6. Disponibilidade</h3>
+            <p>Embora sejam adotadas medidas para manter a plataforma disponível, podem ocorrer interrupções temporárias para manutenção, atualização ou por fatores externos.</p>
+
+            <h3>7. Limitação de responsabilidade</h3>
+            <p>O Mente Ativa busca oferecer uma experiência segura e confiável, mas não se responsabiliza por problemas decorrentes de falhas de conexão, dispositivos dos usuários ou utilização inadequada da plataforma.</p>
+
+            <h3>8. Alterações</h3>
+            <p>Estes Termos poderão ser modificados para refletir melhorias, mudanças nas funcionalidades ou adequações legais. A data de atualização será informada nesta página.</p>
+
+            <h3>9. Legislação aplicável</h3>
+            <p>Estes Termos são regidos pelas leis da República Federativa do Brasil, especialmente pela Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018) e pela legislação civil aplicável.</p>
+
+            <h3>10. Contato</h3>
+            <p>Em caso de dúvidas sobre estes Termos, o usuário poderá procurar os canais oficiais divulgados pelo projeto.</p>
+        </section>
+
+        <section class="privacy-section" aria-labelledby="lgpd-title">
+            <h2 id="lgpd-title">Conheça a LGPD</h2>
+            <p>A Lei Geral de Proteção de Dados ajuda a garantir transparência, segurança e controle sobre informações relacionadas às pessoas. Para conhecer orientações oficiais, visite a <a href="https://www.gov.br/anpd/pt-br" target="_blank" rel="noopener noreferrer">Autoridade Nacional de Proteção de Dados</a>.</p>
+            <p class="privacy-updated">Informações atualizadas em julho de 2026.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Cuidar da mente é cultivar a vida.</p>
+        <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
+        <a href="sobre.html" class="sobre-footer">Sobre</a>
+    </footer>
+
+    <script src="js/assistente-flutuante.js"></script>
+    <script src="js/alerts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -2,10 +2,18 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "check:js": "node --check server.js"
+    "check": "node scripts/validate.mjs && node scripts/test-accessibility.mjs && node scripts/test-privacy.mjs && node scripts/test-responsive.mjs && node scripts/test-info-pages.mjs",
+    "check:js": "node scripts/validate.mjs --js-only",
+    "test:accessibility": "node scripts/test-accessibility.mjs",
+    "test:privacy": "node scripts/test-privacy.mjs",
+    "test:responsive": "node scripts/test-responsive.mjs",
+    "test:info-pages": "node scripts/test-info-pages.mjs"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
   }
 }

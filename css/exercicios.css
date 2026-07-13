@@ -286,6 +286,7 @@ body {
 }
 
 .ver-btn {
+    display: inline-block;
     width: 100%;
     padding: 14px 24px;
     border: none;
@@ -295,6 +296,8 @@ body {
     font-family: inherit;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
 }
 
 .exercise-card.verde .ver-btn { background: var(--light); color: white; }

@@ -194,13 +194,13 @@ body {
 .super-simples-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 24px;
 }
 
 .super-simples-card {
     background: var(--cor-fundo-card);
     border-radius: 16px;
-    padding: 16px;
+    padding: 20px;
     aspect-ratio: 1;
     min-height: 0;
     overflow: hidden;
@@ -265,7 +265,7 @@ body {
 }
 
 .game-title-box h2 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--cor-texto);
     margin: 0;
@@ -282,6 +282,11 @@ body {
 html.modo-escuro .super-simples-card {
     background: rgba(26, 41, 37, 0.94);
     border-color: rgba(255,255,255,0.15);
+}
+
+.super-simples-icon-emoji {
+    font-size: 4.5rem;
+    line-height: 1;
 }
 
 html.modo-escuro .super-simples-card:hover {
@@ -309,11 +314,11 @@ html.modo-escuro .super-simples-title {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 16px;
+        gap: 20px;
     }
     .super-simples-card {
-        flex: 0 0 calc(50% - 8px);
-        max-width: calc(50% - 8px);
+        flex: 0 0 calc(50% - 10px);
+        max-width: calc(50% - 10px);
         aspect-ratio: auto;
     }
 }

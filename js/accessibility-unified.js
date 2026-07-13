@@ -4,8 +4,13 @@
     var STORAGE_KEYS = {
         darkMode: 'mente-ativa-modo-escuro',
         fontSize: 'mente-ativa-fonte',
-        notifications: 'mente-ativa-notificacoes'
+        notifications: 'mente-ativa-notificacoes',
+        panelOpen: 'mente-ativa-painel-aberto'
     };
+
+    // O painel inicia aberto na primeira visita. Depois disso, a escolha do
+    // usuario e preservada entre as paginas para evitar aberturas repetitivas.
+    var DEFAULT_PANEL_OPEN = true;
 
     var FONT_STEPS = [80, 90, 100, 110, 120, 130, 140];
     var FONT_STORAGE_KEY = 'mente-ativa-fonte-pct';
@@ -139,25 +144,31 @@
         var container = document.getElementById('mente-ativa-controls');
         var backdrop = document.querySelector('.ma-backdrop');
         if (!container) return;
-        var isOpen = container.classList.toggle('open');
+        this.setPanelOpen(!container.classList.contains('open'), true);
+    };
+
+    DarkModeManager.prototype.setPanelOpen = function(isOpen, remember) {
+        var container = document.getElementById('mente-ativa-controls');
+        var backdrop = document.querySelector('.ma-backdrop');
+        if (!container) return;
+
+        container.classList.toggle('open', isOpen);
+        container.setAttribute('aria-hidden', String(!isOpen));
+        document.body.classList.toggle('ma-accessibility-open', isOpen);
         if (backdrop) backdrop.classList.toggle('visible', isOpen);
+
         var toggle = document.getElementById('ma-toggle');
         if (toggle) {
             toggle.setAttribute('aria-expanded', String(isOpen));
             toggle.setAttribute('aria-label', isOpen ? 'Fechar painel de acessibilidade' : 'Abrir painel de acessibilidade');
+            toggle.setAttribute('title', isOpen ? 'Fechar acessibilidade' : 'Abrir acessibilidade');
         }
+
+        if (remember) storageSet(STORAGE_KEYS.panelOpen, String(isOpen));
     };
 
     DarkModeManager.prototype.closePanel = function() {
-        var container = document.getElementById('mente-ativa-controls');
-        var backdrop = document.querySelector('.ma-backdrop');
-        if (container) container.classList.remove('open');
-        if (backdrop) backdrop.classList.remove('visible');
-        var toggle = document.getElementById('ma-toggle');
-        if (toggle) {
-            toggle.setAttribute('aria-expanded', 'false');
-            toggle.setAttribute('aria-label', 'Abrir painel de acessibilidade');
-        }
+        this.setPanelOpen(false, true);
     };
 
     DarkModeManager.prototype._atualizarUI = function() {
@@ -180,16 +191,47 @@
         toggle.type = 'button';
         toggle.setAttribute('aria-label', 'Abrir painel de acessibilidade');
         toggle.setAttribute('aria-expanded', 'false');
-        toggle.textContent = 'Acessibilidade';
+        toggle.setAttribute('aria-controls', 'mente-ativa-controls');
+        toggle.setAttribute('title', 'Abrir acessibilidade');
+        toggle.innerHTML = '<svg viewBox="0 0 64 64" data-icon="accessibility" aria-hidden="true" focusable="false">' +
+            '<circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="5"></circle>' +
+            '<circle cx="32" cy="19" r="5" fill="currentColor" stroke="none"></circle>' +
+            '<path d="M19 23.5c1-2 3-2.7 5-1.8 5.7 2.5 10.3 2.5 16 0 2-.9 4-.2 5 1.8 1 2.1.1 4.4-2 5.3l-5.3 2.3v10.2l5.1 9.1c1.2 2.1.4 4.8-1.7 6-2.1 1.1-4.7.4-5.9-1.7L32 49l-3.2 5.7c-1.2 2.1-3.8 2.8-5.9 1.7-2.1-1.2-2.9-3.9-1.7-6l5.1-9.1V31.1L21 28.8c-2.1-.9-3-3.2-2-5.3z" fill="currentColor" stroke="none"></path>' +
+            '</svg>' +
+            '<span class="ma-tooltip" aria-hidden="true">Acessibilidade</span>';
         toggle.addEventListener('click', this.togglePanel.bind(this));
 
         var backdrop = document.createElement('div');
         backdrop.className = 'ma-backdrop';
         backdrop.addEventListener('click', this.closePanel.bind(this));
 
-        var container = document.createElement('div');
+        var container = document.createElement('aside');
         container.id = 'mente-ativa-controls';
         container.className = 'mente-ativa-controls';
+        container.setAttribute('aria-label', 'Painel de acessibilidade');
+        container.setAttribute('aria-hidden', 'true');
+
+        var panelHeader = document.createElement('div');
+        panelHeader.className = 'ma-panel-header';
+
+        var panelTitle = document.createElement('h2');
+        panelTitle.id = 'ma-panel-title';
+        panelTitle.className = 'ma-panel-title';
+        panelTitle.textContent = 'Acessibilidade';
+
+        var closeButton = document.createElement('button');
+        closeButton.className = 'ma-panel-close';
+        closeButton.type = 'button';
+        closeButton.setAttribute('aria-label', 'Fechar painel de acessibilidade');
+        closeButton.innerHTML = '&times;';
+        closeButton.addEventListener('click', this.closePanel.bind(this));
+
+        panelHeader.appendChild(panelTitle);
+        panelHeader.appendChild(closeButton);
+
+        var panelDescription = document.createElement('p');
+        panelDescription.className = 'ma-panel-description';
+        panelDescription.textContent = 'Ajuste o site para ficar mais confortável para você.';
 
         var fontGroup = document.createElement('div');
         fontGroup.className = 'ma-btn ma-btn-font-size';
@@ -230,15 +272,6 @@
         btnDarkMode.textContent = this.isEscuro ? 'Modo Claro' : 'Modo Escuro';
         btnDarkMode.setAttribute('aria-label', this.isEscuro ? 'Mudar para modo claro' : 'Mudar para modo escuro');
         btnDarkMode.addEventListener('click', this.toggleModoEscuro.bind(this));
-
-        var btnAssistente = document.createElement('button');
-        btnAssistente.className = 'ma-btn ma-btn-assistente';
-        btnAssistente.type = 'button';
-        btnAssistente.textContent = 'Tirar Duvidas';
-        btnAssistente.setAttribute('aria-label', 'Abrir assistente virtual');
-        btnAssistente.addEventListener('click', function() {
-            document.dispatchEvent(new CustomEvent('mente-ativa-abrir-assistente'));
-        });
 
         var somToggle = document.createElement('button');
         somToggle.id = 'ma-btn-som';
@@ -297,9 +330,10 @@
             }
         });
 
+        container.appendChild(panelHeader);
+        container.appendChild(panelDescription);
         container.appendChild(fontGroup);
         container.appendChild(btnDarkMode);
-        container.appendChild(btnAssistente);
         container.appendChild(somToggle);
         container.appendChild(notifToggle);
 
@@ -308,6 +342,9 @@
         document.body.appendChild(container);
 
         this._atualizarEstadoBotoes();
+        var savedPanelState = storageGet(STORAGE_KEYS.panelOpen, null);
+        var shouldOpen = savedPanelState === null ? DEFAULT_PANEL_OPEN : savedPanelState === 'true';
+        this.setPanelOpen(shouldOpen, false);
     };
 
     var TTS = {
@@ -399,6 +436,18 @@
         if (storageGet(STORAGE_KEYS.notifications, 'false') === 'true') {
             agendarNotificacaoDiaria();
         }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') dm.closePanel();
+        });
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) dm.closePanel();
+        });
+
+        document.addEventListener('mente-ativa-abrir-assistente', function() {
+            dm.setPanelOpen(false, false);
+        });
     }
 
     if (document.readyState === 'loading') {

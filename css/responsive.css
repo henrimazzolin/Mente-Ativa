@@ -1,0 +1,911 @@
+/* Camada responsiva global — carregada por ultimo em todas as paginas. */
+
+:root {
+    --ma-page-gutter: clamp(16px, 4vw, 40px);
+    --ma-layout-max: 1200px;
+    --ma-content-max: 1000px;
+    --ma-section-gap: clamp(16px, 3vw, 28px);
+    --ma-card-gap: 24px;
+    --ma-touch-target: 48px;
+}
+
+html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+    max-width: 100%;
+}
+
+img,
+video {
+    height: auto;
+}
+
+.container,
+.main-content,
+.game-card,
+.game-container,
+.game-area,
+.game-content,
+.game-layout,
+.board-section,
+.board-area,
+.grid-section,
+.grid-wrapper,
+.calendar,
+.puzzle-container,
+.canvas-container,
+.maintenance-container {
+    min-width: 0;
+}
+
+.container {
+    /* Mantem o max-width definido por cada pagina e cria respiro lateral fluido. */
+    width: calc(100% - (2 * var(--ma-page-gutter)));
+    margin-inline: auto;
+}
+
+/* Algumas paginas de jogos simples nao possuem o wrapper .container. */
+body > .header,
+body > .main-content,
+body > .maintenance-container {
+    width: calc(100% - (2 * var(--ma-page-gutter)));
+    margin-inline: auto;
+}
+
+body > .header {
+    max-width: var(--ma-layout-max);
+}
+
+body > .main-content,
+body > .maintenance-container {
+    max-width: var(--ma-content-max);
+}
+
+/* Cabecalho informativo compartilhado por Sobre e Privacidade. */
+.info-brand-header {
+    width: 100%;
+    min-width: 0;
+}
+
+.info-back-link {
+    max-width: calc(100% - 64px);
+}
+
+.info-brand-header .info-brand-logo,
+.info-brand-header .logo-float,
+.info-brand-header .logo-icon {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.main-content,
+.game-card,
+.game-container,
+.game-area,
+.game-content,
+.game-layout,
+.board-section,
+.board-area,
+.grid-section,
+.grid-wrapper,
+.calendar,
+.puzzle-container,
+.canvas-container,
+.maintenance-container {
+    margin-inline: auto;
+}
+
+.header,
+.logo,
+.page-title,
+.titulo-com-tts,
+.game-info,
+.game-stats,
+.score-display,
+.buttons,
+.buttons-area,
+.game-controls,
+.controls,
+.dificuldade-selector,
+.options-container,
+.options-grid,
+.paint-tools,
+.colors-palette,
+.brush-sizes,
+.numpad,
+.sequence-items {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.header > *,
+.game-layout > *,
+.game-content > *,
+.game-area > *,
+.options-container > *,
+.options-grid > *,
+.game-info > *,
+.game-stats > *,
+.score-display > * {
+    min-width: 0;
+}
+
+button,
+.btn,
+.next-btn,
+.tool-btn,
+.dif-btn,
+input,
+select,
+textarea {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+button,
+.btn,
+.next-btn,
+.tool-btn,
+.dif-btn {
+    min-height: var(--ma-touch-target);
+    white-space: normal;
+    touch-action: manipulation;
+}
+
+input,
+select,
+textarea {
+    min-height: 44px;
+}
+
+.feedback-card,
+.feedback-modal,
+.message,
+.modal-content,
+.event-modal,
+.faq-modal,
+.color-choice-container,
+.escolha-lado-container {
+    width: min(100%, 520px);
+    max-width: calc(100vw - (2 * var(--ma-page-gutter)));
+    max-height: calc(100dvh - (2 * var(--ma-page-gutter)));
+    overflow-y: auto;
+}
+
+.feedback-overlay,
+.overlay,
+.modal-overlay,
+.faq-modal-overlay {
+    padding: var(--ma-page-gutter);
+}
+
+.games-grid,
+.super-simples-grid,
+.menu-grid,
+.exercise-grid,
+.exercises-grid,
+.privacy-grid {
+    gap: var(--ma-card-gap) !important;
+}
+
+.word-grid,
+.crossword-grid,
+.sudoku-grid,
+#tabuleiro {
+    max-width: 100%;
+}
+
+.grid-wrapper,
+.grid-section {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-gutter: stable;
+}
+
+@media (max-width: 1024px) {
+    .games-grid,
+    .super-simples-grid {
+        gap: 20px !important;
+    }
+
+    .game-layout {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 900px) {
+    .game-layout,
+    .game-content {
+        width: 100%;
+    }
+
+    .board-section,
+    .side-panel,
+    .hints-section {
+        width: 100%;
+        margin-inline: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        width: 100%;
+        min-height: 58px;
+        gap: 10px;
+    }
+
+    .logo {
+        flex: 1 1 auto;
+        overflow: hidden;
+    }
+
+    .logo-icon {
+        width: clamp(112px, 34vw, 160px) !important;
+        max-width: 100% !important;
+        flex: 0 1 auto;
+    }
+
+    .page-title h1,
+    .welcome h1,
+    .game-title {
+        overflow-wrap: anywhere;
+    }
+
+    .page-title h1,
+    .welcome h1 {
+        font-size: clamp(24px, 6vw, 32px) !important;
+        line-height: 1.2;
+    }
+
+    .game-layout,
+    .game-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-info,
+    .game-stats,
+    .score-display,
+    .buttons,
+    .buttons-area,
+    .game-controls,
+    .controls,
+    .options-container,
+    .paint-tools,
+    .colors-palette,
+    .brush-sizes,
+    .numpad,
+    .sequence-items {
+        flex-wrap: wrap;
+    }
+
+    .game-info,
+    .game-stats,
+    .score-display {
+        gap: 10px;
+    }
+
+    .info-item,
+    .stat-item,
+    .score-item {
+        flex: 1 1 120px;
+        max-width: 100%;
+    }
+
+    .options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)) !important;
+    }
+
+    .game-card,
+    .game-container,
+    .instruction-box,
+    .instrucao,
+    .instrucao-destaque,
+    .question-box,
+    .puzzle-container {
+        padding: clamp(14px, 4vw, 22px);
+    }
+
+    .board-area {
+        width: min(100%, 600px);
+    }
+
+    #tabuleiro div {
+        min-width: 0 !important;
+        min-height: 0 !important;
+    }
+
+    .calendar {
+        padding: clamp(10px, 3vw, 18px);
+    }
+
+    .calendar-header {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .calendar-header h2 {
+        flex: 1 1 180px;
+    }
+
+    .calendar-days,
+    .calendar-grid {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .calendar-day,
+    .day-name {
+        min-width: 0;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding-right: 62px;
+    }
+
+    .back-btn {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        flex: 0 0 48px;
+    }
+
+    .games-grid,
+    .super-simples-grid,
+    .menu-grid,
+    .exercises-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 16px !important;
+    }
+
+    .games-grid > .game-card,
+    .super-simples-grid > .super-simples-card,
+    .menu-grid > .menu-btn,
+    .exercises-grid > .exercise-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .dificuldade-selector {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        width: 100%;
+    }
+
+    .dificuldade-label {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+
+    .dif-btn {
+        min-width: 0 !important;
+        padding: 10px 6px !important;
+        font-size: 15px !important;
+    }
+
+    .buttons > .btn,
+    .buttons-area > .btn,
+    .game-controls > .btn,
+    .controls > .btn,
+    .next-btn {
+        flex: 1 1 180px;
+    }
+
+    .crossword-grid .cell {
+        width: clamp(28px, calc((100vw - 54px) / 10), 38px) !important;
+        height: clamp(28px, calc((100vw - 54px) / 10), 38px) !important;
+    }
+
+    .sudoku-grid .cell {
+        width: clamp(28px, calc((100vw - 46px) / 9), 38px) !important;
+        height: clamp(28px, calc((100vw - 46px) / 9), 38px) !important;
+    }
+
+    .crossword-grid .cell input,
+    .sudoku-grid .cell input {
+        font-size: clamp(16px, 5vw, 22px) !important;
+    }
+
+    .cell .cell-number {
+        top: 1px;
+        left: 2px;
+        font-size: 10px !important;
+    }
+
+    .canvas-container {
+        padding: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --ma-page-gutter: 14px;
+    }
+
+    .header {
+        padding-block: 6px;
+        padding-left: 0;
+        gap: 8px;
+    }
+
+    .container {
+        padding-inline: var(--ma-page-gutter) !important;
+    }
+
+    .page-title,
+    .welcome {
+        margin-bottom: 22px;
+    }
+
+    .page-title p,
+    .welcome p,
+    .instruction-text,
+    .instrucao p,
+    .instrucao-destaque p {
+        font-size: 16px !important;
+        line-height: 1.55;
+    }
+
+    .options-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .option-btn,
+    .answer-btn,
+    .choice-btn {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .feedback-card,
+    .feedback-modal,
+    .message,
+    .modal-content,
+    .event-modal {
+        border-radius: 14px;
+        padding: 18px;
+    }
+
+    .board-area {
+        grid-template-columns: 22px minmax(0, 1fr) 22px;
+        grid-template-rows: 20px minmax(0, 1fr) 20px;
+    }
+
+    .notation-file span,
+    .notation-rank span {
+        font-size: 10px;
+    }
+
+    .calendar-day,
+    .day-name {
+        font-size: clamp(11px, 3.4vw, 14px);
+    }
+
+    .month-nav button {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 360px) {
+    :root {
+        --ma-page-gutter: 10px;
+    }
+
+    .header {
+        padding-right: 58px;
+    }
+
+    .logo-icon {
+        width: clamp(96px, 32vw, 116px) !important;
+    }
+
+    .page-title h1,
+    .welcome h1 {
+        font-size: 23px !important;
+    }
+
+    .buttons > .btn,
+    .buttons-area > .btn,
+    .game-controls > .btn,
+    .controls > .btn,
+    .next-btn {
+        flex-basis: 100%;
+        width: 100%;
+    }
+
+    .game-card,
+    .game-container,
+    .instruction-box,
+    .instrucao,
+    .instrucao-destaque,
+    .question-box,
+    .puzzle-container {
+        padding: 12px;
+    }
+
+    .dif-btn {
+        padding-inline: 3px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* =============================================================================
+   Matriz responsiva por faixa de viewport
+   As regras abaixo refinam a camada fluida sem alterar as dimensoes internas
+   proprias de tabuleiros, calendarios e jogos.
+   ============================================================================= */
+
+/* Celular muito pequeno: 320-359 px */
+@media (min-width: 320px) and (max-width: 359px) {
+    :root {
+        --ma-page-gutter: 10px;
+        --ma-section-gap: 12px;
+        --ma-card-gap: 12px;
+        --ma-touch-target: 48px;
+    }
+
+    .info-brand-header {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .info-back-link {
+        padding-inline: 12px;
+        font-size: 0.92rem;
+    }
+
+    .info-brand-header .logo-icon {
+        width: min(230px, 76vw) !important;
+    }
+
+    .header {
+        gap: 8px;
+        padding-left: 8px;
+        padding-right: 58px;
+    }
+
+    .logo-icon {
+        width: clamp(92px, 31vw, 108px) !important;
+    }
+
+    .games-grid,
+    .super-simples-grid,
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid,
+    .privacy-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .game-card,
+    .super-simples-card {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .section,
+    .privacy-section,
+    .privacy-highlight {
+        padding: 16px !important;
+    }
+
+    .aviso-privacidade {
+        width: calc(100vw - 16px);
+    }
+}
+
+/* Celular pequeno: 360-389 px */
+@media (min-width: 360px) and (max-width: 389px) {
+    :root {
+        --ma-page-gutter: 12px;
+        --ma-section-gap: 14px;
+        --ma-card-gap: 14px;
+    }
+
+    .header {
+        gap: 8px;
+        padding-right: 60px;
+    }
+
+    .logo-icon {
+        width: clamp(104px, 32vw, 124px) !important;
+    }
+
+    .games-grid,
+    .super-simples-grid,
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid,
+    .privacy-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .game-card,
+    .super-simples-card {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Celular padrao: 390-429 px */
+@media (min-width: 390px) and (max-width: 429px) {
+    :root {
+        --ma-page-gutter: 14px;
+        --ma-section-gap: 16px;
+        --ma-card-gap: 16px;
+    }
+
+    .header {
+        gap: 10px;
+        padding-right: 62px;
+    }
+
+    .logo-icon {
+        width: clamp(116px, 34vw, 140px) !important;
+    }
+
+    .games-grid,
+    .super-simples-grid,
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid,
+    .privacy-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .game-card,
+    .super-simples-card {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Celular grande: 430-575 px */
+@media (min-width: 430px) and (max-width: 575px) {
+    :root {
+        --ma-page-gutter: 16px;
+        --ma-section-gap: 18px;
+        --ma-card-gap: 16px;
+    }
+
+    .header {
+        gap: 10px;
+        padding-right: 64px;
+    }
+
+    .logo-icon {
+        width: clamp(132px, 35vw, 160px) !important;
+    }
+
+    .games-grid,
+    .super-simples-grid,
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .game-card,
+    .super-simples-card {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .privacy-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Tablet pequeno e celular em paisagem: 576-767 px */
+@media (min-width: 576px) and (max-width: 767px) {
+    :root {
+        --ma-page-gutter: 20px;
+        --ma-section-gap: 20px;
+        --ma-card-gap: 20px;
+    }
+
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid,
+    .privacy-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .games-grid,
+    .super-simples-grid {
+        display: flex !important;
+        flex-wrap: wrap;
+    }
+
+    .games-grid > .game-card,
+    .super-simples-grid > .super-simples-card {
+        flex: 0 0 calc(50% - 10px) !important;
+        max-width: calc(50% - 10px) !important;
+    }
+
+    .dificuldade-selector {
+        width: min(100%, 620px);
+        margin-inline: auto;
+    }
+}
+
+/* Tablet: 768-991 px */
+@media (min-width: 768px) and (max-width: 991px) {
+    :root {
+        --ma-page-gutter: 24px;
+        --ma-section-gap: 22px;
+        --ma-card-gap: 22px;
+        --ma-content-max: 900px;
+    }
+
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .games-grid,
+    .super-simples-grid {
+        display: flex !important;
+        flex-wrap: wrap;
+    }
+
+    .games-grid > .game-card,
+    .super-simples-grid > .super-simples-card {
+        flex: 0 0 calc(50% - 11px) !important;
+        max-width: calc(50% - 11px) !important;
+    }
+
+    .privacy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Tablet grande e notebook pequeno: 992-1199 px */
+@media (min-width: 992px) and (max-width: 1199px) {
+    :root {
+        --ma-page-gutter: 28px;
+        --ma-section-gap: 24px;
+        --ma-card-gap: 24px;
+        --ma-layout-max: 1140px;
+        --ma-content-max: 960px;
+    }
+
+    .games-grid,
+    .super-simples-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .games-grid > .game-card,
+    .super-simples-grid > .super-simples-card {
+        max-width: 100% !important;
+    }
+
+    .menu-grid,
+    .exercise-grid,
+    .exercises-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .privacy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Desktop: 1200-1439 px */
+@media (min-width: 1200px) and (max-width: 1439px) {
+    :root {
+        --ma-page-gutter: 32px;
+        --ma-section-gap: 26px;
+        --ma-card-gap: 24px;
+        --ma-layout-max: 1200px;
+        --ma-content-max: 1000px;
+    }
+
+    .games-grid,
+    .super-simples-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Desktop grande: 1440-1919 px */
+@media (min-width: 1440px) and (max-width: 1919px) {
+    :root {
+        --ma-page-gutter: 40px;
+        --ma-section-gap: 28px;
+        --ma-card-gap: 28px;
+        --ma-layout-max: 1320px;
+        --ma-content-max: 1100px;
+    }
+
+    .games-grid,
+    .super-simples-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .feedback-card,
+    .feedback-modal,
+    .message,
+    .modal-content,
+    .event-modal,
+    .faq-modal {
+        width: min(100%, 580px);
+    }
+}
+
+/* Ultrawide, 2K e 4K: 1920 px ou mais */
+@media (min-width: 1920px) {
+    :root {
+        --ma-page-gutter: 64px;
+        --ma-section-gap: 32px;
+        --ma-card-gap: 30px;
+        --ma-layout-max: 1440px;
+        --ma-content-max: 1200px;
+    }
+
+    body > .header,
+    body > .main-content,
+    body > .maintenance-container {
+        margin-inline: auto;
+    }
+
+    .games-grid,
+    .super-simples-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .feedback-card,
+    .feedback-modal,
+    .message,
+    .modal-content,
+    .event-modal,
+    .faq-modal {
+        width: min(100%, 620px);
+    }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+    .feedback-card,
+    .feedback-modal,
+    .message,
+    .modal-content,
+    .event-modal,
+    .mente-ativa-controls {
+        max-height: calc(100dvh - 12px);
+        overflow-y: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
