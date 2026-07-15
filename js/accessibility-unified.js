@@ -8,12 +8,13 @@
         panelOpen: 'mente-ativa-painel-aberto'
     };
 
-    // O painel inicia aberto na primeira visita. Depois disso, a escolha do
-    // usuario e preservada entre as paginas para evitar aberturas repetitivas.
-    var DEFAULT_PANEL_OPEN = true;
+    // O painel inicia fechado; o usuario abre quando precisar.
+    var DEFAULT_PANEL_OPEN = false;
 
     var FONT_STEPS = [80, 90, 100, 110, 120, 130, 140];
     var FONT_STORAGE_KEY = 'mente-ativa-fonte-pct';
+    var FONT_DEFAULT_KEY = 'mente-ativa-fonte-default-v2';
+    var DEFAULT_FONT_PCT = 100;
     var BACKGROUND_MAP = {
         'neutralbkg.png': 'darkneutralbkg.png',
         'bluebkg.png': 'darkbluebkg.png',
@@ -45,14 +46,21 @@
 
     function DarkModeManager() {
         this.isEscuro = false;
-        this.fontPct = 120;
+        this.fontPct = DEFAULT_FONT_PCT;
     }
 
     DarkModeManager.prototype.init = function() {
         this.isEscuro = storageGet(STORAGE_KEYS.darkMode, 'false') === 'true';
         if (this.isEscuro) this.aplicarModoEscuro();
         else this.sincronizarClasseDocumento();
-        this.fontPct = parseInt(storageGet(FONT_STORAGE_KEY, '120'), 10) || 120;
+        if (storageGet(FONT_DEFAULT_KEY, null) !== 'done') {
+            var savedFont = storageGet(FONT_STORAGE_KEY, null);
+            if (savedFont === null || savedFont === '120' || savedFont === '140') {
+                storageSet(FONT_STORAGE_KEY, String(DEFAULT_FONT_PCT));
+            }
+            storageSet(FONT_DEFAULT_KEY, 'done');
+        }
+        this.fontPct = parseInt(storageGet(FONT_STORAGE_KEY, String(DEFAULT_FONT_PCT)), 10) || DEFAULT_FONT_PCT;
         this.aplicarFontePct();
     };
 
@@ -98,7 +106,7 @@
         if (document.getElementById('ma-font-style')) return;
         var style = document.createElement('style');
         style.id = 'ma-font-style';
-        style.textContent = 'body *:not(svg):not([class*="ma-"]):not([class*="bi"]):not(.material-icons):not([class*="icon"]):not(.titulo-com-tts) { font-size: inherit !important; }';
+        style.textContent = 'body *:not(svg):not([class*="ma-"]):not([class*="bi"]):not(.material-icons):not([class*="icon"]):not([class*="emoji"]):not([class*="image"]):not([class*="animal"]):not(.count-item):not(.option-btn):not(.titulo-com-tts) { font-size: inherit !important; }';
         document.head.appendChild(style);
     };
 
@@ -344,7 +352,7 @@
         this._atualizarEstadoBotoes();
         var savedPanelState = storageGet(STORAGE_KEYS.panelOpen, null);
         var shouldOpen = savedPanelState === null ? DEFAULT_PANEL_OPEN : savedPanelState === 'true';
-        this.setPanelOpen(shouldOpen, false);
+        this.setPanelOpen(document.body.classList.contains('ma-intro-active') ? false : shouldOpen, false);
     };
 
     var TTS = {
@@ -447,6 +455,12 @@
 
         document.addEventListener('mente-ativa-abrir-assistente', function() {
             dm.setPanelOpen(false, false);
+        });
+
+        document.addEventListener('mente-ativa-intro-fechada', function() {
+            var savedPanelState = storageGet(STORAGE_KEYS.panelOpen, null);
+            var shouldOpen = savedPanelState === null ? DEFAULT_PANEL_OPEN : savedPanelState === 'true';
+            dm.setPanelOpen(shouldOpen, false);
         });
     }
 

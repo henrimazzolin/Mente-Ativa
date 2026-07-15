@@ -27,8 +27,8 @@ const reminder = document.getElementById('ma-btn-notificacao');
 const accessibilityIcon = document.querySelector('[data-icon="accessibility"]');
 
 assert.ok(panel, 'O painel deve ser criado.');
-assert.ok(panel.classList.contains('open'), 'O painel deve iniciar aberto na primeira visita.');
-assert.equal(panel.getAttribute('aria-hidden'), 'false');
+assert.ok(!panel.classList.contains('open'), 'O painel deve iniciar fechado na primeira visita.');
+assert.equal(panel.getAttribute('aria-hidden'), 'true');
 assert.ok(title.classList.contains('ma-panel-title'), 'O título deve ficar isolado da escala global de fonte.');
 assert.equal(fontControl.children.length, 3, 'O controle de fonte deve ter menos, rótulo e mais.');
 assert.ok(fontControl.children[0].classList.contains('ma-btn-font-minus'));
@@ -41,6 +41,7 @@ const decreaseFont = fontControl.querySelector('.ma-btn-font-minus');
 const increaseFont = fontControl.querySelector('.ma-btn-font-plus');
 const fontPercentage = fontControl.querySelector('.ma-btn-font-pct');
 
+assert.equal(fontPercentage.textContent, '100%', 'A fonte deve iniciar em 100%.');
 for (let i = 0; i < 4; i++) decreaseFont.click();
 assert.equal(fontPercentage.textContent, '80%');
 for (let i = 0; i < 2; i++) increaseFont.click();

@@ -18,6 +18,8 @@
     var intro = document.getElementById('intro-overlay');
     if (!intro) return;
 
+    document.body.classList.add('ma-intro-active');
+
     var title = document.getElementById('title');
     var main = document.getElementById('main');
     var desc = document.getElementById('desc');
@@ -60,6 +62,7 @@
         document.body.style.overflow = '';
         setTimeout(function() {
             intro.style.display = 'none';
+            document.body.classList.remove('ma-intro-active');
             document.dispatchEvent(new CustomEvent('mente-ativa-intro-fechada'));
         }, 800);
     }

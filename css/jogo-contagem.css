@@ -164,7 +164,7 @@ body {
 }
 
 .count-item {
-    font-size: 60px;
+    font-size: 72px !important;
     line-height: 1;
     user-select: none;
     animation: popIn 0.3s ease;
@@ -290,7 +290,7 @@ body {
     .game-card { padding: 25px; }
     .game-title { font-size: 28px; }
     .instruction-text { font-size: 22px; }
-    .count-item { font-size: 48px; }
+    .count-item { font-size: 58px !important; }
     .option-btn { width: 75px; height: 75px; font-size: 38px; }
     .count-display { padding: 22px; min-height: 120px; }
     .next-btn { font-size: 22px; padding: 18px 35px; }

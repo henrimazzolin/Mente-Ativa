@@ -183,6 +183,12 @@ body.assistente-aberto .ma-toggle-btn {
     display: none;
 }
 
+body.ma-intro-active #mente-ativa-controls,
+body.ma-intro-active .ma-toggle-btn,
+body.ma-intro-active .ma-backdrop {
+    display: none !important;
+}
+
 @media (max-width: 768px) {
     .ma-toggle-btn {
         top: 12px;

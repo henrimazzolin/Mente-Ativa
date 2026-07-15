@@ -156,7 +156,7 @@ body {
 }
 
 .main-image {
-    font-size: 90px;
+    font-size: 140px !important;
     line-height: 1;
     user-select: none;
 }
@@ -180,7 +180,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 70px;
+    font-size: 84px !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
@@ -260,8 +260,8 @@ body {
     .game-card { padding: 25px; }
     .game-title { font-size: 26px; }
     .instruction-text { font-size: 20px; }
-    .main-image { font-size: 70px; }
-    .option-btn { font-size: 55px; max-width: 140px; }
+    .main-image { font-size: 110px !important; }
+    .option-btn { font-size: 70px !important; max-width: 140px; }
     .image-display { padding: 20px; min-height: 130px; }
     .next-btn { font-size: 22px; padding: 18px 35px; }
     .feedback-icon { font-size: 50px; }

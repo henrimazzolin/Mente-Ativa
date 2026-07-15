@@ -162,7 +162,7 @@
 }
 
         .main-emoji {
-            font-size: 140px;
+            font-size: 160px !important;
             line-height: 1;
         }
 
@@ -322,7 +322,7 @@
             .game-card { padding: 25px; }
             .game-title { font-size: 26px; }
             .instruction-text { font-size: 20px; }
-            .main-emoji { font-size: 110px; }
+            .main-emoji { font-size: 120px !important; }
             .question-text { font-size: 26px; }
             .option-btn { font-size: 26px; padding: 18px 25px; }
             .next-btn { font-size: 22px; padding: 18px 35px; }
@@ -332,7 +332,6 @@
             .feedback-title { font-size: 26px; }
             body { overflow-x: hidden; }
             .container { padding: 20px 12px; overflow-x: hidden; }
-            .main-emoji { font-size: 90px; }
         }
 
         @media (max-width: 480px) {
