@@ -1116,6 +1116,44 @@ body .dificuldade-selector .dificuldade-label {
     }
 }
 
+/* Experimento restrito ao menu: a imagem usa o centro geometrico do header. */
+body.menu-page .container > #menuHeader.menu-header-centralizado {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 76px;
+}
+
+body.menu-page .container > #menuHeader.menu-header-centralizado::after {
+    display: none;
+    content: none;
+}
+
+body.menu-page #menuHeader.menu-header-centralizado > .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    margin: 0;
+    transform: translate(-50%, -50%);
+}
+
+body.menu-page #menuHeader.menu-header-centralizado .logo-icon {
+    width: min(280px, calc(100vw - 136px)) !important;
+    max-width: none !important;
+    margin: 0 auto;
+}
+
+body.menu-page #menuHeader.menu-header-centralizado .logo-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    object-fit: contain;
+    object-position: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

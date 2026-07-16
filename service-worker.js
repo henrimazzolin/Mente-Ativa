@@ -1,4 +1,4 @@
-var CACHE_NAME = 'mente-ativa-v16';
+var CACHE_NAME = 'mente-ativa-v17';
 var OFFLINE_URL = '/index.html';
 var ASSETS_TO_CACHE = [
     '/',

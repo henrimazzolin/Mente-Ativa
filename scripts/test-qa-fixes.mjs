@@ -316,6 +316,15 @@ function testarNavegacaoInformativa() {
     }
 }
 
+function testarCentralizacaoDoMenu() {
+    const html = read('menu.html');
+    const responsive = read('css/responsive.css');
+    assert.match(html, /<body class="menu-page">/);
+    assert.match(html, /class="header menu-header-centralizado" id="menuHeader"/);
+    assert.match(responsive, /body\.menu-page #menuHeader\.menu-header-centralizado > \.logo[\s\S]*left:\s*50%[\s\S]*transform:\s*translate\(-50%, -50%\)/);
+    assert.match(responsive, /body\.menu-page #menuHeader\.menu-header-centralizado \.logo-icon img[\s\S]*object-position:\s*center/);
+}
+
 testarConfirmacao();
 testarDamas();
 testarImagensLocais();
@@ -325,5 +334,6 @@ testarPintura();
 testarCacaPalavrasComIntersecao();
 testarFluxosEPadronizacao();
 testarNavegacaoInformativa();
+testarCentralizacaoDoMenu();
 
 console.log('Correcoes do QA validadas.');
