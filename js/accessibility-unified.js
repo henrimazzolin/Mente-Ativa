@@ -97,7 +97,8 @@
     };
 
     DarkModeManager.prototype.aplicarFontePct = function() {
-        document.body.style.fontSize = Math.round(20 * this.fontPct / 100) + 'px';
+        document.documentElement.style.setProperty('--ma-font-scale', String(this.fontPct / 100));
+        document.body.style.fontSize = '20px';
         storageSet(FONT_STORAGE_KEY, String(this.fontPct));
         this._criarStyleFonte();
     };
@@ -106,7 +107,11 @@
         if (document.getElementById('ma-font-style')) return;
         var style = document.createElement('style');
         style.id = 'ma-font-style';
-        style.textContent = 'body *:not(svg):not([class*="ma-"]):not([class*="bi"]):not(.material-icons):not([class*="icon"]):not([class*="emoji"]):not([class*="image"]):not([class*="animal"]):not(.count-item):not(.option-btn):not(.titulo-com-tts) { font-size: inherit !important; }';
+        style.textContent =
+            'body :where(p, li, label, button, a, input, select, textarea):where(:not([class*="ma-"]):not([class*="bi"]):not(.material-icons):not(.grid-cell):not(.num-btn):not(.cell input):not([class*="emoji"]):not([class*="image"]):not([class*="animal"]):not(.count-item)) { font-size: calc(20px * var(--ma-font-scale, 1)) !important; }' +
+            'body :where(h1):where(:not([class*="ma-"])) { font-size: calc(36px * var(--ma-font-scale, 1)) !important; }' +
+            'body :where(h2):where(:not([class*="ma-"])) { font-size: calc(28px * var(--ma-font-scale, 1)) !important; }' +
+            'body :where(h3, h4):where(:not([class*="ma-"])) { font-size: calc(22px * var(--ma-font-scale, 1)) !important; }';
         document.head.appendChild(style);
     };
 

@@ -50,11 +50,15 @@ for (let i = 0; i < 2; i++) increaseFont.click();
 assert.equal(fontPercentage.textContent, '120%');
 for (let i = 0; i < 2; i++) increaseFont.click();
 assert.equal(fontPercentage.textContent, '140%');
+assert.equal(document.documentElement.style.getPropertyValue('--ma-font-scale'), '1.4');
+assert.equal(document.body.style.fontSize, '20px', 'A escala nao deve deformar tabuleiros e simbolos pelo body.');
 
 assert.match(styles, /--ma-panel-width:\s*360px/);
 assert.match(styles, /--ma-control-height:\s*72px/);
 assert.doesNotMatch(styles, /--ma-control-height:\s*56px/);
 assert.match(styles, /grid-template-columns:\s*var\(--ma-control-height\) minmax\(0, 1fr\) var\(--ma-control-height\)/);
+assert.match(styles, /\.ma-btn-font-pct[\s\S]*white-space:\s*nowrap/);
+assert.match(styles, /\.ma-btn-font-pct[\s\S]*overflow:\s*visible/);
 assert.match(styles, /#ma-btn-notificacao::before\s*\{\s*content:\s*none;/);
 
 Object.defineProperty(document, 'hidden', { configurable: true, value: true });

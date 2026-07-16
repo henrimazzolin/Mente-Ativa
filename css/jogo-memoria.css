@@ -181,10 +181,14 @@
         }
 
         .game-info {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             justify-content: center;
             gap: 30px;
             margin-bottom: 30px;
+            width: min(100%, 520px);
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .info-item {
@@ -193,16 +197,20 @@
             border-radius: 14px;
             box-shadow: var(--sombra);
             text-align: center;
+            min-width: 0;
         }
 
         .info-label {
-            font-size: 14px;
+            font-size: calc(14px * var(--ma-font-scale, 1)) !important;
             color: var(--cor-texto-claro);
             font-weight: 500;
+            line-height: 1.25;
+            overflow-wrap: normal;
+            word-break: normal;
         }
 
         .info-value {
-            font-size: 24px;
+            font-size: calc(24px * var(--ma-font-scale, 1)) !important;
             font-weight: 700;
             color: var(--cor-primaria);
         }
@@ -510,3 +518,6 @@
         
 
 
+            line-height: 1.25;
+            overflow-wrap: normal;
+            word-break: normal;

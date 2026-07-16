@@ -875,9 +875,9 @@ body.ma-accessibility-open { padding-right: var(--ma-panel-width); }
     display: grid;
     grid-template-columns: var(--ma-control-height) minmax(0, 1fr) var(--ma-control-height);
     align-items: stretch;
-    height: var(--ma-control-height);
+    height: auto;
     min-height: var(--ma-control-height);
-    max-height: var(--ma-control-height);
+    max-height: none;
     padding: 0;
 }
 
@@ -907,6 +907,15 @@ body.ma-accessibility-open { padding-right: var(--ma-panel-width); }
     justify-content: center;
     line-height: 1.15;
     white-space: normal;
+    overflow: visible;
+}
+
+.ma-btn-font-pct {
+    display: block;
+    flex: 0 0 auto;
+    margin-top: 4px;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 #ma-btn-notificacao,

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
         const PLACEHOLDER = 'img/placeholder.svg';
 
-        function getImgUrl(photoId) {
+        function localImage(photoId) {
             return 'img/unsplash_' + photoId + '.jpg';
         }
 
@@ -12,50 +12,41 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        function cdnUrl(photoId) {
-            return 'https://images.unsplash.com/photo-' + photoId + '?w=200&h=200&fit=crop';
-        }
-
         const imageSets = {
             frutas: [
-                cdnUrl('1615485290382-441e4d049cb5'),
-                cdnUrl('1594308147232-878815737889'),
-                cdnUrl('1601493700631-2b16ec4b6d1e'),
-                cdnUrl('1606787366850-dd62e0e6a4f3'),
-                cdnUrl('1587049352846-4a222e784d38'),
-                cdnUrl('1561136594-7f68413bb03f'),
-                cdnUrl('1595436065982-95f4c4e0e939'),
-                cdnUrl('1609505848912-b7c3b8b4beda')
+                localImage('1615485290382-441e4d049cb5'),
+                localImage('1587049352846-4a222e784d38'),
+                localImage('1609505848912-b7c3b8b4beda'),
+                localImage('1505740420928-5e560c06d30e'),
+                localImage('1526170375885-4d8ecf77b99f'),
+                localImage('1585386959984-a4155224a1ad')
             ],
             animais: [
-                cdnUrl('1583337130417-3346a1be1dee'),
-                cdnUrl('1514888286974-6c03e2ca1dba'),
-                cdnUrl('1574158622682-e40e69881006'),
-                cdnUrl('1543466835-00a7907e9de1'),
-                cdnUrl('1587300003388-59208cc962cb'),
-                cdnUrl('1533738363-b7f9aef128ce'),
-                cdnUrl('1517849845537-4d257902454a'),
-                cdnUrl('1583511655857-d19b40a7a54e')
+                localImage('1514888286974-6c03e2ca1dba'),
+                localImage('1574158622682-e40e69881006'),
+                localImage('1543466835-00a7907e9de1'),
+                localImage('1587300003388-59208cc962cb'),
+                localImage('1533738363-b7f9aef128ce'),
+                localImage('1517849845537-4d257902454a'),
+                localImage('1583511655857-d19b40a7a54e')
             ],
             natureza: [
-                cdnUrl('1506905925346-21bda4d32df4'),
-                cdnUrl('1469474968028-56623f02e42e'),
-                cdnUrl('1441974231531-c6227db76b6e'),
-                cdnUrl('1507003211169-0a1dd3628f8d'),
-                cdnUrl('1518173946687-a4c036bc1d9c'),
-                cdnUrl('1470071459604-3b5ec3a551c4'),
-                cdnUrl('1501854140801-50d01698950b'),
-                cdnUrl('1433086966358-54859d0ed716')
+                localImage('1506905925346-21bda4d32df4'),
+                localImage('1469474968028-56623f02e42e'),
+                localImage('1441974231531-c6227db76b6e'),
+                localImage('1470071459604-3b5ec3a7fe05'),
+                localImage('1501854140801-50d01698950b'),
+                localImage('1433086966358-54859d0ed716'),
+                localImage('1506744038136-46273834b3fb')
             ],
             objetos: [
-                cdnUrl('1526170375885-4d8ecf77b99f'),
-                cdnUrl('1585386959984-a4155224a1ad'),
-                cdnUrl('1505740420928-5e560c06d30e'),
-                cdnUrl('1525966222134-fcfa99b8ae77'),
-                cdnUrl('1573939338218-4f26bf5186e8'),
-                cdnUrl('1542291026-7eec264c27ff'),
-                cdnUrl('1606107557195-0e29a4b5b4ee'),
-                cdnUrl('1583394838336-acd977736f90')
+                localImage('1525966222134-fcfa99b8ae77'),
+                localImage('1542291026-7eec264c27ff'),
+                localImage('1583394838336-acd977736f90'),
+                localImage('1495360010541-f48722b34f7d'),
+                localImage('1513475382585-d06e58bcb0e0'),
+                localImage('1518717758536-85ae29035b6d'),
+                localImage('1519681393784-d120267933ba')
             ]
         };
 
@@ -222,22 +213,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 initGame();
             });
         });
-        document.getElementById('btn-como-jogar').addEventListener('click', function() {
-            document.getElementById('comoJogarModal').style.display = 'block';
-            document.getElementById('overlay').classList.add('show');
-        });
         document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'jogos-individuais.html'; });
         document.getElementById('feedbackBtn').addEventListener('click', hideFeedback);
         document.getElementById('overlay').addEventListener('click', function() {
-            var modal = document.getElementById('comoJogarModal');
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-            }
             hideFeedback();
-        });
-        document.getElementById('btn-fechar-modal').addEventListener('click', function() {
-            document.getElementById('comoJogarModal').style.display = 'none';
-            document.getElementById('overlay').classList.remove('show');
         });
 
         setupDificuldadeButtons();

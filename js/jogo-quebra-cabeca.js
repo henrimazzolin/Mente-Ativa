@@ -1,34 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
+        const PLACEHOLDER = 'img/placeholder.svg';
         const images = [
-            'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1519052537078-e6302da7c5b?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1514888286974-6d03bde4ba49?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1548245644-3c2cc7743fca?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1564349683136-afaaaa4e8bde?w=300&h=300&fit=crop'
+            'img/unsplash_1587300003388-59208cc962cb.jpg',
+            'img/unsplash_1506744038136-46273834b3fb.jpg',
+            'img/unsplash_1519681393784-d120267933ba.jpg',
+            'img/unsplash_1501785888041-af3ef285b470.jpg',
+            'img/unsplash_1470071459604-3b5ec3a7fe05.jpg',
+            'img/unsplash_1465146344425-f00d5f5c8f07.jpg',
+            'img/unsplash_1501854140801-50d01698950b.jpg',
+            'img/unsplash_1441974231531-c6227db76b6e.jpg',
+            'img/unsplash_1518717758536-85ae29035b6d.jpg',
+            'img/unsplash_1526336024174-e58f5cdd8e13.jpg',
+            'img/unsplash_1543852786-1cf6624b9987.jpg',
+            'img/unsplash_1552053831-71594a27632d.jpg',
+            'img/unsplash_1533738363-b7f9aef128ce.jpg',
+            'img/unsplash_1495360010541-f48722b34f7d.jpg',
+            'img/unsplash_1517849845537-4d257902454a.jpg',
+            'img/unsplash_1513475382585-d06e58bcb0e0.jpg',
+            'img/unsplash_1514888286974-6c03e2ca1dba.jpg',
+            'img/unsplash_1469474968028-56623f02e42e.jpg',
+            'img/unsplash_1433086966358-54859d0ed716.jpg'
         ];
 
         const easyImages = [
-            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1519052537078-e6302da7c5b?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=300&h=300&fit=crop',
-            'https://images.unsplash.com/photo-1514888286974-6d03bde4ba49?w=300&h=300&fit=crop'
+            'img/unsplash_1543852786-1cf6624b9987.jpg',
+            'img/unsplash_1552053831-71594a27632d.jpg',
+            'img/unsplash_1495360010541-f48722b34f7d.jpg',
+            'img/unsplash_1517849845537-4d257902454a.jpg',
+            'img/unsplash_1533738363-b7f9aef128ce.jpg',
+            'img/unsplash_1514888286974-6c03e2ca1dba.jpg'
         ];
+
+        function preloadImage(url) {
+            return new Promise(function(resolve) {
+                var image = new Image();
+                image.onload = function() { resolve(url); };
+                image.onerror = function() { resolve(PLACEHOLDER); };
+                image.src = url;
+            });
+        }
         
         let currentImageUrl = images[Math.floor(Math.random() * images.length)];
         
@@ -44,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let gridSize = 3;
         let totalPieces = 9;
 
-        function initGame() {
+        async function initGame() {
             closeMessage();
             selectedPiece = null;
             isProcessing = false;
@@ -52,11 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
             gridSize = difficultyConfig[currentDifficulty].size;
             totalPieces = gridSize * gridSize;
 
-            currentImageUrl = (currentDifficulty === 'facil' ? easyImages : images)[Math.floor(Math.random() * (currentDifficulty === 'facil' ? easyImages : images).length)];
+            var pool = currentDifficulty === 'facil' ? easyImages : images;
+            currentImageUrl = await preloadImage(pool[Math.floor(Math.random() * pool.length)]);
 
             const previewImg = document.getElementById('previewImage');
             if (previewImg) {
                 previewImg.src = currentImageUrl;
+                previewImg.onerror = function() { this.src = PLACEHOLDER; };
             }
 
             pieces = [];

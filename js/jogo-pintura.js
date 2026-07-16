@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentColor = '#000000';
     let brushSize = 3;
     let isErasing = false;
+    let activePointerId = null;
 
     const colors = [
         '#000000', '#FFFFFF', '#3B82F6', '#EF4444', '#10B981',
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateToolButtons() {
         const eraserBtn = document.getElementById('btn-eraser');
+        eraserBtn.setAttribute('aria-pressed', String(isErasing));
         if (isErasing) {
             eraserBtn.classList.add('active');
         } else {
@@ -106,56 +108,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getMousePos(e) {
         const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
+            x: Math.max(0, Math.min(canvas.width, (e.clientX - rect.left) * scaleX)),
+            y: Math.max(0, Math.min(canvas.height, (e.clientY - rect.top) * scaleY))
         };
     }
 
-    canvas.addEventListener('mousedown', function(e) {
+    canvas.addEventListener('pointerdown', function(e) {
+        if (activePointerId !== null) return;
+        e.preventDefault();
         isDrawing = true;
+        activePointerId = e.pointerId;
+        canvas.setPointerCapture(e.pointerId);
         const pos = getMousePos(e);
         ctx.beginPath();
         ctx.moveTo(pos.x, pos.y);
+        ctx.lineTo(pos.x + 0.01, pos.y + 0.01);
+        ctx.stroke();
     });
 
-    canvas.addEventListener('mousemove', function(e) {
-        if (!isDrawing) return;
+    canvas.addEventListener('pointermove', function(e) {
+        if (!isDrawing || e.pointerId !== activePointerId) return;
+        e.preventDefault();
         const pos = getMousePos(e);
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
     });
 
-    canvas.addEventListener('mouseup', function() {
+    function finishDrawing(e) {
+        if (!isDrawing || (e && e.pointerId !== activePointerId)) return;
         isDrawing = false;
         ctx.closePath();
-    });
+        if (e && canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+        activePointerId = null;
+    }
 
-    canvas.addEventListener('mouseleave', function() {
+    canvas.addEventListener('pointerup', finishDrawing);
+    canvas.addEventListener('pointercancel', finishDrawing);
+    canvas.addEventListener('lostpointercapture', function() {
         isDrawing = false;
-        ctx.closePath();
-    });
-
-    canvas.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        isDrawing = true;
-        const touch = e.touches[0];
-        const pos = getMousePos(touch);
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
-    });
-
-    canvas.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-        if (!isDrawing) return;
-        const touch = e.touches[0];
-        const pos = getMousePos(touch);
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-    });
-
-    canvas.addEventListener('touchend', function() {
-        isDrawing = false;
+        activePointerId = null;
         ctx.closePath();
     });
 

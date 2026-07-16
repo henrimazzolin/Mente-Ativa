@@ -2,12 +2,13 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "check": "node scripts/validate.mjs && node scripts/test-accessibility.mjs && node scripts/test-privacy.mjs && node scripts/test-responsive.mjs && node scripts/test-info-pages.mjs",
+    "check": "node scripts/validate.mjs && node scripts/test-accessibility.mjs && node scripts/test-privacy.mjs && node scripts/test-responsive.mjs && node scripts/test-info-pages.mjs && node scripts/test-qa-fixes.mjs",
     "check:js": "node scripts/validate.mjs --js-only",
     "test:accessibility": "node scripts/test-accessibility.mjs",
     "test:privacy": "node scripts/test-privacy.mjs",
     "test:responsive": "node scripts/test-responsive.mjs",
-    "test:info-pages": "node scripts/test-info-pages.mjs"
+    "test:info-pages": "node scripts/test-info-pages.mjs",
+    "test:qa": "node scripts/test-qa-fixes.mjs"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",

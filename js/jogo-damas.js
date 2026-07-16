@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const NAMES = { 'p': 'Peao', 'd': 'Dama' };
 
     function getIcon(tipo, cor) {
-        if (tipo === 'd') return cor === 'W' ? '\u26AA' : '\uD83D\uDD34';
+        if (tipo === 'd') return cor === 'W' ? '\u26C3' : '\u26C1';
         return cor === 'W' ? '\u26AA' : '\u26AB';
     }
 
@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const clicked = engine.tabuleiro[l][c];
         if (selectedSquare) {
             if (clicked && clicked.cor === playerColor) {
+                if (engine.capturaObrigatoria &&
+                    (engine.capturaObrigatoria.l !== l || engine.capturaObrigatoria.c !== c)) return;
                 selectedSquare = { l: l, c: c };
                 validMoves = engine.obterMovimentosValidos(l, c);
                 renderBoard();
@@ -98,11 +100,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 var srcL = selectedSquare.l, srcC = selectedSquare.c;
                 var srcCell = document.getElementById('t' + srcL + srcC);
                 var pieceHTML = srcCell ? srcCell.innerHTML : '';
-                engine.fazerMovimento(srcL, srcC, l, c, jogada.capturaLinha, jogada.capturaColuna);
+                var resultado = engine.fazerMovimento(srcL, srcC, l, c, jogada.capturaLinha, jogada.capturaColuna);
+                if (!resultado.sucesso) return;
                 selectedSquare = null;
                 validMoves = [];
                 isProcessing = true;
                 animateMove(srcL, srcC, l, c, pieceHTML, function () {
+                    if (resultado.continuaCaptura) {
+                        selectedSquare = { l: l, c: c };
+                        validMoves = engine.obterMovimentosValidos(l, c);
+                        isProcessing = false;
+                        renderBoard();
+                        updateStatus();
+                        return;
+                    }
                     renderBoard();
                     updateStatus();
                     if (!checkGameEnd()) {
@@ -154,14 +165,25 @@ document.addEventListener('DOMContentLoaded', function () {
         floater.style.width = srcRect.width + 'px';
         floater.style.height = srcRect.height + 'px';
         document.body.appendChild(floater);
-        requestAnimationFrame(function () {
-            floater.style.left = destRect.left + 'px';
-            floater.style.top = destRect.top + 'px';
-        });
-        setTimeout(function () {
+        var finalizado = false;
+        function concluirAnimacao() {
+            if (finalizado) return;
+            finalizado = true;
             if (floater.parentNode) floater.remove();
             if (callback) callback();
-        }, 400);
+        }
+        if (typeof floater.animate === 'function') {
+            var animacao = floater.animate([
+                { transform: 'translate(0, 0)' },
+                { transform: 'translate(' + (destRect.left - srcRect.left) + 'px, ' + (destRect.top - srcRect.top) + 'px)' }
+            ], { duration: 420, easing: 'ease-in-out', fill: 'forwards' });
+            animacao.addEventListener('finish', concluirAnimacao, { once: true });
+        } else {
+            floater.offsetWidth;
+            floater.style.left = destRect.left + 'px';
+            floater.style.top = destRect.top + 'px';
+        }
+        setTimeout(concluirAnimacao, 650);
     }
 
     function showThinking() {
@@ -178,10 +200,16 @@ document.addEventListener('DOMContentLoaded', function () {
         var rDestL = chosen.destino.l, rDestC = chosen.destino.c;
         var rSrcCell = document.getElementById('t' + rSrcL + rSrcC);
         var rPieceHTML = rSrcCell ? rSrcCell.innerHTML : '';
-        engine.fazerMovimento(rSrcL, rSrcC, rDestL, rDestC,
+        var resultado = engine.fazerMovimento(rSrcL, rSrcC, rDestL, rDestC,
             chosen.captura ? chosen.captura.l : undefined,
             chosen.captura ? chosen.captura.c : undefined);
             animateMove(rSrcL, rSrcC, rDestL, rDestC, rPieceHTML, function () {
+                if (resultado.continuaCaptura) {
+                    renderBoard();
+                    showThinking();
+                    setTimeout(robotTurn, 350);
+                    return;
+                }
                 isProcessing = false;
                 renderBoard();
                 updateStatus();
@@ -245,7 +273,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var st = document.getElementById('status-text');
         if (!st) return;
         var html = '';
-        if (engine.turno === playerColor) {
+        if (engine.capturaObrigatoria && engine.turno === playerColor) {
+            html = '<span class="status-you">CONTINUE CAPTURANDO COM A MESMA PECA</span>';
+        } else if (engine.turno === playerColor) {
             html = '<span class="status-you">\uD83D\uDD35 SUA VEZ (VOCE)</span>';
         } else {
             html = '<span class="status-robo">\uD83E\uDD16 VEZ DO ROBO</span>';
@@ -275,12 +305,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function reiniciarFluxoDoJogo() {
+        engine = new DamasEngine();
+        playerColor = null;
+        robotColor = null;
+        gameEnded = false;
+        isProcessing = false;
+        selectedSquare = null;
+        validMoves = [];
+        var floater = document.getElementById('peca-flutuante');
+        if (floater) floater.remove();
+        document.getElementById('game-over-modal').classList.remove('active');
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('game-status').style.display = 'none';
+        var escolha = document.getElementById('escolhecor-inicio');
+        escolha.classList.add('visible');
+        escolha.style.display = 'flex';
+        document.getElementById('status-text').textContent = '';
+    }
+
     document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
     document.getElementById('btn-reload').addEventListener('click', function () {
-        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function () {
-            location.reload();
-        });
+        reiniciarFluxoDoJogo();
     });
 
     for (var r = 0; r < 8; r++) {

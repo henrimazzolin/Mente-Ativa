@@ -376,13 +376,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function reiniciarFluxoDoJogo() {
+        engine = new ChessEngine();
+        playerColor = null;
+        robotColor = null;
+        gameEnded = false;
+        isProcessing = false;
+        selectedSquare = null;
+        validMoves = [];
+        moveHistory = [];
+        moveCount = 0;
+        document.getElementById('game-over-modal').classList.remove('active');
+        var title = document.getElementById('game-over-title');
+        title.style.color = '';
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('game-status').style.display = 'none';
+        var escolha = document.getElementById('escolhecor-inicio');
+        escolha.classList.add('visible');
+        escolha.style.display = 'flex';
+        document.getElementById('status-text').textContent = '';
+        renderHistory();
+    }
+
     // Event listeners
     document.getElementById('color-white').addEventListener('click', function () { escolheCor('W'); });
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
     document.getElementById('btn-reload').addEventListener('click', function () {
-        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function () {
-            location.reload();
-        });
+        reiniciarFluxoDoJogo();
     });
 
     for (var r = 1; r <= 8; r++) {

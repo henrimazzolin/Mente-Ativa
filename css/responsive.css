@@ -169,6 +169,101 @@ button,
     touch-action: manipulation;
 }
 
+/* Cabeçalho consistente dos jogos: alvo confortável, logo central e sem colisões. */
+body:has(.header .back-btn) .container > .header {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    align-items: center;
+    gap: 12px;
+    min-height: 72px;
+    padding: 12px 14px;
+}
+
+body:has(.header .back-btn) .container > .header::after {
+    content: '';
+    width: 48px;
+    height: 1px;
+}
+
+body:has(.header .back-btn) .container > .header .back-btn {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px;
+    min-height: 48px;
+    margin: 0;
+}
+
+body:has(.header .back-btn) .container > .header .back-btn svg {
+    width: 22px !important;
+    height: 22px !important;
+}
+
+body:has(.header .back-btn) .container > .header .logo {
+    width: 100%;
+    justify-content: center;
+    overflow: visible;
+}
+
+body:has(.header .back-btn) .container > .header .logo-icon {
+    width: clamp(210px, 28vw, 280px) !important;
+    height: auto !important;
+    min-height: 48px;
+    max-width: 100% !important;
+    background: transparent !important;
+}
+
+.dificuldade-selector .dif-btn {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 0;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    font-size: calc(18px * var(--ma-font-scale, 1)) !important;
+}
+
+.modal-footer .btn {
+    flex: 1 1 140px;
+    width: auto;
+    min-width: 120px;
+}
+
+/* Confirmacoes destrutivas: card amplo e acoes realmente equivalentes. */
+[id^="ma-confirm-"] .modal-dialog {
+    width: min(620px, calc(100vw - 20px));
+    max-width: 620px;
+    margin-inline: auto;
+}
+
+[id^="ma-confirm-"] .modal-content {
+    padding: clamp(14px, 3vw, 28px) !important;
+}
+
+[id^="ma-confirm-"] .modal-footer {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px !important;
+    width: 100%;
+    margin: 0;
+}
+
+[id^="ma-confirm-"] .modal-footer .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 58px;
+    margin: 0 !important;
+    padding: 12px 8px !important;
+    font-size: calc(17px * var(--ma-font-scale, 1)) !important;
+    white-space: nowrap;
+}
+
+:is(#btn-reset, #btn-restart, #btn-play-again, #feedbackBtn, #btn-reload) {
+    min-width: min(240px, 100%);
+    min-height: 58px;
+    padding: 14px 24px !important;
+    font-size: calc(18px * var(--ma-font-scale, 1)) !important;
+    justify-content: center;
+}
+
 input,
 select,
 textarea {
@@ -359,6 +454,22 @@ textarea {
 }
 
 @media (max-width: 600px) {
+    body:has(.header .back-btn) > .container {
+        width: calc(100% - 8px);
+        padding-inline: 4px !important;
+    }
+
+    body:has(.header .back-btn) .container > .header {
+        width: 100%;
+        grid-template-columns: 48px minmax(0, 1fr) 48px;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    body:has(.header .back-btn) .container > .header .logo-icon {
+        width: min(230px, 100%) !important;
+    }
+
     .header {
         padding-right: 62px;
     }
@@ -386,11 +497,12 @@ textarea {
         max-width: 100%;
     }
 
-    .dificuldade-selector {
+    body .dificuldade-selector {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 6px;
         width: 100%;
+        align-items: stretch;
     }
 
     .dificuldade-label {
@@ -398,10 +510,12 @@ textarea {
         text-align: center;
     }
 
-    .dif-btn {
+    body .dificuldade-selector .dif-btn {
         min-width: 0 !important;
-        padding: 10px 6px !important;
-        font-size: 15px !important;
+        width: 100% !important;
+        padding: 8px 4px !important;
+        font-size: clamp(15px, calc(16px * var(--ma-font-scale, 1)), 22px) !important;
+        line-height: 1.15;
     }
 
     .buttons > .btn,
@@ -412,14 +526,12 @@ textarea {
         flex: 1 1 180px;
     }
 
-    .crossword-grid .cell {
-        width: clamp(28px, calc((100vw - 54px) / 10), 38px) !important;
-        height: clamp(28px, calc((100vw - 54px) / 10), 38px) !important;
-    }
-
+    .crossword-grid .cell,
     .sudoku-grid .cell {
-        width: clamp(28px, calc((100vw - 46px) / 9), 38px) !important;
-        height: clamp(28px, calc((100vw - 46px) / 9), 38px) !important;
+        width: auto !important;
+        height: auto !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
     }
 
     .crossword-grid .cell input,
@@ -436,6 +548,11 @@ textarea {
     .canvas-container {
         padding: 8px !important;
     }
+
+    :is(#btn-reset, #btn-restart, #btn-play-again, #feedbackBtn, #btn-reload) {
+        width: 100%;
+        max-width: 360px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -451,6 +568,10 @@ textarea {
 
     .container {
         padding-inline: var(--ma-page-gutter) !important;
+    }
+
+    body:has(.header .back-btn) > .container {
+        padding-inline: 4px !important;
     }
 
     .page-title,
@@ -505,6 +626,27 @@ textarea {
     .month-nav button {
         width: 44px;
         height: 44px;
+    }
+}
+
+/* A pagina inicial usa uma marca maior e menos vazio antes das escolhas. */
+body:has(.logo-float[data-logo-tipo="inicial"]) .logo-float[data-logo-tipo="inicial"] .logo-icon {
+    width: min(340px, 88vw) !important;
+    max-width: 340px !important;
+}
+
+@media (max-width: 600px) {
+    body:has(.logo-float[data-logo-tipo="inicial"]) .container {
+        justify-content: flex-start;
+        padding-top: 18px;
+    }
+
+    body:has(.logo-float[data-logo-tipo="inicial"]) .logo {
+        margin-bottom: 10px;
+    }
+
+    body:has(.logo-float[data-logo-tipo="inicial"]) header {
+        margin-bottom: 20px;
     }
 }
 
@@ -896,6 +1038,81 @@ textarea {
     .mente-ativa-controls {
         max-height: calc(100dvh - 12px);
         overflow-y: auto;
+    }
+}
+
+/* Paineis introdutorios dos jogos: mesmas dimensoes em todas as paginas. */
+body .instrucao-destaque,
+body .dificuldade-selector {
+    box-sizing: border-box;
+    width: min(100%, 780px);
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 16px;
+    box-shadow: var(--sombra, 0 4px 20px rgba(0, 0, 0, 0.08));
+}
+
+body .instrucao-destaque {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 160px;
+    padding: 22px 28px;
+    overflow: hidden;
+}
+
+body .instrucao-destaque p {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}
+
+body .dificuldade-selector {
+    display: grid;
+    grid-template-columns: minmax(130px, auto) repeat(3, minmax(0, 1fr));
+    align-items: center;
+    height: 116px;
+    padding: 20px 24px;
+    gap: 12px;
+    background: var(--cor-fundo-card, #fff);
+    border: 2px solid rgba(59, 130, 246, 0.22);
+}
+
+body .dificuldade-selector .dificuldade-label {
+    width: auto;
+    margin: 0;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    body .instrucao-destaque,
+    body .dificuldade-selector {
+        width: 100%;
+    }
+
+    body .instrucao-destaque {
+        height: 200px;
+        padding: 22px 18px;
+    }
+
+    body .dificuldade-selector {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: auto 58px;
+        height: 160px;
+        padding: 18px 10px;
+        gap: 10px 6px;
+    }
+
+    body .dificuldade-selector .dificuldade-label {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 360px) {
+    body .instrucao-destaque {
+        height: 220px;
+        padding-inline: 14px;
     }
 }
 

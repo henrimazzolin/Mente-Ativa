@@ -164,7 +164,10 @@ body {
 }
 
 .grid-section {
-    flex: 0 0 auto;
+    flex: 0 1 520px;
+    width: min(100%, 520px);
+    display: flex;
+    justify-content: center;
 }
 
 .crossword-grid {
@@ -174,11 +177,15 @@ body {
     padding: 3px;
     border-radius: 8px;
     border: 3px solid var(--cor-bloqueada);
+    width: min(100%, 520px);
 }
 
 .cell {
-    width: 50px;
-    height: 50px;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 1;
     position: relative;
     background: var(--cor-fundo-card);
 }
@@ -273,6 +280,20 @@ body {
     transition: all 0.2s ease;
 }
 
+.hint-content {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.hint-copy {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
 .hint-item:hover {
     background: var(--cor-destaque);
 }
@@ -315,6 +336,11 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    min-width: 92px;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    font-size: calc(16px * var(--ma-font-scale, 1)) !important;
 }
 
 .hint-btn:hover:not(:disabled) {
@@ -399,9 +425,20 @@ body {
         align-items: center;
     }
 
-    .cell {
-        width: 38px;
-        height: 38px;
+    .game-container {
+        width: calc(100vw - 12px);
+        padding: 14px 8px;
+    }
+
+    .grid-section,
+    .hints-section {
+        width: 100%;
+        max-width: none;
+    }
+
+    .hints-group,
+    .hint-item {
+        width: 100%;
     }
 
     .cell input {
@@ -419,6 +456,10 @@ body {
     .container {
         padding: 20px 12px;
         overflow-x: hidden;
+    }
+
+    .hint-content {
+        grid-template-columns: minmax(0, 1fr) auto;
     }
 
             .message h2 {
@@ -441,12 +482,12 @@ body {
 
         @media (max-width: 400px) {
             .cell {
-                width: calc((100vw - 50px) / 10);
-                height: calc((100vw - 50px) / 10);
-                min-width: 28px;
-                min-height: 28px;
-                max-width: 38px;
-                max-height: 38px;
+                width: auto;
+                height: auto;
+                min-width: 0;
+                min-height: 0;
+                max-width: none;
+                max-height: none;
             }
 
             .cell input {
@@ -460,7 +501,7 @@ body {
             }
 
             .game-container {
-                padding: 15px 10px;
+                padding: 12px 6px;
             }
 
             .crossword-grid {
@@ -472,11 +513,20 @@ body {
             .hints-section {
                 min-width: 0;
                 width: 100%;
+                max-width: none;
             }
 
             .hint-item {
                 padding: 8px;
                 gap: 6px;
+            }
+
+            .hint-content {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .hint-btn {
+                justify-self: end;
             }
 
             .hint-text {

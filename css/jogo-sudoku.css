@@ -139,12 +139,17 @@
             background: var(--cor-texto);
             border: 3px solid var(--cor-texto);
             margin: 0 auto 25px;
-            width: fit-content;
+            width: min(100%, 450px);
+            max-width: 450px;
+            aspect-ratio: 1;
         }
 
         .cell {
-            width: 48px;
-            height: 48px;
+            width: auto;
+            height: auto;
+            min-width: 0;
+            min-height: 0;
+            aspect-ratio: 1;
             background: white;
             display: flex;
             align-items: center;
@@ -347,8 +352,8 @@
 
         @media (max-width: 600px) {
             .cell {
-                width: 36px;
-                height: 36px;
+                width: auto;
+                height: auto;
             }
 
             .cell input {
@@ -372,8 +377,14 @@
             }
 
             .sudoku-grid {
-                overflow-x: auto;
                 width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .game-container {
+                width: calc(100vw - 12px);
+                padding: 14px 8px;
             }
 
             body {
@@ -413,12 +424,12 @@
 
         @media (max-width: 400px) {
             .cell {
-                width: calc((100vw - 42px) / 9);
-                height: calc((100vw - 42px) / 9);
-                min-width: 28px;
-                min-height: 28px;
-                max-width: 38px;
-                max-height: 38px;
+                width: auto;
+                height: auto;
+                min-width: 0;
+                min-height: 0;
+                max-width: none;
+                max-height: none;
             }
 
             .cell input {
@@ -438,13 +449,14 @@
             }
 
             .game-container {
-                padding: 15px 10px;
+                width: calc(100vw - 10px);
+                padding: 12px 6px;
             }
 
             .sudoku-grid {
-                width: fit-content;
+                width: 100%;
                 max-width: 100%;
-                overflow-x: auto;
+                overflow: hidden;
             }
 
             .timer {

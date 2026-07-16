@@ -82,22 +82,18 @@ function exibirConfirmacao(mensagem, descricao, callback) {
     if (msgEl) msgEl.textContent = String(mensagem || '');
     if (descEl) descEl.textContent = String(descricao || '');
     if (typeof bootstrap === 'undefined') {
-        if (callback) callback(confirm('' + mensagem));
+        if (confirm('' + mensagem) && callback) callback(true);
         modalEl.remove();
         return;
     }
     var modal = new bootstrap.Modal(modalEl);
-    var confirmou = false;
-
     modalEl.querySelector('.btn-ma-confirmar').addEventListener('click', function () {
-        confirmou = true;
         modal.hide();
         if (callback) callback(true);
     });
 
     modalEl.addEventListener('hidden.bs.modal', function () {
         modalEl.remove();
-        if (!confirmou && callback) callback(false);
     });
 
     modal.show();

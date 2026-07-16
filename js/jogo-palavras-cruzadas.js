@@ -520,12 +520,10 @@ function createHintElement(word) {
     div.dataset.word = word.number;
     
     const contentDiv = document.createElement('div');
-    contentDiv.style.display = 'flex';
-    contentDiv.style.alignItems = 'center';
-    contentDiv.style.gap = '10px';
-    contentDiv.style.width = '100%';
+    contentDiv.className = 'hint-content';
     
     const textSpan = document.createElement('span');
+    textSpan.className = 'hint-copy';
     textSpan.innerHTML = '<span class="hint-number">' + word.number + '.</span> <span class="hint-text">' + word.hint + '</span>';
     
     const hintBtn = document.createElement('button');

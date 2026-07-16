@@ -10,6 +10,7 @@ class DamasEngine {
         this.turno = BRANCO;
         this.historico = [];
         this.moveCount = 0;
+        this.capturaObrigatoria = null;
     }
 
     inicializarTabuleiro() {
@@ -35,11 +36,29 @@ class DamasEngine {
 
     obterMovimentosValidos(l, c) {
         const peca = this.tabuleiro[l][c];
-        if (!peca) return [];
+        if (!peca || peca.cor !== this.turno) return [];
+        if (this.capturaObrigatoria &&
+            (this.capturaObrigatoria.l !== l || this.capturaObrigatoria.c !== c)) return [];
         const capturas = this.obterCapturas(l, c, peca);
         if (capturas.length > 0) return capturas;
+        if (this.capturaObrigatoria) return [];
+        if (this.obterCapturasDisponiveis(this.turno).length > 0) return [];
         const movimentos = [];
-        const dirs = peca.tipo === DAMA ? [-1, 1] : (peca.cor === BRANCO ? [-1] : [1]);
+        if (peca.tipo === DAMA) {
+            for (const dl of [-1, 1]) {
+                for (const dc of [-1, 1]) {
+                    let nl = l + dl;
+                    let nc = c + dc;
+                    while (this.dentro(nl, nc) && !this.tabuleiro[nl][nc]) {
+                        movimentos.push({ linha: nl, coluna: nc });
+                        nl += dl;
+                        nc += dc;
+                    }
+                }
+            }
+            return movimentos;
+        }
+        const dirs = peca.cor === BRANCO ? [-1] : [1];
         for (const dl of dirs) {
             for (const dc of [-1, 1]) {
                 const nl = l + dl, nc = c + dc;
@@ -53,7 +72,37 @@ class DamasEngine {
 
     obterCapturas(l, c, peca, visitadas = new Set()) {
         const capturas = [];
-        const dirs = peca.tipo === DAMA ? [-1, 1] : (peca.cor === BRANCO ? [-1] : [1]);
+        if (peca.tipo === DAMA) {
+            for (const dl of [-1, 1]) {
+                for (const dc of [-1, 1]) {
+                    let alvoL = l + dl;
+                    let alvoC = c + dc;
+                    while (this.dentro(alvoL, alvoC) && !this.tabuleiro[alvoL][alvoC]) {
+                        alvoL += dl;
+                        alvoC += dc;
+                    }
+                    if (!this.dentro(alvoL, alvoC)) continue;
+                    const alvo = this.tabuleiro[alvoL][alvoC];
+                    if (!alvo || alvo.cor === peca.cor) continue;
+
+                    let destinoL = alvoL + dl;
+                    let destinoC = alvoC + dc;
+                    while (this.dentro(destinoL, destinoC) && !this.tabuleiro[destinoL][destinoC]) {
+                        capturas.push({
+                            linha: destinoL,
+                            coluna: destinoC,
+                            capturaLinha: alvoL,
+                            capturaColuna: alvoC,
+                            cadeia: true
+                        });
+                        destinoL += dl;
+                        destinoC += dc;
+                    }
+                }
+            }
+            return capturas;
+        }
+        const dirs = [-1, 1];
         for (const dl of dirs) {
             for (const dc of [-1, 1]) {
                 const ml = l + dl, mc = c + dc;
@@ -82,6 +131,17 @@ class DamasEngine {
 
     obterCapturasDisponiveis(cor) {
         const todas = [];
+        if (this.capturaObrigatoria && this.turno === cor) {
+            const origem = this.capturaObrigatoria;
+            const peca = this.tabuleiro[origem.l][origem.c];
+            if (!peca || peca.cor !== cor) return todas;
+            this.obterCapturas(origem.l, origem.c, peca).forEach(cap => {
+                cap.origemL = origem.l;
+                cap.origemC = origem.c;
+                todas.push(cap);
+            });
+            return todas;
+        }
         for (let l = 0; l < 8; l++) {
             for (let c = 0; c < 8; c++) {
                 const p = this.tabuleiro[l][c];
@@ -131,18 +191,42 @@ class DamasEngine {
 
     fazerMovimento(origemL, origemC, destinoL, destinoC, capturaL, capturaC) {
         const peca = this.tabuleiro[origemL][origemC];
-        if (!peca) return false;
+        if (!peca || peca.cor !== this.turno) return { sucesso: false, continuaCaptura: false };
+        if (this.capturaObrigatoria &&
+            (this.capturaObrigatoria.l !== origemL || this.capturaObrigatoria.c !== origemC)) {
+            return { sucesso: false, continuaCaptura: true };
+        }
+        const movimentoValido = this.obterMovimentosValidos(origemL, origemC).find(movimento =>
+            movimento.linha === destinoL && movimento.coluna === destinoC
+        );
+        if (!movimentoValido) return { sucesso: false, continuaCaptura: Boolean(this.capturaObrigatoria) };
+        capturaL = movimentoValido.capturaLinha;
+        capturaC = movimentoValido.capturaColuna;
         this.tabuleiro[destinoL][destinoC] = peca;
         this.tabuleiro[origemL][origemC] = VAZIO;
-        if (capturaL !== undefined && capturaC !== undefined && this.tabuleiro[capturaL] && this.tabuleiro[capturaL][capturaC]) {
+        const capturou = capturaL !== undefined && capturaC !== undefined &&
+            this.tabuleiro[capturaL] && this.tabuleiro[capturaL][capturaC];
+        if (capturou) {
             this.tabuleiro[capturaL][capturaC] = VAZIO;
         }
         if (peca.tipo === PEAO && (destinoL === 0 || destinoL === 7)) {
             this.tabuleiro[destinoL][destinoC] = { tipo: DAMA, cor: peca.cor };
         }
+
+        if (capturou) {
+            const pecaNoDestino = this.tabuleiro[destinoL][destinoC];
+            const continuacoes = this.obterCapturas(destinoL, destinoC, pecaNoDestino);
+            if (continuacoes.length > 0) {
+                this.capturaObrigatoria = { l: destinoL, c: destinoC };
+                this.moveCount++;
+                return { sucesso: true, continuaCaptura: true, capturas: continuacoes };
+            }
+        }
+
+        this.capturaObrigatoria = null;
         this.turno = this.turno === BRANCO ? PRETO : BRANCO;
         this.moveCount++;
-        return true;
+        return { sucesso: true, continuaCaptura: false };
     }
 
     contarPecas(cor) {

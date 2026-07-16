@@ -399,7 +399,7 @@ h1 {
     
     .logo {
         gap: 10px;
-        margin-bottom: 32px;
+        margin-bottom: 10px;
     }
     
     .logo-icon {
@@ -412,7 +412,7 @@ h1 {
     }
     
     header {
-        margin-bottom: 32px;
+        margin-bottom: 20px;
     }
     
     .group-btn {

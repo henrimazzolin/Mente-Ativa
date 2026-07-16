@@ -472,9 +472,12 @@ body {
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);
     padding: 32px;
-    width: 90%;
-    max-width: 450px;
-    max-height: 536px;
+    width: min(94%, 560px);
+    max-width: 560px;
+    max-height: calc(100dvh - 16px);
+    height: auto;
+    min-height: 0;
+    overflow-y: visible;
     box-shadow: var(--sombra-hover);
 }
 
@@ -487,7 +490,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .form-group label {
@@ -630,7 +633,8 @@ body {
     }
     
     .modal-overlay .modal h2 {
-        font-size: 20px;
+        font-size: calc(21px * var(--ma-font-scale, 1)) !important;
+        margin-bottom: 14px;
     }
     
     body {
@@ -647,8 +651,26 @@ body {
     }
     
     .modal-overlay .modal {
-        width: 95%;
-        max-width: 400px;
+        width: calc(100vw - 12px);
+        max-width: 560px;
+        padding: 18px;
+    }
+
+    .modal-overlay .modal .form-group label,
+    .modal-overlay .modal .form-group input,
+    .modal-overlay .modal .form-group select,
+    .modal-overlay .modal .form-group textarea {
+        font-size: calc(16px * var(--ma-font-scale, 1)) !important;
+    }
+
+    .modal-buttons {
+        margin-top: 14px;
+    }
+
+    .modal-btn {
+        min-width: 0;
+        padding: 12px 8px;
+        font-size: calc(16px * var(--ma-font-scale, 1)) !important;
     }
 }
 
@@ -712,14 +734,14 @@ body {
     }
 
     .modal-overlay .modal {
-        padding: 16px;
-        width: 98%;
+        padding: 14px;
+        width: calc(100vw - 8px);
     }
 
     .modal-overlay .modal input,
     .modal-overlay .modal textarea,
     .modal-overlay .modal select {
-        font-size: 14px;
+        font-size: calc(15px * var(--ma-font-scale, 1)) !important;
     }
 
     .evento-item {

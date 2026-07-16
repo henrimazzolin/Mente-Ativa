@@ -455,8 +455,8 @@ html.modo-escuro #tabuleiro div.preto {
 /* ===== MOVE HISTORY ===== */
 .history-section {
     flex: 1;
-    min-width: 200px;
-    max-width: 280px;
+    min-width: 260px;
+    max-width: 320px;
     background: var(--cor-fundo-card);
     font-size: 0.85em !important;
     border-radius: 12px;
@@ -468,7 +468,7 @@ html.modo-escuro #tabuleiro div.preto {
 }
 
 .history-title {
-    font-size: 16px;
+    font-size: calc(16px * var(--ma-font-scale, 1)) !important;
     font-weight: 700;
     margin-bottom: 12px;
     color: var(--cor-texto);
@@ -494,13 +494,16 @@ html.modo-escuro #tabuleiro div.preto {
 }
 
 .history-item {
-    display: flex;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto auto auto;
+    grid-template-rows: auto auto;
+    column-gap: 6px;
+    row-gap: 3px;
     align-items: center;
     padding: 6px 8px;
-    font-size: 13px;
+    font-size: calc(13px * var(--ma-font-scale, 1)) !important;
     border-bottom: 1px solid var(--border);
-    flex-wrap: nowrap;
+    min-width: 0;
 }
 
 .history-item:last-child {
@@ -512,13 +515,18 @@ html.modo-escuro #tabuleiro div.preto {
 .history-num {
     color: var(--cor-texto-claro);
     min-width: 22px;
-    font-size: 12px;
+    font-size: calc(12px * var(--ma-font-scale, 1)) !important;
     font-weight: 600;
+    grid-column: 1;
+    grid-row: 1 / 3;
 }
 
 .history-player {
     font-weight: 600;
-    font-size: 12px;
+    font-size: calc(12px * var(--ma-font-scale, 1)) !important;
+    grid-column: 2 / 6;
+    grid-row: 1;
+    overflow-wrap: anywhere;
 }
 
 .history-player.you {
@@ -531,25 +539,28 @@ html.modo-escuro #tabuleiro div.preto {
 
 .history-piece {
     font-weight: 600;
-    font-size: 13px;
-    min-width: 36px;
+    font-size: calc(13px * var(--ma-font-scale, 1)) !important;
+    min-width: 0;
+    grid-column: 2;
+    grid-row: 2;
+    overflow-wrap: anywhere;
 }
 
 .history-from {
     font-weight: 400;
-    font-size: 12px;
+    font-size: calc(12px * var(--ma-font-scale, 1)) !important;
     color: var(--cor-texto-claro);
 }
 
 .history-arrow {
     color: var(--cor-texto-claro);
-    font-size: 12px;
+    font-size: calc(12px * var(--ma-font-scale, 1)) !important;
 }
 
 .history-to {
-    margin-left: auto;
+    margin-left: 0;
     font-weight: 700;
-    font-size: 13px;
+    font-size: calc(13px * var(--ma-font-scale, 1)) !important;
 }
 
 /* ===== COLOR CHOICE OVERLAY ===== */

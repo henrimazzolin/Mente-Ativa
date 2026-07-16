@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="css/jogo-pintura.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="css/assistente-flutuante.css">
-    <link rel="stylesheet" href="css/dificuldade.css">
     <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
     <script src="js/accessibility-unified.js" defer></script>
     <script src="js/components/logo.js" defer></script>
@@ -43,14 +42,7 @@
         </div>
 
         <div class="instrucao-destaque">
-            <p>Escolha uma cor, selecione o tamanho do pincel e desenhe livremente na tela. Use a borracha para apagar e o botão limpar para recomeçar.</p>
-        </div>
-
-        <div class="dificuldade-selector">
-            <span class="dificuldade-label">Dificuldade:</span>
-            <button class="dif-btn facil active">Fácil</button>
-            <button class="dif-btn medio">Médio</button>
-            <button class="dif-btn dificil">Difícil</button>
+            <p><strong>Como jogar:</strong> Escolha uma cor, selecione o tamanho do pincel e desenhe livremente na tela. Use a borracha para apagar e o botão limpar para recomeçar.</p>
         </div>
 
         <div class="game-container">
@@ -69,8 +61,8 @@
                     </div>
                 </div>
 
-                <div class="tool-section">
-                    <button class="tool-btn" id="btn-eraser">
+                <div class="tool-section paint-actions">
+                    <button class="tool-btn" id="btn-eraser" type="button" aria-pressed="false">
                         <svg viewBox="0 0 24 24" width="20" height="20">
                             <path d="M15.14 3c-.39 0-.78.15-1.07.44L2.29 15.29c-.59.59-.59 1.54 0 2.12l3.29 3.29c.59.59 1.54.59 2.12 0L16.86 8.56c.29-.29.44-.68.44-1.07V4c0-.55-.45-1-1-1h-1.72zM7 18c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="currentColor"/>
                         </svg>
@@ -92,7 +84,7 @@
             </div>
 
             <div class="canvas-container">
-                <canvas id="paintCanvas" width="800" height="500"></canvas>
+                <canvas id="paintCanvas" width="1000" height="750" aria-label="Área de desenho"></canvas>
             </div>
         </div>
     </div>

@@ -341,7 +341,8 @@ html.modo-escuro .super-simples-title {
         flex: 0 0 100%;
         max-width: 100%;
         aspect-ratio: auto;
-        padding: 20px 16px;
+        padding: 24px 18px;
+        min-height: 320px;
     }
     
     .logo-icon {
@@ -352,6 +353,20 @@ html.modo-escuro .super-simples-title {
     
     .page-title p {
         font-size: 18px;
+    }
+
+    .super-simples-icon {
+        min-height: 220px;
+        max-width: 92%;
+    }
+
+    .game-title-box {
+        width: 100%;
+        padding: 10px 14px;
+    }
+
+    .game-title-box h2 {
+        font-size: calc(18px * var(--ma-font-scale, 1)) !important;
     }
     
     body {

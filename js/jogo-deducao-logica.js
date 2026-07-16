@@ -446,7 +446,10 @@ document.addEventListener('DOMContentLoaded', function() {
         cluesList.innerHTML = '';
         puzzle.clues.forEach(function(clue) {
             var li = document.createElement('li');
-            li.textContent = clue;
+            var clueText = document.createElement('span');
+            clueText.className = 'clue-text';
+            clueText.textContent = clue;
+            li.appendChild(clueText);
             cluesList.appendChild(li);
         });
 
@@ -464,6 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
             letterSpan.textContent = letters[i] || (i + 1);
 
             var textSpan = document.createElement('span');
+            textSpan.className = 'option-text';
             textSpan.textContent = opt;
 
             btn.appendChild(letterSpan);

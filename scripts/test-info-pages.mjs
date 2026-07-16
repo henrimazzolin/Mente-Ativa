@@ -16,6 +16,7 @@ for (const page of ['sobre.html', 'privacidade.html']) {
     assert.ok(backPosition >= 0, `${page}: botao Voltar ao menu ausente.`);
     assert.ok(logoPosition > backPosition, `${page}: a logo deve aparecer abaixo do botao.`);
     assert.match(html, /data-logo-tipo="inicial"/, `${page}: variante inicial da logo ausente.`);
+    assert.match(html, /js\/info-navigation\.js/, `${page}: navegacao de retorno compartilhada ausente.`);
 }
 
 const mainCss = read('css/main.css');
@@ -42,7 +43,8 @@ assert.match(logoScript, /claro:\s*'img\/Logopreta\.png'/);
 assert.match(logoScript, /escuro:\s*'img\/Logobranca\.png'/);
 
 const serviceWorker = read('service-worker.js');
-assert.match(serviceWorker, /CACHE_NAME\s*=\s*'mente-ativa-v13'/);
+assert.match(serviceWorker, /CACHE_NAME\s*=\s*'mente-ativa-v16'/);
+assert.match(serviceWorker, /'\/js\/info-navigation\.js'/);
 assert.match(serviceWorker, /'\/img\/darkneutralbkg\.jpeg'/);
 assert.match(serviceWorker, /'\/img\/Logopreta\.png'/);
 assert.match(serviceWorker, /'\/img\/Logobranca\.png'/);

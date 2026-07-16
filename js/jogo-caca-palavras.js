@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handlePointerDown(row, col) {
         var cell = getCell(row, col);
-        if (!cell || cell.classList.contains('found')) return;
+        if (!cell) return;
 
         if (selectionStart && !isDragging) {
             if (selectionStart.row === row && selectionStart.col === col) {
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isDragging || !selectionStart) return;
 
         var cell = getCell(row, col);
-        if (!cell || cell.classList.contains('found')) {
+        if (!cell) {
             clearPreview();
             return;
         }
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cells) {
             for (var i = 1; i < cells.length; i++) {
                 var el = getCell(cells[i].row, cells[i].col);
-                if (el && !el.classList.contains('found')) el.classList.add('preview');
+                if (el) el.classList.add('preview');
             }
         }
     }
@@ -298,7 +298,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderGrid() {
         var container = document.getElementById('gridContainer');
         container.innerHTML = '';
-        container.style.gridTemplateColumns = 'repeat(' + gridData.length + ', var(--cell-size))';
+        container.style.setProperty('--grid-size', String(gridData.length));
+        container.style.gridTemplateColumns = 'repeat(' + gridData.length + ', minmax(0, 1fr))';
+        container.style.maxWidth = (gridData.length * 52 + (gridData.length - 1) * 3 + 32) + 'px';
 
         for (var r = 0; r < gridData.length; r++) {
             for (var c = 0; c < gridData[r].length; c++) {
@@ -348,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var touch = e.touches[0];
         var el = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (el && el.classList.contains('grid-cell') && !el.classList.contains('found')) {
+        if (el && el.classList.contains('grid-cell')) {
             var row = parseInt(el.dataset.row);
             var col = parseInt(el.dataset.col);
             lastTouchCell = {row: row, col: col};
