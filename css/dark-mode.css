@@ -428,8 +428,18 @@ html.modo-escuro .back-btn {
     text-decoration: none;
 }
 
+html.modo-escuro .back-btn:hover,
+html.modo-escuro .back-btn:focus-visible {
+    background: #60A5FA;
+}
+
 html.modo-escuro .back-btn svg {
     fill: var(--cor-texto);
+}
+
+html.modo-escuro .back-btn:hover svg,
+html.modo-escuro .back-btn:focus-visible svg {
+    fill: #0F172A;
 }
 
 html.modo-escuro .modal-overlay .modal {
@@ -732,16 +742,27 @@ html.modo-escuro .numpad .num-btn:focus-visible {
 
 /* Palavras Cruzadas – dark mode */
 html.modo-escuro .crossword-grid {
-    background: var(--dm-border);
-    border-color: var(--dm-border);
+    background: #8093AA;
+    border-color: #8093AA;
 }
 
 html.modo-escuro .crossword-grid .cell {
-    background: var(--dm-surface-elevated);
+    background: #52677F;
+    box-shadow: inset 0 0 0 1px rgba(219, 234, 254, 0.22);
 }
 
 html.modo-escuro .crossword-grid .cell.blocked {
-    background: var(--dm-input-bg);
+    background: #0B1220;
+    box-shadow: none;
+}
+
+html.modo-escuro .crossword-grid .cell input {
+    background: transparent;
+    color: #F8FAFC;
+}
+
+html.modo-escuro .crossword-grid .cell .cell-number {
+    color: #DBEAFE;
 }
 
 html.modo-escuro .crossword-grid .cell input:focus {
