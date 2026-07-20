@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/saude.css">
+    <link rel="stylesheet" href="css/informacoes.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="css/assistente-flutuante.css">
     <script src="js/accessibility-unified.js" defer></script>
@@ -19,10 +20,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
+<body class="info-page pagina-saude">
     <div class="container">
         <div class="header">
-            <a href="exercicios.html" class="back-btn">
+            <a href="exercicios.html" class="back-btn" aria-label="Voltar para exercícios">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
@@ -34,115 +35,77 @@
             </div>
         </div>
 
-        <div class="page-title">
-            <div class="titulo-com-tts">
-                <h1>Informações e Dicas de Saúde</h1>
+        <main class="info-main">
+            <div class="page-title">
+                <div class="titulo-com-tts">
+                    <h1>Saúde e Bem-estar</h1>
+                </div>
+                <p>Cuidados simples para uma rotina mais saudável.</p>
             </div>
-            <p>Confira dicas importantes para cuidar da sua saúde e bem-estar no dia a dia.</p>
-        </div>
 
-        <div class="intro intro-com-imagem">
-            <div class="intro-texto">
-                <p>Pequenas mudanças na rotina podem trazer grandes benefícios para sua saúde física e mental. Confira o vídeo da nossa nutricionista e veja algumas dicas:</p>
-            </div>
-            <div class="intro-imagem">
-                <img src="img/saude/alimentacao_saudavel.jpg" alt="Alimentação saudável">
-            </div>
-        </div>
-
-        <div class="video-section">
-            <div class="video-card">
+            <article class="media-card" aria-labelledby="titulo-video-saude">
                 <div class="video-container">
-                    <video controls preload="metadata" playsinline poster="img/video/dicas-alimentacao-saudavel-thumb.png">
+                    <video controls preload="metadata" playsinline poster="img/video/dicas-alimentacao-saudavel-thumb.png" aria-label="Vídeo com dicas de alimentação saudável">
                         <source src="img/video/WhatsApp%20Video%202026-06-01%20at%205.17.22%20PM.mp4" type="video/mp4">
                         Seu navegador não suporta vídeos.
                     </video>
                 </div>
-                <div class="video-description">
-                    <h3>Dicas de Alimentação Saudável com a Nutricionista</h3>
-                    <p>Neste vídeo, nossa nutricionista compartilha orientações valiosas para manter uma alimentação equilibrada e saudável. Assista e descubra como pequenas mudanças na dieta podem fazer grande diferença para sua saúde e bem-estar.</p>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="section-title">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            Dicas de Saúde e Bem-estar
-        </h2>
-
-        <div class="tips-container">
-            <div class="tip-card">
-                <div class="tip-number">1</div>
-                <div class="tip-content">
-                    <h3>Beba bastante água</h3>
-                    <p>Manter-se hidratado é essencial para o bom funcionamento do corpo. Tente beber pelo menos 6 a 8 copos de água por dia.</p>
-                </div>
-            </div>
-
-            <div class="tip-card tip-card-com-imagem">
-                <div class="tip-card-row">
-                    <div class="tip-number">2</div>
-                    <div class="tip-content">
-                        <h3>Alimentação equilibrada</h3>
-                        <p>Procure comer frutas, verduras e legumes todos os dias. Evite alimentos muito processados e ricos em sal e açúcar.</p>
+                <div class="media-summary">
+                    <div>
+                        <span class="eyebrow">Vídeo em destaque</span>
+                        <h2 id="titulo-video-saude">Alimentação saudável</h2>
                     </div>
+                    <p>Orientações práticas da nossa nutricionista.</p>
                 </div>
-                <div class="tip-card-imagem">
-                    <img src="img/saude/comida-saudavel-e-barata.jpg" alt="Comida saudável e barata">
-                </div>
+            </article>
+
+            <div class="section-heading">
+                <h2>Cuidados para todos os dias</h2>
+                <p>Quatro pontos fáceis de lembrar.</p>
             </div>
 
-            <div class="tip-card">
-                <div class="tip-number">3</div>
-                <div class="tip-content">
-                    <h3>Durma bem</h3>
-                    <p>Uma boa noite de sono ajuda a recuperar as energias e manter a mente saudável. Tente dormir de 7 a 8 horas por noite.</p>
+            <section class="quick-tips" aria-label="Dicas rápidas de saúde">
+                <article class="tip-card quick-tip">
+                    <div class="tip-number" aria-hidden="true">1</div>
+                    <div class="tip-content">
+                        <h3>Hidrate-se</h3>
+                        <p>Beba água ao longo do dia.</p>
+                    </div>
+                </article>
+
+                <article class="tip-card quick-tip">
+                    <div class="tip-number" aria-hidden="true">2</div>
+                    <div class="tip-content">
+                        <h3>Coma bem</h3>
+                        <p>Prefira frutas, verduras e alimentos naturais.</p>
+                    </div>
+                </article>
+
+                <article class="tip-card quick-tip">
+                    <div class="tip-number" aria-hidden="true">3</div>
+                    <div class="tip-content">
+                        <h3>Movimente-se</h3>
+                        <p>Caminhe, alongue ou dance todos os dias.</p>
+                    </div>
+                </article>
+
+                <article class="tip-card quick-tip">
+                    <div class="tip-number" aria-hidden="true">4</div>
+                    <div class="tip-content">
+                        <h3>Durma bem</h3>
+                        <p>Mantenha horários regulares para descansar.</p>
+                    </div>
+                </article>
+            </section>
+
+            <aside class="notice-panel" aria-labelledby="aviso-saude">
+                <span class="notice-mark" aria-hidden="true">!</span>
+                <div>
+                    <h2 id="aviso-saude">Cuide-se com segurança</h2>
+                    <p>Se um sintoma preocupa ou não melhora, procure um profissional de saúde. Não se automedique.</p>
                 </div>
-            </div>
-
-            <div class="tip-card">
-                <div class="tip-number">4</div>
-                <div class="tip-content">
-                    <h3>Mexa o corpo</h3>
-                    <p>Fazer exercícios leves como caminhar, alongar ou dançar ajuda a manter o corpo ativo e a mente feliz. O importante é se movimentar!</p>
-                </div>
-            </div>
-
-            <div class="tip-card">
-                <div class="tip-number">5</div>
-                <div class="tip-content">
-                    <h3>Cuide da saúde mental</h3>
-                    <p>Reserve um tempo para fazer coisas que você gosta: ler, ouvir música, conversar com amigos ou familiares. Isso faz bem para a mente.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="warning-box">
-            <h3>
-                <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-                Quando procurar um médico
-            </h3>
-            <ul>
-                <li>Dores que não passam com repouso</li>
-                <li>Mudanças repentinas no peso ou apetite</li>
-                <li>Dificuldade para dormir por vários dias seguidos</li>
-                <li>Tonturas ou desmaios frequentes</li>
-                <li>Qualquer sintoma que cause preocupação</li>
-            </ul>
-        </div>
-
-        <div class="help-box help-box-com-imagem">
-            <div class="help-box-conteudo">
-                <h3>
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-                    Lembre-se
-                </h3>
-                <p>Sua saúde é a coisa mais importante. Sempre que tiver dúvidas, consulte um profissional de saúde. Não se automedique e siga as orientações médicas.</p>
-            </div>
-            <div class="help-box-imagem">
-                <img src="img/saude/aliment-1-1024x1024.jpg.webp" alt="Pratos coloridos e nutritivos">
-            </div>
-        </div>
+            </aside>
+        </main>
     </div>
 
     <footer>
