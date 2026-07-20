@@ -219,14 +219,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function checkGameEnd() {
         if (gameEnded) return true;
-        if (engine.ehVencedor(robotColor)) {
-            var winner = engine.turno === 'W' ? 'B' : 'W';
+        var winner = engine.obterVencedor();
+        if (winner) {
             showGameOver(winner);
-            return true;
-        }
-        if (engine.ehVencedor(playerColor)) {
-            var altWinner = playerColor;
-            showGameOver(altWinner);
             return true;
         }
         if (engine.ehEmpate()) {

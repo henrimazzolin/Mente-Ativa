@@ -3,9 +3,9 @@
    ============================================ */
 
 (function() {
-    // Mostrar apenas na primeira vez que acessar o site
+    // Mostrar apenas na primeira vez da sessao atual, sem persistir no dispositivo.
     try {
-        if (localStorage.getItem('intro_vista')) {
+        if (sessionStorage.getItem('intro_vista')) {
             const intro = document.getElementById('intro-overlay');
             if (intro) intro.style.display = 'none';
             document.body.style.overflow = '';
@@ -13,7 +13,7 @@
         }
     } catch(e) {}
 
-    try { localStorage.setItem('intro_vista', 'true'); } catch(e) {}
+    try { sessionStorage.setItem('intro_vista', 'true'); } catch(e) {}
 
     var intro = document.getElementById('intro-overlay');
     if (!intro) return;

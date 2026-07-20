@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="pintura - Mente Ativa">
+    <meta name="description" content="Pintura livre - Mente Ativa">
     <title>Mente Ativa - Pintura</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,86 +16,160 @@
     <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
     <script src="js/accessibility-unified.js" defer></script>
     <script src="js/components/logo.js" defer></script>
-
-    
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <a href="jogos-individuais.html" class="back-btn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <a href="jogos-individuais.html" class="back-btn" aria-label="Voltar para jogos individuais">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
             </a>
             <div class="logo" data-logo-tipo="moderado">
                 <div class="logo-icon">
-                    <img alt="Logo Mente Ativa" />
+                    <img alt="Logo Mente Ativa">
                 </div>
             </div>
         </div>
 
         <div class="page-title">
             <h1>Pintura</h1>
-            <p>Desenhe livremente na tela virtual</p>
+            <p>Crie, experimente cores e solte a imaginação</p>
         </div>
 
-        <div class="instrucao-destaque">
-            <p><strong>Como jogar:</strong> Escolha uma cor, selecione o tamanho do pincel e desenhe livremente na tela. Use a borracha para apagar e o botão limpar para recomeçar.</p>
+        <div class="paint-intro" aria-label="Como usar o jogo de pintura">
+            <div class="paint-intro-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.5 3a4.5 4.5 0 0 0 0 9H9v1.5A4.5 4.5 0 0 0 13.5 18H15v1a2 2 0 0 0 4 0v-7.5A8.5 8.5 0 0 0 10.5 3h-3Zm0 2h3A6.5 6.5 0 0 1 17 11.5V19h-1v-3h-2.5A2.5 2.5 0 0 1 11 13.5V10H7.5a2.5 2.5 0 0 1 0-5Z"/>
+                </svg>
+            </div>
+            <div>
+                <strong>Crie do seu jeito</strong>
+                <p>Escolha a cor e a espessura, depois toque ou arraste sobre a tela. Você pode desfazer sempre que precisar.</p>
+            </div>
         </div>
 
-        <div class="game-container">
-            <div class="paint-tools">
-                <div class="tool-section">
-                    <div class="tool-label">Cores:</div>
-                    <div class="colors-palette" id="colorsPalette"></div>
+        <main class="game-container">
+            <div class="paint-workspace-header">
+                <div>
+                    <span class="paint-eyebrow">ESTÚDIO DE DESENHO</span>
+                    <h2>Minha pintura</h2>
                 </div>
+                <div class="paint-current-tool" aria-live="polite" aria-atomic="true">
+                    <span class="paint-tool-preview" id="toolPreview" aria-hidden="true"></span>
+                    <span id="toolStatus">Pincel preto · fino</span>
+                </div>
+            </div>
 
-                <div class="tool-section">
-                    <div class="tool-label">Tamanho do Pincel:</div>
+            <div class="paint-editor">
+                <div class="paint-control-panel">
+                    <div class="paint-tools">
+                        <section class="tool-section color-section" aria-labelledby="colorsLabel">
+                    <div class="tool-label" id="colorsLabel">Escolha a cor</div>
+                    <div class="colors-palette" id="colorsPalette"></div>
+                    <label class="custom-color-control" for="customColor">
+                        <span class="custom-color-swatch" aria-hidden="true"></span>
+                        <span>Outra cor</span>
+                        <input id="customColor" type="color" value="#2563EB" aria-label="Escolher uma cor personalizada">
+                    </label>
+                        </section>
+
+                        <section class="tool-section" aria-labelledby="brushSizeLabel">
+                    <div class="tool-label" id="brushSizeLabel">Espessura</div>
                     <div class="brush-sizes">
-                        <button class="brush-size-btn active" data-size="3">P</button>
-                        <button class="brush-size-btn" data-size="8">M</button>
-                        <button class="brush-size-btn" data-size="15">G</button>
+                        <button class="brush-size-btn active" type="button" data-size="4" data-name="fino" aria-pressed="true">
+                            <span class="brush-dot brush-dot-small" aria-hidden="true"></span>
+                            <span>Fino</span>
+                        </button>
+                        <button class="brush-size-btn" type="button" data-size="10" data-name="médio" aria-pressed="false">
+                            <span class="brush-dot brush-dot-medium" aria-hidden="true"></span>
+                            <span>Médio</span>
+                        </button>
+                        <button class="brush-size-btn" type="button" data-size="20" data-name="largo" aria-pressed="false">
+                            <span class="brush-dot brush-dot-large" aria-hidden="true"></span>
+                            <span>Largo</span>
+                        </button>
+                    </div>
+                        </section>
+
+                        <section class="tool-section" aria-labelledby="drawingToolLabel">
+                    <div class="tool-label" id="drawingToolLabel">Ferramenta</div>
+                    <div class="drawing-tools">
+                        <button class="tool-btn active" id="btn-brush" type="button" aria-pressed="true">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7.8 16.2c-1.5 0-2.8 1.2-2.8 2.8 0 .7-.6 1-1.2 1.2.8.5 1.8.8 2.8.8 2.4 0 4.4-1.5 4.4-3.5 0-.4-.1-.8-.2-1.1l8.8-8.8a2.1 2.1 0 0 0-3-3l-8.8 8.8c-.3-.1-.7-.2-1.1-.2Zm.1 2.1c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9Z"/>
+                            </svg>
+                            Pincel
+                        </button>
+                        <button class="tool-btn" id="btn-eraser" type="button" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m16.6 3.6 3.8 3.8a2 2 0 0 1 0 2.8L10.6 20H6.8l-3.2-3.2a2 2 0 0 1 0-2.8L13.8 3.6a2 2 0 0 1 2.8 0ZM6.8 18h3l3.5-3.5-4.1-4.1-4.1 4.9a.5.5 0 0 0 0 .7L7 18Z"/>
+                            </svg>
+                            Borracha
+                        </button>
+                    </div>
+                        </section>
+                    </div>
+
+                    <div class="paint-actions" aria-label="Ações do desenho">
+                        <div class="history-actions">
+                    <button class="tool-btn" id="btn-undo" type="button" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M7.8 7H16a5 5 0 0 1 0 10h-3v-2h3a3 3 0 0 0 0-6H7.8l3 3L9.4 13.4 4 8l5.4-5.4L10.8 4l-3 3Z"/>
+                        </svg>
+                        Desfazer
+                    </button>
+                    <button class="tool-btn" id="btn-redo" type="button" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M16.2 7H8a5 5 0 0 0 0 10h3v-2H8a3 3 0 0 1 0-6h8.2l-3 3 1.4 1.4L20 8l-5.4-5.4L13.2 4l3 3Z"/>
+                        </svg>
+                        Refazer
+                    </button>
+                        </div>
+                        <div class="document-actions">
+                    <button class="tool-btn btn-clear" id="btn-clear" type="button" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12Z"/>
+                        </svg>
+                        Limpar
+                    </button>
+                    <button class="tool-btn btn-save" id="btn-save" type="button" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7ZM5 18v2h14v-2H5Z"/>
+                        </svg>
+                        Baixar desenho
+                    </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="tool-section paint-actions">
-                    <button class="tool-btn" id="btn-eraser" type="button" aria-pressed="false">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path d="M15.14 3c-.39 0-.78.15-1.07.44L2.29 15.29c-.59.59-.59 1.54 0 2.12l3.29 3.29c.59.59 1.54.59 2.12 0L16.86 8.56c.29-.29.44-.68.44-1.07V4c0-.55-.45-1-1-1h-1.72zM7 18c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="currentColor"/>
-                        </svg>
-                        Borracha
-                    </button>
-                    <button class="tool-btn btn-clear" id="btn-clear">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
-                        </svg>
-                        Limpar Tudo
-                    </button>
-                    <button class="tool-btn btn-save" id="btn-save">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" fill="currentColor"/>
-                        </svg>
-                        Salvar
-                    </button>
+                <div class="canvas-shell">
+                    <div class="canvas-heading">
+                        <span>Área de desenho</span>
+                        <span id="drawingState">Tela em branco</span>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="paintCanvas" width="1000" height="750" tabindex="0" aria-label="Área de desenho. Toque e arraste para pintar."></canvas>
+                        <div class="canvas-hint" id="canvasHint" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11v4h-2v-4H7v-2h4V7h2v4h4v2Z"/>
+                            </svg>
+                            <span>Toque ou arraste para começar</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="canvas-container">
-                <canvas id="paintCanvas" width="1000" height="750" aria-label="Área de desenho"></canvas>
-            </div>
-        </div>
+        </main>
     </div>
 
     <footer>
         <p>Cuidar da mente é cultivar a vida.</p>
         <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
-            <a href="sobre.html" class="sobre-footer">Sobre</a>
+        <a href="sobre.html" class="sobre-footer">Sobre</a>
     </footer>
     <script src="js/alerts.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/jogo-pintura.js"></script>
     <script src="js/assistente-flutuante.js"></script>

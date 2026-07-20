@@ -600,77 +600,134 @@ html.modo-escuro .next-btn:hover {
     transform: scale(1.05);
 }
 
-/* Sudoku cells - dark mode */
-html.modo-escuro .cell input {
+/* Sudoku dark mode: soft contrast with a distinct meaning for every state. */
+html.modo-escuro .sudoku-grid {
+    background: #64748B;
+    border-color: #8797AA;
+}
+
+html.modo-escuro .sudoku-grid .cell {
+    background: #202A38;
+}
+
+html.modo-escuro .sudoku-grid .cell:nth-child(3n) {
+    border-right-color: #8797AA;
+}
+
+html.modo-escuro .sudoku-grid .cell:nth-child(9n) {
+    border-right-color: transparent;
+}
+
+html.modo-escuro .sudoku-grid .cell:nth-child(n+19):nth-child(-n+27),
+html.modo-escuro .sudoku-grid .cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom-color: #8797AA;
+}
+
+html.modo-escuro .sudoku-grid .cell input {
+    background: transparent;
+    color: #C7D9EE;
+}
+
+html.modo-escuro .sudoku-grid .cell.fixed {
+    background: #2B394C;
+}
+
+html.modo-escuro .sudoku-grid .cell.fixed input {
+    color: #EDF2F7;
+}
+
+html.modo-escuro .sudoku-grid .cell.empty {
+    background: #302F2A;
+}
+
+html.modo-escuro .sudoku-grid .cell.empty input {
+    color: #E6CA8A;
+}
+
+html.modo-escuro .sudoku-grid .cell.highlight,
+html.modo-escuro .sudoku-grid .cell.highlight.empty,
+html.modo-escuro .sudoku-grid .cell.highlight.fixed,
+html.modo-escuro .sudoku-grid .cell.highlight.same-number {
+    background: #293D52;
+}
+
+html.modo-escuro .sudoku-grid .cell.same-number {
+    background: #34516C;
+}
+
+html.modo-escuro .sudoku-grid .cell.same-number input {
+    color: #DCEBFA;
+}
+
+html.modo-escuro .sudoku-grid .cell input:focus {
     background: transparent;
 }
 
-html.modo-escuro .cell {
-    background: rgba(30, 41, 59, 0.94);
+html.modo-escuro .sudoku-grid .cell:focus-within,
+html.modo-escuro .sudoku-grid .cell.highlight:focus-within {
+    position: relative;
+    z-index: 1;
+    background: #3B5C78;
+    box-shadow: inset 0 0 0 2px #8AAAC4;
 }
 
-html.modo-escuro .cell.fixed {
-    background: rgba(51, 65, 85, 0.96);
+html.modo-escuro .sudoku-grid .cell:focus-within input {
+    color: #F8FAFC;
 }
 
-html.modo-escuro .cell.highlight {
-    background: rgba(55, 65, 81, 0.35);
+html.modo-escuro .sudoku-grid .cell.correct,
+html.modo-escuro .sudoku-grid .cell.correct.highlight,
+html.modo-escuro .sudoku-grid .cell.correct.same-number {
+    background: #24443B;
 }
 
-html.modo-escuro .cell.highlight.empty {
-    background: rgba(55, 65, 81, 0.35);
+html.modo-escuro .sudoku-grid .cell.correct input {
+    color: #C0E4D5;
 }
 
-html.modo-escuro .cell.highlight.fixed {
-    background: rgba(55, 65, 81, 0.35);
+html.modo-escuro .sudoku-grid .cell.correct:focus-within {
+    box-shadow: inset 0 0 0 2px #77AA94;
 }
 
-html.modo-escuro .cell.highlight.same-number {
-    background: rgba(55, 65, 81, 0.35);
+html.modo-escuro .sudoku-grid .cell.wrong,
+html.modo-escuro .sudoku-grid .cell.wrong.highlight,
+html.modo-escuro .sudoku-grid .cell.wrong.same-number {
+    background: #4B2E36;
 }
 
-html.modo-escuro .cell.same-number {
-    background: rgba(59, 130, 246, 0.25);
+html.modo-escuro .sudoku-grid .cell.wrong input {
+    color: #F3C4CC;
 }
 
-html.modo-escuro .cell input:focus {
-    background: rgba(59, 130, 246, 0.3);
+html.modo-escuro .sudoku-grid .cell.wrong:focus-within {
+    box-shadow: inset 0 0 0 2px #C98894;
 }
 
-html.modo-escuro .cell.fixed input {
-    color: #f8fafc;
+html.modo-escuro .sudoku-grid .cell.solution,
+html.modo-escuro .sudoku-grid .cell.solution.highlight,
+html.modo-escuro .sudoku-grid .cell.solution.same-number {
+    background: #294944;
 }
 
-html.modo-escuro .cell.correct {
-    background: rgba(4, 120, 87, 0.35);
+html.modo-escuro .sudoku-grid .cell.solution input {
+    color: #C4E7DD;
 }
 
-html.modo-escuro .cell.correct input {
-    color: #6EE7B7;
+html.modo-escuro .sudoku-grid .cell.solution:focus-within {
+    box-shadow: inset 0 0 0 2px #78AFA3;
 }
 
-html.modo-escuro .cell.wrong {
-    background: rgba(185, 28, 28, 0.4);
+html.modo-escuro .numpad .num-btn {
+    background: #28384C;
+    color: #E2E8F0;
+    border-color: #586A80;
 }
 
-html.modo-escuro .cell.wrong input {
-    color: #FCA5A5;
-}
-
-html.modo-escuro .cell.empty {
-    background: rgba(30, 58, 138, 0.15);
-}
-
-html.modo-escuro .cell.empty input {
-    color: #FDE68A;
-}
-
-html.modo-escuro .cell.solution {
-    background: rgba(4, 120, 87, 0.3);
-}
-
-html.modo-escuro .cell.solution input {
-    color: #6EE7B7;
+html.modo-escuro .numpad .num-btn:hover,
+html.modo-escuro .numpad .num-btn:focus-visible {
+    background: #385775;
+    color: #F8FAFC;
+    border-color: #86A8C7;
 }
 
 /* Palavras Cruzadas – dark mode */

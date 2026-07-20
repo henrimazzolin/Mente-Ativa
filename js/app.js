@@ -2,6 +2,31 @@
     'use strict';
 
     var PRIVACY_NOTICE_KEY = 'mente-ativa-aviso-privacidade-v1';
+    var PERSISTENT_STORAGE_KEYS = {
+        'mente-ativa-modo-escuro': true,
+        'mente-ativa-fonte': true,
+        'mente-ativa-fonte-pct': true,
+        'mente-ativa-fonte-default-v2': true,
+        'mente-ativa-notificacoes': true,
+        'mente-ativa-painel-aberto': true,
+        'mente-ativa-som': true,
+        'mente-ativa-notif-agendadas': true,
+        'menteativa_eventos': true
+    };
+
+    function limparDadosPersistentesNaoPermitidos() {
+        try {
+            for (var indice = localStorage.length - 1; indice >= 0; indice--) {
+                var chave = localStorage.key(indice);
+                if (chave && !PERSISTENT_STORAGE_KEYS[chave]) {
+                    localStorage.removeItem(chave);
+                }
+            }
+        } catch (e) {}
+    }
+
+    limparDadosPersistentesNaoPermitidos();
+    window.addEventListener('pagehide', limparDadosPersistentesNaoPermitidos);
 
     function adicionarLinkDePrivacidade() {
         var footer = document.querySelector('footer');
@@ -27,7 +52,7 @@
         if (/privacidade\.html$/.test(window.location.pathname)) return;
 
         try {
-            if (localStorage.getItem(PRIVACY_NOTICE_KEY) === 'entendido') return;
+            if (sessionStorage.getItem(PRIVACY_NOTICE_KEY) === 'entendido') return;
         } catch (e) {}
 
         var aviso = document.createElement('aside');
@@ -44,7 +69,7 @@
 
         aviso.querySelector('button').addEventListener('click', function() {
             try {
-                localStorage.setItem(PRIVACY_NOTICE_KEY, 'entendido');
+                sessionStorage.setItem(PRIVACY_NOTICE_KEY, 'entendido');
             } catch (e) {}
             document.body.classList.remove('aviso-privacidade-aberto');
             aviso.remove();
@@ -60,7 +85,18 @@
     }
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js').catch(function() {
+        var tinhaControlador = Boolean(navigator.serviceWorker.controller);
+        var recarregandoParaAtualizar = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function() {
+            if (!tinhaControlador || recarregandoParaAtualizar) return;
+            recarregandoParaAtualizar = true;
+            window.location.reload();
+        });
+        navigator.serviceWorker.register('service-worker.js', {
+            updateViaCache: 'none'
+        }).then(function(registration) {
+            return registration.update();
+        }).catch(function() {
             // O site continua funcional online mesmo quando o cache offline falha.
         });
     }

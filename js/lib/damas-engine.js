@@ -43,6 +43,10 @@ class DamasEngine {
         if (capturas.length > 0) return capturas;
         if (this.capturaObrigatoria) return [];
         if (this.obterCapturasDisponiveis(this.turno).length > 0) return [];
+        return this.obterMovimentosSimples(l, c, peca);
+    }
+
+    obterMovimentosSimples(l, c, peca) {
         const movimentos = [];
         if (peca.tipo === DAMA) {
             for (const dl of [-1, 1]) {
@@ -175,7 +179,7 @@ class DamasEngine {
             for (let c = 0; c < 8; c++) {
                 const p = this.tabuleiro[l][c];
                 if (p && p.cor === cor) {
-                    const movs = this.obterMovimentosValidos(l, c);
+                    const movs = this.obterMovimentosSimples(l, c, p);
                     movs.forEach(m => {
                         todas.push({
                             origem: { l, c },
@@ -240,11 +244,17 @@ class DamasEngine {
         return count;
     }
 
+    obterVencedor() {
+        if (this.capturaObrigatoria) return null;
+        const corSemJogada = this.turno;
+        const vencedor = corSemJogada === BRANCO ? PRETO : BRANCO;
+        if (this.contarPecas(corSemJogada) === 0) return vencedor;
+        if (this.obterTodasJogadas(corSemJogada).length === 0) return vencedor;
+        return null;
+    }
+
     ehVencedor(cor) {
-        const oponente = cor === BRANCO ? PRETO : BRANCO;
-        if (this.contarPecas(oponente) === 0) return true;
-        const jogadas = this.obterTodasJogadas(oponente);
-        return jogadas.length === 0;
+        return this.obterVencedor() === cor;
     }
 
     ehEmpate() {

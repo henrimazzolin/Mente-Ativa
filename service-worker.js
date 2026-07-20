@@ -1,5 +1,7 @@
-var CACHE_NAME = 'mente-ativa-v18';
+var CACHE_NAME = 'mente-ativa-v20';
 var OFFLINE_URL = '/index.html';
+var GAME_LOGIC_PATTERN = /^\/js\/(?:jogo-[^/]+|lib\/(?:damas-engine|chess-engine))\.js$/i;
+var FRESH_ASSET_PATTERN = /\.(?:css|js)$/i;
 var ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -41,8 +43,6 @@ var ASSETS_TO_CACHE = [
     '/jogo-toque.html',
     '/jogo-xadrez.html',
     '/js/lib/utils.js',
-    '/js/lib/chess-engine.js',
-    '/js/lib/damas-engine.js',
     '/js/accessibility-unified.js',
     '/js/info-navigation.js',
     '/js/app.js',
@@ -53,32 +53,6 @@ var ASSETS_TO_CACHE = [
     '/js/intro.js',
     '/js/pages/seguranca.js',
     '/js/privacidade.js',
-    '/js/jogo-associacao.js',
-    '/js/jogo-associacao-imagens.js',
-    '/js/jogo-caca-palavras.js',
-    '/js/jogo-completar-figura.js',
-    '/js/jogo-contagem.js',
-    '/js/jogo-cores.js',
-    '/js/jogo-damas.js',
-    '/js/jogo-deducao-logica.js',
-    '/js/jogo-escolha.js',
-    '/js/jogo-memoria.js',
-    '/js/jogo-musica.js',
-    '/js/jogo-objeto-funcao.js',
-    '/js/jogo-ordenacao.js',
-    '/js/jogo-palavras-cruzadas.js',
-    '/js/jogo-pareamento-animais.js',
-    '/js/jogo-pareamento-cores.js',
-    '/js/jogo-pareamento-formas.js',
-    '/js/jogo-pareamento-simples.js',
-    '/js/jogo-pintura.js',
-    '/js/jogo-quebra-cabeca.js',
-    '/js/jogo-reconhecimento.js',
-    '/js/jogo-repeticao.js',
-    '/js/jogo-sequencia-simples.js',
-    '/js/jogo-sudoku.js',
-    '/js/jogo-toque.js',
-    '/js/jogo-xadrez.js',
     '/css/main.css',
     '/css/responsive.css',
     '/css/dark-mode.css',
@@ -214,6 +188,28 @@ self.addEventListener('fetch', function(event) {
         event.respondWith(fetch(request).catch(function() {
             return caches.match('/img/placeholder.svg');
         }));
+        return;
+    }
+
+    if (GAME_LOGIC_PATTERN.test(url.pathname)) {
+        event.respondWith(fetch(request, { cache: 'no-store' }));
+        return;
+    }
+
+    if (FRESH_ASSET_PATTERN.test(url.pathname)) {
+        event.respondWith(
+            fetch(request).then(function(response) {
+                if (response && response.status === 200) {
+                    var copy = response.clone();
+                    caches.open(CACHE_NAME).then(function(cache) {
+                        cache.put(request, copy);
+                    });
+                }
+                return response;
+            }).catch(function() {
+                return caches.match(request);
+            })
+        );
         return;
     }
 

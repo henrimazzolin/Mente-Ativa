@@ -14,6 +14,9 @@ const appDom = new JSDOM('<!doctype html><html><body><main></main><footer><a cla
     url: 'https://mente-ativa.local/menu.html'
 });
 
+appDom.window.localStorage.setItem('mente-ativa-modo-escuro', 'true');
+appDom.window.localStorage.setItem('estado-jogo-damas', '{"turno":"B"}');
+appDom.window.localStorage.setItem('intro_vista', 'true');
 appDom.window.eval(appScript);
 appDom.window.document.dispatchEvent(new appDom.window.Event('DOMContentLoaded'));
 
@@ -27,7 +30,14 @@ assert.equal(footerLink.getAttribute('href'), 'privacidade.html');
 assert.equal(appDocument.body.classList.contains('aviso-privacidade-aberto'), true);
 
 notice.querySelector('button').click();
-assert.equal(appDom.window.localStorage.getItem('mente-ativa-aviso-privacidade-v1'), 'entendido');
+assert.equal(appDom.window.sessionStorage.getItem('mente-ativa-aviso-privacidade-v1'), 'entendido');
+assert.equal(appDom.window.localStorage.getItem('mente-ativa-aviso-privacidade-v1'), null);
+assert.equal(appDom.window.localStorage.getItem('mente-ativa-modo-escuro'), 'true',
+    'Preferencias de acessibilidade devem permanecer salvas.');
+assert.equal(appDom.window.localStorage.getItem('estado-jogo-damas'), null,
+    'Estado de jogos antigo deve ser removido do armazenamento persistente.');
+assert.equal(appDom.window.localStorage.getItem('intro_vista'), null,
+    'Estado temporario da introducao nao deve permanecer no armazenamento persistente.');
 assert.equal(appDocument.querySelector('.aviso-privacidade'), null, 'O aviso deve fechar após Entendi.');
 assert.equal(appDocument.body.classList.contains('aviso-privacidade-aberto'), false);
 

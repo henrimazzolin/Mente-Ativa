@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -111,6 +111,78 @@ function testarDamas() {
     }
 }
 
+function testarVitoriaDamas() {
+    let engine = criarDamasEngine();
+    assert.equal(engine.obterTodasJogadas('W').length, 7,
+        'As brancas devem ter sete jogadas no tabuleiro inicial.');
+    assert.equal(engine.obterTodasJogadas('B').length, 7,
+        'Consultar as pretas fora do turno também deve encontrar suas sete jogadas.');
+    assert.equal(engine.obterVencedor(), null, 'A partida não pode começar com um vencedor.');
+    assert.equal(engine.ehVencedor('W'), false);
+    assert.equal(engine.ehVencedor('B'), false);
+
+    let jogada = engine.obterTodasJogadas('W')[0];
+    engine.fazerMovimento(
+        jogada.origem.l, jogada.origem.c,
+        jogada.destino.l, jogada.destino.c
+    );
+    assert.equal(engine.turno, 'B');
+    assert.equal(engine.obterVencedor(), null,
+        'Uma jogada comum das brancas não pode encerrar a partida.');
+
+    jogada = engine.obterTodasJogadas('B')[0];
+    engine.fazerMovimento(
+        jogada.origem.l, jogada.origem.c,
+        jogada.destino.l, jogada.destino.c
+    );
+    assert.equal(engine.turno, 'W');
+    assert.equal(engine.obterVencedor(), null,
+        'Uma jogada comum das pretas não pode encerrar a partida.');
+
+    engine = criarDamasEngine();
+    tabuleiroVazio(engine);
+    engine.tabuleiro[5][0] = { tipo: 'p', cor: 'W' };
+    engine.tabuleiro[4][1] = { tipo: 'p', cor: 'B' };
+    engine.tabuleiro[2][3] = { tipo: 'p', cor: 'B' };
+    let resultado = engine.fazerMovimento(5, 0, 3, 2, 4, 1);
+    assert.equal(resultado.continuaCaptura, true);
+    assert.equal(engine.obterVencedor(), null,
+        'Uma captura em cadeia não pode declarar vencedor antes de ser concluída.');
+
+    engine = criarDamasEngine();
+    tabuleiroVazio(engine);
+    engine.tabuleiro[5][0] = { tipo: 'p', cor: 'W' };
+    engine.turno = 'B';
+    assert.equal(engine.obterVencedor(), 'W',
+        'As brancas devem vencer quando as pretas ficam sem peças.');
+    assert.equal(engine.ehVencedor('W'), true,
+        'A API de compatibilidade deve reconhecer o vencedor correto.');
+
+    engine = criarDamasEngine();
+    tabuleiroVazio(engine);
+    engine.tabuleiro[7][0] = { tipo: 'p', cor: 'B' };
+    engine.tabuleiro[0][1] = { tipo: 'p', cor: 'W' };
+    engine.turno = 'B';
+    assert.equal(engine.contarPecas('B'), 1);
+    assert.equal(engine.obterVencedor(), 'W',
+        'A cor adversária deve vencer quando a cor do turno não possui jogadas.');
+
+    engine = criarDamasEngine();
+    tabuleiroVazio(engine);
+    engine.tabuleiro[2][1] = { tipo: 'p', cor: 'B' };
+    engine.turno = 'W';
+    assert.equal(engine.obterVencedor(), 'B',
+        'As pretas devem vencer quando as brancas ficam sem peças.');
+
+    engine = criarDamasEngine();
+    tabuleiroVazio(engine);
+    engine.tabuleiro[5][0] = { tipo: 'p', cor: 'W' };
+    engine.tabuleiro[2][1] = { tipo: 'p', cor: 'B' };
+    assert.equal(engine.obterVencedor(), null,
+        'Duas peças com jogadas disponíveis não devem produzir vencedor.');
+    assert.equal(engine.ehEmpate(), true, 'A regra de empate existente deve ser preservada.');
+}
+
 function testarImagensLocais() {
     const fontes = ['js/jogo-memoria.js', 'js/jogo-quebra-cabeca.js'];
     const serviceWorker = read('service-worker.js');
@@ -129,7 +201,7 @@ function testarImagensLocais() {
     }
 }
 
-function testarPreCacheDosJogos() {
+function testarPoliticaDeCacheDosJogos() {
     const serviceWorker = read('service-worker.js');
     const arquivos = [
         'jogo-caca-palavras', 'jogo-damas', 'jogo-deducao-logica', 'jogo-memoria',
@@ -137,8 +209,32 @@ function testarPreCacheDosJogos() {
     ];
     for (const arquivo of arquivos) {
         assert.ok(serviceWorker.includes(`'/css/${arquivo}.css'`), `${arquivo}: CSS ausente do pre-cache.`);
-        assert.ok(serviceWorker.includes(`'/js/${arquivo}.js'`), `${arquivo}: JavaScript ausente do pre-cache.`);
+        assert.ok(!serviceWorker.includes(`'/js/${arquivo}.js'`),
+            `${arquivo}: a logica do jogo nao pode permanecer no pre-cache.`);
     }
+    assert.ok(!serviceWorker.includes("'/js/lib/damas-engine.js'"));
+    assert.ok(!serviceWorker.includes("'/js/lib/chess-engine.js'"));
+    assert.match(serviceWorker, /GAME_LOGIC_PATTERN/);
+    assert.match(serviceWorker, /FRESH_ASSET_PATTERN/);
+    assert.match(serviceWorker, /fetch\(request,\s*\{\s*cache:\s*'no-store'\s*\}\)/);
+}
+
+function testarAusenciaDePersistenciaNosJogos() {
+    const jogos = readdirSync(resolve(ROOT, 'js'))
+        .filter((arquivo) => /^jogo-.*\.js$/.test(arquivo));
+    const fontes = new Set([
+        ...jogos,
+        ...['lib/damas-engine.js', 'lib/chess-engine.js']
+    ]);
+    for (const arquivo of fontes) {
+        const codigo = read(`js/${arquivo}`);
+        assert.doesNotMatch(codigo, /\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b|\bcaches\./,
+            `${arquivo}: jogos nao podem persistir partidas, jogadas ou logica.`);
+    }
+    assert.doesNotMatch(read('js/intro.js'), /\blocalStorage\b/,
+        'A introducao deve durar apenas a sessao atual.');
+    assert.match(read('server.js'), /isGameLogic[\s\S]*Cache-Control', 'no-store, max-age=0'/,
+        'O servidor deve impedir cache HTTP da logica dos jogos.');
 }
 
 function testarContratosResponsivos() {
@@ -154,6 +250,8 @@ function testarContratosResponsivos() {
 
     assert.match(responsive, /grid-template-columns:\s*48px minmax\(0, 1fr\) 48px/);
     assert.match(responsive, /\.back-btn[\s\S]*width:\s*48px[\s\S]*height:\s*48px/);
+    assert.match(responsive, /\.back-btn:hover,[\s\S]*\.back-btn:focus-visible[\s\S]*transform:\s*none\s*!important/,
+        'O botao Voltar nao deve se deslocar para tras ao receber foco ou hover.');
     assert.match(responsive, /\.modal-footer \.btn[\s\S]*flex:\s*1 1 140px/);
     assert.match(responsive, /body \.instrucao-destaque[\s\S]*height:\s*160px/);
     assert.match(responsive, /body \.dificuldade-selector[\s\S]*height:\s*116px/);
@@ -181,13 +279,67 @@ function testarContratosResponsivos() {
     assert.ok(!/\#paintCanvas\s*\{[^}]*min-height:/s.test(pintura), 'O canvas mobile nao deve deformar a proporcao 4:3.');
 }
 
+function testarContrasteSudokuEscuro() {
+    const darkCss = read('css/dark-mode.css');
+    const inicioSudoku = darkCss.indexOf('/* Sudoku dark mode:');
+    const fimSudoku = darkCss.indexOf('/* Palavras Cruzadas', inicioSudoku);
+    const darkMode = darkCss.slice(inicioSudoku, fimSudoku);
+    const paresDeContraste = [
+        ['#C7D9EE', '#202A38', 'numeros preenchidos'],
+        ['#EDF2F7', '#2B394C', 'pistas fixas'],
+        ['#DCEBFA', '#34516C', 'numeros iguais'],
+        ['#F8FAFC', '#3B5C78', 'celula selecionada'],
+        ['#C0E4D5', '#24443B', 'respostas corretas'],
+        ['#F3C4CC', '#4B2E36', 'respostas incorretas'],
+        ['#C4E7DD', '#294944', 'solucao exibida']
+    ];
+
+    const luminancia = (hex) => {
+        const canais = hex.match(/[0-9a-f]{2}/gi).map((canal) => {
+            const valor = Number.parseInt(canal, 16) / 255;
+            return valor <= 0.04045 ? valor / 12.92 : ((valor + 0.055) / 1.055) ** 2.4;
+        });
+        return (0.2126 * canais[0]) + (0.7152 * canais[1]) + (0.0722 * canais[2]);
+    };
+
+    const contraste = (primeira, segunda) => {
+        const clara = Math.max(luminancia(primeira), luminancia(segunda));
+        const escura = Math.min(luminancia(primeira), luminancia(segunda));
+        return (clara + 0.05) / (escura + 0.05);
+    };
+
+    assert.ok(darkMode.length > 0, 'O Sudoku deve ter uma paleta propria para o modo escuro.');
+    assert.match(darkMode, /html\.modo-escuro \.sudoku-grid \.cell:focus-within/);
+    assert.match(darkMode, /html\.modo-escuro \.sudoku-grid \.cell\.highlight/);
+    assert.match(darkMode, /html\.modo-escuro \.sudoku-grid \.cell\.same-number/);
+    assert.match(darkMode, /html\.modo-escuro \.sudoku-grid \.cell\.correct/);
+    assert.match(darkMode, /html\.modo-escuro \.sudoku-grid \.cell\.wrong/);
+    assert.match(darkMode, /html\.modo-escuro \.sudoku-grid \.cell\.solution/);
+    assert.doesNotMatch(darkMode, /background:\s*#(?:DBEAFE|E2E8F0|DCFCE7|FEE2E2|F1F5F9|FEF9C3|D1FAE5)/i,
+        'O modo escuro nao pode reutilizar os fundos claros do tabuleiro.');
+
+    for (const [texto, fundo, estado] of paresDeContraste) {
+        assert.ok(darkMode.includes(texto) && darkMode.includes(fundo),
+            `As cores de ${estado} devem fazer parte da paleta escura.`);
+        assert.ok(contraste(texto, fundo) >= 4.5,
+            `O contraste de ${estado} deve atender ao minimo de 4.5:1.`);
+        assert.ok(luminancia(fundo) < 0.12,
+            `O fundo de ${estado} deve permanecer suave no modo escuro.`);
+    }
+}
+
 function testarPintura() {
     const html = read('jogo-pintura.html');
     const script = read('js/jogo-pintura.js');
     assert.ok(!html.includes('dificuldade-selector'), 'Pintura nao deve exibir dificuldade.');
     assert.match(html, /id="btn-eraser"[^>]*aria-pressed="false"/);
+    assert.match(html, /id="btn-brush"[^>]*aria-pressed="true"/);
     assert.match(html, /id="paintCanvas" width="1000" height="750"/);
-    assert.match(html, /class="tool-section paint-actions"/);
+    assert.match(html, /id="customColor" type="color"/);
+    assert.match(html, /id="btn-undo"[^>]*disabled/);
+    assert.match(html, /id="btn-redo"[^>]*disabled/);
+    assert.match(html, /class="paint-actions"/);
+    assert.match(html, /aria-live="polite"/);
     assert.match(script, /pointerdown/);
     assert.match(script, /pointermove/);
     assert.match(script, /setPointerCapture/);
@@ -196,6 +348,74 @@ function testarPintura() {
     assert.match(script, /Math\.max\(0, Math\.min\(canvas\.width/);
     assert.match(script, /activePointerId/);
     assert.match(script, /setAttribute\('aria-pressed'/);
+    assert.match(script, /function undo\(\)/);
+    assert.match(script, /function redo\(\)/);
+    assert.match(script, /redoActions/);
+    assert.match(script, /event\.ctrlKey \|\| event\.metaKey/);
+    assert.doesNotMatch(script, /\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b/,
+        'O historico da pintura deve existir apenas em memoria.');
+
+    const dom = new JSDOM(html, {
+        runScripts: 'dangerously',
+        url: 'https://mente-ativa.local/jogo-pintura.html'
+    });
+    const context = {
+        save() {},
+        restore() {},
+        fillRect() {},
+        beginPath() {},
+        moveTo() {},
+        lineTo() {},
+        stroke() {},
+        closePath() {}
+    };
+    dom.window.HTMLCanvasElement.prototype.getContext = function() { return context; };
+    const canvas = dom.window.document.getElementById('paintCanvas');
+    canvas.getBoundingClientRect = function() {
+        return { left: 0, top: 0, width: 500, height: 375 };
+    };
+    canvas.setPointerCapture = function() {};
+    canvas.hasPointerCapture = function() { return false; };
+    canvas.releasePointerCapture = function() {};
+    dom.window.exibirConfirmacao = function(_mensagem, _descricao, callback) { callback(true); };
+    dom.window.exibirAlerta = function() {};
+    dom.window.eval(script);
+    dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+
+    assert.equal(dom.window.document.querySelectorAll('.color-btn').length, 10);
+    assert.equal(dom.window.document.getElementById('btn-undo').disabled, true);
+    assert.equal(dom.window.document.getElementById('btn-save').disabled, true);
+
+    function pointerEvent(type, x, y) {
+        const event = new dom.window.Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperties(event, {
+            pointerId: { value: 1 },
+            clientX: { value: x },
+            clientY: { value: y }
+        });
+        return event;
+    }
+
+    canvas.dispatchEvent(pointerEvent('pointerdown', 50, 50));
+    canvas.dispatchEvent(pointerEvent('pointermove', 120, 100));
+    canvas.dispatchEvent(pointerEvent('pointerup', 120, 100));
+    assert.equal(dom.window.document.getElementById('btn-undo').disabled, false,
+        'Um traco deve habilitar Desfazer.');
+    assert.equal(dom.window.document.getElementById('btn-save').disabled, false,
+        'Um traco deve habilitar o download.');
+
+    dom.window.document.getElementById('btn-undo').click();
+    assert.equal(dom.window.document.getElementById('btn-redo').disabled, false);
+    assert.equal(dom.window.document.getElementById('btn-save').disabled, true);
+    dom.window.document.getElementById('btn-redo').click();
+    assert.equal(dom.window.document.getElementById('btn-save').disabled, false);
+
+    dom.window.document.getElementById('btn-clear').click();
+    assert.equal(dom.window.document.getElementById('btn-save').disabled, true);
+    dom.window.document.getElementById('btn-undo').click();
+    assert.equal(dom.window.document.getElementById('btn-save').disabled, false,
+        'Desfazer apos limpar deve recuperar o desenho.');
+    dom.window.close();
 }
 
 function testarCacaPalavrasComIntersecao() {
@@ -293,8 +513,9 @@ function testarFluxosEPadronizacao() {
         'Quebra-cabeca deve exibir uma unica instrucao Como jogar.');
     assert.ok(!quebraCabecaHtml.includes('class="instructions"'),
         'Quebra-cabeca nao deve manter o bloco de instrucoes duplicado.');
-    assert.match(pinturaCss, /\.paint-actions[\s\S]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
-    assert.match(pinturaCss, /\.paint-actions \.tool-btn[\s\S]*word-break:\s*keep-all/);
+    assert.match(pinturaCss, /\.paint-editor[\s\S]*grid-template-columns:\s*minmax\(300px, 350px\) minmax\(0, 1fr\)/);
+    assert.match(pinturaCss, /\.paint-actions[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\)/);
+    assert.match(pinturaCss, /\.canvas-hint\.hidden[\s\S]*visibility:\s*hidden/);
     assert.match(cacaCss, /@keyframes selectionTrail/);
     assert.match(calendarioCss, /\.modal-overlay \.modal[\s\S]*overflow-y:\s*visible/);
 
@@ -303,6 +524,10 @@ function testarFluxosEPadronizacao() {
         assert.match(codigo, /btn-reload[\s\S]*reiniciarFluxoDoJogo\(\)/, `${nome}: Jogar novamente deve reutilizar o fluxo limpo.`);
     }
     assert.match(damasJs, /floater\.animate\(/, 'Damas deve animar o deslocamento da peca inimiga.');
+    assert.match(damasJs, /var winner = engine\.obterVencedor\(\)/,
+        'Damas deve obter o vencedor diretamente do motor.');
+    assert.doesNotMatch(damasJs, /engine\.ehVencedor\(robotColor\)|engine\.ehVencedor\(playerColor\)/,
+        'A tela não deve voltar a consultar as duas cores separadamente.');
 }
 
 function testarNavegacaoInformativa() {
@@ -327,9 +552,12 @@ function testarPadronizacaoDoHeaderDoMenu() {
 
 testarConfirmacao();
 testarDamas();
+testarVitoriaDamas();
 testarImagensLocais();
-testarPreCacheDosJogos();
+testarPoliticaDeCacheDosJogos();
+testarAusenciaDePersistenciaNosJogos();
 testarContratosResponsivos();
+testarContrasteSudokuEscuro();
 testarPintura();
 testarCacaPalavrasComIntersecao();
 testarFluxosEPadronizacao();

@@ -473,15 +473,3 @@
             }
         }
 
-        /* Dark mode for numpad */
-        html.modo-escuro .num-btn {
-            background: var(--dm-surface);
-            color: var(--dm-text);
-            border-color: var(--dm-border);
-        }
-
-        html.modo-escuro .num-btn:hover {
-            background: var(--cor-primaria);
-            color: white;
-            border-color: var(--cor-primaria);
-        }

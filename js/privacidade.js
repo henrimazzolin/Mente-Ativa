@@ -6,13 +6,11 @@
         'mente-ativa-modo-escuro',
         'mente-ativa-fonte',
         'mente-ativa-fonte-pct',
+        'mente-ativa-fonte-default-v2',
         'mente-ativa-notificacoes',
         'mente-ativa-painel-aberto',
         'mente-ativa-som',
-        'mente-ativa-notif-agendadas',
-        'intro_vista',
-        'mente-ativa-intro-fechada',
-        'mente-ativa-aviso-privacidade-v1'
+        'mente-ativa-notif-agendadas'
     ];
 
     function contarEventos() {
