@@ -382,4 +382,318 @@ body {
     }
 }
 
+/* Redesenho do hub de Saúde e Bem-estar */
+.exercise-hub .header {
+    margin-bottom: 24px;
+}
+
+.exercise-main {
+    width: min(100%, 900px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.exercise-hero {
+    max-width: 660px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.exercise-kicker {
+    display: inline-flex;
+    margin-bottom: 10px;
+    padding: 6px 13px;
+    border: 1px solid rgba(37, 99, 235, 0.28);
+    border-radius: 999px;
+    background: rgba(219, 234, 254, 0.72);
+    color: #1D4ED8;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.exercise-hero h1 {
+    margin: 0 0 8px;
+    color: var(--cor-texto);
+    font-size: clamp(30px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.exercise-hero p {
+    margin: 0;
+    color: var(--cor-texto-claro);
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.exercise-options {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.exercise-section-heading {
+    text-align: center;
+}
+
+.exercise-section-heading h2 {
+    margin: 0 0 5px;
+    color: var(--cor-texto);
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.exercise-section-heading p {
+    margin: 0;
+    color: var(--cor-texto-claro);
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.exercise-hub .exercise-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+}
+
+.exercise-hub .exercise-card {
+    --card-accent: #0F766E;
+    --card-accent-strong: #115E59;
+    --card-soft: #ECFDF5;
+    min-height: 300px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    border: 1px solid #D8E2EE;
+    border-top: 6px solid var(--card-accent);
+    border-radius: 18px;
+    background: var(--cor-fundo-card);
+    color: var(--cor-texto);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.08);
+    text-decoration: none;
+}
+
+.exercise-hub .exercise-card.laranja {
+    --card-accent: #D97706;
+    --card-accent-strong: #B45309;
+    --card-soft: #FFF7ED;
+}
+
+.exercise-hub .exercise-card:hover {
+    border-color: var(--card-accent);
+    border-top-color: var(--card-accent);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.13);
+    transform: translateY(-3px);
+}
+
+.exercise-hub .exercise-card:focus-visible {
+    outline: 4px solid var(--focus-ring, #F59E0B);
+    outline-offset: 4px;
+}
+
+.exercise-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.exercise-hub .exercise-icon {
+    width: 62px;
+    height: 62px;
+    margin: 0;
+    flex: 0 0 62px;
+    border-radius: 16px;
+    background: var(--card-soft);
+}
+
+.exercise-hub .exercise-icon svg,
+.exercise-hub .exercise-card.verde .exercise-icon svg,
+.exercise-hub .exercise-card.laranja .exercise-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--card-accent);
+}
+
+.exercise-tag {
+    display: inline-flex;
+    min-height: 34px;
+    padding: 7px 11px;
+    align-items: center;
+    border-radius: 999px;
+    background: var(--card-soft);
+    color: var(--card-accent-strong);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+}
+
+.exercise-card-copy {
+    flex: 1;
+}
+
+.exercise-hub .exercise-title {
+    margin: 0 0 8px;
+    color: var(--cor-texto);
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.exercise-hub .exercise-desc {
+    margin: 0;
+    color: var(--cor-texto-claro);
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.exercise-action {
+    display: flex;
+    min-height: 50px;
+    padding: 12px 18px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-radius: 14px;
+    background: var(--card-accent);
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.exercise-action span {
+    font-size: 24px;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.exercise-card:hover .exercise-action span {
+    transform: translateX(3px);
+}
+
+.exercise-hub .tip-box {
+    width: 100%;
+    margin: 0;
+    padding: 19px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #F4C978;
+    border-left: 6px solid #D97706;
+    border-radius: 15px;
+    background: #FFF8E8;
+    text-align: left;
+}
+
+.tip-box-mark {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    place-items: center;
+    border-radius: 50%;
+    background: #D97706;
+    color: #FFFFFF;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.exercise-hub .tip-box strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #92400E;
+    font-size: 18px;
+}
+
+.exercise-hub .tip-box p {
+    margin: 0;
+    color: var(--cor-texto);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+html.modo-escuro .exercise-hub .exercise-kicker {
+    border-color: rgba(147, 197, 253, 0.45);
+    background: rgba(59, 130, 246, 0.2);
+    color: #BFDBFE;
+}
+
+html.modo-escuro .exercise-hub .exercise-card {
+    border-color: rgba(255, 255, 255, 0.24);
+}
+
+html.modo-escuro .exercise-hub .exercise-icon,
+html.modo-escuro .exercise-hub .exercise-tag {
+    background: rgba(15, 118, 110, 0.2);
+}
+
+html.modo-escuro .exercise-hub .exercise-card.laranja .exercise-icon,
+html.modo-escuro .exercise-hub .exercise-card.laranja .exercise-tag {
+    background: rgba(217, 119, 6, 0.2);
+}
+
+html.modo-escuro .exercise-hub .exercise-card.verde .exercise-tag {
+    color: #6EE7B7;
+}
+
+html.modo-escuro .exercise-hub .exercise-card.laranja .exercise-tag {
+    color: #FCD34D;
+}
+
+html.modo-escuro .exercise-hub .tip-box {
+    border-color: #A16207;
+    background: #3B2D14;
+}
+
+html.modo-escuro .exercise-hub .tip-box strong {
+    color: #FDE68A;
+}
+
+@media (max-width: 700px) {
+    .exercise-main {
+        gap: 24px;
+    }
+
+    .exercise-hub .exercise-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .exercise-hub .exercise-card {
+        min-height: 0;
+        padding: 21px;
+    }
+}
+
+@media (max-width: 480px) {
+    .exercise-hub .container {
+        padding-inline: 12px;
+    }
+
+    .exercise-hub .header {
+        margin-bottom: 20px;
+    }
+
+    .exercise-main {
+        gap: 22px;
+    }
+
+    .exercise-hub .exercise-card {
+        gap: 18px;
+        padding: 19px 17px;
+    }
+
+    .exercise-hub .exercise-title {
+        font-size: 20px;
+    }
+
+    .exercise-hub .tip-box {
+        padding: 17px 15px;
+    }
+}
+
 

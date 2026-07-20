@@ -175,8 +175,23 @@ body:has(.header .back-btn) .container > .header {
     grid-template-columns: 48px minmax(0, 1fr) 48px;
     align-items: center;
     gap: 12px;
+    width: min(var(--header-max-width, 650px), calc(100vw - (2 * var(--ma-page-gutter))));
+    max-width: var(--header-max-width, 650px);
     min-height: 72px;
     padding: 12px 14px;
+    margin-inline: 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+body:has(.header .back-btn) > .container {
+    overflow-x: visible;
+}
+
+body > .header:has(.back-btn) {
+    width: min(var(--header-max-width, 650px), calc(100% - (2 * var(--ma-page-gutter))));
+    max-width: var(--header-max-width, 650px);
 }
 
 body:has(.header .back-btn) .container > .header::after {

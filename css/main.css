@@ -15,6 +15,7 @@
     --primary-light: rgba(59, 130, 246, 0.1);
     --focus-ring: #F59E0B;
     --touch-target: 52px;
+    --header-max-width: 650px;
 }
 
 * {
@@ -96,14 +97,14 @@ input, select, textarea {
 }
 
 .container .header {
-    max-width: 560px;
+    max-width: var(--header-max-width);
     width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
 body > .header {
-    max-width: 560px;
+    max-width: var(--header-max-width);
     width: 100%;
     margin: 0 auto;
     border-radius: 10px;

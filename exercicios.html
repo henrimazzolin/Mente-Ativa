@@ -20,10 +20,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
+<body class="exercise-hub">
     <div class="container">
         <div class="header">
-            <a href="menu.html" class="back-btn">
+            <a href="menu.html" class="back-btn" aria-label="Voltar ao menu">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
@@ -36,51 +36,58 @@
             </div>
         </div>
 
-        <div class="page-title">
-            <div class="titulo-com-tts">
-                <h1>Saúde e Bem-estar</h1>
-                
-            </div>
-            <p>Aqui você vai encontrar dicas e informações para cuidar da sua saúde e bem-estar.</p>
-        </div>
+        <main class="exercise-main">
+            <section class="exercise-hero" aria-labelledby="titulo-exercicios">
+                <span class="exercise-kicker">Cuidado diário</span>
+                <h1 id="titulo-exercicios">Saúde e Bem-estar</h1>
+                <p>Escolha uma opção para começar.</p>
+            </section>
 
-        <div class="intro">
-            <p>Escolha uma categoria abaixo para ver dicas e informações sobre saúde e bem-estar.</p>
-        </div>
-
-        <div class="exercise-grid">
-            <div class="exercise-card verde">
-                <div class="exercise-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <section class="exercise-options" aria-labelledby="titulo-opcoes">
+                <div class="exercise-section-heading">
+                    <h2 id="titulo-opcoes">O que você procura?</h2>
+                    <p>Duas formas simples de cuidar de você.</p>
                 </div>
-                <h2 class="exercise-title">Informações e Dicas</h2>
-                <p class="exercise-desc">Cuide da sua saúde e bem-estar com orientações práticas no dia a dia.</p>
-                <div class="exercise-info">
-                    
-                    
+
+                <div class="exercise-grid">
+                    <a href="saude-informacoes.html" class="exercise-card verde" aria-label="Abrir informações e dicas de saúde">
+                        <div class="exercise-card-top">
+                            <div class="exercise-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            </div>
+                            <span class="exercise-tag">Leitura rápida</span>
+                        </div>
+                        <div class="exercise-card-copy">
+                            <h3 class="exercise-title">Informações e dicas</h3>
+                            <p class="exercise-desc">Orientações curtas para alimentação e bem-estar.</p>
+                        </div>
+                        <span class="exercise-action">Ver dicas <span aria-hidden="true">→</span></span>
+                    </a>
+
+                    <a href="exercicios-fisicos.html" class="exercise-card laranja" aria-label="Abrir exercícios físicos">
+                        <div class="exercise-card-top">
+                            <div class="exercise-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
+                            </div>
+                            <span class="exercise-tag">15–20 minutos</span>
+                        </div>
+                        <div class="exercise-card-copy">
+                            <h3 class="exercise-title">Exercícios físicos</h3>
+                            <p class="exercise-desc">Movimentos simples para fazer com segurança.</p>
+                        </div>
+                        <span class="exercise-action">Ver exercícios <span aria-hidden="true">→</span></span>
+                    </a>
                 </div>
-                <a href="saude-informacoes.html" class="ver-btn">Explorar dicas de bem-estar</a>
-            </div>
+            </section>
 
-            <div class="exercise-card laranja">
-                <div class="exercise-icon">
-                    <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
+            <aside class="tip-box" aria-labelledby="titulo-dica-exercicio">
+                <span class="tip-box-mark" aria-hidden="true">!</span>
+                <div>
+                    <strong id="titulo-dica-exercicio">Comece com calma</strong>
+                    <p>Se sentir dor ou tontura, pare e descanse.</p>
                 </div>
-                <h2 class="exercise-title">Exercícios Físicos</h2>
-                <p class="exercise-desc">Movimente seu corpo com exercícios simples e seguros para o dia a dia.</p>
-                <div class="exercise-info">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    <span>15-20 minutos</span>
-                </div>
-                <a href="exercicios-fisicos.html" class="ver-btn">Ver como fazer</a>
-            </div>
-
-
-            </div>
-
-        <div class="tip-box">
-            <p><strong>Dica:</strong> Antes de começar qualquer exercício, beba um copo de água. Se sentir tontura ou dor, pare imediatamente e descanse.</p>
-        </div>
+            </aside>
+        </main>
     </div>
 
     <footer>
