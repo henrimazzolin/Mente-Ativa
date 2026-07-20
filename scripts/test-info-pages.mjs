@@ -43,7 +43,7 @@ assert.match(logoScript, /claro:\s*'img\/Logopreta\.png'/);
 assert.match(logoScript, /escuro:\s*'img\/Logobranca\.png'/);
 
 const serviceWorker = read('service-worker.js');
-assert.match(serviceWorker, /CACHE_NAME\s*=\s*'mente-ativa-v17'/);
+assert.match(serviceWorker, /CACHE_NAME\s*=\s*'mente-ativa-v18'/);
 assert.match(serviceWorker, /'\/js\/info-navigation\.js'/);
 assert.match(serviceWorker, /'\/img\/darkneutralbkg\.jpeg'/);
 assert.match(serviceWorker, /'\/img\/Logopreta\.png'/);

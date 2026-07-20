@@ -156,18 +156,20 @@ body {
 }
 
 .calendar {
+    width: min(100%, 920px);
     background: var(--cor-fundo-card);
-    border-radius: var(--borda-radius);
-    padding: 24px;
+    border: 3px solid rgba(59, 130, 246, 0.35);
+    border-radius: 20px;
+    padding: clamp(14px, 2vw, 22px);
     box-shadow: var(--sombra);
-    margin-bottom: 30px;
+    margin: 0 auto 24px;
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .calendar-header h2 {
@@ -211,8 +213,8 @@ body {
 .weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: clamp(4px, 1vw, 8px);
+    margin-bottom: 8px;
 }
 
 .weekdays span {
@@ -220,21 +222,24 @@ body {
     font-size: 18px;
     font-weight: 600;
     color: var(--cor-texto-claro);
-    padding: 8px 0;
+    padding: 4px 0;
 }
 
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
+    grid-auto-rows: clamp(60px, 7vh, 68px);
+    gap: clamp(4px, 1vw, 8px);
 }
 
 .day {
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    min-width: 0;
+    min-height: 0;
+    font-size: calc(18px * var(--ma-font-scale, 1));
+    line-height: 1;
     font-weight: 500;
     border-radius: 12px;
     cursor: pointer;
@@ -242,52 +247,68 @@ body {
     position: relative;
 }
 
-.day:hover {
+.day-number {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(56px, 100%);
+    height: auto;
+    max-height: 100%;
+    aspect-ratio: 1;
+    padding-bottom: 2px;
+    border-radius: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.day:hover .day-number {
     background: var(--cor-fundo);
+    transform: translateY(-1px);
 }
 
 .day.empty {
     cursor: default;
 }
 
-.day.today {
+.day.today .day-number {
     background: var(--cor-primaria);
     color: white;
     font-weight: 700;
 }
 
-.day.has-event {
-    position: relative;
+.day.has-event .day-number {
     background: rgba(59, 130, 246, 0.08);
 }
 
-.day.has-event::after {
+.day.has-event .day-number::after {
     content: '';
     position: absolute;
-    bottom: 4px;
-    width: 8px;
-    height: 8px;
+    bottom: 3px;
+    width: 7px;
+    height: 7px;
     background: #3B82F6;
     border-radius: 50%;
     box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
 }
 
-.day.today.has-event::after {
+.day.today.has-event .day-number::after,
+.day.selected.has-event .day-number::after {
     background: white;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
 }
 
-.day.today.has-event {
+.day.today.has-event .day-number {
     background: var(--cor-primaria);
 }
 
-.day.selected {
+.day.selected .day-number {
     background: var(--cor-secundaria);
     color: white;
     font-weight: 700;
 }
 
 .events-list {
+    width: min(100%, 920px);
+    margin: 0 auto;
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);
     padding: 24px;
@@ -420,9 +441,9 @@ body {
 }
 
 .add-event-btn {
-    width: 100%;
+    width: min(100%, 920px);
     padding: 16px 24px;
-    margin-top: 20px;
+    margin: 20px auto 0;
     background: var(--cor-primaria);
     color: white;
     border: none;
@@ -605,12 +626,18 @@ body {
     }
     
     .calendar {
-        padding: 16px;
+        padding: 12px;
+        border-width: 2px;
     }
     
     .day {
-        font-size: 18px;
-        min-height: 36px;
+        font-size: calc(18px * var(--ma-font-scale, 1));
+        min-height: 0;
+    }
+
+    .day-number {
+        width: min(44px, 100%);
+        border-radius: 12px;
     }
     
     .weekday {
@@ -644,10 +671,6 @@ body {
     .container {
         padding: 20px 12px;
         overflow-x: hidden;
-    }
-    
-    .calendar {
-        padding: 12px;
     }
     
     .modal-overlay .modal {
@@ -706,12 +729,16 @@ body {
 
     .calendar {
         padding: 8px;
-        gap: 4px;
     }
 
     .day {
-        font-size: 14px;
-        min-height: 28px;
+        font-size: calc(14px * var(--ma-font-scale, 1));
+        min-height: 0;
+    }
+
+    .day-number {
+        width: min(40px, 100%);
+        border-radius: 10px;
     }
 
     .weekday {

@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const styles = readFileSync(resolve(ROOT, 'css/responsive.css'), 'utf8');
+const calendarStyles = readFileSync(resolve(ROOT, 'css/calendario.css'), 'utf8');
+const calendarScript = readFileSync(resolve(ROOT, 'js/calendario.js'), 'utf8');
 
 const ranges = [
     { label: 'celular muito pequeno', min: 320, max: 359, gutter: 10 },
@@ -40,5 +42,14 @@ assert.match(styles, /--ma-layout-max:\s*1440px/);
 assert.match(styles, /--ma-content-max:\s*1200px/);
 assert.match(styles, /--ma-card-gap:\s*24px/);
 assert.match(styles, /grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
+assert.match(styles, /body\.calendar-page \.calendar\s*\{[\s\S]*width:\s*min\(100%, 920px\)[\s\S]*margin-inline:\s*auto/);
+assert.match(styles, /body\.calendar-page \.events-list,[\s\S]*body\.calendar-page \.add-event-btn\s*\{[\s\S]*width:\s*min\(100%, 920px\)/);
+assert.match(styles, /body\.calendar-page \.days\s*\{[\s\S]*grid-auto-rows:\s*clamp\(60px, 7vh, 68px\)/);
+assert.match(styles, /@media \(min-width:\s*769px\) and \(max-height:\s*800px\)[\s\S]*grid-auto-rows:\s*clamp\(52px, 6\.5vh, 58px\)/);
+assert.doesNotMatch(calendarStyles, /\.day\s*\{[^}]*aspect-ratio:\s*1/);
+assert.match(calendarStyles, /\.calendar\s*\{[\s\S]*border:\s*3px solid rgba\(59, 130, 246, 0\.35\)/);
+assert.match(calendarStyles, /\.day\.selected \.day-number\s*\{[\s\S]*background:\s*var\(--cor-secundaria\)/);
+assert.match(calendarScript, /dayNumber\.className\s*=\s*'day-number'/);
+assert.match(calendarScript, /while \(daysDiv\.childElementCount < 42\)/);
 
 console.log('Matriz responsiva de 320 px a ultrawide validada.');

@@ -7,6 +7,8 @@ import { JSDOM } from 'jsdom';
 const ROOT = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const script = readFileSync(resolve(ROOT, 'js/accessibility-unified.js'), 'utf8');
 const styles = readFileSync(resolve(ROOT, 'css/dark-mode.css'), 'utf8');
+const menuStyles = readFileSync(resolve(ROOT, 'css/menu.css'), 'utf8');
+const calendarStyles = readFileSync(resolve(ROOT, 'css/calendario.css'), 'utf8');
 const assistantScript = readFileSync(resolve(ROOT, 'js/assistente-flutuante.js'), 'utf8');
 const assistantStyles = readFileSync(resolve(ROOT, 'css/assistente-flutuante.css'), 'utf8');
 
@@ -52,6 +54,12 @@ for (let i = 0; i < 2; i++) increaseFont.click();
 assert.equal(fontPercentage.textContent, '140%');
 assert.equal(document.documentElement.style.getPropertyValue('--ma-font-scale'), '1.4');
 assert.equal(document.body.style.fontSize, '20px', 'A escala nao deve deformar tabuleiros e simbolos pelo body.');
+assert.match(menuStyles, /\.menu-btn \.text\s*\{[\s\S]*font-size:\s*calc\(1\.125rem \* var\(--ma-font-scale, 1\)\)/,
+    'Os textos dos cards do menu devem acompanhar a escala de fonte.');
+assert.match(menuStyles, /\.menu-btn \.icon svg\s*\{[\s\S]*width:\s*28px;[\s\S]*height:\s*28px;/,
+    'Os SVGs do menu devem manter dimensoes independentes da escala de fonte.');
+assert.match(calendarStyles, /\.day\s*\{[\s\S]*font-size:\s*calc\(18px \* var\(--ma-font-scale, 1\)\)/,
+    'Os numeros do calendario devem acompanhar a escala de fonte.');
 
 assert.match(styles, /--ma-panel-width:\s*360px/);
 assert.match(styles, /--ma-control-height:\s*72px/);

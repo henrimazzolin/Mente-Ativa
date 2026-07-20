@@ -316,13 +316,13 @@ function testarNavegacaoInformativa() {
     }
 }
 
-function testarCentralizacaoDoMenu() {
+function testarPadronizacaoDoHeaderDoMenu() {
     const html = read('menu.html');
     const responsive = read('css/responsive.css');
-    assert.match(html, /<body class="menu-page">/);
-    assert.match(html, /class="header menu-header-centralizado" id="menuHeader"/);
-    assert.match(responsive, /body\.menu-page #menuHeader\.menu-header-centralizado > \.logo[\s\S]*left:\s*50%[\s\S]*transform:\s*translate\(-50%, -50%\)/);
-    assert.match(responsive, /body\.menu-page #menuHeader\.menu-header-centralizado \.logo-icon img[\s\S]*object-position:\s*center/);
+    assert.match(html, /<div class="header">/);
+    assert.doesNotMatch(html, /menu-header-centralizado|id="menuHeader"/);
+    assert.doesNotMatch(responsive, /menu-header-centralizado|#menuHeader/);
+    assert.match(responsive, /body:has\(\.header \.back-btn\) \.container > \.header\s*\{[\s\S]*grid-template-columns:\s*48px minmax\(0, 1fr\) 48px[\s\S]*padding:\s*12px 14px/);
 }
 
 testarConfirmacao();
@@ -334,6 +334,6 @@ testarPintura();
 testarCacaPalavrasComIntersecao();
 testarFluxosEPadronizacao();
 testarNavegacaoInformativa();
-testarCentralizacaoDoMenu();
+testarPadronizacaoDoHeaderDoMenu();
 
 console.log('Correcoes do QA validadas.');

@@ -178,7 +178,7 @@ body {
 }
 
 .menu-btn.assistente .text {
-    font-size: 1.25rem;
+    font-size: calc(1.25rem * var(--ma-font-scale, 1));
 }
 
 .menu-btn .icon {
@@ -204,7 +204,7 @@ body {
 }
 
 .menu-btn .text {
-    font-size: 1.125rem;
+    font-size: calc(1.125rem * var(--ma-font-scale, 1));
     font-weight: 600;
     color: var(--cor-texto);
 }
@@ -308,7 +308,7 @@ body {
     }
 
     .menu-btn .text {
-        font-size: 1.125rem;
+        font-size: calc(1.125rem * var(--ma-font-scale, 1));
     }
 
     .menu-btn.assistente {
@@ -336,11 +336,11 @@ body {
     }
 
     .menu-btn .text {
-        font-size: 1rem;
+        font-size: calc(1rem * var(--ma-font-scale, 1));
     }
 
     .menu-btn.assistente .text {
-        font-size: 1.125rem;
+        font-size: calc(1.125rem * var(--ma-font-scale, 1));
     }
 
     .logo-icon {
@@ -379,11 +379,11 @@ body {
     }
 
     .menu-btn .text {
-        font-size: 0.875rem;
+        font-size: calc(0.875rem * var(--ma-font-scale, 1));
     }
 
     .menu-btn.assistente .text {
-        font-size: 1rem;
+        font-size: calc(1rem * var(--ma-font-scale, 1));
     }
 
     .logo-icon {

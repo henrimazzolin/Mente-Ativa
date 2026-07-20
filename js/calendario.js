@@ -169,7 +169,11 @@ function renderizarCalendario() {
     for (let dia = 1; dia <= diasNoMes; dia++) {
         const dayDiv = document.createElement('div');
         dayDiv.className = 'day';
-        dayDiv.textContent = dia;
+
+        const dayNumber = document.createElement('span');
+        dayNumber.className = 'day-number';
+        dayNumber.textContent = dia;
+        dayDiv.appendChild(dayNumber);
 
         const dataStr = `${ano}-${mes + 1}-${dia}`;
 
@@ -191,6 +195,12 @@ function renderizarCalendario() {
             }
         });
 
+        daysDiv.appendChild(dayDiv);
+    }
+
+    while (daysDiv.childElementCount < 42) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'day empty';
         daysDiv.appendChild(dayDiv);
     }
 }
