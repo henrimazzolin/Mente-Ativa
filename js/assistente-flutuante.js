@@ -61,6 +61,58 @@ var FAQ = [
     }
 ];
 
+/* Perguntas curtas, orientadas a tarefas e compatíveis com o site atual. */
+FAQ = [
+    {
+        pergunta: 'Como escolho a forma de usar o site?',
+        resposta: '<strong>1.</strong> Na página inicial, escolha <strong>Usar sozinho</strong> para jogos individuais.<br><br><strong>2.</strong> Escolha <strong>Usar com ajuda</strong> para atividades simples feitas com um familiar ou cuidador.'
+    },
+    {
+        pergunta: 'Como escolho um jogo?',
+        resposta: '<strong>1.</strong> Abra Jogos no menu.<br><br><strong>2.</strong> Escolha Jogos individuais ou Jogos acompanhados.<br><br><strong>3.</strong> Toque no cartão do jogo desejado.'
+    },
+    {
+        pergunta: 'Como escolho a dificuldade?',
+        resposta: 'Nos jogos que oferecem níveis, toque em <strong>Fácil</strong>, <strong>Médio</strong> ou <strong>Difícil</strong>. Comece pelo Fácil e mude quando se sentir confortável.'
+    },
+    {
+        pergunta: 'Onde vejo as regras do jogo?',
+        resposta: 'Leia a caixa de instruções no início da página. Ela explica o objetivo e a ação principal. Os vídeos de demonstração serão adicionados futuramente.'
+    },
+    {
+        pergunta: 'Como começo uma nova rodada?',
+        resposta: 'Toque em <strong>Reiniciar</strong> ou <strong>Nova rodada</strong>. Quando aparecer uma confirmação, escolha Confirmar. O progresso da rodada atual será apagado.'
+    },
+    {
+        pergunta: 'Como aumento as letras ou ativo o modo escuro?',
+        resposta: '<strong>1.</strong> Abra o botão de acessibilidade no canto da tela.<br><br><strong>2.</strong> Use + ou − para ajustar as letras.<br><br><strong>3.</strong> Ative o modo escuro se preferir um fundo escuro.'
+    },
+    {
+        pergunta: 'Como faço o site ler um texto?',
+        resposta: 'Quando houver um botão de áudio ao lado do título ou texto, toque nele para ouvir. Toque novamente para interromper a leitura.'
+    },
+    {
+        pergunta: 'Como adiciono uma atividade ao calendário?',
+        resposta: '<strong>1.</strong> Abra o Calendário.<br><br><strong>2.</strong> Selecione o dia.<br><br><strong>3.</strong> Toque em Adicionar atividade, preencha os dados e escolha Salvar.'
+    },
+    {
+        pergunta: 'Onde encontro informações de saúde?',
+        resposta: 'Abra <strong>Saúde e bem-estar</strong> no menu. Os textos e vídeos são educativos e não substituem a orientação de um profissional de saúde.'
+    },
+    {
+        pergunta: 'Como reconhecer uma possível fraude?',
+        resposta: 'Desconfie de urgência, pedidos de senha, links inesperados e pedidos de pagamento. Antes de agir, confirme a mensagem por outro telefone ou canal oficial.'
+    },
+    {
+        pergunta: 'Quais dados ficam salvos neste aparelho?',
+        resposta: 'O site pode guardar preferências de acessibilidade, atividades do calendário e cores favoritas da Pintura. Consulte a página de Privacidade para ver os detalhes.'
+    },
+    {
+        pergunta: 'Como volto para a página anterior?',
+        resposta: 'Toque na seta no canto superior esquerdo. Para ir ao início, continue usando a seta até chegar ao menu principal.'
+    }
+];
+
 document.addEventListener('DOMContentLoaded', function () {
 
     var faqHTML = '';
@@ -93,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
         <div class="faq-modal-overlay" id="faqModalOverlay">
-            <div class="faq-modal" role="dialog" aria-modal="true" aria-labelledby="faqModalTitle">
+            <div class="faq-modal ma-modal-surface" role="dialog" aria-modal="true" aria-labelledby="faqModalTitle" aria-describedby="faqModalBody">
                 <button class="faq-modal-close" id="faqModalClose" aria-label="Fechar">&times;</button>
                 <div class="faq-modal-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -119,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var modalTitle = document.getElementById('faqModalTitle');
     var modalBody = document.getElementById('faqModalBody');
     var modalBtn = document.getElementById('faqModalBtn');
+    var modalOpener = null;
 
     function openAssistente() {
         overlay.classList.add('open');
@@ -138,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function openModal(index) {
         var item = FAQ[index];
         if (!item) return;
+        modalOpener = document.activeElement;
         modalTitle.textContent = item.pergunta;
         modalBody.innerHTML = item.resposta;
         modalOverlay.classList.add('open');
@@ -148,6 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function closeModal() {
         modalOverlay.classList.remove('open');
         document.body.style.overflow = '';
+        if (modalOpener && document.contains(modalOpener)) modalOpener.focus();
+        modalOpener = null;
     }
 
     trigger.addEventListener('click', function () {

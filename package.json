@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "check": "node scripts/validate.mjs && node scripts/test-accessibility.mjs && node scripts/test-privacy.mjs && node scripts/test-responsive.mjs && node scripts/test-info-pages.mjs && node scripts/test-qa-fixes.mjs",
+    "check": "node scripts/validate.mjs && node scripts/test-accessibility.mjs && node scripts/test-privacy.mjs && node scripts/test-responsive.mjs && node scripts/test-info-pages.mjs && node scripts/test-qa-fixes.mjs && node scripts/test-backlog-upgrades.mjs",
     "check:js": "node scripts/validate.mjs --js-only",
     "test:accessibility": "node scripts/test-accessibility.mjs",
     "test:privacy": "node scripts/test-privacy.mjs",

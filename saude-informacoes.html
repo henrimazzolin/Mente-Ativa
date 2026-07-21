@@ -43,21 +43,23 @@
                 <p>Cuidados simples para uma rotina mais saudável.</p>
             </div>
 
-            <article class="media-card" aria-labelledby="titulo-video-saude">
-                <div class="video-container">
-                    <video controls preload="metadata" playsinline poster="img/video/dicas-alimentacao-saudavel-thumb.png" aria-label="Vídeo com dicas de alimentação saudável">
-                        <source src="img/video/WhatsApp%20Video%202026-06-01%20at%205.17.22%20PM.mp4" type="video/mp4">
-                        Seu navegador não suporta vídeos.
-                    </video>
+            <section class="media-card video-carousel" data-video-carousel aria-labelledby="titulo-video-saude" tabindex="0">
+                <div class="video-slides">
+                    <article class="video-slide active" data-video-slide>
+                        <div class="video-container"><video controls preload="metadata" playsinline poster="img/video/dicas-alimentacao-saudavel-thumb.png" aria-label="Vídeo com dicas de alimentação saudável"><source src="img/video/WhatsApp%20Video%202026-06-01%20at%205.17.22%20PM.mp4" type="video/mp4">Seu navegador não suporta vídeos.</video></div>
+                        <div class="media-summary"><div><span class="eyebrow">Vídeo 1</span><h2 id="titulo-video-saude">Alimentação saudável no dia a dia</h2></div><p>Orientações práticas para montar refeições variadas.</p></div>
+                    </article>
+                    <article class="video-slide" data-video-slide hidden>
+                        <div class="video-container video-embed" data-youtube-id="rDQv4IJMhT0"><a href="https://www.youtube.com/watch?v=rDQv4IJMhT0" target="_blank" rel="noopener">Assistir no YouTube: Dez passos para Alimentação Saudável</a></div>
+                        <div class="media-summary"><div><span class="eyebrow">Ministério da Saúde</span><h2>Dez passos para alimentação saudável</h2></div><p>Escolhas simples para valorizar alimentos naturais.</p></div>
+                    </article>
+                    <article class="video-slide" data-video-slide hidden>
+                        <div class="video-container video-embed" data-youtube-id="5zH6VZd_SZs"><a href="https://www.youtube.com/watch?v=5zH6VZd_SZs" target="_blank" rel="noopener">Assistir no YouTube: O que é ultraprocessado?</a></div>
+                        <div class="media-summary"><div><span class="eyebrow">Ministério da Saúde</span><h2>O que é ultraprocessado?</h2></div><p>Aprenda a reconhecer produtos que devem ser consumidos com moderação.</p></div>
+                    </article>
                 </div>
-                <div class="media-summary">
-                    <div>
-                        <span class="eyebrow">Vídeo em destaque</span>
-                        <h2 id="titulo-video-saude">Alimentação saudável</h2>
-                    </div>
-                    <p>Orientações práticas da nossa nutricionista.</p>
-                </div>
-            </article>
+                <nav class="carousel-controls" aria-label="Navegação entre vídeos"><button type="button" data-carousel-prev aria-label="Vídeo anterior">← Anterior</button><span data-carousel-status aria-live="polite">Vídeo 1 de 3</span><button type="button" data-carousel-next aria-label="Próximo vídeo">Próximo →</button></nav>
+            </section>
 
             <div class="section-heading">
                 <h2>Cuidados para todos os dias</h2>
@@ -69,7 +71,7 @@
                     <div class="tip-number" aria-hidden="true">1</div>
                     <div class="tip-content">
                         <h3>Hidrate-se</h3>
-                        <p>Beba água ao longo do dia.</p>
+                        <p>Beba água ao longo do dia, mesmo antes de sentir sede. <a href="https://www.gov.br/saude/pt-br/assuntos/saude-brasil/eu-quero-me-alimentar-melhor/noticias/2017/idosos-precisam-ter-ainda-mais-atencao-com-a-hidratacao/" target="_blank" rel="noopener">Fonte oficial</a>.</p>
                     </div>
                 </article>
 
@@ -77,7 +79,7 @@
                     <div class="tip-number" aria-hidden="true">2</div>
                     <div class="tip-content">
                         <h3>Coma bem</h3>
-                        <p>Prefira frutas, verduras e alimentos naturais.</p>
+                        <p>Prefira frutas, verduras, feijões e alimentos naturais. <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-da-pessoa-idosa" target="_blank" rel="noopener">Saiba mais</a>.</p>
                     </div>
                 </article>
 
@@ -85,15 +87,15 @@
                     <div class="tip-number" aria-hidden="true">3</div>
                     <div class="tip-content">
                         <h3>Movimente-se</h3>
-                        <p>Caminhe, alongue ou dance todos os dias.</p>
+                        <p>Escolha um movimento adequado à sua condição e rotina. <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-da-pessoa-idosa/atividade-fisica" target="_blank" rel="noopener">Orientações</a>.</p>
                     </div>
                 </article>
 
                 <article class="tip-card quick-tip">
                     <div class="tip-number" aria-hidden="true">4</div>
                     <div class="tip-content">
-                        <h3>Durma bem</h3>
-                        <p>Mantenha horários regulares para descansar.</p>
+                        <h3>Previna quedas</h3>
+                        <p>Mantenha caminhos iluminados, livres de tapetes soltos e obstáculos.</p>
                     </div>
                 </article>
             </section>
@@ -113,6 +115,7 @@
         <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
             <a href="sobre.html" class="sobre-footer">Sobre</a>
     </footer>
+    <script src="js/info-carousel.js"></script>
     <script src="js/assistente-flutuante.js"></script>
     <script src="js/alerts.js"></script>
     

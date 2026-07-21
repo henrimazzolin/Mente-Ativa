@@ -9,19 +9,29 @@ document.addEventListener('DOMContentLoaded', function() {
     var selectionStart = null;
     var isDragging = false;
     var lastTouchCell = null;
+    var lastThemeKey = null;
+    var lastRoundSignature = null;
 
     var WORD_POOL = {
-        natureza: ['SOL', 'MAR', 'RIO', 'VENTO', 'NUVEM', 'CAMPO', 'JARDIM', 'FLORESTA', 'MONTANHA', 'CACHOEIRA', 'PASSARO', 'ESTRELA', 'SEMENTE', 'CAMINHO', 'ARVORE'],
-        saude: ['FOCO', 'MENTE', 'CORPO', 'SONO', 'VITAL', 'SAUDE', 'MEMORIA', 'ATENCAO', 'ENERGIA', 'RESPIRAR', 'POSITIVO', 'CEREBRO', 'RELAXAR', 'BEMESTAR'],
-        alimento: ['AGUA', 'FIBRA', 'FRUTA', 'MILHO', 'ARROZ', 'CEREAL', 'VITAMINA', 'PROTEINA', 'NATURAL', 'VERDURA', 'LEGUME', 'SALADA', 'FEIJAO'],
-        cultura: ['ARTE', 'LIVRO', 'RITMO', 'LENDA', 'DANCA', 'MUSICA', 'LEITURA', 'ESCRITA', 'HISTORIA', 'CINEMA', 'TEATRO', 'POESIA']
+        natureza: ['SOL','MAR','RIO','VENTO','NUVEM','CAMPO','JARDIM','FLORESTA','MONTANHA','CACHOEIRA','PASSARO','ESTRELA','SEMENTE','CAMINHO','ARVORE','FOLHA','PEDRA','LAGOA','CHUVA','PRAIA'],
+        saude: ['FOCO','MENTE','CORPO','SONO','VITAL','SAUDE','MEMORIA','ATENCAO','ENERGIA','RESPIRAR','POSITIVO','CEREBRO','RELAXAR','BEMESTAR','CUIDADO','DESCANSO','ALEGRIA','ROTINA','CALMA','EQUILIBRIO'],
+        alimento: ['AGUA','FIBRA','FRUTA','MILHO','ARROZ','CEREAL','VITAMINA','PROTEINA','NATURAL','VERDURA','LEGUME','SALADA','FEIJAO','BANANA','LARANJA','TOMATE','CENOURA','QUEIJO','ABACATE','ABOBORA'],
+        cultura: ['ARTE','LIVRO','RITMO','LENDA','DANCA','MUSICA','LEITURA','ESCRITA','HISTORIA','CINEMA','TEATRO','POESIA','PINTURA','MUSEU','CORDEL','CANCAO','FESTA','ROMANCE','PALCO','AUTOR'],
+        animais: ['GATO','CAO','PATO','VACA','CAVALO','COELHO','PEIXE','ABELHA','BORBOLETA','GALINHA','TUCANO','ARARA','CORUJA','MACACO','ONCA','CAPIVARA','TARTARUGA','GIRAFA','ELEFANTE','FORMIGA'],
+        casa: ['MESA','CADEIRA','PORTA','JANELA','QUARTO','COZINHA','SALA','SOFA','TAPETE','ARMARIO','PANELA','PRATO','COLHER','TOALHA','CHAVE','VASO','CAMA','LIVRO','RELOGIO','ABAJUR'],
+        viagens: ['MAPA','MALA','TREM','NAVIO','ONIBUS','PRAIA','HOTEL','PONTE','ESTRADA','PASSEIO','CIDADE','CAMINHO','BILHETE','PARADA','PRACA','PORTO','AEROPORTO','DESTINO','VIAGEM','ROTEIRO'],
+        musica: ['SOM','VOZ','RITMO','NOTA','CANTO','SAMBA','FORRO','VALSA','VIOLAO','PIANO','FLAUTA','TAMBOR','SINO','CORAL','MELODIA','CANCAO','DANCA','PALMAS','RADIO','BOLERO']
     };
 
     var THEME_NAMES = {
         natureza: 'Natureza',
         saude: 'Sa\u00fade',
         alimento: 'Alimenta\u00e7\u00e3o',
-        cultura: 'Cultura'
+        cultura: 'Cultura',
+        animais: 'Animais',
+        casa: 'Casa',
+        viagens: 'Viagens',
+        musica: 'Música'
     };
 
     function getConfig(level) {
@@ -77,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             for (var j = 0; j < size; j++) grid[i][j] = '';
         }
 
-        var themeKeys = Object.keys(WORD_POOL);
+        var themeKeys = Object.keys(WORD_POOL).filter(function(key) { return key !== lastThemeKey; });
         var themeKey = themeKeys[rand(0, themeKeys.length - 1)];
         var pool = shuffleArray(WORD_POOL[themeKey].slice());
 
@@ -92,6 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         var chosen = eligible.slice(0, Math.min(cfg.wordCount, eligible.length));
+        var signature = themeKey + ':' + chosen.slice().sort().join(',');
+        if (signature === lastRoundSignature) {
+            pool = shuffleArray(WORD_POOL[themeKey].slice());
+            chosen = pool.filter(function(w) { return w.length >= cfg.minLen && w.length <= cfg.maxLen; }).slice(0, cfg.wordCount);
+            signature = themeKey + ':' + chosen.slice().sort().join(',');
+        }
         chosen.sort(function(a, b) { return b.length - a.length; });
 
         var dirs = getAvailableDirections(cfg.diagonal, cfg.reverse);
@@ -144,6 +160,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        lastThemeKey = themeKey;
+        lastRoundSignature = signature;
         return { grid: grid, placed: placed, remaining: remaining, size: size, themeKey: themeKey };
     }
 
@@ -218,9 +236,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!cells) return;
 
         var word = extractWord(cells);
+        var reversedWord = word.split('').reverse().join('');
     var idx = remainingWords.indexOf(word);
+    if (idx === -1) idx = remainingWords.indexOf(reversedWord);
     if (idx !== -1) {
-        foundWords.push(word);
+        var canonicalWord = remainingWords[idx];
+        foundWords.push(canonicalWord);
         remainingWords.splice(idx, 1);
 
         cells.forEach(function(c) {
@@ -229,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             document.querySelectorAll('.word-item').forEach(function(item) {
-                if (item.dataset.word === word) item.classList.add('found');
+                if (item.dataset.word === canonicalWord) item.classList.add('found');
             });
 
             document.getElementById('score').textContent = foundWords.length;
@@ -297,10 +318,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderGrid() {
         var container = document.getElementById('gridContainer');
+        var wordListSection = document.querySelector('.word-list-section');
         container.innerHTML = '';
         container.style.setProperty('--grid-size', String(gridData.length));
         container.style.gridTemplateColumns = 'repeat(' + gridData.length + ', minmax(0, 1fr))';
         container.style.maxWidth = (gridData.length * 52 + (gridData.length - 1) * 3 + 32) + 'px';
+        if (wordListSection) {
+            wordListSection.style.maxWidth = container.style.maxWidth;
+        }
 
         for (var r = 0; r < gridData.length; r++) {
             for (var c = 0; c < gridData[r].length; c++) {

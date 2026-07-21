@@ -24,6 +24,8 @@ class ChessEngine {
         this.enPassantTarget = null;
         this.direitos_roque = { WK: true, WQ: true, BK: true, BQ: true };
         this.reiPosicoes = { W: { linha: 7, coluna: 4 }, B: { linha: 0, coluna: 4 } };
+        this.repeticoes = new Map();
+        this.registrarPosicaoAtual();
     }
 
     inicializarTabuleiro() {
@@ -265,11 +267,24 @@ class ChessEngine {
         
         if (!movimentoValido) return false;
         
+        const pecaCapturada = this.tabuleiro[linhaDestino][colunaDestino];
+        const houveCaptura = Boolean(pecaCapturada) || Boolean(movimentoValido.enPassant);
+
         // Salvar histórico
         this.historico.push({
             linhaOrigem, colunaOrigem, linhaDestino, colunaDestino,
-            pecaCapturada: this.tabuleiro[linhaDestino][colunaDestino],
-            movimentoEspecial: movimentoValido
+            pecaCapturada: pecaCapturada,
+            movimentoEspecial: movimentoValido,
+            estadoAnterior: {
+                tabuleiro: this.tabuleiro.map(linha => linha.map(p => p ? {...p} : null)),
+                turno: this.turno,
+                halfmoveClock: this.halfmoveClock,
+                fullmoveNumber: this.fullmoveNumber,
+                enPassantTarget: this.enPassantTarget ? {...this.enPassantTarget} : null,
+                direitos_roque: {...this.direitos_roque},
+                reiPosicoes: { W: {...this.reiPosicoes.W}, B: {...this.reiPosicoes.B} },
+                repeticoes: new Map(this.repeticoes)
+            }
         });
         
         // Executar movimento
@@ -329,7 +344,7 @@ class ChessEngine {
         }
         
         // Atualizar halfmove clock
-        if (peca.tipo === PEAO || this.tabuleiro[linhaDestino][colunaDestino]) {
+        if (peca.tipo === PEAO || houveCaptura) {
             this.halfmoveClock = 0;
         } else {
             this.halfmoveClock++;
@@ -338,6 +353,7 @@ class ChessEngine {
         // Alternar turno
         this.turno = this.turno === BRANCO ? PRETO : BRANCO;
         if (this.turno === BRANCO) this.fullmoveNumber++;
+        this.registrarPosicaoAtual();
         
         return true;
     }
@@ -346,11 +362,16 @@ class ChessEngine {
         if (this.historico.length === 0) return false;
         
         const ultimo = this.historico.pop();
-        this.tabuleiro[ultimo.linhaOrigem][ultimo.colunaOrigem] = 
-            this.tabuleiro[ultimo.linhaDestino][ultimo.colunaDestino];
-        this.tabuleiro[ultimo.linhaDestino][ultimo.colunaDestino] = ultimo.pecaCapturada;
-        
-        this.turno = this.turno === BRANCO ? PRETO : BRANCO;
+        if (ultimo.estadoAnterior) {
+            this.tabuleiro = ultimo.estadoAnterior.tabuleiro.map(linha => linha.map(p => p ? {...p} : null));
+            this.turno = ultimo.estadoAnterior.turno;
+            this.halfmoveClock = ultimo.estadoAnterior.halfmoveClock;
+            this.fullmoveNumber = ultimo.estadoAnterior.fullmoveNumber;
+            this.enPassantTarget = ultimo.estadoAnterior.enPassantTarget ? {...ultimo.estadoAnterior.enPassantTarget} : null;
+            this.direitos_roque = {...ultimo.estadoAnterior.direitos_roque};
+            this.reiPosicoes = { W: {...ultimo.estadoAnterior.reiPosicoes.W}, B: {...ultimo.estadoAnterior.reiPosicoes.B} };
+            this.repeticoes = new Map(ultimo.estadoAnterior.repeticoes);
+        }
         return true;
     }
 
@@ -446,29 +467,43 @@ class ChessEngine {
         return this.emXeque() && movimentos.length === 0;
     }
 
-    ehEmpate() {
+    obterMotivoEmpate() {
         const movimentos = this.obterMovimentosValidosGlobal(this.turno);
-        if (!this.emXeque() && movimentos.length === 0) return true;
-        if (this.temMaterialInsuficiente()) return true;
-        return false;
+        if (!this.emXeque() && movimentos.length === 0) return 'afogamento';
+        if (this.temMaterialInsuficiente()) return 'material-insuficiente';
+        if (this.halfmoveClock >= 100) return 'cinquenta-lances';
+        if ((this.repeticoes.get(this.chavePosicao()) || 0) >= 3) return 'repeticao-tripla';
+        return null;
+    }
+
+    ehEmpate() {
+        return this.obterMotivoEmpate() !== null;
     }
 
     temMaterialInsuficiente() {
-        let pecas = { W: [], B: [] };
+        const pecas = [];
         for (let l = 0; l < 8; l++) {
             for (let c = 0; c < 8; c++) {
                 const p = this.tabuleiro[l][c];
-                if (p) pecas[p.cor].push(p.tipo);
+                if (p && p.tipo !== REI) pecas.push({ tipo: p.tipo, linha: l, coluna: c });
             }
         }
-        const total = pecas.W.length + pecas.B.length;
-        if (total <= 2) return true;
-        if (total === 3) {
-            const soRei = (arr) => arr.length === 1;
-            const soReiEUm = (arr) => arr.length === 2 && (arr.includes(BISPO) || arr.includes(CAVALO));
-            if ((soRei(pecas.W) && soReiEUm(pecas.B)) || (soRei(pecas.B) && soReiEUm(pecas.W))) return true;
+        if (pecas.length === 0) return true;
+        if (pecas.length === 1 && (pecas[0].tipo === BISPO || pecas[0].tipo === CAVALO)) return true;
+        if (pecas.every(p => p.tipo === BISPO)) {
+            const corCasa = (pecas[0].linha + pecas[0].coluna) % 2;
+            return pecas.every(p => (p.linha + p.coluna) % 2 === corCasa);
         }
         return false;
+    }
+
+    chavePosicao() {
+        return this.obterFEN().split(' ').slice(0, 4).join(' ');
+    }
+
+    registrarPosicaoAtual() {
+        const chave = this.chavePosicao();
+        this.repeticoes.set(chave, (this.repeticoes.get(chave) || 0) + 1);
     }
 
     obterFEN() {
@@ -512,7 +547,7 @@ class ChessEngine {
 
     copiar() {
         const novoJogo = new ChessEngine();
-        novoJogo.tabuleiro = this.tabuleiro.map(linha => [...linha]);
+        novoJogo.tabuleiro = this.tabuleiro.map(linha => linha.map(p => p ? {...p} : null));
         novoJogo.turno = this.turno;
         novoJogo.historico = [...this.historico];
         novoJogo.halfmoveClock = this.halfmoveClock;
@@ -523,6 +558,7 @@ class ChessEngine {
             W: {...this.reiPosicoes.W},
             B: {...this.reiPosicoes.B}
         };
+        novoJogo.repeticoes = new Map(this.repeticoes);
         return novoJogo;
     }
 
@@ -535,5 +571,7 @@ class ChessEngine {
         this.enPassantTarget = null;
         this.direitos_roque = { WK: true, WQ: true, BK: true, BQ: true };
         this.reiPosicoes = { W: { linha: 7, coluna: 4 }, B: { linha: 0, coluna: 4 } };
+        this.repeticoes = new Map();
+        this.registrarPosicaoAtual();
     }
 }

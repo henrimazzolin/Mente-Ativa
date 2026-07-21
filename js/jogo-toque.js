@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
             grid.innerHTML = '';
             
             for (let i = 0; i < TOTAL_CELULAS; i++) {
-                const cell = document.createElement('div');
+                const cell = document.createElement('button');
+                cell.type = 'button';
                 cell.className = 'cell';
                 cell.dataset.index = i;
                 cell.addEventListener('click', function() { clicarCelula(i, this); });
+                cell.setAttribute('aria-label', 'Quadrado ' + (i + 1));
                 grid.appendChild(cell);
             }
         }
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             posicaoVerde = Math.floor(Math.random() * TOTAL_CELULAS);
             cells[posicaoVerde].classList.add('green');
+            cells.forEach(function(cell, index) { cell.setAttribute('aria-label', index === posicaoVerde ? 'Quadrado verde. Toque aqui.' : 'Quadrado vazio'); });
             aguardandoProxima = false;
         }
 
@@ -53,7 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     cell.classList.remove('wrong');
                 }, 400);
                 
-                mostrarFeedback(false, 'Tente novamente!', 'Clique no quadrado verde');
+                document.querySelector('.instruction-text').textContent = 'QUASE! PROCURE O QUADRADO VERDE';
+                setTimeout(function() { document.querySelector('.instruction-text').textContent = 'TOQUE NO QUADRADO VERDE'; }, 700);
             }
         }
 

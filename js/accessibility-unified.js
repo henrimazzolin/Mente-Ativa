@@ -441,11 +441,115 @@
         STORAGE_KEYS: STORAGE_KEYS
     };
 
+    function adicionarVideoComoJogar() {
+        var pagina = (window.location.pathname.split('/').pop() || '').toLowerCase();
+        var jogos = {
+            'jogo-palavras-cruzadas.html': 'palavras-cruzadas',
+            'jogo-sudoku.html': 'sudoku',
+            'jogo-memoria.html': 'memoria',
+            'jogo-quebra-cabeca.html': 'quebra-cabeca',
+            'jogo-xadrez.html': 'xadrez',
+            'jogo-damas.html': 'damas',
+            'jogo-deducao-logica.html': 'deducao-logica',
+            'jogo-pintura.html': 'pintura',
+            'jogo-caca-palavras.html': 'caca-palavras'
+        };
+        if (!jogos[pagina] || document.querySelector('.how-to-video-card')) return;
+
+        document.querySelectorAll('.instrucao-destaque, .paint-intro').forEach(function(instruction) {
+            instruction.remove();
+        });
+
+        var chave = jogos[pagina];
+        var titulo = document.querySelector('.page-title');
+        if (!titulo) return;
+
+        var card = document.createElement('section');
+        card.className = 'how-to-video-card';
+        card.dataset.videoKey = chave;
+        card.innerHTML = '<p>Veja no vídeo abaixo como jogar.</p>' +
+            '<button type="button" class="how-to-video-trigger" aria-label="Abrir vídeo de como jogar" aria-haspopup="dialog">' +
+                '<span class="how-to-play-icon" aria-hidden="true"></span>' +
+            '</button>';
+        titulo.insertAdjacentElement('afterend', card);
+
+        var overlay = document.createElement('div');
+        overlay.className = 'how-to-video-overlay';
+        overlay.hidden = true;
+        overlay.innerHTML = '<div class="how-to-video-modal" role="dialog" aria-modal="true" aria-labelledby="how-to-video-title-' + chave + '">' +
+            '<div class="how-to-video-modal-header">' +
+                '<h2 id="how-to-video-title-' + chave + '">Como jogar</h2>' +
+                '<button type="button" class="how-to-video-close" aria-label="Fechar vídeo">&times;</button>' +
+            '</div>' +
+            '<div class="how-to-video-content"></div>' +
+        '</div>';
+        document.body.appendChild(overlay);
+
+        var trigger = card.querySelector('.how-to-video-trigger');
+        var closeButton = overlay.querySelector('.how-to-video-close');
+        var content = overlay.querySelector('.how-to-video-content');
+        var configuredVideos = window.MENTE_ATIVA_VIDEOS_COMO_JOGAR || {};
+        var videoSource = configuredVideos[chave] || card.dataset.videoSrc || '';
+
+        if (videoSource) {
+            var video = document.createElement('video');
+            video.controls = true;
+            video.preload = 'metadata';
+            video.src = videoSource;
+            video.setAttribute('playsinline', '');
+            content.appendChild(video);
+        } else {
+            content.innerHTML = '<div class="how-to-video-coming-soon" role="status">' +
+                '<span class="how-to-play-icon" aria-hidden="true"></span>' +
+                '<strong>Vídeo em breve</strong>' +
+            '</div>';
+        }
+
+        function fecharVideo() {
+            var video = content.querySelector('video');
+            if (video) video.pause();
+            overlay.hidden = true;
+            document.body.classList.remove('ma-video-modal-open');
+            trigger.focus();
+        }
+
+        function abrirVideo() {
+            overlay.hidden = false;
+            document.body.classList.add('ma-video-modal-open');
+            closeButton.focus();
+            var video = content.querySelector('video');
+            if (video) video.play().catch(function() {});
+        }
+
+        trigger.addEventListener('click', abrirVideo);
+        closeButton.addEventListener('click', fecharVideo);
+        overlay.addEventListener('click', function(event) {
+            if (event.target === overlay) fecharVideo();
+        });
+        overlay.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') fecharVideo();
+            if (event.key === 'Tab') {
+                var focusables = overlay.querySelectorAll('button, video[controls]');
+                if (!focusables.length) return;
+                var first = focusables[0];
+                var last = focusables[focusables.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
+            }
+        });
+    }
+
     function init() {
         TTS.init();
         dm.init();
         dm.criarBotoes();
         melhorarSemanticaDaPagina();
+        adicionarVideoComoJogar();
         if (storageGet(STORAGE_KEYS.notifications, 'false') === 'true') {
             agendarNotificacaoDiaria();
         }

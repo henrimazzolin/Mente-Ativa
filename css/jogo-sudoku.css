@@ -136,8 +136,8 @@
             display: grid;
             grid-template-columns: repeat(9, 1fr);
             gap: 1px;
-            background: var(--cor-texto);
-            border: 3px solid var(--cor-texto);
+            background: #334155;
+            border: 3px solid #334155;
             margin: 0 auto 25px;
             width: min(100%, 450px);
             max-width: 450px;
@@ -184,11 +184,17 @@
             cursor: pointer;
         }
 
-        .cell input:focus {
-            background: #DBEAFE;
+        .sudoku-grid .cell:focus-within {
+            background: #1D4ED8 !important;
+            box-shadow: inset 0 0 0 3px #1E3A8A;
+            z-index: 2;
         }
 
-        .cell.fixed {
+        .sudoku-grid .cell:focus-within input {
+            color: #FFFFFF !important;
+        }
+
+        .sudoku-grid .cell.fixed {
             background: #E2E8F0;
         }
 
@@ -197,44 +203,47 @@
             cursor: not-allowed;
         }
 
-        .cell.correct {
+        .sudoku-grid .cell.correct {
             background: #DCFCE7;
+            box-shadow: inset 0 0 0 2px #16A34A;
         }
 
         .cell.correct input {
             color: #065F46;
         }
 
-        .cell.wrong {
+        .sudoku-grid .cell.wrong {
             background: #FEE2E2;
+            box-shadow: inset 0 0 0 2px #DC2626;
         }
 
         .cell.wrong input {
             color: #991B1B;
         }
 
-        .cell.highlight {
-            background: #F1F5F9;
+        .sudoku-grid .cell.highlight {
+            background: #E2E8F0;
         }
 
-        .cell.same-number {
-            background: #DBEAFE;
+        .sudoku-grid .cell.same-number {
+            background: #BFDBFE;
+            box-shadow: inset 0 0 0 2px #2563EB;
         }
 
-        .cell.highlight.empty {
-            background: #F1F5F9;
+        .sudoku-grid .cell.highlight.empty {
+            background: #FEF3C7;
         }
 
-        .cell.highlight.fixed {
-            background: #F1F5F9;
+        .sudoku-grid .cell.highlight.fixed {
+            background: #E2E8F0;
         }
 
-        .cell.highlight.same-number {
-            background: #F1F5F9;
+        .sudoku-grid .cell.highlight.same-number {
+            background: #BFDBFE;
         }
 
-        .cell.empty {
-            background: #FEF9C3;
+        .sudoku-grid .cell.empty {
+            background: #FEF3C7;
         }
 
         .cell.empty input {

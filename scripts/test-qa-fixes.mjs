@@ -189,7 +189,7 @@ function testarImagensLocais() {
     for (const fonte of fontes) {
         const codigo = read(fonte);
         assert.ok(!codigo.includes('images.unsplash.com'), `${fonte}: ainda usa imagens remotas.`);
-        const imagensLiterais = [...codigo.matchAll(/img\/unsplash_[A-Za-z0-9_.-]+/g)].map((m) => m[0]);
+        const imagensLiterais = [...codigo.matchAll(/img\/(?:unsplash_[A-Za-z0-9_.-]+|jogos\/[A-Za-z0-9_\/-]+\.png)/g)].map((m) => m[0]);
         const imagensGeradas = [...codigo.matchAll(/localImage\('([^']+)'\)/g)]
             .map((m) => `img/unsplash_${m[1]}.jpg`);
         const imagens = imagensLiterais.concat(imagensGeradas);
@@ -228,8 +228,13 @@ function testarAusenciaDePersistenciaNosJogos() {
     ]);
     for (const arquivo of fontes) {
         const codigo = read(`js/${arquivo}`);
-        assert.doesNotMatch(codigo, /\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b|\bcaches\./,
-            `${arquivo}: jogos nao podem persistir partidas, jogadas ou logica.`);
+        if (arquivo === 'jogo-pintura.js') {
+            assert.match(codigo, /menteAtiva\.pintura\.coresFavoritas/);
+            assert.doesNotMatch(codigo, /\bsessionStorage\b|\bindexedDB\b|\bcaches\./);
+        } else {
+            assert.doesNotMatch(codigo, /\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b|\bcaches\./,
+                `${arquivo}: jogos nao podem persistir partidas, jogadas ou logica.`);
+        }
     }
     assert.doesNotMatch(read('js/intro.js'), /\blocalStorage\b/,
         'A introducao deve durar apenas a sessao atual.');
@@ -352,8 +357,9 @@ function testarPintura() {
     assert.match(script, /function redo\(\)/);
     assert.match(script, /redoActions/);
     assert.match(script, /event\.ctrlKey \|\| event\.metaKey/);
-    assert.doesNotMatch(script, /\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b/,
-        'O historico da pintura deve existir apenas em memoria.');
+    assert.match(script, /menteAtiva\.pintura\.coresFavoritas/);
+    assert.doesNotMatch(script, /\bsessionStorage\b|\bindexedDB\b/,
+        'Somente as cores favoritas podem persistir; o historico deve ficar em memoria.');
 
     const dom = new JSDOM(html, {
         runScripts: 'dangerously',
@@ -504,15 +510,20 @@ function testarFluxosEPadronizacao() {
     const pinturaCss = read('css/jogo-pintura.css');
     const cacaCss = read('css/jogo-caca-palavras.css');
     const calendarioCss = read('css/calendario.css');
+    const accessibilityJs = read('js/accessibility-unified.js');
     const damasJs = read('js/jogo-damas.js');
     const xadrezJs = read('js/jogo-xadrez.js');
 
     assert.ok(!memoriaHtml.includes('btn-como-jogar'), 'Memoria nao deve duplicar o botao Como jogar.');
     assert.ok(!memoriaHtml.includes('comoJogarModal'), 'Memoria nao deve duplicar o modal Como jogar.');
-    assert.equal((quebraCabecaHtml.match(/Como jogar:/g) || []).length, 1,
-        'Quebra-cabeca deve exibir uma unica instrucao Como jogar.');
+    assert.equal((quebraCabecaHtml.match(/Como jogar:/g) || []).length, 0,
+        'Quebra-cabeca nao deve manter instrucoes textuais antigas.');
     assert.ok(!quebraCabecaHtml.includes('class="instructions"'),
         'Quebra-cabeca nao deve manter o bloco de instrucoes duplicado.');
+    assert.match(accessibilityJs, /Veja no vídeo abaixo como jogar\./,
+        'O componente moderno de video deve apresentar uma unica orientacao curta.');
+    assert.match(accessibilityJs, /how-to-video-overlay/,
+        'O componente moderno deve abrir o video em modal.');
     assert.match(pinturaCss, /\.paint-editor[\s\S]*grid-template-columns:\s*minmax\(300px, 350px\) minmax\(0, 1fr\)/);
     assert.match(pinturaCss, /\.paint-actions[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\)/);
     assert.match(pinturaCss, /\.canvas-hint\.hidden[\s\S]*visibility:\s*hidden/);

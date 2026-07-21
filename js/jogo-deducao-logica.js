@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ],
                 question: 'Quem tem 55 anos?',
                 options: ['João', 'Maria', 'Pedro'],
-                correctIndex: 0,
+                correctIndex: 1,
                 explanation: 'Pedro é mais velho que Maria → Pedro = 70. Maria não é a mais nova → Maria = 55. João = 30.'
             },
             {
@@ -117,16 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 'f9', level: 'facil',
-                scenario: 'Avó, mãe e filha têm 35, 60 e 85 anos (uma cada).',
+                scenario: 'Dona Rosa, sua filha Helena e sua neta Bia têm 35, 60 e 85 anos, uma idade para cada pessoa.',
                 clues: [
-                    'A avó é a mais velha.',
-                    'A filha é mais nova que a mãe.',
-                    'A mãe não tem 60 anos.'
+                    'Dona Rosa é a mais velha.',
+                    'Bia é a mais nova.'
                 ],
-                question: 'Quantos anos tem a mãe?',
+                question: 'Quantos anos tem Helena?',
                 options: ['35', '60', '85'],
-                correctIndex: 0,
-                explanation: 'Avó = 85. Filha < mãe. Mãe não 60 → mãe = 35. Filha = 60.'
+                correctIndex: 1,
+                explanation: 'Dona Rosa tem 85 e Bia tem 35. Portanto, Helena tem 60 anos.'
             },
             {
                 id: 'f10', level: 'facil',
@@ -180,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ],
                 question: 'Qual a especialidade de A?',
                 options: ['Cardio', 'Dermato', 'Neuro', 'Ortopedia'],
-                correctIndex: 1,
+                correctIndex: 2,
                 explanation: 'B = Neuro, D = Ortop. A não Cardio nem Ortop → A = Dermato ou Neuro. Neuro é B → A = Dermato. C = Cardio.'
             },
             {
@@ -194,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ],
                 question: 'Em que caixa está a caneca?',
                 options: ['Caixa 1', 'Caixa 2', 'Caixa 3', 'Caixa 4'],
-                correctIndex: 1,
+                correctIndex: 2,
                 explanation: 'Boneco = 4. Bola em ímpar (1 ou 3). Livro à direita da bola: se bola=1, livro=2. Se bola=3, livro=4 (ocupado). Então bola=1, livro=2. Caneca entre dois objetos → caneca=3 (entre 2 e 4). Resposta: caixa 3.'
             },
             {
@@ -379,10 +378,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 explanation: 'P6=2ª. P2 > P4, P4 entre P6(2) e P2 → P4=3ª, P2=5ª ou 4ª. P3 < P5. P1 entre P3 e P5. P5 não pontas. Posições: 1ª=P3, 2ª=P6, 3ª=P4, 4ª=P5, 5ª=P2, 6ª=P1. P1 entre P3(1) e P5(4) sim. P4 entre P6(2) e P2(5) → 3 entre 2 e 5 sim. P5 não ponta=4ª ok. 4ª = P5.'
             }
         ];
+
+        PUZZLES = PUZZLES.concat([
+            { id:'f12', level:'facil', scenario:'Na hora do lanche, Célia separou chá, café e suco para três xícaras.', clues:['A xícara azul recebeu chá.','A xícara verde recebeu café.'], question:'O que ficou na xícara branca?', options:['Chá','Café','Suco'], correctIndex:2, explanation:'Azul já tem chá e verde já tem café. Na xícara branca ficou o suco.' },
+            { id:'f13', level:'facil', scenario:'Paulo fará três tarefas: regar as plantas, telefonar para a irmã e passear com o cachorro.', clues:['Ele regará as plantas primeiro.','O passeio será por último.'], question:'Qual tarefa será feita no meio?', options:['Regar as plantas','Telefonar para a irmã','Passear com o cachorro'], correctIndex:1, explanation:'Regar é a primeira tarefa e passear é a última. Telefonar fica no meio.' },
+            { id:'f14', level:'facil', scenario:'Na estante há um livro vermelho, um azul e um verde.', clues:['O livro azul está à esquerda.','O livro verde está à direita.'], question:'Qual livro está no centro?', options:['Vermelho','Azul','Verde'], correctIndex:0, explanation:'Azul ocupa a esquerda e verde ocupa a direita. O vermelho fica no centro.' },
+            { id:'f15', level:'facil', scenario:'Lia comprou pão por R$ 8, frutas por R$ 12 e queijo por R$ 18.', clues:['As frutas custaram mais que o pão.','O queijo foi a compra mais cara.'], question:'Qual foi a compra mais barata?', options:['Pão','Frutas','Queijo'], correctIndex:0, explanation:'O pão custou R$ 8, o menor dos três valores.' },
+            { id:'m10', level:'medio', scenario:'No almoço, Marta, Nilo, Olga e Rui escolheram arroz, sopa, peixe e salada, um prato para cada pessoa.', clues:['Marta escolheu sopa.','Nilo escolheu peixe.','Olga não escolheu arroz.'], question:'O que Olga escolheu?', options:['Arroz','Sopa','Peixe','Salada'], correctIndex:3, explanation:'Sopa é de Marta e peixe é de Nilo. Olga não escolheu arroz, então escolheu salada.' },
+            { id:'m11', level:'medio', scenario:'Quatro consultas foram marcadas às 8h, 9h, 10h e 11h para Ana, Beto, Cida e Dario.', clues:['Ana será atendida às 8h.','Dario será atendido às 11h.','Beto será atendido antes de Cida.'], question:'Em qual horário Cida será atendida?', options:['8h','9h','10h','11h'], correctIndex:2, explanation:'Ana ocupa 8h e Dario 11h. Como Beto vem antes de Cida, Beto fica às 9h e Cida às 10h.' },
+            { id:'m12', level:'medio', scenario:'Na horta há canteiros de alface, cenoura, tomate e couve numerados de 1 a 4.', clues:['A alface está no canteiro 1.','A couve está no canteiro 4.','A cenoura vem antes do tomate.'], question:'Em qual canteiro está o tomate?', options:['1','2','3','4'], correctIndex:2, explanation:'Alface ocupa 1 e couve ocupa 4. Sobram 2 e 3; como cenoura vem antes, tomate fica no 3.' },
+            { id:'m13', level:'medio', scenario:'Quatro vizinhos levaram bolo, café, pão e frutas para uma reunião.', clues:['Irene levou café.','João levou pão.','Lúcia não levou bolo.'], question:'O que Lúcia levou?', options:['Bolo','Café','Pão','Frutas'], correctIndex:3, explanation:'Café e pão já foram escolhidos. Como Lúcia não levou bolo, ela levou frutas.' },
+            { id:'m14', level:'medio', scenario:'Rosa guardou toalhas em quatro gavetas: banho, rosto, mesa e cozinha.', clues:['Banho está na gaveta 1.','Cozinha está na gaveta 4.','Mesa está logo depois de rosto.'], question:'Onde estão as toalhas de mesa?', options:['Gaveta 1','Gaveta 2','Gaveta 3','Gaveta 4'], correctIndex:2, explanation:'As gavetas 1 e 4 já estão ocupadas. Rosto fica na 2 e mesa, logo depois, na 3.' },
+            { id:'m15', level:'medio', scenario:'Em uma caminhada, Léo, Mara, Nara e Otávio chegaram em horários diferentes.', clues:['Léo chegou primeiro.','Otávio chegou por último.','Mara chegou antes de Nara.'], question:'Quem chegou em terceiro?', options:['Léo','Mara','Nara','Otávio'], correctIndex:2, explanation:'Léo foi o primeiro e Otávio o último. Mara veio antes de Nara, portanto Nara chegou em terceiro.' },
+            { id:'d7', level:'dificil', scenario:'Quatro oficinas — culinária, música, pintura e jardinagem — ocorrerão de segunda a quinta.', clues:['Culinária será na segunda.','Jardinagem será na quinta.','Música acontecerá antes de pintura.'], question:'Em que dia será a pintura?', options:['Segunda','Terça','Quarta','Quinta'], correctIndex:2, explanation:'Segunda e quinta já estão ocupadas. Música vem antes de pintura, então música será terça e pintura quarta.' },
+            { id:'d8', level:'dificil', scenario:'Dora organizou quatro fotografias: praia, família, jardim e aniversário.', clues:['A foto da família é a primeira.','A do aniversário é a última.','A foto do jardim vem depois da praia.'], question:'Qual foto está na terceira posição?', options:['Praia','Família','Jardim','Aniversário'], correctIndex:2, explanation:'Família é primeira e aniversário é quarta. Praia vem antes de jardim, então jardim é a terceira.' },
+            { id:'d9', level:'dificil', scenario:'Quatro entregas serão feitas para Lia, Mauro, Nádia e Pedro, do primeiro ao quarto horário.', clues:['Lia recebe antes de Mauro.','Nádia recebe no segundo horário.','Pedro recebe depois de Mauro.'], question:'Quem recebe no quarto horário?', options:['Lia','Mauro','Nádia','Pedro'], correctIndex:3, explanation:'Nádia é segunda. Para Lia vir antes de Mauro e Pedro depois de Mauro, a ordem possível é Lia, Nádia, Mauro e Pedro.' },
+            { id:'d10', level:'dificil', scenario:'Quatro vasos — azul, branco, verde e amarelo — ficam em uma janela.', clues:['O azul está na ponta esquerda.','O amarelo está na ponta direita.','O branco fica imediatamente antes do verde.'], question:'Qual vaso está na segunda posição?', options:['Azul','Branco','Verde','Amarelo'], correctIndex:1, explanation:'Azul e amarelo ocupam as pontas. Como branco vem logo antes de verde, branco fica em segundo.' },
+            { id:'d11', level:'dificil', scenario:'Caio planejou quatro atividades: mercado, banco, farmácia e praça.', clues:['O mercado será primeiro.','A praça será por último.','O banco será visitado antes da farmácia.'], question:'Qual atividade será a terceira?', options:['Mercado','Banco','Farmácia','Praça'], correctIndex:2, explanation:'Mercado é primeiro e praça é quarta. Banco vem antes da farmácia, então farmácia é terceira.' },
+            { id:'d12', level:'dificil', scenario:'Quatro pessoas escolheram ônibus, metrô, bicicleta e caminhada para chegar ao encontro.', clues:['Bia foi de metrô.','Davi foi caminhando.','Eva não usou ônibus.'], question:'Como Eva chegou?', options:['Ônibus','Metrô','Bicicleta','Caminhada'], correctIndex:2, explanation:'Metrô e caminhada já foram usados. Como Eva não foi de ônibus, ela foi de bicicleta.' },
+            { id:'d13', level:'dificil', scenario:'Quatro caixas guardam documentos, fotografias, ferramentas e linhas de costura.', clues:['Documentos estão na caixa 1.','Linhas estão na caixa 4.','Fotografias ficam antes das ferramentas.'], question:'Em qual caixa estão as ferramentas?', options:['Caixa 1','Caixa 2','Caixa 3','Caixa 4'], correctIndex:2, explanation:'Caixas 1 e 4 já estão ocupadas. Fotografias ficam na 2 e ferramentas na 3.' },
+            { id:'d14', level:'dificil', scenario:'Na feira, quatro barracas vendem frutas, queijos, flores e pães, nessa rua numerada de 1 a 4.', clues:['Frutas ficam na barraca 1.','Pães ficam na barraca 4.','Flores ficam depois dos queijos.'], question:'Qual produto está na barraca 2?', options:['Frutas','Queijos','Flores','Pães'], correctIndex:1, explanation:'Frutas e pães ocupam as pontas. Como flores vêm depois dos queijos, queijos ficam na barraca 2.' },
+            { id:'d15', level:'dificil', scenario:'Quatro músicas serão tocadas: valsa, samba, forró e bolero.', clues:['A valsa abre a apresentação.','O bolero encerra a apresentação.','O samba será tocado antes do forró.'], question:'Qual ritmo será o terceiro?', options:['Valsa','Samba','Forró','Bolero'], correctIndex:2, explanation:'Valsa é primeira e bolero é quarto. Samba vem antes de forró, então forró é o terceiro.' }
+        ]);
+
+        PUZZLES = PUZZLES.map(function (puzzle) {
+            var limite = puzzle.level === 'facil' ? 3 : 4;
+            var correta = puzzle.options[puzzle.correctIndex];
+            var opcoes = [correta].concat(puzzle.options.filter(function (opcao, indice) { return indice !== puzzle.correctIndex; }).slice(0, limite - 1));
+            opcoes = shuffleArray(opcoes);
+            return {
+                id: puzzle.id,
+                nivel: puzzle.level,
+                historia: puzzle.scenario,
+                pistas: puzzle.clues,
+                pergunta: puzzle.question,
+                opcoes: opcoes,
+                respostaCorreta: opcoes.indexOf(correta),
+                explicacao: puzzle.explanation
+            };
+        });
     }
 
     function getPuzzlesForLevel(level) {
-        return PUZZLES.filter(function(p) { return p.level === level; });
+        return PUZZLES.filter(function(p) { return p.nivel === level; });
     }
 
     function shuffleArray(arr) {
@@ -405,19 +443,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initGame() {
-        var available = getPuzzlesForLevel(currentLevel);
-        available = shuffleArray(available);
-
-        levelPuzzles = [];
-        for (var i = 0; i < totalPuzzles && i < available.length; i++) {
-            levelPuzzles.push(available[i]);
-        }
-
-        while (levelPuzzles.length < totalPuzzles) {
-            var pool = shuffleArray(getPuzzlesForLevel(currentLevel));
-            levelPuzzles.push(JSON.parse(JSON.stringify(pool[0])));
-            levelPuzzles[levelPuzzles.length - 1].id += '_e' + levelPuzzles.length;
-        }
+        if (!initGame.filas) initGame.filas = {};
+        var fila = initGame.filas[currentLevel] || [];
+        while (fila.length < totalPuzzles) fila = fila.concat(shuffleArray(getPuzzlesForLevel(currentLevel).slice()));
+        levelPuzzles = fila.splice(0, totalPuzzles);
+        initGame.filas[currentLevel] = fila;
 
         currentPuzzleIndex = 0;
         score = 0;
@@ -437,14 +467,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         answered = false;
         var puzzle = levelPuzzles[currentPuzzleIndex];
-        var letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-
         document.getElementById('puzzleNum').textContent = (currentPuzzleIndex + 1) + '/' + levelPuzzles.length;
-        document.getElementById('scenario').textContent = puzzle.scenario;
+        document.getElementById('scenario').textContent = puzzle.historia;
 
         var cluesList = document.getElementById('cluesList');
         cluesList.innerHTML = '';
-        puzzle.clues.forEach(function(clue) {
+        puzzle.pistas.forEach(function(clue) {
             var li = document.createElement('li');
             var clueText = document.createElement('span');
             clueText.className = 'clue-text';
@@ -453,24 +481,19 @@ document.addEventListener('DOMContentLoaded', function() {
             cluesList.appendChild(li);
         });
 
-        document.getElementById('question').textContent = puzzle.question;
+        document.getElementById('question').textContent = puzzle.pergunta;
 
         var optionsContainer = document.getElementById('optionsContainer');
         optionsContainer.innerHTML = '';
-        puzzle.options.forEach(function(opt, i) {
+        puzzle.opcoes.forEach(function(opt, i) {
             var btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.dataset.index = i;
-
-            var letterSpan = document.createElement('span');
-            letterSpan.className = 'option-letter';
-            letterSpan.textContent = letters[i] || (i + 1);
 
             var textSpan = document.createElement('span');
             textSpan.className = 'option-text';
             textSpan.textContent = opt;
 
-            btn.appendChild(letterSpan);
             btn.appendChild(textSpan);
             btn.addEventListener('click', function() {
                 handleAnswer(parseInt(this.dataset.index));
@@ -491,11 +514,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var puzzle = levelPuzzles[currentPuzzleIndex];
         var options = document.querySelectorAll('.option-btn');
-        var correct = selectedIndex === puzzle.correctIndex;
+        var correct = selectedIndex === puzzle.respostaCorreta;
 
         options.forEach(function(btn, i) {
             btn.classList.add('disabled');
-            if (i === puzzle.correctIndex) {
+            if (i === puzzle.respostaCorreta) {
                 btn.classList.add('correct');
             } else if (i === selectedIndex && !correct) {
                 btn.classList.add('incorrect');
@@ -507,11 +530,11 @@ document.addEventListener('DOMContentLoaded', function() {
             score++;
             streak++;
             explanation.className = 'puzzle-explanation show correct';
-            explanation.innerHTML = '<strong>Correto!</strong> ' + puzzle.explanation;
+            explanation.innerHTML = '<strong>Correto!</strong> ' + puzzle.explicacao;
         } else {
             streak = 0;
             explanation.className = 'puzzle-explanation show incorrect';
-            explanation.innerHTML = '<strong>Resposta: ' + puzzle.options[puzzle.correctIndex] + '</strong><br>' + puzzle.explanation;
+            explanation.innerHTML = '<strong>Resposta: ' + puzzle.opcoes[puzzle.respostaCorreta] + '</strong><br>' + puzzle.explicacao;
         }
 
         document.getElementById('score').textContent = score;

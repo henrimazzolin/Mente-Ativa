@@ -39,18 +39,6 @@
             <p>Crie, experimente cores e solte a imaginação</p>
         </div>
 
-        <div class="paint-intro" aria-label="Como usar o jogo de pintura">
-            <div class="paint-intro-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                    <path d="M7.5 3a4.5 4.5 0 0 0 0 9H9v1.5A4.5 4.5 0 0 0 13.5 18H15v1a2 2 0 0 0 4 0v-7.5A8.5 8.5 0 0 0 10.5 3h-3Zm0 2h3A6.5 6.5 0 0 1 17 11.5V19h-1v-3h-2.5A2.5 2.5 0 0 1 11 13.5V10H7.5a2.5 2.5 0 0 1 0-5Z"/>
-                </svg>
-            </div>
-            <div>
-                <strong>Crie do seu jeito</strong>
-                <p>Escolha a cor e a espessura, depois toque ou arraste sobre a tela. Você pode desfazer sempre que precisar.</p>
-            </div>
-        </div>
-
         <main class="game-container">
             <div class="paint-workspace-header">
                 <div>
@@ -74,6 +62,8 @@
                         <span>Outra cor</span>
                         <input id="customColor" type="color" value="#2563EB" aria-label="Escolher uma cor personalizada">
                     </label>
+                    <button class="favorite-save-btn" id="saveFavoriteColor" type="button">☆ Salvar cor atual</button>
+                    <div class="favorite-colors" id="favoriteColors" aria-label="Cores favoritas"></div>
                         </section>
 
                         <section class="tool-section" aria-labelledby="brushSizeLabel">

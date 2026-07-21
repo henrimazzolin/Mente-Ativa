@@ -1,34 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
         const PLACEHOLDER = 'img/placeholder.svg';
         const images = [
-            'img/unsplash_1587300003388-59208cc962cb.jpg',
-            'img/unsplash_1506744038136-46273834b3fb.jpg',
-            'img/unsplash_1519681393784-d120267933ba.jpg',
-            'img/unsplash_1501785888041-af3ef285b470.jpg',
-            'img/unsplash_1470071459604-3b5ec3a7fe05.jpg',
-            'img/unsplash_1465146344425-f00d5f5c8f07.jpg',
-            'img/unsplash_1501854140801-50d01698950b.jpg',
-            'img/unsplash_1441974231531-c6227db76b6e.jpg',
-            'img/unsplash_1518717758536-85ae29035b6d.jpg',
-            'img/unsplash_1526336024174-e58f5cdd8e13.jpg',
-            'img/unsplash_1543852786-1cf6624b9987.jpg',
-            'img/unsplash_1552053831-71594a27632d.jpg',
-            'img/unsplash_1533738363-b7f9aef128ce.jpg',
-            'img/unsplash_1495360010541-f48722b34f7d.jpg',
-            'img/unsplash_1517849845537-4d257902454a.jpg',
-            'img/unsplash_1513475382585-d06e58bcb0e0.jpg',
-            'img/unsplash_1514888286974-6c03e2ca1dba.jpg',
-            'img/unsplash_1469474968028-56623f02e42e.jpg',
-            'img/unsplash_1433086966358-54859d0ed716.jpg'
-        ];
-
-        const easyImages = [
-            'img/unsplash_1543852786-1cf6624b9987.jpg',
-            'img/unsplash_1552053831-71594a27632d.jpg',
-            'img/unsplash_1495360010541-f48722b34f7d.jpg',
-            'img/unsplash_1517849845537-4d257902454a.jpg',
-            'img/unsplash_1533738363-b7f9aef128ce.jpg',
-            'img/unsplash_1514888286974-6c03e2ca1dba.jpg'
+            { src: 'img/jogos/quebra-cabeca/jardim-florido.png', nome: 'Jardim florido' },
+            { src: 'img/jogos/quebra-cabeca/casa-de-campo.png', nome: 'Casa de campo' },
+            { src: 'img/jogos/quebra-cabeca/praia-tranquila.png', nome: 'Praia tranquila' },
+            { src: 'img/jogos/quebra-cabeca/praca-arborizada.png', nome: 'Praça arborizada' },
+            { src: 'img/jogos/quebra-cabeca/mesa-de-cafe.png', nome: 'Mesa de café' },
+            { src: 'img/jogos/quebra-cabeca/cesta-de-frutas.png', nome: 'Cesta de frutas' }
         ];
 
         function preloadImage(url) {
@@ -40,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        let currentImageUrl = images[Math.floor(Math.random() * images.length)];
+        let currentImage = images[Math.floor(Math.random() * images.length)];
+        let currentImageUrl = currentImage.src;
         
         let pieces = [];
         let selectedPiece = null;
@@ -62,12 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
             gridSize = difficultyConfig[currentDifficulty].size;
             totalPieces = gridSize * gridSize;
 
-            var pool = currentDifficulty === 'facil' ? easyImages : images;
-            currentImageUrl = await preloadImage(pool[Math.floor(Math.random() * pool.length)]);
+            currentImage = images[Math.floor(Math.random() * images.length)];
+            currentImageUrl = await preloadImage(currentImage.src);
 
             const previewImg = document.getElementById('previewImage');
             if (previewImg) {
                 previewImg.src = currentImageUrl;
+                previewImg.alt = 'Imagem original: ' + currentImage.nome;
                 previewImg.onerror = function() { this.src = PLACEHOLDER; };
             }
 
@@ -101,6 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 piece.className = 'puzzle-piece';
                 piece.dataset.position = positionIndex;
                 piece.dataset.piece = pieceIndex;
+                piece.setAttribute('role', 'button');
+                piece.setAttribute('tabindex', '0');
+                piece.setAttribute('aria-label', 'Peça ' + (positionIndex + 1) + ' de ' + totalPieces);
+                piece.setAttribute('aria-pressed', String(selectedPiece === positionIndex));
 
                 const row = Math.floor(pieceIndex / gridSize);
                 const col = pieceIndex % gridSize;
@@ -111,6 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 piece.style.backgroundPosition = bgX + '% ' + bgY + '%';
 
                 piece.addEventListener('click', function() { handlePieceClick(positionIndex); });
+                piece.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        handlePieceClick(positionIndex);
+                    }
+                });
 
                 container.appendChild(piece);
             });
@@ -124,9 +114,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (selectedPiece === null) {
                 selectedPiece = positionIndex;
                 clickedPiece.classList.add('selected');
+                clickedPiece.setAttribute('aria-pressed', 'true');
+                document.getElementById('puzzleSelectionStatus').textContent = 'Primeira peça escolhida. Agora escolha a segunda peça.';
             } else if (selectedPiece === positionIndex) {
                 clickedPiece.classList.remove('selected');
                 selectedPiece = null;
+                document.getElementById('puzzleSelectionStatus').textContent = 'Seleção cancelada. Escolha a primeira peça.';
             } else {
                 isProcessing = true;
                 
@@ -138,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
                     selectedPiece = null;
                     isProcessing = false;
+                    document.getElementById('puzzleSelectionStatus').textContent = 'Peças trocadas. Escolha a primeira peça.';
 
                     if (isSolved()) {
                         showWinMessage();

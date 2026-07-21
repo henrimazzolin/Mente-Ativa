@@ -39,7 +39,7 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1180px;
     margin: 0 auto;
 }
 
@@ -153,11 +153,13 @@ body {
     border-radius: var(--borda-radius);
     box-shadow: var(--sombra);
     padding: 30px;
+    width: min(100%, 1120px);
+    margin-inline: auto;
 }
 
 .game-content {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 520px) minmax(340px, 1fr);
     gap: 30px;
     justify-content: center;
     align-items: flex-start;
@@ -242,9 +244,9 @@ body {
 }
 
 .hints-section {
-    flex: 1;
-    min-width: 280px;
-    max-width: 350px;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
 }
 
 .hints-title {
@@ -319,6 +321,18 @@ body {
     color: var(--cor-texto-claro);
     line-height: 1.4;
     flex: 1;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+    .game-container { padding: clamp(14px, 4vw, 24px); }
+    .game-content { grid-template-columns: minmax(0, 1fr); }
+    .grid-section, .hints-section { width: 100%; max-width: 100%; }
+}
+
+@media (max-width: 420px) {
+    .hint-content { grid-template-columns: minmax(0, 1fr); }
+    .hint-btn { width: 100%; }
 }
 
 .hint-btn {

@@ -123,6 +123,11 @@
             margin-bottom: 30px;
         }
 
+        .sound-play-btn { min-width: min(100%, 320px); min-height: 76px; margin: 0 auto 24px; padding: 16px 28px; border: 0; border-radius: 18px; background: #1D4ED8; color: #fff; font: inherit; font-size: clamp(22px, 4vw, 30px); font-weight: 700; box-shadow: 0 8px 22px rgba(29,78,216,.28); }
+        .sound-play-btn:focus-visible { outline: 4px solid #F59E0B; outline-offset: 4px; }
+        .options-container { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        .option-btn { min-height: 72px; font-size: clamp(20px, 3vw, 25px); font-weight: 700; }
+
         .instrument-icon {
             width: 120px;
             height: 120px;

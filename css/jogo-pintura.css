@@ -278,6 +278,7 @@ input:focus-visible,
 }
 
 .color-btn {
+    position: relative;
     width: 38px;
     height: 38px;
     padding: 0;
@@ -298,6 +299,14 @@ input:focus-visible,
     transform: scale(1.08);
     box-shadow: 0 0 0 3px var(--cor-primaria), 0 4px 10px rgba(37, 99, 235, 0.24);
 }
+
+.color-btn.active::after { content: '✓'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 20px; font-weight: 900; text-shadow: 0 1px 3px #000; }
+
+.favorite-save-btn { min-height: 44px; align-self: flex-start; padding: 8px 12px; border: 2px solid #2563EB; border-radius: 10px; background: #EFF6FF; color: #1D4ED8; font: inherit; font-weight: 700; white-space: nowrap; }
+.favorite-colors { min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: #475569; font-size: 13px; }
+.favorite-color-item { position: relative; display: inline-flex; }
+.favorite-color-btn { width: 42px; height: 42px; min-height: 42px; padding: 0; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px #64748B; }
+.favorite-remove-btn { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; min-height: 24px; padding: 0; border: 0; border-radius: 50%; background: #B91C1C; color: #fff; font: inherit; font-size: 18px; font-weight: 800; line-height: 1; }
 
 .custom-color-control {
     min-height: 38px;
@@ -367,6 +376,8 @@ input:focus-visible,
     color: #1D4ED8;
 }
 
+.brush-size-btn.active::before, .tool-btn.active::after { content: '✓'; font-weight: 900; }
+
 .brush-dot {
     display: block;
     border-radius: 50%;
@@ -417,6 +428,8 @@ input:focus-visible,
     font-weight: 700;
     line-height: 1.2;
     text-align: center;
+    white-space: nowrap;
+    overflow-wrap: normal;
     transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
@@ -697,7 +710,9 @@ html.modo-escuro .tool-btn:disabled {
 
     .paint-current-tool {
         width: 100%;
-        white-space: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .paint-tools {
@@ -727,11 +742,8 @@ html.modo-escuro .tool-btn:disabled {
         min-width: 0;
     }
 
-    .canvas-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 2px;
-    }
+    .canvas-heading { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
+    .canvas-heading span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 }
 
 @media (max-width: 430px) {
@@ -791,6 +803,11 @@ html.modo-escuro .tool-btn:disabled {
         width: 23px;
         height: 23px;
     }
+}
+
+@media (max-width: 390px) {
+    .document-actions { grid-template-columns: minmax(0, 1fr); }
+    .favorite-save-btn { width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

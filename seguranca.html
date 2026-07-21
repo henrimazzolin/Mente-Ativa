@@ -43,13 +43,22 @@
                 <p>Orientações simples para reconhecer e evitar golpes.</p>
             </div>
 
-            <section class="media-card" aria-labelledby="titulo-video-seguranca">
-                <div class="video-placeholder" role="img" aria-label="Espaço reservado para o futuro vídeo de segurança digital">
-                    <span class="eyebrow">Vídeo em breve</span>
-                    <span class="play-mark" aria-hidden="true"></span>
-                    <h2 id="titulo-video-seguranca">Dicas de segurança digital</h2>
-                    <p>Este espaço receberá o vídeo de orientação.</p>
+            <section class="media-card video-carousel" data-video-carousel aria-labelledby="titulo-video-seguranca" tabindex="0">
+                <div class="video-slides">
+                    <article class="video-slide active" data-video-slide>
+                        <div class="video-container video-embed" data-youtube-id="4M5nwihkql4"><a href="https://www.youtube.com/watch?v=4M5nwihkql4" target="_blank" rel="noopener">Assistir no YouTube: dicas contra golpes com Pix</a></div>
+                        <div class="media-summary"><div><span class="eyebrow">Banco Central</span><h2 id="titulo-video-seguranca">Sete dicas contra golpes com Pix</h2></div><p>Pare, confira os dados e nunca aja sob pressão.</p></div>
+                    </article>
+                    <article class="video-slide" data-video-slide hidden>
+                        <div class="video-container video-embed" data-youtube-id="srmMQwAGoQU"><a href="https://www.youtube.com/watch?v=srmMQwAGoQU" target="_blank" rel="noopener">Assistir no YouTube: golpe do Pix errado</a></div>
+                        <div class="media-summary"><div><span class="eyebrow">Banco Central</span><h2>Golpe do Pix errado</h2></div><p>Use a função de devolução do próprio aplicativo e confirme com seu banco.</p></div>
+                    </article>
+                    <article class="video-slide" data-video-slide hidden>
+                        <div class="video-container video-embed" data-youtube-id="mCIC-7sctSM"><a href="https://www.youtube.com/watch?v=mCIC-7sctSM" target="_blank" rel="noopener">Assistir no YouTube: MED 2.0</a></div>
+                        <div class="media-summary"><div><span class="eyebrow">Banco Central</span><h2>Pix mais seguro: MED 2.0</h2></div><p>Conheça o mecanismo usado pelos bancos em casos de fraude.</p></div>
+                    </article>
                 </div>
+                <nav class="carousel-controls" aria-label="Navegação entre vídeos"><button type="button" data-carousel-prev aria-label="Vídeo anterior">← Anterior</button><span data-carousel-status aria-live="polite">Vídeo 1 de 3</span><button type="button" data-carousel-next aria-label="Próximo vídeo">Próximo →</button></nav>
             </section>
 
             <div class="section-heading">
@@ -62,7 +71,7 @@
                     <div class="tip-number" aria-hidden="true">1</div>
                     <div class="tip-content">
                         <h3>Proteja suas senhas</h3>
-                        <p>Nunca informe senhas ou códigos recebidos por mensagem.</p>
+                        <p>Nunca informe senhas ou códigos recebidos por mensagem. Bancos não pedem esses dados.</p>
                     </div>
                 </article>
 
@@ -70,7 +79,7 @@
                     <div class="tip-number" aria-hidden="true">2</div>
                     <div class="tip-content">
                         <h3>Pense antes de clicar</h3>
-                        <p>Não abra links enviados por desconhecidos.</p>
+                        <p>Não abra links inesperados. Entre no site ou aplicativo oficial por conta própria.</p>
                     </div>
                 </article>
 
@@ -78,7 +87,7 @@
                     <div class="tip-number" aria-hidden="true">3</div>
                     <div class="tip-content">
                         <h3>Desconfie da urgência</h3>
-                        <p>Golpistas pressionam você para agir sem pensar.</p>
+                        <p>Golpistas pressionam você para agir sem pensar. Desligue e confirme por outro canal.</p>
                     </div>
                 </article>
 
@@ -86,10 +95,12 @@
                     <div class="tip-number" aria-hidden="true">4</div>
                     <div class="tip-content">
                         <h3>Confirme antes de pagar</h3>
-                        <p>Ligue para a pessoa ou empresa usando um contato conhecido.</p>
+                        <p>Confira nome e valor na tela e ligue usando um contato já conhecido.</p>
                     </div>
                 </article>
             </section>
+
+            <p class="official-sources">Fontes: <a href="https://www.bcb.gov.br/estabilidadefinanceira/pix-seguranca" target="_blank" rel="noopener">Banco Central</a>, <a href="https://www.gov.br/cisc/pt-br/alertas-de-golpes-digitais" target="_blank" rel="noopener">CISC</a> e <a href="https://www.gov.br/anatel/pt-br/assuntos/noticias/golpe-do-whatsapp-falso-veja-as-orientacoes-da-anatel-para-denunciar-e-se-proteger" target="_blank" rel="noopener">Anatel</a>.</p>
 
             <aside class="notice-panel" aria-labelledby="aviso-seguranca">
                 <span class="notice-mark" aria-hidden="true">!</span>
@@ -107,6 +118,7 @@
             <a href="sobre.html" class="sobre-footer">Sobre</a>
     </footer>
     <script src="js/pages/seguranca.js"></script>
+    <script src="js/info-carousel.js"></script>
     <script src="js/assistente-flutuante.js"></script>
     <script src="js/alerts.js"></script>
     

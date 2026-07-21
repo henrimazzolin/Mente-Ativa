@@ -293,8 +293,9 @@ document.addEventListener('DOMContentLoaded', function () {
             showGameOver(winner);
             return true;
         }
-        if (engine.ehEmpate()) {
-            showDraw();
+        var motivoEmpate = engine.obterMotivoEmpate();
+        if (motivoEmpate) {
+            showDraw(motivoEmpate);
             return true;
         }
         return false;
@@ -319,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (st) st.innerHTML = '<span class="status-end">' + title.textContent + '</span>';
     }
 
-    function showDraw() {
+    function showDraw(motivo) {
         if (gameEnded) return;
         gameEnded = true;
         document.getElementById('game-over-emoji').textContent = '\uD83E\uDD1D';
@@ -327,7 +328,13 @@ document.addEventListener('DOMContentLoaded', function () {
         title.textContent = 'Empate!';
         title.className = 'game-over-title';
         title.style.color = '#F59E0B';
-        document.getElementById('game-over-message').textContent = 'O jogo terminou empatado. Ninguem venceu!';
+        var mensagens = {
+            'afogamento': 'Empate por afogamento: o jogador da vez não tem lance legal e não está em xeque.',
+            'material-insuficiente': 'Empate por material insuficiente para dar xeque-mate.',
+            'cinquenta-lances': 'Empate pela regra dos 50 lances sem movimento de peão ou captura.',
+            'repeticao-tripla': 'Empate porque a mesma posição apareceu três vezes.'
+        };
+        document.getElementById('game-over-message').textContent = mensagens[motivo] || 'O jogo terminou empatado. Ninguém venceu.';
         document.getElementById('game-over-modal').classList.add('active');
         var st = document.getElementById('status-text');
         if (st) st.innerHTML = '<span style="color:#F59E0B;font-weight:800;">\uD83E\uDD1D EMPATE!</span>';

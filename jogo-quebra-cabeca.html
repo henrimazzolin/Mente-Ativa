@@ -43,26 +43,23 @@
             <p>Monte a imagem corretamente</p>
         </div>
 
-        <div class="instrucao-destaque">
-            <p><strong>Como jogar:</strong> Clique em uma peça, depois clique em outra para trocá-las de lugar até montar a imagem completa!</p>
-        </div>
-
         <div class="dificuldade-selector">
             <span class="dificuldade-label">Dificuldade:</span>
-            <button class="dif-btn facil active">Fácil</button>
-            <button class="dif-btn medio">Médio</button>
-            <button class="dif-btn dificil">Difícil</button>
+            <button class="dif-btn facil active">Fácil · 3×3 — 9 peças</button>
+            <button class="dif-btn medio">Médio · 4×4 — 16 peças</button>
+            <button class="dif-btn dificil">Difícil · 5×5 — 25 peças</button>
         </div>
 
         <div class="game-container">
             <div class="puzzle-wrapper">
-                <div class="puzzle-container" id="puzzleContainer"></div>
+                <div class="puzzle-container" id="puzzleContainer" role="group" aria-label="Peças do quebra-cabeça"></div>
 
                 <div class="preview-container">
                     <p class="preview-label">Imagem original:</p>
-                    <img id="previewImage" alt="Imagem original" class="preview-image">
+                    <img id="previewImage" alt="Imagem original usada como referência" class="preview-image">
                 </div>
             </div>
+            <p class="puzzle-selection-status" id="puzzleSelectionStatus" aria-live="polite">Escolha a primeira peça.</p>
 
             <div class="buttons">
                 <button class="btn" id="btn-restart">Reiniciar Jogo</button>

@@ -1,4 +1,4 @@
-var CACHE_NAME = 'mente-ativa-v20';
+var CACHE_NAME = 'mente-ativa-v23';
 var OFFLINE_URL = '/index.html';
 var GAME_LOGIC_PATTERN = /^\/js\/(?:jogo-[^/]+|lib\/(?:damas-engine|chess-engine))\.js$/i;
 var FRESH_ASSET_PATTERN = /\.(?:css|js)$/i;
@@ -35,6 +35,7 @@ var ASSETS_TO_CACHE = [
     '/jogo-pareamento-formas.html',
     '/jogo-pareamento-simples.html',
     '/jogo-pintura.html',
+    '/jogo-pintura-simples.html',
     '/jogo-quebra-cabeca.html',
     '/jogo-reconhecimento.html',
     '/jogo-repeticao.html',
@@ -45,6 +46,7 @@ var ASSETS_TO_CACHE = [
     '/js/lib/utils.js',
     '/js/accessibility-unified.js',
     '/js/info-navigation.js',
+    '/js/info-carousel.js',
     '/js/app.js',
     '/js/components/logo.js',
     '/js/assistente-flutuante.js',
@@ -90,6 +92,7 @@ var ASSETS_TO_CACHE = [
     '/css/jogo-pareamento-formas.css',
     '/css/jogo-pareamento-simples.css',
     '/css/jogo-pintura.css',
+    '/css/jogo-pintura-simples.css',
     '/css/jogo-quebra-cabeca.css',
     '/css/jogo-reconhecimento.css',
     '/css/jogo-repeticao.css',
@@ -146,7 +149,28 @@ var ASSETS_TO_CACHE = [
     '/img/unsplash_1587049352846-4a222e784d38.jpg',
     '/img/unsplash_1587300003388-59208cc962cb.jpg',
     '/img/unsplash_1609505848912-b7c3b8b4beda.jpg',
-    '/img/unsplash_1615485290382-441e4d049cb5.jpg'
+    '/img/unsplash_1615485290382-441e4d049cb5.jpg',
+    '/img/cards/pintura-simples.png',
+    '/img/cards/coordenacao.png',
+    '/img/cards/musica-simples.png',
+    '/img/jogos/memoria/maca.png',
+    '/img/jogos/memoria/banana.png',
+    '/img/jogos/memoria/laranja.png',
+    '/img/jogos/memoria/flor.png',
+    '/img/jogos/memoria/cachorro.png',
+    '/img/jogos/memoria/gato.png',
+    '/img/jogos/memoria/passaro.png',
+    '/img/jogos/memoria/xicara.png',
+    '/img/jogos/memoria/chave.png',
+    '/img/jogos/memoria/relogio.png',
+    '/img/jogos/memoria/telefone.png',
+    '/img/jogos/memoria/guarda-chuva.png',
+    '/img/jogos/quebra-cabeca/jardim-florido.png',
+    '/img/jogos/quebra-cabeca/casa-de-campo.png',
+    '/img/jogos/quebra-cabeca/praia-tranquila.png',
+    '/img/jogos/quebra-cabeca/praca-arborizada.png',
+    '/img/jogos/quebra-cabeca/mesa-de-cafe.png',
+    '/img/jogos/quebra-cabeca/cesta-de-frutas.png'
 ];
 
 self.addEventListener('install', function(event) {

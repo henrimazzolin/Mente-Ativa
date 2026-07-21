@@ -44,10 +44,6 @@
             <p>Use as pistas para resolver cada desafio</p>
         </div>
 
-        <div class="instrucao-destaque">
-            <p>Leia o cenário e as pistas com atenção. Depois escolha a alternativa correta!</p>
-        </div>
-
         <div class="dificuldade-selector">
             <span class="dificuldade-label">Dificuldade:</span>
             <button class="dif-btn facil active" data-dif="facil">Fácil</button>
@@ -65,7 +61,7 @@
                 <div class="stat-value" id="streak">0</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">Puzzle</div>
+                <div class="stat-label">Pergunta</div>
                 <div class="stat-value" id="puzzleNum">1/10</div>
             </div>
         </div>
@@ -76,7 +72,7 @@
                 <h3>Pistas</h3>
                 <ul id="cluesList"></ul>
             </div>
-            <div class="puzzle-question" id="question"></div>
+            <div class="puzzle-question"><span class="question-label">Pergunta</span><strong id="question"></strong></div>
             <div class="puzzle-options" id="optionsContainer"></div>
             <div class="puzzle-explanation" id="explanation"></div>
         </div>
@@ -91,7 +87,7 @@
     <div class="feedback-modal" id="feedbackModal">
         <div class="icon" id="feedbackIcon"></div>
         <h2 id="feedbackTitle">Parabéns!</h2>
-        <p id="feedbackText">Você completou todos os puzzles deste nível.</p>
+        <p id="feedbackText">Você completou todas as perguntas deste nível.</p>
         <button class="btn" id="feedbackBtn">Jogar Novamente</button>
     </div>
 

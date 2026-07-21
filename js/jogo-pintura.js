@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const toolStatus = document.getElementById('toolStatus');
     const drawingState = document.getElementById('drawingState');
     const canvasHint = document.getElementById('canvasHint');
+    const favoriteColorsContainer = document.getElementById('favoriteColors');
+    const saveFavoriteColorButton = document.getElementById('saveFavoriteColor');
+    const FAVORITES_KEY = 'menteAtiva.pintura.coresFavoritas';
 
     let isDrawing = false;
     let currentColor = '#000000';
@@ -26,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentStroke = null;
     let actions = [];
     let redoActions = [];
+    let favoriteColors = loadFavoriteColors();
 
     const colors = [
         { value: '#000000', name: 'Preto' },
@@ -40,11 +44,76 @@ document.addEventListener('DOMContentLoaded', function() {
         { value: '#7C2D12', name: 'Marrom' }
     ];
 
+    function isValidColor(value) {
+        return typeof value === 'string' && /^#[0-9A-F]{6}$/.test(value);
+    }
+
+    function loadFavoriteColors() {
+        try {
+            var parsed = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+            if (!Array.isArray(parsed)) return [];
+            return parsed.map(function(cor) { return String(cor).toUpperCase(); }).filter(isValidColor).filter(function(cor, i, arr) { return arr.indexOf(cor) === i; }).slice(0, 8);
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function persistFavoriteColors() {
+        try { localStorage.setItem(FAVORITES_KEY, JSON.stringify(favoriteColors)); } catch (error) {}
+    }
+
+    function renderFavoriteColors() {
+        favoriteColorsContainer.innerHTML = '';
+        favoriteColorsContainer.classList.toggle('empty', favoriteColors.length === 0);
+        if (!favoriteColors.length) {
+            favoriteColorsContainer.textContent = 'Nenhuma cor favorita salva.';
+            return;
+        }
+        favoriteColors.forEach(function(cor) {
+            var item = document.createElement('span');
+            item.className = 'favorite-color-item';
+            var choose = document.createElement('button');
+            choose.type = 'button';
+            choose.className = 'favorite-color-btn';
+            choose.style.backgroundColor = cor;
+            choose.setAttribute('aria-label', 'Usar cor favorita ' + cor);
+            choose.addEventListener('click', function() { selectColor(cor, 'favorita'); });
+            var remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'favorite-remove-btn';
+            remove.textContent = '×';
+            remove.setAttribute('aria-label', 'Remover cor favorita ' + cor);
+            remove.addEventListener('click', function() {
+                favoriteColors = favoriteColors.filter(function(itemColor) { return itemColor !== cor; });
+                persistFavoriteColors();
+                renderFavoriteColors();
+            });
+            item.appendChild(choose);
+            item.appendChild(remove);
+            favoriteColorsContainer.appendChild(item);
+        });
+    }
+
+    function saveFavoriteColor() {
+        var normalized = currentColor.toUpperCase();
+        if (!isValidColor(normalized)) return;
+        if (favoriteColors.indexOf(normalized) !== -1) {
+            updateInterface('Esta cor já está nas favoritas.');
+            return;
+        }
+        if (favoriteColors.length >= 8) favoriteColors.shift();
+        favoriteColors.push(normalized);
+        persistFavoriteColors();
+        renderFavoriteColors();
+        updateInterface('Cor salva nas favoritas.');
+    }
+
     function initializeCanvas() {
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         paintBackground();
         renderColors();
+        renderFavoriteColors();
         bindControls();
         updateInterface();
     }
@@ -118,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         customColorInput.addEventListener('input', function() {
             selectColor(this.value, 'personalizada');
         });
+        saveFavoriteColorButton.addEventListener('click', saveFavoriteColor);
         brushButton.addEventListener('click', selectBrush);
         eraserButton.addEventListener('click', selectEraser);
         undoButton.addEventListener('click', undo);

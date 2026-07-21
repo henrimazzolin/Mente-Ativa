@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
         const PLACEHOLDER = 'img/placeholder.svg';
 
-        function localImage(photoId) {
-            return 'img/unsplash_' + photoId + '.jpg';
-        }
-
         function imgOnError(img) {
             if (!img.dataset.fallback) {
                 img.dataset.fallback = 'true';
@@ -12,43 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        const imageSets = {
-            frutas: [
-                localImage('1615485290382-441e4d049cb5'),
-                localImage('1587049352846-4a222e784d38'),
-                localImage('1609505848912-b7c3b8b4beda'),
-                localImage('1505740420928-5e560c06d30e'),
-                localImage('1526170375885-4d8ecf77b99f'),
-                localImage('1585386959984-a4155224a1ad')
-            ],
-            animais: [
-                localImage('1514888286974-6c03e2ca1dba'),
-                localImage('1574158622682-e40e69881006'),
-                localImage('1543466835-00a7907e9de1'),
-                localImage('1587300003388-59208cc962cb'),
-                localImage('1533738363-b7f9aef128ce'),
-                localImage('1517849845537-4d257902454a'),
-                localImage('1583511655857-d19b40a7a54e')
-            ],
-            natureza: [
-                localImage('1506905925346-21bda4d32df4'),
-                localImage('1469474968028-56623f02e42e'),
-                localImage('1441974231531-c6227db76b6e'),
-                localImage('1470071459604-3b5ec3a7fe05'),
-                localImage('1501854140801-50d01698950b'),
-                localImage('1433086966358-54859d0ed716'),
-                localImage('1506744038136-46273834b3fb')
-            ],
-            objetos: [
-                localImage('1525966222134-fcfa99b8ae77'),
-                localImage('1542291026-7eec264c27ff'),
-                localImage('1583394838336-acd977736f90'),
-                localImage('1495360010541-f48722b34f7d'),
-                localImage('1513475382585-d06e58bcb0e0'),
-                localImage('1518717758536-85ae29035b6d'),
-                localImage('1519681393784-d120267933ba')
-            ]
-        };
+        const imageSets = [
+            { src: 'img/jogos/memoria/maca.png', nome: 'Maçã' },
+            { src: 'img/jogos/memoria/banana.png', nome: 'Banana' },
+            { src: 'img/jogos/memoria/laranja.png', nome: 'Laranja' },
+            { src: 'img/jogos/memoria/flor.png', nome: 'Flor' },
+            { src: 'img/jogos/memoria/cachorro.png', nome: 'Cachorro' },
+            { src: 'img/jogos/memoria/gato.png', nome: 'Gato' },
+            { src: 'img/jogos/memoria/passaro.png', nome: 'Pássaro' },
+            { src: 'img/jogos/memoria/xicara.png', nome: 'Xícara' },
+            { src: 'img/jogos/memoria/chave.png', nome: 'Chave' },
+            { src: 'img/jogos/memoria/relogio.png', nome: 'Relógio' },
+            { src: 'img/jogos/memoria/telefone.png', nome: 'Telefone' },
+            { src: 'img/jogos/memoria/guarda-chuva.png', nome: 'Guarda-chuva' }
+        ];
 
         let cards = [];
         let flippedCards = [];
@@ -70,20 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var numPairs = config.pairs;
             var numCols = config.cols;
 
-            // Escolher imagem(ns) conforme a dificuldade
-            var imagensSelecionadas;
-            if (currentDifficulty === 'dificil') {
-                // Pool de todas as categorias para ter variedade
-                var todas = [];
-                Object.keys(imageSets).forEach(function(c) {
-                    todas = todas.concat(imageSets[c]);
-                });
-                imagensSelecionadas = MenteAtiva.utils.shuffleArray(todas).slice(0, numPairs);
-            } else {
-                var categoriesList = Object.keys(imageSets);
-            var cat = categoriesList[Math.floor(Math.random() * categoriesList.length)];
-                imagensSelecionadas = MenteAtiva.utils.shuffleArray(imageSets[cat]).slice(0, numPairs);
-            }
+            var imagensSelecionadas = MenteAtiva.utils.shuffleArray(imageSets).slice(0, numPairs);
 
             var cardImages = imagensSelecionadas.concat(imagensSelecionadas);
             cards = MenteAtiva.utils.shuffleArray(cardImages);
@@ -98,16 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             board.style.gridTemplateColumns = 'repeat(' + numCols + ', 1fr)';
 
-            cards.forEach(function(imgUrl, index) {
+            cards.forEach(function(item, index) {
                 var card = document.createElement('div');
                 card.className = 'card';
                 card.dataset.index = index;
-                card.dataset.image = imgUrl;
+                card.dataset.image = item.src;
                 var img = document.createElement('img');
-                img.alt = 'Carta';
+                img.alt = item.nome;
                 img.loading = 'lazy';
                 img.onerror = function() { imgOnError(this); };
-                img.src = imgUrl;
+                img.src = item.src;
                 card.innerHTML = '<div class="card-image"></div>';
                 card.querySelector('.card-image').appendChild(img);
                 card.addEventListener('click', function() { flipCard(card); });
