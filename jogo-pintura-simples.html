@@ -18,20 +18,56 @@
 <body>
     <div class="container simple-paint-page">
         <header class="header">
-            <a href="jogos-acompanhados.html" class="back-btn" aria-label="Voltar aos jogos acompanhados"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
+            <a href="jogos-acompanhados.html" class="back-btn" aria-label="Voltar aos jogos acompanhados">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </a>
             <div class="logo" data-logo-tipo="simples"><div class="logo-icon"><img alt="Logo Mente Ativa"></div></div>
         </header>
+
         <main class="simple-paint-card">
-            <h1>Pintura Simples</h1>
-            <p class="simple-instruction">Escolha uma cor e arraste o dedo na tela.</p>
-            <div class="simple-colors" id="simpleColors" aria-label="Escolha uma cor"></div>
-            <div class="simple-paint-tools">
-                <button type="button" id="simpleBrush" class="active" aria-pressed="true">🖌️ Pintar</button>
-                <button type="button" id="simpleEraser" aria-pressed="false">▭ Borracha</button>
-                <button type="button" id="simpleClear">Limpar</button>
-            </div>
-            <div class="simple-canvas-wrap"><canvas id="simplePaintCanvas" width="900" height="650" aria-label="Área de pintura" tabindex="0"></canvas></div>
-            <p id="simplePaintStatus" aria-live="polite">Cor azul selecionada.</p>
+            <section class="simple-paint-intro" aria-labelledby="paintTitle">
+                <span class="simple-paint-kicker">Atividade criativa</span>
+                <h1 id="paintTitle">Pintura Simples</h1>
+                <p class="simple-instruction">Escolha uma cor e arraste o dedo ou o mouse pela tela.</p>
+            </section>
+
+            <section class="simple-panel simple-palette-panel" aria-labelledby="paletteTitle">
+                <div class="simple-section-heading">
+                    <span class="simple-step" aria-hidden="true">1</span>
+                    <div><h2 id="paletteTitle">Escolha uma cor</h2><p>Toque na cor que deseja usar.</p></div>
+                </div>
+                <div class="simple-colors" id="simpleColors" role="group" aria-label="Escolha uma cor"></div>
+            </section>
+
+            <section class="simple-panel simple-tools-panel" aria-labelledby="toolsTitle">
+                <div class="simple-section-heading">
+                    <span class="simple-step" aria-hidden="true">2</span>
+                    <div><h2 id="toolsTitle">Escolha uma ferramenta</h2><p>Você pode pintar, apagar ou limpar tudo.</p></div>
+                </div>
+                <div class="simple-paint-tools">
+                    <button type="button" id="simpleBrush" class="active" aria-pressed="true">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16c-1.5 0-3 .9-3 2.5C4 20 2.5 21 1 21c2 2 6 2 8-1 .8-1.2.2-4-2-4Zm14.7-12.3a1 1 0 0 0-1.4 0L9 15l3 3L23.3 6.7a1 1 0 0 0 0-1.4l-1.6-1.6Z"/></svg>
+                        Pintar
+                    </button>
+                    <button type="button" id="simpleEraser" aria-pressed="false">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m16.2 3.5 4.3 4.3a2 2 0 0 1 0 2.8l-8.9 8.9H6.8l-3.3-3.3a2 2 0 0 1 0-2.8l9.9-9.9a2 2 0 0 1 2.8 0ZM7.6 17.5h3.2l4.1-4.1-4.3-4.3-5.7 5.7 2.7 2.7ZM5 21h16v-2H13l-2 2H5Z"/></svg>
+                        Borracha
+                    </button>
+                    <button type="button" id="simpleClear">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21a2 2 0 0 1-2-2V7H3V5h4V3h10v2h4v2h-2v12a2 2 0 0 1-2 2H7Zm2-4h2V9H9v8Zm4 0h2V9h-2v8Z"/></svg>
+                        Limpar
+                    </button>
+                </div>
+            </section>
+
+            <section class="simple-panel simple-drawing-panel" aria-labelledby="drawingTitle">
+                <div class="simple-section-heading">
+                    <span class="simple-step" aria-hidden="true">3</span>
+                    <div><h2 id="drawingTitle">Agora é só pintar</h2><p>Use toda a área branca para criar seu desenho.</p></div>
+                </div>
+                <div class="simple-canvas-wrap"><canvas id="simplePaintCanvas" width="900" height="650" aria-label="Área de pintura" tabindex="0"></canvas></div>
+                <p id="simplePaintStatus" class="simple-paint-status" aria-live="polite">Cor azul selecionada.</p>
+            </section>
         </main>
     </div>
     <script src="js/alerts.js"></script>

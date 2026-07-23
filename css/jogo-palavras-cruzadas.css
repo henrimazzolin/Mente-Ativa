@@ -137,17 +137,6 @@ body {
     margin-bottom: 8px;
 }
 
-.game-level {
-    display: inline-block;
-    background: var(--cor-terceira);
-    color: white;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
 .game-container {
     background: var(--cor-fundo-card);
     border-radius: var(--borda-radius);

@@ -464,14 +464,31 @@
         var titulo = document.querySelector('.page-title');
         if (!titulo) return;
 
+        var tituloPrincipal = titulo.querySelector('h1');
+        if (!tituloPrincipal) return;
+
+        var linkComoJogar = document.createElement('a');
+        linkComoJogar.className = 'how-to-video-link';
+        linkComoJogar.href = '#como-jogar';
+        linkComoJogar.textContent = 'Como jogar';
+
+        titulo.appendChild(linkComoJogar);
+
         var card = document.createElement('section');
         card.className = 'how-to-video-card';
+        card.id = 'como-jogar';
         card.dataset.videoKey = chave;
-        card.innerHTML = '<p>Veja no vídeo abaixo como jogar.</p>' +
+        card.innerHTML = '<p>Vídeo: como jogar</p>' +
             '<button type="button" class="how-to-video-trigger" aria-label="Abrir vídeo de como jogar" aria-haspopup="dialog">' +
                 '<span class="how-to-play-icon" aria-hidden="true"></span>' +
             '</button>';
-        titulo.insertAdjacentElement('afterend', card);
+
+        var rodape = document.querySelector('footer');
+        if (rodape) {
+            rodape.insertAdjacentElement('beforebegin', card);
+        } else {
+            document.body.appendChild(card);
+        }
 
         var overlay = document.createElement('div');
         overlay.className = 'how-to-video-overlay';

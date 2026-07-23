@@ -178,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 initGame();
             });
         });
-        document.getElementById('btn-back').addEventListener('click', function() { window.location.href = 'jogos-individuais.html'; });
         document.getElementById('btn-play-again').addEventListener('click', function() {
             exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
                 initGame();

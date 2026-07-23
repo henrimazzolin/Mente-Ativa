@@ -3,90 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jogo acompanhado de sons e música - Mente Ativa">
+    <meta name="description" content="Playlist de músicas acompanhada - Mente Ativa">
     <title>Mente Ativa - Música</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="img/unnamed.jpg" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/jogo-musica.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     <link rel="stylesheet" href="css/assistente-flutuante.css">
-    <script src="js/lib/utils.js" defer></script>
-    <script src="js/accessibility-unified.js" defer></script>
-    <script src="js/components/logo.js" defer></script>
-
-    
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/accessibility-unified.js" defer></script>
+    <script src="js/components/logo.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <a href="jogos-acompanhados.html" class="back-btn">
-                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    <div class="container music-page">
+        <header class="header">
+            <a href="jogos-acompanhados.html" class="back-btn" aria-label="Voltar aos jogos acompanhados">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
             </a>
-            <div class="logo" data-logo-tipo="simples">
-                <div class="logo-icon">
-                    <img alt="Logo Mente Ativa" />
+            <div class="logo" data-logo-tipo="simples"><div class="logo-icon"><img alt="Logo Mente Ativa"></div></div>
+        </header>
+
+        <main class="music-shell" aria-labelledby="musicTitle">
+            <section class="music-hero">
+                <div class="music-hero-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h6V3h-8Z"/></svg>
                 </div>
-            </div>
-        </div>
+                <div>
+                    <span class="music-kicker">Ouça no seu ritmo</span>
+                    <h1 id="musicTitle">Músicas</h1>
+                    <p>Escolha uma faixa da lista para tocar.</p>
+                </div>
+            </section>
 
-        <div class="page-title">
-            <h1>Música</h1>
-            <p>Ouça e identifique o som</p>
-        </div>
+            <aside class="demo-notice" role="note" aria-label="Aviso sobre a demonstração">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 17h2v-6h-2v6Zm0-8h2V7h-2v2Zm1 13a10 10 0 1 1 0-20 10 10 0 0 1 0 20Z"/></svg>
+                <div><strong>Demonstração visual</strong><p>Os áudios serão adicionados em breve. Nesta versão, os controles funcionam sem produzir som.</p></div>
+            </aside>
 
-        <div class="instrucao">
-            <p>Toque em Ouvir som. Depois escolha a resposta.</p>
-        </div>
+            <section class="now-playing" id="nowPlaying" aria-labelledby="nowPlayingTitle">
+                <div class="now-playing-cover" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h6V3h-8Z"/></svg>
+                </div>
+                <div class="now-playing-info">
+                    <span id="nowPlayingTitle">Tocando agora</span>
+                    <strong id="currentTrackTitle">Nenhuma música selecionada</strong>
+                    <small id="currentTrackArtist">Escolha uma faixa abaixo</small>
+                    <div class="player-progress-row">
+                        <span id="currentTime">0:00</span>
+                        <div class="player-progress" role="progressbar" aria-label="Progresso da demonstração" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0">
+                            <span id="playerProgressFill"></span>
+                        </div>
+                        <span>0:30</span>
+                    </div>
+                    <p id="musicStatus" class="music-status" aria-live="polite">Aguardando uma escolha.</p>
+                </div>
+            </section>
 
-        <div class="game-info">
-            <div class="info-item">
-                <div class="info-label">Acertos</div>
-                <div class="info-value" id="correct">0</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Questão</div>
-                <div class="info-value" id="question">1/5</div>
-            </div>
-        </div>
-
-        <div class="game-area">
-            <div class="instrument-display">
-                <button class="sound-play-btn" id="playSound" type="button">▶ Ouvir som</button>
-                <p class="question">Que som você ouviu?</p>
-                <p class="question-sub" id="musicHint" aria-live="polite">Você pode ouvir quantas vezes quiser.</p>
-            </div>
-
-            <div class="options-container" id="optionsGrid"></div>
-
-            <button class="btn" id="nextBtn" style="display: none;">Próximo som</button>
-        </div>
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-    <div class="feedback" id="feedback">
-        <div class="feedback-icon" id="feedbackIcon"></div>
-        <h2 id="feedbackTitle">Muito bem!</h2>
-        <p id="feedbackText">Você acertou!</p>
-        <button class="btn" id="feedbackBtn">Continuar</button>
+            <section class="playlist-section" aria-labelledby="playlistTitle">
+                <div class="playlist-heading">
+                    <div><span>Playlist</span><h2 id="playlistTitle">Músicas disponíveis</h2></div>
+                    <strong>6 faixas</strong>
+                </div>
+                <div class="playlist" id="playlist"></div>
+            </section>
+        </main>
     </div>
 
     <footer>
         <p>Cuidar da mente é cultivar a vida.</p>
         <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
-            <a href="sobre.html" class="sobre-footer">Sobre</a>
+        <a href="sobre.html" class="sobre-footer">Sobre</a>
     </footer>
 
     <script src="js/jogo-musica.js"></script>
     <script src="js/assistente-flutuante.js"></script>
     <script src="js/alerts.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

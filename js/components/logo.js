@@ -26,7 +26,7 @@
             simples: {
                 claro: 'img/LogoVerdeClaroNovo.png',
                 escuro: 'img/LogoVerdeEscuroNovo.png',
-                alt: 'Logo Mente Ativa - Nível Simples'
+                alt: 'Logo Mente Ativa - Jogos acompanhados'
             },
             moderado: {
                 claro: 'img/LogoAzulClaroNovo.png',

@@ -465,10 +465,6 @@ function initGame() {
         }
     }
     
-    const dificuldadeLabels = { facil: 'Fácil', medio: 'Médio', dificil: 'Difícil' };
-    document.getElementById('gameLevel').textContent = 
-        'Nível: ' + dificuldadeLabels[currentDifficulty] + ' (' + currentTema.qtdPalavras + ' palavras)';
-    
     renderHints();
 }
 
@@ -902,10 +898,6 @@ document.getElementById('btn-reset').addEventListener('click', function() {
         resetGame();
         initGame();
     });
-});
-
-document.getElementById('btn-back').addEventListener('click', function() {
-    window.location.href = 'jogos-individuais.html';
 });
 
 document.getElementById('overlay').addEventListener('click', closeMessage);

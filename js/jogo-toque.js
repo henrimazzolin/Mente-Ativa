@@ -1,141 +1,219 @@
-document.addEventListener('DOMContentLoaded', function() {
-        const TOTAL_CELULAS = 9;
-        const TOTAL_RODADAS = 5;
+document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
-        let acertos = 0;
-        let rodadaAtual = 0;
-        let posicaoVerde = -1;
-        let aguardandoProxima = false;
+    var PATHS = [
+        { id: 'horizontal', name: 'Linha horizontal', d: 'M90 180 L550 180' },
+        { id: 'vertical', name: 'Linha vertical', d: 'M320 55 L320 305' },
+        { id: 'diagonal', name: 'Linha diagonal', d: 'M105 295 L535 65' },
+        { id: 'curve', name: 'Curva suave', d: 'M90 270 Q320 45 550 270' },
+        { id: 'corner', name: 'Caminho em L', d: 'M105 70 L105 285 L545 285' },
+        { id: 'wave', name: 'Caminho em onda', d: 'M70 180 C145 55 235 305 320 180 S495 55 570 180' },
+        { id: 'zigzag', name: 'Caminho em zigue-zague', d: 'M70 280 L180 80 L300 280 L420 80 L570 280' },
+        { id: 'composed', name: 'Caminho combinado', d: 'M80 90 C190 90 180 250 300 250 L420 250 Q560 250 560 100' }
+    ];
+    var TOTAL_PATHS = PATHS.length;
+    var CHECKPOINT_COUNT = 48;
+    var TOLERANCE = 48;
+    var order = [];
+    var stageIndex = 0;
+    var checkpoints = [];
+    var checkpointIndex = 0;
+    var tracing = false;
+    var completed = false;
+    var activePointerId = null;
+    var pathLength = 0;
 
-        function criarGrid() {
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '';
-            
-            for (let i = 0; i < TOTAL_CELULAS; i++) {
-                const cell = document.createElement('button');
-                cell.type = 'button';
-                cell.className = 'cell';
-                cell.dataset.index = i;
-                cell.addEventListener('click', function() { clicarCelula(i, this); });
-                cell.setAttribute('aria-label', 'Quadrado ' + (i + 1));
-                grid.appendChild(cell);
-            }
+    var board = document.getElementById('traceBoard');
+    var corridor = document.getElementById('pathCorridor');
+    var guide = document.getElementById('pathGuide');
+    var progress = document.getElementById('pathProgress');
+    var startPoint = document.getElementById('startPoint');
+    var endPoint = document.getElementById('endPoint');
+    var startLabel = document.getElementById('startLabel');
+    var endLabel = document.getElementById('endLabel');
+    var status = document.getElementById('coordinationStatus');
+    var instruction = document.getElementById('instructionText');
+    var nextButton = document.getElementById('nextPath');
+
+    function shuffle(list) {
+        var shuffled = list.slice();
+        for (var i = shuffled.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = shuffled[i];
+            shuffled[i] = shuffled[j];
+            shuffled[j] = temp;
         }
+        return shuffled;
+    }
 
-        function posicionarVerde() {
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(c => c.classList.remove('green', 'correct', 'wrong'));
-            
-            posicaoVerde = Math.floor(Math.random() * TOTAL_CELULAS);
-            cells[posicaoVerde].classList.add('green');
-            cells.forEach(function(cell, index) { cell.setAttribute('aria-label', index === posicaoVerde ? 'Quadrado verde. Toque aqui.' : 'Quadrado vazio'); });
-            aguardandoProxima = false;
+    function distance(a, b) {
+        var x = a.x - b.x;
+        var y = a.y - b.y;
+        return Math.sqrt(x * x + y * y);
+    }
+
+    function boardPoint(event) {
+        var svgPoint = board.createSVGPoint();
+        svgPoint.x = event.clientX;
+        svgPoint.y = event.clientY;
+        var matrix = board.getScreenCTM();
+        if (matrix) return svgPoint.matrixTransform(matrix.inverse());
+        var rect = board.getBoundingClientRect();
+        return { x: (event.clientX - rect.left) * 640 / rect.width, y: (event.clientY - rect.top) * 360 / rect.height };
+    }
+
+    function setStatus(text, encouraging) {
+        status.textContent = text;
+        status.classList.toggle('encouragement', Boolean(encouraging));
+    }
+
+    function updateDots() {
+        var dots = document.getElementById('stageDots');
+        dots.innerHTML = '';
+        for (var i = 0; i < TOTAL_PATHS; i++) {
+            var dot = document.createElement('span');
+            dot.className = 'stage-dot' + (i < stageIndex ? ' completed' : (i === stageIndex ? ' current' : ''));
+            dots.appendChild(dot);
         }
+    }
 
-        function clicarCelula(index, cell) {
-            if (rodadaAtual >= TOTAL_RODADAS) return;
-            if (aguardandoProxima) return;
-            
-            if (index === posicaoVerde) {
-                aguardandoProxima = true;
-                cell.classList.add('correct');
-                acertos++;
-                rodadaAtual++;
-                
-                document.getElementById('acertos').textContent = acertos;
-                document.getElementById('falta').textContent = TOTAL_RODADAS - rodadaAtual;
-                
-                if (rodadaAtual >= TOTAL_RODADAS) {
-                    setTimeout(mostrarResultado, 500);
-                } else {
-                    setTimeout(posicionarVerde, 400);
-                }
-            } else {
-                cell.classList.add('wrong');
-                setTimeout(() => {
-                    cell.classList.remove('wrong');
-                }, 400);
-                
-                document.querySelector('.instruction-text').textContent = 'QUASE! PROCURE O QUADRADO VERDE';
-                setTimeout(function() { document.querySelector('.instruction-text').textContent = 'TOQUE NO QUADRADO VERDE'; }, 700);
-            }
+    function createCheckpoints() {
+        checkpoints = [];
+        pathLength = guide.getTotalLength();
+        for (var i = 0; i <= CHECKPOINT_COUNT; i++) {
+            checkpoints.push(guide.getPointAtLength(pathLength * i / CHECKPOINT_COUNT));
         }
+    }
 
-        function iniciarJogo() {
-            acertos = 0;
-            rodadaAtual = 0;
-            aguardandoProxima = false;
-            
-            document.getElementById('acertos').textContent = '0';
-            document.getElementById('falta').textContent = '5';
-            
-            const btn = document.getElementById('feedbackBtn');
-            btn.textContent = 'Continuar';
-            btn.onclick = fecharFeedback;
-            
-            criarGrid();
-            posicionarVerde();
+    function placePoint(circle, label, point) {
+        circle.setAttribute('cx', point.x);
+        circle.setAttribute('cy', point.y);
+        label.setAttribute('x', point.x);
+        label.setAttribute('y', point.y);
+    }
+
+    function resetCurrentPath() {
+        checkpointIndex = 0;
+        tracing = false;
+        completed = false;
+        activePointerId = null;
+        board.classList.remove('tracing');
+        startPoint.classList.add('ready');
+        endPoint.classList.remove('reached');
+        progress.style.strokeDasharray = pathLength + ' ' + pathLength;
+        progress.style.strokeDashoffset = String(pathLength);
+        nextButton.hidden = true;
+        instruction.textContent = 'Toque no ponto verde para começar.';
+        setStatus('Pronto para começar.', false);
+    }
+
+    function loadStage() {
+        var current = order[stageIndex];
+        corridor.setAttribute('d', current.d);
+        guide.setAttribute('d', current.d);
+        progress.setAttribute('d', current.d);
+        createCheckpoints();
+        placePoint(startPoint, startLabel, checkpoints[0]);
+        placePoint(endPoint, endLabel, checkpoints[checkpoints.length - 1]);
+        document.getElementById('pathCounter').textContent = 'Caminho ' + (stageIndex + 1) + ' de ' + TOTAL_PATHS;
+        document.getElementById('pathName').textContent = current.name;
+        updateDots();
+        resetCurrentPath();
+    }
+
+    function updateProgress() {
+        var ratio = checkpointIndex / CHECKPOINT_COUNT;
+        progress.style.strokeDashoffset = String(pathLength * (1 - ratio));
+    }
+
+    function finishStage() {
+        completed = true;
+        tracing = false;
+        board.classList.remove('tracing');
+        startPoint.classList.remove('ready');
+        endPoint.classList.add('reached');
+        progress.style.strokeDashoffset = '0';
+        instruction.textContent = 'Caminho concluído!';
+        setStatus(stageIndex === TOTAL_PATHS - 1 ? 'Excelente! Você chegou ao último ponto.' : 'Muito bem! Você chegou ao ponto azul.', true);
+        nextButton.textContent = stageIndex === TOTAL_PATHS - 1 ? 'Ver celebração' : 'Próximo caminho';
+        nextButton.hidden = false;
+        nextButton.focus();
+    }
+
+    function advanceWithPoint(point) {
+        if (completed) return;
+        var best = -1;
+        var lookAhead = Math.min(checkpointIndex + 6, CHECKPOINT_COUNT);
+        for (var i = checkpointIndex; i <= lookAhead; i++) {
+            if (distance(point, checkpoints[i]) <= TOLERANCE) best = i;
         }
+        if (best >= checkpointIndex) {
+            checkpointIndex = Math.max(checkpointIndex, best);
+            updateProgress();
+            instruction.textContent = 'Continue seguindo o caminho.';
+            setStatus('Isso! Continue devagar até o ponto azul.', true);
+            if (checkpointIndex >= CHECKPOINT_COUNT - 1 || distance(point, checkpoints[CHECKPOINT_COUNT]) <= TOLERANCE) finishStage();
+        } else {
+            instruction.textContent = 'Volte suavemente para o caminho.';
+            setStatus('Tudo bem. Aproxime o dedo da linha e continue.', false);
+        }
+    }
 
-        function mostrarFeedback(acertou, titulo, subtitulo) {
-            const overlay = document.getElementById('feedbackOverlay');
-            const icon = document.getElementById('feedbackIcon');
-            const title = document.getElementById('feedbackTitle');
-            const subtitle = document.getElementById('feedbackSubtitle');
-            
-            icon.className = 'feedback-icon ' + (acertou ? 'success' : 'error');
-            icon.textContent = acertou ? '✅' : '❌';
-            title.textContent = titulo;
-            subtitle.textContent = subtitulo;
-            
+    board.addEventListener('pointerdown', function (event) {
+        var expectedPoint = checkpoints[checkpointIndex];
+        if (completed || distance(boardPoint(event), expectedPoint) > TOLERANCE) {
+            if (!completed) setStatus(checkpointIndex > 0 ? 'Toque perto da parte verde do caminho para continuar.' : 'Comece tocando no ponto verde.', false);
+            return;
+        }
+        tracing = true;
+        activePointerId = event.pointerId;
+        board.setPointerCapture(event.pointerId);
+        board.classList.add('tracing');
+        startPoint.classList.remove('ready');
+        instruction.textContent = 'Continue seguindo o caminho.';
+        setStatus(checkpointIndex > 0 ? 'Ótimo, continue de onde parou.' : 'Muito bem, agora siga até o ponto azul.', true);
+        event.preventDefault();
+    });
+
+    board.addEventListener('pointermove', function (event) {
+        if (!tracing || event.pointerId !== activePointerId) return;
+        advanceWithPoint(boardPoint(event));
+        event.preventDefault();
+    });
+
+    function releasePointer(event) {
+        if (!tracing || event.pointerId !== activePointerId || completed) return;
+        tracing = false;
+        activePointerId = null;
+        board.classList.remove('tracing');
+        instruction.textContent = checkpointIndex > 0 ? 'Toque perto da parte verde para continuar.' : 'Toque no ponto verde para começar.';
+        setStatus('Você pode continuar quando quiser.', false);
+    }
+    board.addEventListener('pointerup', releasePointer);
+    board.addEventListener('pointercancel', releasePointer);
+
+    document.getElementById('restartPath').addEventListener('click', resetCurrentPath);
+    nextButton.addEventListener('click', function () {
+        if (stageIndex < TOTAL_PATHS - 1) {
+            stageIndex++;
+            loadStage();
+        } else {
+            var overlay = document.getElementById('celebrationOverlay');
             overlay.classList.add('show');
-            
-            if (acertou) {
-                setTimeout(fecharFeedback, 1000);
-            }
+            overlay.setAttribute('aria-hidden', 'false');
+            document.getElementById('playAgain').focus();
         }
+    });
 
-        function fecharFeedback() {
-            document.getElementById('feedbackOverlay').classList.remove('show');
-        }
+    document.getElementById('playAgain').addEventListener('click', function () {
+        var overlay = document.getElementById('celebrationOverlay');
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+        order = shuffle(PATHS);
+        stageIndex = 0;
+        loadStage();
+    });
 
-        function mostrarResultado() {
-            const overlay = document.getElementById('feedbackOverlay');
-            const icon = document.getElementById('feedbackIcon');
-            const title = document.getElementById('feedbackTitle');
-            const subtitle = document.getElementById('feedbackSubtitle');
-            const btn = document.getElementById('feedbackBtn');
-            
-            icon.className = 'feedback-icon success';
-            icon.textContent = '🏆';
-            
-            if (acertos === TOTAL_RODADAS) {
-                title.textContent = 'Perfeito!';
-                subtitle.textContent = 'Você acertou todos os 5 quadrados!';
-            } else {
-                title.textContent = 'Parabéns!';
-                subtitle.textContent = 'Você acertou ' + acertos + ' de ' + TOTAL_RODADAS + ' quadrados!';
-            }
-            
-            btn.textContent = 'Jogar Novamente';
-            btn.onclick = function() {
-                fecharFeedback();
-                iniciarJogo();
-            };
-            
-            overlay.classList.add('show');
-        }
-
-        // Event listeners
-        document.getElementById('btn-back').addEventListener('click', function() {
-            location.href = 'jogos-acompanhados.html';
-        });
-        document.getElementById('btn-restart').addEventListener('click', function() {
-            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-                iniciarJogo();
-            });
-        });
-        document.getElementById('feedbackBtn').addEventListener('click', fecharFeedback);
-
-        iniciarJogo();
+    order = shuffle(PATHS);
+    loadStage();
 });

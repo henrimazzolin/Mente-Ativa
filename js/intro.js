@@ -23,6 +23,8 @@
     var title = document.getElementById('title');
     var main = document.getElementById('main');
     var desc = document.getElementById('desc');
+    var continueButton = document.getElementById('introContinue');
+    var closed = false;
 
     var text = "Mente Ativa";
     var index = 0;
@@ -43,11 +45,36 @@
         }
     }
 
-    // Sequência de animações
+    function finishIntro(immediate) {
+        if (closed) return;
+        closed = true;
+        document.body.style.overflow = '';
+
+        if (immediate) {
+            intro.style.display = 'none';
+            document.body.classList.remove('ma-intro-active');
+            document.dispatchEvent(new CustomEvent('mente-ativa-intro-fechada'));
+            return;
+        }
+
+        intro.classList.add('intro-fade-out');
+        setTimeout(function() {
+            intro.style.display = 'none';
+            document.body.classList.remove('ma-intro-active');
+            document.dispatchEvent(new CustomEvent('mente-ativa-intro-fechada'));
+        }, 500);
+    }
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        finishIntro(true);
+        return;
+    }
+
+    // Sequência curta de animações
     setTimeout(function() {
         if (main) main.classList.add('move');
         if (title) { title.style.opacity = 1; typeWriter(); }
-    }, 1800);
+    }, 500);
 
     setTimeout(function() {
         if (desc) {
@@ -55,21 +82,25 @@
             desc.style.transform = 'translateY(0)';
             desc.style.transition = 'all 0.8s ease';
         }
-    }, 3500);
-
-    function closeIntro() {
-        intro.classList.add('intro-fade-out');
-        document.body.style.overflow = '';
-        setTimeout(function() {
-            intro.style.display = 'none';
-            document.body.classList.remove('ma-intro-active');
-            document.dispatchEvent(new CustomEvent('mente-ativa-intro-fechada'));
-        }, 800);
-    }
+    }, 1800);
 
     // Clique para fechar
-    intro.addEventListener('click', closeIntro);
+    intro.addEventListener('click', function(event) {
+        if (event.target === continueButton) return;
+        finishIntro(false);
+    });
+    if (continueButton) {
+        continueButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            finishIntro(false);
+        });
+        continueButton.focus();
+    }
 
-    // Fechar automaticamente após 12 segundos
-    setTimeout(closeIntro, 12000);
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' || event.key === 'Enter') finishIntro(false);
+    });
+
+    // Fechar automaticamente em no máximo 3,5 segundos.
+    setTimeout(function() { finishIntro(false); }, 3500);
 })();

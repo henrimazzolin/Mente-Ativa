@@ -43,9 +43,15 @@ assert.match(styles, /--ma-content-max:\s*1200px/);
 assert.match(styles, /--ma-card-gap:\s*24px/);
 assert.match(styles, /grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(styles, /body\.calendar-page \.calendar\s*\{[\s\S]*width:\s*min\(100%, 920px\)[\s\S]*margin-inline:\s*auto/);
+assert.match(styles, /body\.calendar-page > \.container\s*\{\s*padding-top:\s*30px/,
+    'A header do calendario deve manter o recuo superior padrao no desktop.');
+assert.match(styles, /body\.calendar-page \.container > \.header\s*\{\s*margin-bottom:\s*clamp\(24px, 3vw, 30px\)/,
+    'O titulo do calendario deve manter o mesmo respiro dos demais cabecalhos internos.');
 assert.match(styles, /body\.calendar-page \.events-list,[\s\S]*body\.calendar-page \.add-event-btn\s*\{[\s\S]*width:\s*min\(100%, 920px\)/);
 assert.match(styles, /body\.calendar-page \.days\s*\{[\s\S]*grid-auto-rows:\s*clamp\(60px, 7vh, 68px\)/);
 assert.match(styles, /@media \(min-width:\s*769px\) and \(max-height:\s*800px\)[\s\S]*grid-auto-rows:\s*clamp\(52px, 6\.5vh, 58px\)/);
+assert.doesNotMatch(styles, /body\.calendar-page > \.container\s*\{\s*padding-top:\s*14px/,
+    'Telas baixas nao devem colar a header do calendario ao topo.');
 assert.doesNotMatch(calendarStyles, /\.day\s*\{[^}]*aspect-ratio:\s*1/);
 assert.match(calendarStyles, /\.calendar\s*\{[\s\S]*border:\s*3px solid rgba\(59, 130, 246, 0\.35\)/);
 assert.match(calendarStyles, /\.day\.selected \.day-number\s*\{[\s\S]*background:\s*var\(--cor-secundaria\)/);

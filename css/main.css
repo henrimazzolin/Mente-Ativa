@@ -3,19 +3,32 @@
     --cor-fundo-card: #FFFFFF;
     --cor-texto: #1E293B;
     --cor-texto-claro: #475569;
-    --cor-primaria: #3B82F6;
-    --cor-secundaria: #10B981;
-    --cor-terceira: #F59E0B;
+    --cor-primaria: #2563EB;
+    --cor-secundaria: #14919B;
+    --cor-terceira: #14919B;
+    --cor-dificuldade: #F97316;
     --cor-sucesso: #059669;
     --cor-erro: #DC2626;
-    --sombra: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --sombra-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --cor-acompanhado: #059669;
+    --cor-botao-ajuda: #14919B;
+    --sombra: 0 4px 18px rgba(15, 23, 42, 0.09);
+    --sombra-hover: 0 14px 34px rgba(15, 23, 42, 0.16);
     --borda-radius: 16px;
     --border: #E2E8F0;
-    --primary-light: rgba(59, 130, 246, 0.1);
-    --focus-ring: #F59E0B;
-    --touch-target: 52px;
+    --primary-light: rgba(37, 99, 235, 0.1);
+    --focus-ring: #2563EB;
+    --touch-target: 48px;
     --header-max-width: 650px;
+    --ma-space-1: 8px;
+    --ma-space-2: 16px;
+    --ma-space-3: 24px;
+    --ma-space-4: 32px;
+    --ma-radius-control: 12px;
+    --ma-radius-card: 16px;
+    --ma-radius-surface: 20px;
+    --ma-radius-pill: 999px;
+    --ma-shadow-low: 0 4px 18px rgba(15, 23, 42, 0.09);
+    --ma-shadow-raised: 0 14px 34px rgba(15, 23, 42, 0.16);
 }
 
 * {
@@ -317,13 +330,14 @@ footer > * {
 }
 
 .btn-secondary {
-    background: var(--cor-terceira);
-    color: #1E293B;
+    border: 2px solid #94A3B8;
+    background: var(--cor-fundo-card);
+    color: var(--cor-texto);
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus-visible {
-    background: #D97706;
+    background: #E2E8F0;
     transform: translateY(-2px);
     box-shadow: var(--sombra-hover);
 }

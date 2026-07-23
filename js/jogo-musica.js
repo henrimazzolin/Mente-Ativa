@@ -1,32 +1,149 @@
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
-    var audioContext = null;
-    var sounds = [
-        { name:'Sino', play:function(ctx,t){ [0,0.12,0.24].forEach(function(d,i){tone(ctx,880+i*220,t+d,0.8,'sine',0.18);}); } },
-        { name:'Tambor', play:function(ctx,t){ tone(ctx,130,t,0.32,'sine',0.7,55); noise(ctx,t,0.16,0.18); } },
-        { name:'Chocalho', play:function(ctx,t){ for(var i=0;i<5;i++) noise(ctx,t+i*0.12,0.08,0.22,3500); } },
-        { name:'Piano', play:function(ctx,t){ [261.63,329.63,392].forEach(function(f,i){ tone(ctx,f,t+i*0.16,0.55,'triangle',0.22); }); } },
-        { name:'Palmas', play:function(ctx,t){ noise(ctx,t,0.09,0.5,1400); noise(ctx,t+0.32,0.09,0.5,1400); } },
-        { name:'Triângulo', play:function(ctx,t){ tone(ctx,1046.5,t,1.1,'sine',0.16); tone(ctx,2093,t,0.8,'sine',0.08); } }
-    ];
-    var rounds=[];
-    var index=0;
-    var correct=0;
-    var answered=false;
 
-    function ctx(){ if(!audioContext) audioContext=new (window.AudioContext||window.webkitAudioContext)(); if(audioContext.state==='suspended') audioContext.resume(); return audioContext; }
-    function tone(c,f,start,duration,type,volume,endFrequency){ var o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,start);if(endFrequency)o.frequency.exponentialRampToValueAtTime(endFrequency,start+duration);g.gain.setValueAtTime(volume,start);g.gain.exponentialRampToValueAtTime(0.001,start+duration);o.connect(g).connect(c.destination);o.start(start);o.stop(start+duration); }
-    function noise(c,start,duration,volume,frequency){ var buffer=c.createBuffer(1,Math.floor(c.sampleRate*duration),c.sampleRate),data=buffer.getChannelData(0);for(var i=0;i<data.length;i++)data[i]=Math.random()*2-1;var source=c.createBufferSource(),filter=c.createBiquadFilter(),gain=c.createGain();source.buffer=buffer;filter.type='bandpass';filter.frequency.value=frequency||2500;gain.gain.setValueAtTime(volume,start);gain.gain.exponentialRampToValueAtTime(.001,start+duration);source.connect(filter).connect(gain).connect(c.destination);source.start(start); }
-    function shuffle(list){ return MenteAtiva.utils.shuffleArray(list); }
-    function playCurrent(){ var c=ctx(); sounds.find(function(s){return s.name===rounds[index].name;}).play(c,c.currentTime+.04); document.getElementById('musicHint').textContent='Som reproduzido. Escolha uma resposta ou ouça novamente.'; }
-    function buildOptions(){ var target=rounds[index],count=index<2?2:3;var options=[target].concat(shuffle(sounds.filter(function(s){return s.name!==target.name;})).slice(0,count-1));options=shuffle(options);var grid=document.getElementById('optionsGrid');grid.innerHTML='';options.forEach(function(item){var b=document.createElement('button');b.type='button';b.className='option-btn';b.textContent=item.name;b.onclick=function(){answer(item.name,b);};grid.appendChild(b);}); }
-    function load(){ answered=false;document.getElementById('question').textContent=(index+1)+'/5';document.getElementById('nextBtn').style.display='none';document.getElementById('musicHint').textContent='Você pode ouvir quantas vezes quiser.';buildOptions(); }
-    function answer(name,button){ if(answered)return;if(name!==rounds[index].name){button.classList.add('wrong');document.getElementById('musicHint').textContent='Quase! Ouça novamente e tente outra resposta.';setTimeout(function(){button.classList.remove('wrong');},600);return;}answered=true;correct++;document.getElementById('correct').textContent=correct;button.classList.add('correct');document.querySelectorAll('.option-btn').forEach(function(b){b.disabled=true;});document.getElementById('musicHint').textContent='Muito bem! Você reconheceu o som.';var next=document.getElementById('nextBtn');next.style.display='inline-flex';next.textContent=index===4?'Ver resultado':'Próximo som'; }
-    function next(){ if(index===4){result();return;}index++;load(); }
-    function result(){ var overlay=document.getElementById('overlay'),feedback=document.getElementById('feedback');document.getElementById('feedbackIcon').textContent='🎵';document.getElementById('feedbackTitle').textContent='Muito bem!';document.getElementById('feedbackText').textContent='Você reconheceu '+correct+' de 5 sons.';var b=document.getElementById('feedbackBtn');b.textContent='Jogar novamente';b.onclick=function(){overlay.classList.remove('show');feedback.classList.remove('show');start();};overlay.classList.add('show');feedback.classList.add('show'); }
-    function start(){ rounds=shuffle(sounds.slice()).slice(0,5);index=0;correct=0;document.getElementById('correct').textContent='0';load(); }
-    document.getElementById('playSound').addEventListener('click',playCurrent);
-    document.getElementById('nextBtn').addEventListener('click',next);
-    document.getElementById('feedbackBtn').addEventListener('click',function(){document.getElementById('overlay').classList.remove('show');document.getElementById('feedback').classList.remove('show');});
-    start();
+    var tracks = [
+        { id: 'musica-01', title: 'Música 01', artist: 'Artista a definir', duration: '--:--', audioSrc: null },
+        { id: 'musica-02', title: 'Música 02', artist: 'Artista a definir', duration: '--:--', audioSrc: null },
+        { id: 'musica-03', title: 'Música 03', artist: 'Artista a definir', duration: '--:--', audioSrc: null },
+        { id: 'musica-04', title: 'Música 04', artist: 'Artista a definir', duration: '--:--', audioSrc: null },
+        { id: 'musica-05', title: 'Música 05', artist: 'Artista a definir', duration: '--:--', audioSrc: null },
+        { id: 'musica-06', title: 'Música 06', artist: 'Artista a definir', duration: '--:--', audioSrc: null }
+    ];
+    var DEMO_DURATION = 30;
+    var activeTrackId = null;
+    var playing = false;
+    var elapsed = 0;
+    var timer = null;
+    var lastTick = 0;
+    var playIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7L8 5Z"/></svg>';
+    var pauseIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6V5Zm8 0h4v14h-4V5Z"/></svg>';
+
+    function formatTime(seconds) {
+        return '0:' + String(Math.floor(seconds)).padStart(2, '0');
+    }
+
+    function activeTrack() {
+        return tracks.find(function (track) { return track.id === activeTrackId; }) || null;
+    }
+
+    function setStatus(text) { document.getElementById('musicStatus').textContent = text; }
+
+    function updateProgress() {
+        var percentage = Math.min(100, elapsed / DEMO_DURATION * 100);
+        document.getElementById('currentTime').textContent = formatTime(elapsed);
+        document.getElementById('playerProgressFill').style.width = percentage + '%';
+        var progress = document.querySelector('.player-progress');
+        progress.setAttribute('aria-valuenow', String(Math.floor(elapsed)));
+        progress.setAttribute('aria-valuetext', formatTime(elapsed) + ' de 0:30 da demonstração');
+    }
+
+    function updateTrackRows() {
+        document.querySelectorAll('.track').forEach(function (row) {
+            var isActive = row.dataset.trackId === activeTrackId;
+            row.classList.toggle('active', isActive);
+            var button = row.querySelector('.track-play');
+            var isPlaying = isActive && playing;
+            button.innerHTML = isPlaying ? pauseIcon : playIcon;
+            button.setAttribute('aria-label', (isPlaying ? 'Pausar ' : (isActive && elapsed > 0 ? 'Retomar ' : 'Tocar ')) + row.dataset.trackTitle + '. Demonstração sem áudio.');
+            button.setAttribute('aria-pressed', String(isPlaying));
+        });
+    }
+
+    function stopTimer() {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+    }
+
+    function finishDemo() {
+        stopTimer();
+        playing = false;
+        elapsed = DEMO_DURATION;
+        updateProgress();
+        updateTrackRows();
+        setStatus('Demonstração concluída. Nenhum áudio foi reproduzido.');
+    }
+
+    function tick() {
+        var now = Date.now();
+        elapsed += (now - lastTick) / 1000;
+        lastTick = now;
+        if (elapsed >= DEMO_DURATION) {
+            finishDemo();
+            return;
+        }
+        updateProgress();
+    }
+
+    function startTimer() {
+        stopTimer();
+        lastTick = Date.now();
+        timer = window.setInterval(tick, 200);
+    }
+
+    function selectTrack(track) {
+        var isSameTrack = activeTrackId === track.id;
+        if (!isSameTrack) {
+            activeTrackId = track.id;
+            elapsed = 0;
+            document.getElementById('currentTrackTitle').textContent = track.title;
+            document.getElementById('currentTrackArtist').textContent = track.artist + ' · demonstração sem áudio';
+            document.getElementById('nowPlaying').classList.add('active');
+        } else if (elapsed >= DEMO_DURATION) {
+            elapsed = 0;
+        }
+
+        playing = isSameTrack ? !playing : true;
+        if (playing) {
+            startTimer();
+            setStatus('Prévia visual em andamento. Não há som nesta versão.');
+        } else {
+            stopTimer();
+            setStatus('Prévia visual pausada.');
+        }
+        updateProgress();
+        updateTrackRows();
+    }
+
+    function renderPlaylist() {
+        var playlist = document.getElementById('playlist');
+        tracks.forEach(function (track) {
+            var row = document.createElement('article');
+            row.className = 'track';
+            row.dataset.trackId = track.id;
+            row.dataset.trackTitle = track.title;
+
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'track-play';
+            button.innerHTML = playIcon;
+            button.setAttribute('aria-label', 'Tocar ' + track.title + '. Demonstração sem áudio.');
+            button.setAttribute('aria-pressed', 'false');
+            button.addEventListener('click', function () { selectTrack(track); });
+
+            var info = document.createElement('div');
+            info.className = 'track-info';
+            var title = document.createElement('strong');
+            title.textContent = track.title;
+            var artist = document.createElement('span');
+            artist.textContent = track.artist;
+            info.appendChild(title);
+            info.appendChild(artist);
+
+            var badge = document.createElement('span');
+            badge.className = 'track-badge';
+            badge.textContent = 'Em breve';
+            var duration = document.createElement('span');
+            duration.className = 'track-duration';
+            duration.textContent = track.duration;
+
+            row.appendChild(button);
+            row.appendChild(info);
+            row.appendChild(badge);
+            row.appendChild(duration);
+            playlist.appendChild(row);
+        });
+    }
+
+    renderPlaylist();
+    updateProgress();
 });

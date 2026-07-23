@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Exercícios físicos para idosos - Mente Ativa">
+    <meta name="description" content="Aulas de exercícios físicos simples e seguras para pessoas com mais de 50 anos">
     <title>Mente Ativa - Exercícios Físicos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,103 +15,299 @@
     <link rel="stylesheet" href="css/assistente-flutuante.css">
     <script src="js/accessibility-unified.js" defer></script>
     <script src="js/components/logo.js" defer></script>
-    
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
+<body class="exercise-library-page">
     <div class="container">
         <div class="header">
-            <a href="exercicios.html" class="back-btn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <a href="exercicios.html" class="back-btn" aria-label="Voltar para Saúde e Bem-estar">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
             </a>
             <div class="logo" data-logo-tipo="moderado">
-                <div class="logo-icon">
-                    <img alt="Logo Mente Ativa" />
-                </div>
+                <div class="logo-icon"><img alt="Logo Mente Ativa"></div>
             </div>
         </div>
 
-        <div class="page-title">
-            <div class="titulo-com-tts">
-                <h1>Exercícios Físicos</h1>
-            </div>
-            <p>Movimente seu corpo com exercícios simples e seguros para o dia a dia.</p>
-        </div>
+        <main class="exercise-library-main">
+            <section class="exercise-hero" aria-labelledby="exercise-page-title">
+                <span class="exercise-kicker">Movimento com segurança</span>
+                <h1 id="exercise-page-title">Exercícios físicos</h1>
+                <p>Escolha uma categoria e acompanhe a aula no seu ritmo. Comece pelas opções sentadas ou de nível 1.</p>
+            </section>
 
-        <div class="intro">
-            <p>Praticar exercícios físicos regularmente ajuda a manter o corpo saudável, melhora o humor e a disposição. Escolha um exercício e comece devagar!</p>
-        </div>
+            <aside class="exercise-safety" aria-labelledby="exercise-safety-title">
+                <div class="exercise-safety-icon" aria-hidden="true">!</div>
+                <div>
+                    <h2 id="exercise-safety-title">Prepare-se antes de começar</h2>
+                    <p>Consulte um profissional de saúde, use uma cadeira firme, deixe o espaço livre e mantenha água por perto. Avance aos poucos e respeite os limites do seu corpo.</p>
+                    <p class="exercise-stop-warning"><strong>Pare imediatamente</strong> se sentir dor, tontura, falta de ar ou palpitação.</p>
+                </div>
+            </aside>
 
-        <div class="exercise-grid">
-            <div class="exercise-card">
-                <div class="exercise-icon">
-                    <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
-                </div>
-                <h2 class="exercise-title">Caminhada Leve</h2>
-                <p class="exercise-desc">Caminhar é um dos exercícios mais completos e seguros. Comece com 10 minutos e aumente aos poucos.</p>
-                <div class="exercise-info">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    <span>10-20 minutos</span>
-                </div>
-            </div>
+            <nav class="exercise-category-nav" aria-label="Categorias de exercícios">
+                <a href="#sentados">Exercícios sentados</a>
+                <a href="#alongamento">Alongamento</a>
+                <a href="#equilibrio">Equilíbrio</a>
+                <a href="#fortalecimento">Fortalecimento</a>
+                <a href="#caminhada">Caminhada</a>
+            </nav>
 
-            <div class="exercise-card">
-                <div class="exercise-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                </div>
-                <h2 class="exercise-title">Alongamentos</h2>
-                <p class="exercise-desc">Alongar o corpo ajuda a evitar dores e melhora a flexibilidade. Faça devagar, sem forçar.</p>
-                <div class="exercise-info">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    <span>5-10 minutos</span>
-                </div>
-            </div>
+            <section class="exercise-category" id="sentados" aria-labelledby="sentados-title">
+                <header class="exercise-category-header">
+                    <span class="exercise-category-number" aria-hidden="true">1</span>
+                    <div>
+                        <h2 id="sentados-title">Exercícios sentados</h2>
+                        <p>Movimentos de baixo impacto para começar com apoio e confiança.</p>
+                    </div>
+                </header>
+                <div class="exercise-video-grid">
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/fq3usJz2uEw?rel=0" title="Vídeo: Aula completa sentado na cadeira" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Aula completa sentado na cadeira</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>7:21</span><span>Sentado</span></div>
+                            <p>Uma sequência curta, sem impacto, para movimentar o corpo todo.</p>
+                            <a href="https://www.youtube.com/watch?v=fq3usJz2uEw" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
 
-            <div class="exercise-card">
-                <div class="exercise-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                </div>
-                <h2 class="exercise-title">Exercícios de Equilíbrio</h2>
-                <p class="exercise-desc">Ficar em um pé só, andar na ponta dos pés e outros exercícios ajudam a melhorar o equilíbrio e prevenir quedas.</p>
-                <div class="exercise-info">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    <span>5-10 minutos</span>
-                </div>
-            </div>
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/Hxi_y9l9O6s?rel=0" title="Vídeo: Ginástica completa sentado na cadeira" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Ginástica completa sentado na cadeira</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>8:40</span><span>Sentado</span></div>
+                            <p>Uma aula acessível para desenvolver mobilidade e disposição.</p>
+                            <a href="https://www.youtube.com/watch?v=Hxi_y9l9O6s" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
 
-            <div class="exercise-card">
-                <div class="exercise-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/lUP3-sjF6Yw?rel=0" title="Vídeo: Ginástica fácil na cadeira" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Ginástica fácil na cadeira</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Fácil</span><span>23:55</span><span>Sentado</span></div>
+                            <p>Uma aula mais longa para praticar com calma e sem ficar em pé.</p>
+                            <a href="https://www.youtube.com/watch?v=lUP3-sjF6Yw" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
                 </div>
-                <h2 class="exercise-title">Exercícios com Cadeira</h2>
-                <p class="exercise-desc">Sentado em uma cadeira firme, levante e sente devagar, repita 5 a 10 vezes. Ótimo para fortalecer as pernas.</p>
-                <div class="exercise-info">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    <span>5-10 minutos</span>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <div class="warning-box">
-            <h3>
-                <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
-                Cuidados importantes
-            </h3>
-            <p>Antes de começar qualquer exercício, consulte seu médico. Beba água antes e depois. Se sentir dor, tontura ou falta de ar, pare imediatamente e descanse.</p>
-        </div>
+            <section class="exercise-category" id="alongamento" aria-labelledby="alongamento-title">
+                <header class="exercise-category-header">
+                    <span class="exercise-category-number" aria-hidden="true">2</span>
+                    <div>
+                        <h2 id="alongamento-title">Alongamento e mobilidade</h2>
+                        <p>Movimentos suaves para ampliar a mobilidade sem forçar o corpo.</p>
+                    </div>
+                </header>
+                <div class="exercise-video-grid">
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/4f0LLMG7IJY?rel=0" title="Vídeo: Alongamento completo sentado" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Alongamento completo sentado</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>20:53</span><span>Cadeira</span></div>
+                            <p>Alongamentos para o corpo todo realizados com apoio da cadeira.</p>
+                            <a href="https://www.youtube.com/watch?v=4f0LLMG7IJY" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/OwCTukZyEmA?rel=0" title="Vídeo: Melhores alongamentos para idosos" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Alongamentos para o corpo todo</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>17:01</span><span>Fácil</span></div>
+                            <p>Uma sequência gradual para trabalhar flexibilidade e postura.</p>
+                            <a href="https://www.youtube.com/watch?v=OwCTukZyEmA" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/DiRH5h8uFPs?rel=0" title="Vídeo: Alongamento fácil sentado" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Alongamento fácil sentado</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>10:18</span><span>Cadeira</span></div>
+                            <p>Uma opção mais curta para incluir alongamento na rotina diária.</p>
+                            <a href="https://www.youtube.com/watch?v=DiRH5h8uFPs" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="exercise-category" id="equilibrio" aria-labelledby="equilibrio-title">
+                <header class="exercise-category-header">
+                    <span class="exercise-category-number" aria-hidden="true">3</span>
+                    <div>
+                        <h2 id="equilibrio-title">Equilíbrio e coordenação</h2>
+                        <p>Pratique perto de uma parede ou cadeira firme para ter apoio.</p>
+                    </div>
+                </header>
+                <div class="exercise-video-grid">
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/nNu2-e5_PiY?rel=0" title="Vídeo: Exercícios fáceis para melhorar o equilíbrio" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Exercícios fáceis para equilíbrio</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Fácil</span><span>6:56</span><span>Apoio próximo</span></div>
+                            <p>Uma prática rápida para trabalhar estabilidade e confiança.</p>
+                            <a href="https://www.youtube.com/watch?v=nNu2-e5_PiY" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/Zu0B2trfXTg?rel=0" title="Vídeo: Equilíbrio e coordenação" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Equilíbrio e coordenação</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 2</span><span>7:45</span><span>Em pé</span></div>
+                            <p>Movimentos coordenados para quem consegue praticar em pé com apoio.</p>
+                            <a href="https://www.youtube.com/watch?v=Zu0B2trfXTg" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/IqenhLvQxJk?rel=0" title="Vídeo: Equilíbrio com caixa de sapato" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Equilíbrio com caixa de sapato</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>16:22</span><span>Em pé</span><span>Caixa de sapato</span></div>
+                            <p>Uma aula de coordenação usando um objeto simples como referência.</p>
+                            <a href="https://www.youtube.com/watch?v=IqenhLvQxJk" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="exercise-category" id="fortalecimento" aria-labelledby="fortalecimento-title">
+                <header class="exercise-category-header">
+                    <span class="exercise-category-number" aria-hidden="true">4</span>
+                    <div>
+                        <h2 id="fortalecimento-title">Fortalecimento</h2>
+                        <p>Exercícios para pernas e braços com progressão simples.</p>
+                    </div>
+                </header>
+                <div class="exercise-video-grid">
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/Cc5Z1Fun5nc?rel=0" title="Vídeo: Fortalecimento das pernas na cadeira" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Fortalecimento das pernas na cadeira</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>9:40</span><span>Cadeira</span></div>
+                            <p>Movimentos sentados para ativar as pernas com mais estabilidade.</p>
+                            <a href="https://www.youtube.com/watch?v=Cc5Z1Fun5nc" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/JrVyCGblQbg?rel=0" title="Vídeo: Treino fácil para pernas" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Treino fácil para pernas</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 2</span><span>12:49</span><span>Apoio</span></div>
+                            <p>Uma aula para fortalecer pernas e glúteos usando apoio próximo.</p>
+                            <a href="https://www.youtube.com/watch?v=JrVyCGblQbg" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/aJxXzRaKnUw?rel=0" title="Vídeo: Fortalecimento dos braços" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Fortalecimento dos braços</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 2</span><span>11:55</span><span>Em casa</span></div>
+                            <p>Exercícios simples para trabalhar braços e parte superior do corpo.</p>
+                            <a href="https://www.youtube.com/watch?v=aJxXzRaKnUw" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="exercise-category" id="caminhada" aria-labelledby="caminhada-title">
+                <header class="exercise-category-header">
+                    <span class="exercise-category-number" aria-hidden="true">5</span>
+                    <div>
+                        <h2 id="caminhada-title">Caminhada e resistência</h2>
+                        <p>Aulas para movimentar o corpo e desenvolver disposição dentro de casa.</p>
+                    </div>
+                </header>
+                <div class="exercise-video-grid">
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/c0RFwnSCph8?rel=0" title="Vídeo: Caminhada sentada" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Caminhada sentada</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 1</span><span>8:31</span><span>Cadeira</span></div>
+                            <p>Movimentos de caminhada adaptados para quem prefere permanecer sentado.</p>
+                            <a href="https://www.youtube.com/watch?v=c0RFwnSCph8" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/9pFKeA4Yc4w?rel=0" title="Vídeo: Caminhada em casa com apoio" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Caminhada em casa com apoio</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 2</span><span>21:47</span><span>Cadeira</span></div>
+                            <p>Uma aula completa em pé, mantendo uma cadeira ao alcance das mãos.</p>
+                            <a href="https://www.youtube.com/watch?v=9pFKeA4Yc4w" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="exercise-video-card">
+                        <div class="exercise-video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/hAHRmLdyd4w?rel=0" title="Vídeo: Caminhada fácil em casa" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <div class="exercise-video-copy">
+                            <h3>Caminhada fácil em casa</h3>
+                            <div class="exercise-meta" aria-label="Informações da aula"><span>Nível 2</span><span>17:49</span><span>Em pé</span></div>
+                            <p>Uma caminhada guiada para aumentar gradualmente o tempo em movimento.</p>
+                            <a href="https://www.youtube.com/watch?v=hAHRmLdyd4w" target="_blank" rel="noopener noreferrer">Abrir no YouTube <span aria-hidden="true">↗</span></a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <aside class="exercise-channel-credit">
+                <div>
+                    <span class="exercise-kicker">Fonte das aulas</span>
+                    <h2>Canal Aurélio Alfieri</h2>
+                    <p>Conteúdo externo selecionado para pessoas 50+. Os vídeos não substituem avaliação ou acompanhamento profissional.</p>
+                </div>
+                <a href="https://www.youtube.com/channel/UCvphc_K3Cd0YFTygQsvKUEQ/videos" target="_blank" rel="noopener noreferrer" class="exercise-channel-link">Conhecer o canal <span aria-hidden="true">↗</span></a>
+            </aside>
+        </main>
     </div>
 
     <footer>
         <p>Cuidar da mente é cultivar a vida.</p>
         <p>&copy; 2025 Mente Ativa. Todos os direitos reservados.</p>
-            <a href="sobre.html" class="sobre-footer">Sobre</a>
+        <a href="sobre.html" class="sobre-footer">Sobre</a>
     </footer>
     <script src="js/assistente-flutuante.js"></script>
     <script src="js/alerts.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/app.js"></script>
 </body>

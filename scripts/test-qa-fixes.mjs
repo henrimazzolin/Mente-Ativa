@@ -259,8 +259,12 @@ function testarContratosResponsivos() {
         'O botao Voltar nao deve se deslocar para tras ao receber foco ou hover.');
     assert.match(responsive, /\.modal-footer \.btn[\s\S]*flex:\s*1 1 140px/);
     assert.match(responsive, /body \.instrucao-destaque[\s\S]*height:\s*160px/);
-    assert.match(responsive, /body \.dificuldade-selector[\s\S]*height:\s*116px/);
+    assert.match(responsive, /--ma-difficulty-width:\s*780px/);
+    assert.match(responsive, /--ma-difficulty-height:\s*116px/);
+    assert.match(responsive, /--ma-difficulty-compact-height:\s*160px/);
+    assert.match(responsive, /body \.dificuldade-selector[\s\S]*height:\s*var\(--ma-difficulty-height\)[\s\S]*min-height:\s*var\(--ma-difficulty-height\)[\s\S]*max-height:\s*var\(--ma-difficulty-height\)/);
     assert.match(responsive, /@media \(max-width:\s*600px\)[\s\S]*body \.instrucao-destaque[\s\S]*height:\s*200px/);
+    assert.match(responsive, /@media \(max-width:\s*767px\)[\s\S]*body \.dificuldade-selector[\s\S]*height:\s*var\(--ma-difficulty-compact-height\)/);
     assert.match(responsive, /body \.dificuldade-selector[\s\S]*grid-template-columns:\s*minmax\(130px, auto\) repeat\(3, minmax\(0, 1fr\)\)/);
     assert.match(responsive, /\[id\^="ma-confirm-"\] \.modal-footer[\s\S]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(sudoku, /aspect-ratio:\s*1(?:\s*\/\s*1)?/);
@@ -282,6 +286,32 @@ function testarContratosResponsivos() {
         'A selecao diagonal deve aceitar deslocamentos com linha e coluna de mesmo tamanho.');
     assert.match(pintura, /aspect-ratio:\s*4\s*\/\s*3/);
     assert.ok(!/\#paintCanvas\s*\{[^}]*min-height:/s.test(pintura), 'O canvas mobile nao deve deformar a proporcao 4:3.');
+}
+
+function testarPadronizacaoDosSeletoresDeDificuldade() {
+    const paginas = [
+        'jogo-associacao.html',
+        'jogo-caca-palavras.html',
+        'jogo-deducao-logica.html',
+        'jogo-memoria.html',
+        'jogo-palavras-cruzadas.html',
+        'jogo-quebra-cabeca.html',
+        'jogo-sudoku.html'
+    ];
+
+    for (const pagina of paginas) {
+        const html = read(pagina);
+        assert.match(html, /class="dificuldade-selector"/,
+            `${pagina}: seletor de dificuldade ausente.`);
+        assert.ok(html.indexOf('css/dificuldade.css') < html.indexOf('css/responsive.css'),
+            `${pagina}: a camada responsiva compartilhada deve ser carregada por ultimo.`);
+    }
+
+    const quebraCabeca = read('jogo-quebra-cabeca.html');
+    assert.equal((quebraCabeca.match(/class="difficulty-name"/g) || []).length, 3,
+        'Quebra-cabeca deve separar o nome dos tres niveis.');
+    assert.equal((quebraCabeca.match(/class="difficulty-detail"/g) || []).length, 3,
+        'Quebra-cabeca deve mostrar os detalhes dos tres niveis em segunda linha.');
 }
 
 function testarContrasteSudokuEscuro() {
@@ -520,10 +550,38 @@ function testarFluxosEPadronizacao() {
         'Quebra-cabeca nao deve manter instrucoes textuais antigas.');
     assert.ok(!quebraCabecaHtml.includes('class="instructions"'),
         'Quebra-cabeca nao deve manter o bloco de instrucoes duplicado.');
-    assert.match(accessibilityJs, /Veja no vídeo abaixo como jogar\./,
+    assert.match(accessibilityJs, /Vídeo: como jogar/,
         'O componente moderno de video deve apresentar uma unica orientacao curta.');
+    assert.match(accessibilityJs, /linkComoJogar\.href\s*=\s*'#como-jogar'/,
+        'O titulo do jogo deve oferecer uma ancora para a secao Como jogar.');
+    assert.match(accessibilityJs, /titulo\.appendChild\(linkComoJogar\)/,
+        'A ancora Como jogar deve ser o ultimo elemento do titulo, abaixo do paragrafo.');
+    for (const page of [
+        'jogo-palavras-cruzadas.html', 'jogo-sudoku.html', 'jogo-memoria.html',
+        'jogo-quebra-cabeca.html', 'jogo-xadrez.html', 'jogo-damas.html',
+        'jogo-deducao-logica.html', 'jogo-pintura.html', 'jogo-caca-palavras.html'
+    ]) {
+        const document = new JSDOM(read(page)).window.document;
+        const pageTitle = document.querySelector('.page-title');
+        assert.equal(pageTitle?.lastElementChild?.tagName, 'P',
+            `${page}: o paragrafo deve vir imediatamente antes do link Como jogar.`);
+        assert.ok(!document.querySelector('.game-level'),
+            `${page}: a div game-level deve ser removida.`);
+    }
+    assert.doesNotMatch(read('js/jogo-palavras-cruzadas.js'), /gameLevel|dificuldadeLabels/,
+        'Palavras Cruzadas nao deve depender da game-level removida.');
+    assert.doesNotMatch(read('css/jogo-palavras-cruzadas.css'), /\.game-level/,
+        'O estilo sem uso da game-level deve ser removido.');
+    assert.match(accessibilityJs, /card\.id\s*=\s*'como-jogar'/,
+        'O cartao de video deve ser o destino identificavel da ancora.');
+    assert.match(accessibilityJs, /rodape\.insertAdjacentElement\('beforebegin', card\)/,
+        'O cartao de video deve ficar no fim do conteudo e antes do rodape.');
     assert.match(accessibilityJs, /how-to-video-overlay/,
         'O componente moderno deve abrir o video em modal.');
+    assert.match(read('css/responsive.css'), /html:has\(\.how-to-video-card\)[\s\S]*scroll-behavior:\s*smooth/,
+        'As paginas com video Como jogar devem usar rolagem suave.');
+    assert.match(read('css/responsive.css'), /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*scroll-behavior:\s*auto\s*!important/,
+        'A rolagem suave deve ser desativada quando o usuario reduz animacoes.');
     assert.match(pinturaCss, /\.paint-editor[\s\S]*grid-template-columns:\s*minmax\(300px, 350px\) minmax\(0, 1fr\)/);
     assert.match(pinturaCss, /\.paint-actions[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\)/);
     assert.match(pinturaCss, /\.canvas-hint\.hidden[\s\S]*visibility:\s*hidden/);
@@ -539,6 +597,71 @@ function testarFluxosEPadronizacao() {
         'Damas deve obter o vencedor diretamente do motor.');
     assert.doesNotMatch(damasJs, /engine\.ehVencedor\(robotColor\)|engine\.ehVencedor\(playerColor\)/,
         'A tela não deve voltar a consultar as duas cores separadamente.');
+}
+
+function testarHarmonizacaoVisual() {
+    const mainCss = read('css/main.css');
+    const responsive = read('css/responsive.css');
+    const introHtml = read('index.html');
+    const introJs = read('js/intro.js');
+
+    for (const contrato of [
+        /--cor-primaria:\s*#2563EB/,
+        /--cor-secundaria:\s*#14919B/,
+          /--cor-terceira:\s*#14919B/,
+          /--cor-dificuldade:\s*#F97316/,
+        /--cor-sucesso:\s*#059669/,
+        /--cor-erro:\s*#DC2626/,
+        /--ma-radius-control:\s*12px/,
+        /--ma-radius-card:\s*16px/,
+        /--ma-radius-surface:\s*20px/
+    ]) {
+        assert.match(mainCss, contrato, 'Token global de design ausente.');
+    }
+
+    assert.match(responsive, /body \.menu-grid \.menu-btn[\s\S]*height:\s*200px/,
+        'Menu desktop deve usar cartoes compactos e uniformes.');
+    assert.match(responsive, /grid-auto-rows:\s*150px/,
+        'Menu mobile deve evitar cartoes excessivamente altos.');
+    assert.match(responsive, /body \.games-grid,[\s\S]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/,
+        'Catalogos devem usar tres colunas no desktop.');
+    assert.match(responsive, /@media \(min-width:\s*430px\) and \(max-width:\s*767px\)[\s\S]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/,
+        'Catalogos devem usar duas colunas em celulares largos e tablets estreitos.');
+    assert.match(responsive, /body\.aviso-privacidade-aberto[\s\S]*padding-bottom:\s*132px/,
+        'Aviso de privacidade deve reservar espaco para nao cobrir conteudo.');
+    assert.doesNotMatch(responsive, /background-blend-mode/,
+        'A camada responsiva nao deve apagar ou misturar os fundos tematicos das paginas.');
+    assert.doesNotMatch(responsive, /body footer\s*\{[\s\S]*?background:/,
+        'A camada responsiva nao deve criar uma superficie opaca sobre o fundo no rodape.');
+    assert.doesNotMatch(responsive, /body:has\(\.assistente-trigger\)\s*\{[\s\S]*?padding-bottom:/,
+        'A ajuda flutuante nao deve criar espaco vazio permanente depois do rodape.');
+    assert.match(responsive, /body\.aviso-privacidade-aberto \.assistente-trigger[\s\S]*visibility:\s*hidden/,
+        'Ajuda deve sair do fluxo de foco enquanto o aviso de privacidade estiver visivel.');
+    assert.match(responsive, /@media \(max-width:\s*900px\)[\s\S]*body \.assistente-trigger[\s\S]*width:\s*56px/,
+        'Ajuda deve ficar compacta em telas estreitas para nao cobrir o conteudo.');
+
+    assert.match(introHtml, /id="introContinue">Continuar<\/button>/,
+        'Introducao deve apresentar uma acao Continuar imediata.');
+    assert.match(introJs, /prefers-reduced-motion:\s*reduce/,
+        'Introducao deve respeitar reducao de movimento.');
+    assert.match(introJs, /setTimeout\(function\(\) \{ finishIntro\(false\); \}, 3500\)/,
+        'Introducao deve terminar em no maximo 3,5 segundos.');
+    assert.match(introJs, /event\.key === 'Escape' \|\| event\.key === 'Enter'/,
+        'Introducao deve aceitar Escape e Enter.');
+
+    const paginasSemVoltarDuplicado = [
+        'jogo-memoria.html',
+        'jogo-palavras-cruzadas.html',
+        'jogo-quebra-cabeca.html',
+        'jogo-sudoku.html'
+    ];
+    for (const pagina of paginasSemVoltarDuplicado) {
+        assert.doesNotMatch(read(pagina), /id="btn-back"/,
+            `${pagina}: nao deve repetir o retorno dentro da area do jogo.`);
+    }
+
+    assert.match(read('jogos-individuais.html'), /<h1>Jogos individuais<\/h1>/);
+    assert.match(read('jogos-acompanhados.html'), /<h1>Jogos acompanhados<\/h1>/);
 }
 
 function testarNavegacaoInformativa() {
@@ -568,10 +691,12 @@ testarImagensLocais();
 testarPoliticaDeCacheDosJogos();
 testarAusenciaDePersistenciaNosJogos();
 testarContratosResponsivos();
+testarPadronizacaoDosSeletoresDeDificuldade();
 testarContrasteSudokuEscuro();
 testarPintura();
 testarCacaPalavrasComIntersecao();
 testarFluxosEPadronizacao();
+testarHarmonizacaoVisual();
 testarNavegacaoInformativa();
 testarPadronizacaoDoHeaderDoMenu();
 

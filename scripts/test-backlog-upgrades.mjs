@@ -69,7 +69,7 @@ for (const asset of [
 
 for (const page of ['saude-informacoes.html', 'seguranca.html']) {
     const html = read(page);
-    assert.equal((html.match(/data-video-slide/g) || []).length, 3);
+    assert.equal((html.match(/data-video-slide/g) || []).length, 10);
     assert.match(html, /data-carousel-prev/);
     assert.match(html, /data-carousel-next/);
 }
