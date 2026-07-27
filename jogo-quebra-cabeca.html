@@ -23,7 +23,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
+<body class="modo-individual">
     <div class="container">
         <div class="header">
             <a href="jogos-individuais.html" class="back-btn">
@@ -45,9 +45,9 @@
 
         <div class="dificuldade-selector">
             <span class="dificuldade-label">Dificuldade:</span>
-            <button class="dif-btn facil active"><span class="difficulty-name">Fácil</span><span class="difficulty-detail">3×3 · 9 peças</span></button>
-            <button class="dif-btn medio"><span class="difficulty-name">Médio</span><span class="difficulty-detail">4×4 · 16 peças</span></button>
-            <button class="dif-btn dificil"><span class="difficulty-name">Difícil</span><span class="difficulty-detail">5×5 · 25 peças</span></button>
+            <button class="dif-btn facil active">Fácil</button>
+            <button class="dif-btn medio">Médio</button>
+            <button class="dif-btn dificil">Difícil</button>
         </div>
 
         <div class="game-container">
@@ -62,7 +62,7 @@
             <p class="puzzle-selection-status" id="puzzleSelectionStatus" aria-live="polite">Escolha a primeira peça.</p>
 
             <div class="buttons">
-                <button class="btn" id="btn-restart">Reiniciar Jogo</button>
+                <button class="btn acao-reiniciar" id="btn-restart">Reiniciar</button>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
     <div class="message" id="message">
         <h2>Parabéns!</h2>
         <p>Você completou o quebra-cabeça!</p>
-        <button class="btn" id="btn-play-again">Jogar Novamente</button>
+        <button class="btn acao-jogar-novamente" id="btn-play-again">Jogar novamente</button>
     </div>
 
     <footer>

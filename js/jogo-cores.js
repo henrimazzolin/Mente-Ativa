@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 subtitle.textContent = 'Você acertou ' + acertos + ' de 5 questões!';
             }
             
-            btn.textContent = 'Jogar Novamente';
+            btn.textContent = 'Jogar novamente';
             btn.onclick = function() {
                 overlay.classList.remove('show');
                 iniciarJogo();

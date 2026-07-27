@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             feedbackTitle.textContent = 'Parabéns!';
             feedbackText.textContent = `Você acertou ${correctCount} de ${currentSequences.length} sequências!`;
             
-            feedbackBtn.textContent = 'Jogar Novamente';
+            feedbackBtn.textContent = 'Jogar novamente';
             feedbackBtn.onclick = () => {
                 overlay.classList.remove('show');
                 feedback.classList.remove('show');

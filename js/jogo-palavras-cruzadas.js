@@ -118,11 +118,13 @@ let currentTema = null;
 let currentWord = null;
 let currentHint = null;
 let lastSelectedWord = null;
+let gameCompleted = false;
 
-function embaralharArray(arr) {
+function embaralharArray(arr, random) {
+    random = random || Math.random;
     const resultado = [...arr];
     for (let i = resultado.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(random() * (i + 1));
         [resultado[i], resultado[j]] = [resultado[j], resultado[i]];
     }
     return resultado;
@@ -138,75 +140,45 @@ function selecionarPalavras(qtd, minLetras, maxLetras) {
 
 function criarGridVazio(tamanho) {
     return Array.from({ length: tamanho }, () => 
-        Array.from({ length: tamanho }, () => ({ letra: null, ocupada: false }))
+        Array.from({ length: tamanho }, () => ({ letra: null, direcoes: new Set() }))
     );
 }
 
-function podeColocarHorizontal(palavra, linha, coluna, grid, tamanho) {
-    if (coluna + palavra.length > tamanho) return false;
-    
-    let temCruzamento = false;
-    
-    for (let i = 0; i < palavra.length; i++) {
-        const celula = grid[linha][coluna + i];
-        if (celula.letra !== null) {
-            if (celula.letra !== palavra[i]) return false;
-            temCruzamento = true;
-        }
-    }
-    
-    if (coluna > 0 && grid[linha][coluna - 1].ocupada) return false;
-    if (coluna + palavra.length < tamanho && grid[linha][coluna + palavra.length].ocupada) return false;
-    
-    for (let i = 0; i < palavra.length; i++) {
-        const c = coluna + i;
-        const celulaAtual = grid[linha][c];
-        
-        if (celulaAtual.letra === null) {
-            if (linha > 0 && grid[linha - 1][c].ocupada) return false;
-            if (linha < tamanho - 1 && grid[linha + 1][c].ocupada) return false;
-        }
-    }
-    
-    return temCruzamento;
+function dentroDoGrid(linha, coluna, tamanho) {
+    return linha >= 0 && linha < tamanho && coluna >= 0 && coluna < tamanho;
 }
 
-function podeColocarVertical(palavra, linha, coluna, grid, tamanho) {
-    if (linha + palavra.length > tamanho) return false;
-    
-    let temCruzamento = false;
-    
-    for (let i = 0; i < palavra.length; i++) {
-        const celula = grid[linha + i][coluna];
-        if (celula.letra !== null) {
-            if (celula.letra !== palavra[i]) return false;
-            temCruzamento = true;
-        }
-    }
-    
-    if (linha > 0 && grid[linha - 1][coluna].ocupada) return false;
-    if (linha + palavra.length < tamanho && grid[linha + palavra.length][coluna].ocupada) return false;
-    
-    for (let i = 0; i < palavra.length; i++) {
-        const r = linha + i;
-        const celulaAtual = grid[r][coluna];
-        
-        if (celulaAtual.letra === null) {
-            if (coluna > 0 && grid[r][coluna - 1].ocupada) return false;
-            if (coluna < tamanho - 1 && grid[r][coluna + 1].ocupada) return false;
-        }
-    }
-    
-    return temCruzamento;
-}
+function podeColocar(palavra, linha, coluna, direcao, grid, tamanho, exigirCruzamento) {
+    const dr = direcao === 'v' ? 1 : 0;
+    const dc = direcao === 'h' ? 1 : 0;
+    const fimLinha = linha + dr * (palavra.length - 1);
+    const fimColuna = coluna + dc * (palavra.length - 1);
+    if (!dentroDoGrid(linha, coluna, tamanho) || !dentroDoGrid(fimLinha, fimColuna, tamanho)) return false;
 
-function podeColocarPrimeira(palavra, linha, coluna, direcao, grid, tamanho) {
-    if (direcao === 'h') {
-        if (coluna + palavra.length > tamanho) return false;
-    } else {
-        if (linha + palavra.length > tamanho) return false;
+    const antesLinha = linha - dr;
+    const antesColuna = coluna - dc;
+    const depoisLinha = fimLinha + dr;
+    const depoisColuna = fimColuna + dc;
+    if (dentroDoGrid(antesLinha, antesColuna, tamanho) && grid[antesLinha][antesColuna].letra !== null) return false;
+    if (dentroDoGrid(depoisLinha, depoisColuna, tamanho) && grid[depoisLinha][depoisColuna].letra !== null) return false;
+
+    let cruzamentos = 0;
+    for (let i = 0; i < palavra.length; i++) {
+        const r = linha + dr * i;
+        const c = coluna + dc * i;
+        const celula = grid[r][c];
+        if (celula.letra !== null) {
+            if (celula.letra !== palavra[i] || celula.direcoes.has(direcao)) return false;
+            cruzamentos++;
+            continue;
+        }
+
+        const vizinhos = direcao === 'h' ? [[r - 1, c], [r + 1, c]] : [[r, c - 1], [r, c + 1]];
+        for (const [vr, vc] of vizinhos) {
+            if (dentroDoGrid(vr, vc, tamanho) && grid[vr][vc].letra !== null) return false;
+        }
     }
-    return true;
+    return !exigirCruzamento || cruzamentos > 0;
 }
 
 function colocarPalavra(palavra, linha, coluna, direcao, grid) {
@@ -220,157 +192,134 @@ function colocarPalavra(palavra, linha, coluna, direcao, grid) {
             c = coluna;
         }
         grid[r][c].letra = palavra[i];
-        grid[r][c].ocupada = true;
+        grid[r][c].direcoes.add(direcao);
     }
 }
 
-function encontrarPosicoes(palavraObj, palavrasColocadas, grid, tamanho) {
+function encontrarPosicoes(palavraObj, grid, tamanho) {
     const palavra = palavraObj.palavra;
     const posicoes = [];
-    
-    for (const colocada of palavrasColocadas) {
-        const pColocada = colocada.word;
-        
-        for (let i = 0; i < palavra.length; i++) {
-            const letra = palavra[i];
-            
-            for (let j = 0; j < pColocada.length; j++) {
-                if (pColocada[j] === letra) {
-                    if (colocada.direction === 'h') {
-                        const linhaNova = colocada.row - i;
-                        const colunaNova = colocada.col + j;
-                        
-                        if (linhaNova >= 0 && colunaNova >= 0) {
-                            if (podeColocarVertical(palavra, linhaNova, colunaNova, grid, tamanho)) {
-                                posicoes.push({ 
-                                    word: palavra, 
-                                    hint: palavraObj.dica,
-                                    direction: 'v', 
-                                    row: linhaNova, 
-                                    col: colunaNova 
-                                });
-                            }
-                        }
-                    } else {
-                        const linhaNova = colocada.row + j;
-                        const colunaNova = colocada.col - i;
-                        
-                        if (linhaNova >= 0 && colunaNova >= 0) {
-                            if (podeColocarHorizontal(palavra, linhaNova, colunaNova, grid, tamanho)) {
-                                posicoes.push({ 
-                                    word: palavra, 
-                                    hint: palavraObj.dica,
-                                    direction: 'h', 
-                                    row: linhaNova, 
-                                    col: colunaNova 
-                                });
-                            }
-                        }
+    const chaves = new Set();
+
+    for (let r = 0; r < tamanho; r++) {
+        for (let c = 0; c < tamanho; c++) {
+            if (grid[r][c].letra === null) continue;
+            for (let i = 0; i < palavra.length; i++) {
+                if (palavra[i] !== grid[r][c].letra) continue;
+                for (const direcao of ['h', 'v']) {
+                    const linhaNova = r - (direcao === 'v' ? i : 0);
+                    const colunaNova = c - (direcao === 'h' ? i : 0);
+                    const chave = direcao + ':' + linhaNova + ':' + colunaNova;
+                    if (!chaves.has(chave) && podeColocar(palavra, linhaNova, colunaNova, direcao, grid, tamanho, true)) {
+                        chaves.add(chave);
+                        posicoes.push({ word: palavra, hint: palavraObj.dica, direction: direcao, row: linhaNova, col: colunaNova });
                     }
                 }
             }
         }
     }
-    
     return posicoes;
 }
 
-function gerarPalavrasCruzadas(dificuldade) {
+function numerarPalavras(palavras) {
+    const inicios = Array.from(new Set(palavras.map(function(p) { return p.row + ':' + p.col; })))
+        .map(function(chave) {
+            const partes = chave.split(':').map(Number);
+            return { chave: chave, row: partes[0], col: partes[1] };
+        })
+        .sort(function(a, b) { return a.row - b.row || a.col - b.col; });
+    const numeros = new Map(inicios.map(function(inicio, indice) { return [inicio.chave, indice + 1]; }));
+    palavras.forEach(function(palavra) {
+        palavra.number = numeros.get(palavra.row + ':' + palavra.col);
+        palavra.key = palavra.number + '-' + palavra.direction;
+    });
+    palavras.sort(function(a, b) { return a.number - b.number || (a.direction === 'h' ? -1 : 1); });
+}
+
+function validarTema(tema) {
+    if (!tema || !tema.layout || !tema.words || tema.words.length === 0) return false;
+    const ocupacao = new Map();
+    for (let indice = 0; indice < tema.words.length; indice++) {
+        const palavra = tema.words[indice];
+        const antesR = palavra.row - (palavra.direction === 'v' ? 1 : 0);
+        const antesC = palavra.col - (palavra.direction === 'h' ? 1 : 0);
+        const depoisR = palavra.row + (palavra.direction === 'v' ? palavra.word.length : 0);
+        const depoisC = palavra.col + (palavra.direction === 'h' ? palavra.word.length : 0);
+        if (dentroDoGrid(antesR, antesC, tema.gridSize) && tema.layout[antesR][antesC] !== '#') return false;
+        if (dentroDoGrid(depoisR, depoisC, tema.gridSize) && tema.layout[depoisR][depoisC] !== '#') return false;
+        for (let i = 0; i < palavra.word.length; i++) {
+            const r = palavra.row + (palavra.direction === 'v' ? i : 0);
+            const c = palavra.col + (palavra.direction === 'h' ? i : 0);
+            if (!dentroDoGrid(r, c, tema.gridSize) || tema.layout[r][c] !== palavra.word[i]) return false;
+            const chave = r + ':' + c;
+            const usos = ocupacao.get(chave) || [];
+            if (usos.some(function(uso) { return uso.direction === palavra.direction; })) return false;
+            usos.push({ indice: indice, direction: palavra.direction });
+            ocupacao.set(chave, usos);
+        }
+    }
+    for (const [chave, usos] of ocupacao) {
+        if (usos.length > 2) return false;
+        if (usos.length === 1) {
+            const partes = chave.split(':').map(Number);
+            const palavra = tema.words[usos[0].indice];
+            const vizinhos = palavra.direction === 'h' ? [[-1, 0], [1, 0]] : [[0, -1], [0, 1]];
+            for (const vizinho of vizinhos) {
+                const r = partes[0] + vizinho[0], c = partes[1] + vizinho[1];
+                if (dentroDoGrid(r, c, tema.gridSize) && tema.layout[r][c] !== '#') return false;
+            }
+        }
+    }
+    const visitadas = new Set([0]);
+    let alterou = true;
+    while (alterou) {
+        alterou = false;
+        for (const usos of ocupacao.values()) {
+            if (usos.length === 2 && (visitadas.has(usos[0].indice) || visitadas.has(usos[1].indice))) {
+                if (!visitadas.has(usos[0].indice) || !visitadas.has(usos[1].indice)) alterou = true;
+                visitadas.add(usos[0].indice);
+                visitadas.add(usos[1].indice);
+            }
+        }
+    }
+    if (visitadas.size !== tema.words.length) return false;
+    return true;
+}
+
+function gerarPalavrasCruzadas(dificuldade, random) {
+    random = random || Math.random;
     const config = dificuldades[dificuldade];
-    const qtdPalavras = Math.floor(Math.random() * (config.maxPalavras - config.minPalavras + 1)) + config.minPalavras;
-    
-    for (let tentativaGeral = 0; tentativaGeral < 100; tentativaGeral++) {
-        const palavrasSelecionadas = selecionarPalavras(qtdPalavras + 10, config.minLetras, config.maxLetras);
-        let palavrasParaUsar = embaralharArray(palavrasSelecionadas).slice(0, qtdPalavras);
-        
-        palavrasParaUsar.sort((a, b) => b.palavra.length - a.palavra.length);
-        
+    for (let tentativaGeral = 0; tentativaGeral < 300; tentativaGeral++) {
+        const qtdPalavras = Math.floor(random() * (config.maxPalavras - config.minPalavras + 1)) + config.minPalavras;
+        let palavrasParaUsar = bancoPalavras.filter(function(p) {
+            return p.palavra.length >= config.minLetras && p.palavra.length <= config.maxLetras;
+        });
+        palavrasParaUsar = embaralharArray(palavrasParaUsar, random)
+            .sort(function(a, b) { return b.palavra.length - a.palavra.length || random() - 0.5; });
         const grid = criarGridVazio(config.gridSize);
         const palavrasColocadas = [];
-        
         const primeiraPalavra = palavrasParaUsar[0];
-        let colocouPrimeira = false;
-        
-        const direcoesPrimeira = embaralharArray(['h', 'v']);
-        
-        for (const dir of direcoesPrimeira) {
-            if (colocouPrimeira) break;
-            
-            let posicoesPossiveis = [];
-            
-            if (dir === 'h') {
-                const maxCol = config.gridSize - primeiraPalavra.palavra.length;
-                if (maxCol >= 0) {
-                    for (let r = 0; r < config.gridSize; r++) {
-                        for (let c = 0; c <= maxCol; c++) {
-                            posicoesPossiveis.push({ row: r, col: c });
-                        }
-                    }
-                }
-            } else {
-                const maxRow = config.gridSize - primeiraPalavra.palavra.length;
-                if (maxRow >= 0) {
-                    for (let c = 0; c < config.gridSize; c++) {
-                        for (let r = 0; r <= maxRow; r++) {
-                            posicoesPossiveis.push({ row: r, col: c });
-                        }
-                    }
-                }
-            }
-            
-            posicoesPossiveis = embaralharArray(posicoesPossiveis);
-            
-            for (const pos of posicoesPossiveis) {
-                if (podeColocarPrimeira(primeiraPalavra.palavra, pos.row, pos.col, dir, grid, config.gridSize)) {
-                    colocarPalavra(primeiraPalavra.palavra, pos.row, pos.col, dir, grid);
-                    palavrasColocadas.push({
-                        word: primeiraPalavra.palavra,
-                        hint: primeiraPalavra.dica,
-                        direction: dir,
-                        row: pos.row,
-                        col: pos.col,
-                        number: 1,
-                        reveladas: new Array(primeiraPalavra.palavra.length).fill(false),
-                        hintUsed: false
-                    });
-                    colocouPrimeira = true;
-                    break;
-                }
-            }
+        const dir = random() < 0.5 ? 'h' : 'v';
+        const linha = dir === 'h' ? Math.floor(config.gridSize / 2) : Math.floor((config.gridSize - primeiraPalavra.palavra.length) / 2);
+        const coluna = dir === 'h' ? Math.floor((config.gridSize - primeiraPalavra.palavra.length) / 2) : Math.floor(config.gridSize / 2);
+        colocarPalavra(primeiraPalavra.palavra, linha, coluna, dir, grid);
+        palavrasColocadas.push({ word: primeiraPalavra.palavra, hint: primeiraPalavra.dica, direction: dir, row: linha, col: coluna });
+
+        let restantes = palavrasParaUsar.slice(1);
+        while (palavrasColocadas.length < qtdPalavras && restantes.length > 0) {
+            const opcoes = [];
+            restantes.forEach(function(palavraObj, indice) {
+                const posicoes = encontrarPosicoes(palavraObj, grid, config.gridSize);
+                if (posicoes.length) opcoes.push({ indice: indice, palavra: palavraObj, posicoes: posicoes });
+            });
+            if (!opcoes.length) break;
+            const opcao = embaralharArray(opcoes, random).sort(function(a, b) { return a.posicoes.length - b.posicoes.length; })[0];
+            const escolhida = embaralharArray(opcao.posicoes, random)[0];
+            colocarPalavra(escolhida.word, escolhida.row, escolhida.col, escolhida.direction, grid);
+            palavrasColocadas.push({ word: escolhida.word, hint: escolhida.hint, direction: escolhida.direction, row: escolhida.row, col: escolhida.col });
+            restantes.splice(opcao.indice, 1);
         }
-        
-        if (!colocouPrimeira) continue;
-        
-        const palavrasRestantes = palavrasParaUsar.slice(1);
-        
-        for (const palavraObj of palavrasRestantes) {
-            let colocada = false;
-            
-            for (let t = 0; t < config.maxTentativas && !colocada; t++) {
-                const posicoes = encontrarPosicoes(palavraObj, palavrasColocadas, grid, config.gridSize);
-                
-                if (posicoes.length > 0) {
-                    const posicoesEmbaralhadas = embaralharArray(posicoes);
-                    const escolhida = posicoesEmbaralhadas[0];
-                    
-                    colocarPalavra(escolhida.word, escolhida.row, escolhida.col, escolhida.direction, grid);
-                    palavrasColocadas.push({
-                        word: escolhida.word,
-                        hint: escolhida.hint,
-                        direction: escolhida.direction,
-                        row: escolhida.row,
-                        col: escolhida.col,
-                        number: palavrasColocadas.length + 1,
-                        reveladas: new Array(escolhida.word.length).fill(false),
-                        hintUsed: false
-                    });
-                    colocada = true;
-                } else {
-                    break;
-                }
-            }
-        }
-        
+
         if (palavrasColocadas.length >= config.minPalavras) {
             const layout = Array.from({ length: config.gridSize }, () => 
                 Array.from({ length: config.gridSize }, () => '#')
@@ -384,25 +333,37 @@ function gerarPalavrasCruzadas(dificuldade) {
                 }
             }
             
-            return {
+            palavrasColocadas.forEach(function(palavra) {
+                palavra.reveladas = new Array(palavra.word.length).fill(false);
+                palavra.hintUsed = false;
+            });
+            numerarPalavras(palavrasColocadas);
+            const tema = {
                 gridSize: config.gridSize,
                 layout: layout,
                 words: palavrasColocadas,
                 qtdPalavras: palavrasColocadas.length
             };
+            if (validarTema(tema)) return tema;
         }
     }
-    
     return null;
 }
 
+function criarRandomDeterministico(seed) {
+    return function() {
+        seed |= 0;
+        seed = seed + 0x6D2B79F5 | 0;
+        let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
 function initGame() {
-    let resultado = null;
-    let tentativas = 0;
-    
-    while (!resultado && tentativas < 50) {
-        resultado = gerarPalavrasCruzadas(currentDifficulty);
-        tentativas++;
+    let resultado = gerarPalavrasCruzadas(currentDifficulty);
+    for (let seed = 1; !resultado && seed <= 50; seed++) {
+        resultado = gerarPalavrasCruzadas(currentDifficulty, criarRandomDeterministico(seed));
     }
     
     if (!resultado) {
@@ -411,6 +372,9 @@ function initGame() {
     }
     
     currentTema = resultado;
+    currentWord = null;
+    lastSelectedWord = null;
+    gameCompleted = false;
     
     const gridEl = document.getElementById('grid');
     gridEl.innerHTML = '';
@@ -450,6 +414,7 @@ function initGame() {
                 
                 input.addEventListener('keydown', handleKeydown);
                 input.addEventListener('focus', handleFocus);
+                input.addEventListener('click', handleCellClick);
                 input.addEventListener('blur', handleBlur);
                 cell.appendChild(input);
                 
@@ -493,6 +458,13 @@ function getWordAt(row, col, dirFilter) {
     return null;
 }
 
+function getWordsAt(row, col) {
+    return currentTema.words.filter(function(word) {
+        if (word.direction === 'h') return row === word.row && col >= word.col && col < word.col + word.word.length;
+        return col === word.col && row >= word.row && row < word.row + word.word.length;
+    });
+}
+
 function renderHints() {
     const hintsH = document.getElementById('hints-h');
     const hintsV = document.getElementById('hints-v');
@@ -513,7 +485,7 @@ function renderHints() {
 function createHintElement(word) {
     const div = document.createElement('div');
     div.className = 'hint-item';
-    div.dataset.word = word.number;
+    div.dataset.wordKey = word.key;
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'hint-content';
@@ -525,7 +497,7 @@ function createHintElement(word) {
     const hintBtn = document.createElement('button');
     hintBtn.className = 'hint-btn';
     hintBtn.textContent = 'Dica';
-    hintBtn.dataset.wordNumber = word.number;
+    hintBtn.dataset.wordKey = word.key;
     
     const allRevealed = word.reveladas && word.reveladas.every(r => r === true);
     if (allRevealed) {
@@ -552,7 +524,7 @@ function selectWord(word) {
     currentWord = word;
     lastSelectedWord = word;
     document.querySelectorAll('.hint-item').forEach(el => el.classList.remove('active'));
-    const target = document.querySelector('.hint-item[data-word="' + word.number + '"]');
+    const target = document.querySelector('.hint-item[data-word-key="' + word.key + '"]');
     if (target) target.classList.add('active');
     
     const firstCell = document.querySelector('input[data-row="' + word.row + '"][data-col="' + word.col + '"]');
@@ -569,9 +541,9 @@ function handleFocus(e) {
     
     let word = null;
     if (hWord && vWord) {
-        word = lastSelectedWord && (lastSelectedWord.number === hWord.number || lastSelectedWord.number === vWord.number)
-            ? lastSelectedWord
-            : lastSelectedWord || hWord;
+        word = currentWord && (currentWord === hWord || currentWord === vWord)
+            ? currentWord
+            : (lastSelectedWord && (lastSelectedWord === hWord || lastSelectedWord === vWord) ? lastSelectedWord : hWord);
     } else {
         word = hWord || vWord;
     }
@@ -581,13 +553,27 @@ function handleFocus(e) {
         lastSelectedWord = word;
         
         document.querySelectorAll('.hint-item').forEach(el => el.classList.remove('active'));
-        const hintEl = document.querySelector('.hint-item[data-word="' + word.number + '"]');
+        const hintEl = document.querySelector('.hint-item[data-word-key="' + word.key + '"]');
         if (hintEl) {
             hintEl.classList.add('active');
         }
         
         highlightWordCells(word);
     }
+}
+
+function handleCellClick(e) {
+    const row = parseInt(e.target.dataset.row);
+    const col = parseInt(e.target.dataset.col);
+    const words = getWordsAt(row, col);
+    if (words.length < 2) return;
+    const next = currentWord === words[0] ? words[1] : words[0];
+    currentWord = next;
+    lastSelectedWord = next;
+    document.querySelectorAll('.hint-item').forEach(function(el) { el.classList.remove('active'); });
+    const hintEl = document.querySelector('.hint-item[data-word-key="' + next.key + '"]');
+    if (hintEl) hintEl.classList.add('active');
+    highlightWordCells(next);
 }
 
 function handleBlur() {
@@ -628,10 +614,11 @@ function handleInput(e) {
         const row = parseInt(e.target.dataset.row);
         const col = parseInt(e.target.dataset.col);
         
-        if (currentWord) {
-            var pos = (currentWord.direction === 'h') ? col - currentWord.col : row - currentWord.row;
-            if (pos >= 0 && pos < currentWord.word.length) {
-                if (currentWord.word[pos] === value) {
+        const editedWord = currentWord;
+        if (editedWord) {
+            var pos = (editedWord.direction === 'h') ? col - editedWord.col : row - editedWord.row;
+            if (pos >= 0 && pos < editedWord.word.length) {
+                if (currentTema.layout[row][col] === value) {
                     e.target.classList.add('letter-ok');
                 } else {
                     e.target.classList.remove('letter-ok');
@@ -639,7 +626,10 @@ function handleInput(e) {
             }
         }
         
+        checkWord();
         moveToNextCell(row, col);
+    } else {
+        e.target.classList.remove('letter-ok');
         checkWord();
     }
 }
@@ -706,67 +696,52 @@ function moveCell(row, col) {
     }
 }
 
+function getWordInputs(word) {
+    return Array.from({ length: word.word.length }, function(_, i) {
+        const row = word.row + (word.direction === 'v' ? i : 0);
+        const col = word.col + (word.direction === 'h' ? i : 0);
+        return document.querySelector('input[data-row="' + row + '"][data-col="' + col + '"]');
+    });
+}
+
+function isWordCorrect(word) {
+    const inputs = getWordInputs(word);
+    return inputs.every(function(input, i) { return input && input.value.toUpperCase() === word.word[i]; });
+}
+
 function checkWord() {
-    if (!currentWord) return;
-    
-    let isCorrect = true;
-    const inputs = [];
-    
-    for (let i = 0; i < currentWord.word.length; i++) {
-        let input;
-        if (currentWord.direction === 'h') {
-            input = document.querySelector('input[data-row="' + currentWord.row + '"][data-col="' + (currentWord.col + i) + '"]');
-        } else {
-            input = document.querySelector('input[data-row="' + (currentWord.row + i) + '"][data-col="' + currentWord.col + '"]');
-        }
-        if (input) {
-            inputs.push(input);
-            if (input.value.toUpperCase() !== currentWord.word[i]) {
-                isCorrect = false;
-            }
-        }
-    }
-    
-    if (isCorrect && inputs.every(function(input) { return input.value !== ''; })) {
-        inputs.forEach(function(input) { input.classList.add('correct'); });
-        const hintEl = document.querySelector('.hint-item[data-word="' + currentWord.number + '"]');
-        if (hintEl) hintEl.classList.add('correct');
-        var btn = document.querySelector('.hint-btn[data-word-number="' + currentWord.number + '"]');
-        if (btn && !btn.disabled) {
+    const completed = currentTema.words.filter(isWordCorrect);
+    document.querySelectorAll('.cell input').forEach(function(input) { input.classList.remove('correct'); });
+    completed.forEach(function(word) {
+        getWordInputs(word).forEach(function(input) { if (input) input.classList.add('correct'); });
+    });
+
+    currentTema.words.forEach(function(word) {
+        const complete = completed.indexOf(word) !== -1;
+        const hintEl = document.querySelector('.hint-item[data-word-key="' + word.key + '"]');
+        if (hintEl) hintEl.classList.toggle('correct', complete);
+        const btn = document.querySelector('.hint-btn[data-word-key="' + word.key + '"]');
+        if (!btn) return;
+        if (complete) {
             btn.textContent = 'Completo';
             btn.disabled = true;
             btn.classList.add('hint-btn-disabled');
+        } else if (word.hintUsed) {
+            btn.textContent = 'Usado';
+            btn.disabled = true;
+            btn.classList.add('hint-btn-disabled');
+        } else {
+            btn.textContent = 'Dica';
+            btn.disabled = false;
+            btn.classList.remove('hint-btn-disabled');
         }
-        checkAllWords();
-    } else {
-        inputs.forEach(function(input) { input.classList.remove('correct'); });
-    }
+    });
+    checkAllWords(completed.length === currentTema.words.length);
 }
 
-function checkAllWords() {
-    let allCorrect = true;
-    
-    for (const word of currentTema.words) {
-        let correct = true;
-        for (let i = 0; i < word.word.length; i++) {
-            let input;
-            if (word.direction === 'h') {
-                input = document.querySelector('input[data-row="' + word.row + '"][data-col="' + (word.col + i) + '"]');
-            } else {
-                input = document.querySelector('input[data-row="' + (word.row + i) + '"][data-col="' + word.col + '"]');
-            }
-            if (!input || input.value.toUpperCase() !== word.word[i]) {
-                correct = false;
-                break;
-            }
-        }
-        if (!correct) {
-            allCorrect = false;
-            break;
-        }
-    }
-    
-    if (allCorrect) {
+function checkAllWords(allCorrect) {
+    if (allCorrect && !gameCompleted) {
+        gameCompleted = true;
         setTimeout(function() {
             document.getElementById('overlay').classList.add('show');
             document.getElementById('message').classList.add('show');
@@ -795,6 +770,7 @@ function resetGame() {
     });
     currentWord = null;
     lastSelectedWord = null;
+    gameCompleted = false;
     
     if (currentTema && currentTema.words) {
         currentTema.words.forEach(function(w) {
@@ -831,7 +807,7 @@ function revelarLetra(palavra) {
     }
     
     if (todasCertas) {
-        var btn = document.querySelector('.hint-btn[data-word-number="' + palavra.number + '"]');
+        var btn = document.querySelector('.hint-btn[data-word-key="' + palavra.key + '"]');
         if (btn) {
             btn.textContent = 'Completo';
             btn.disabled = true;
@@ -859,13 +835,13 @@ function revelarLetra(palavra) {
             inp.classList.remove('letter-ok');
             inp.readOnly = true;
             
-            var b = document.querySelector('.hint-btn[data-word-number="' + palavra.number + '"]');
+            var b = document.querySelector('.hint-btn[data-word-key="' + palavra.key + '"]');
             if (b) {
                 b.textContent = 'Usado';
                 b.disabled = true;
                 b.classList.add('hint-btn-disabled');
             }
-            checkAllWords();
+            checkWord();
             return;
         }
     }
@@ -894,20 +870,23 @@ function setupDificuldadeButtons() {
 }
 
 document.getElementById('btn-reset').addEventListener('click', function() {
-    exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-        resetGame();
-        initGame();
-    });
+    const hasProgress = Array.from(document.querySelectorAll('.cell input')).some(function(input) { return input.value !== ''; });
+    if (hasProgress) exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', resetGame);
+    else resetGame();
 });
-
-document.getElementById('overlay').addEventListener('click', closeMessage);
 
 document.getElementById('btn-play-again').addEventListener('click', function() {
-    exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-        resetGame();
-        initGame();
-    });
+    closeMessage();
+    initGame();
 });
+
+window.MenteAtivaCrossword = {
+    gerar: gerarPalavrasCruzadas,
+    validar: validarTema,
+    criarRandom: criarRandomDeterministico,
+    dificuldades: dificuldades,
+    getCurrent: function() { return currentTema; }
+};
 
 setupDificuldadeButtons();
 initGame();

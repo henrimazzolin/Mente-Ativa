@@ -81,7 +81,7 @@ FAQ = [
     },
     {
         pergunta: 'Como começo uma nova rodada?',
-        resposta: 'Toque em <strong>Reiniciar</strong> ou <strong>Nova rodada</strong>. Quando aparecer uma confirmação, escolha Confirmar. O progresso da rodada atual será apagado.'
+        resposta: 'Use <strong>Reiniciar</strong> para voltar ao começo do mesmo desafio. Se já houver progresso, você deverá confirmar. Depois de concluir, use <strong>Jogar novamente</strong> para receber um desafio diferente.'
     },
     {
         pergunta: 'Como aumento as letras ou ativo o modo escuro?',

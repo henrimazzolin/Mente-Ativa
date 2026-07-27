@@ -36,11 +36,17 @@ chess.tabuleiro[1][5] = { tipo: 'n', cor: 'B' };
 assert.notEqual(chess.obterMotivoEmpate(), 'material-insuficiente', 'Dois cavalos adversarios nao sao material insuficiente automatico.');
 chess.tabuleiro[1][5] = { tipo: 'r', cor: 'B' };
 chess.halfmoveClock = 100;
-assert.equal(chess.obterMotivoEmpate(), 'cinquenta-lances');
+assert.equal(chess.obterMotivoEmpate(), null);
+assert.equal(chess.obterMotivoEmpateReivindicavel(), 'cinquenta-lances');
+chess.halfmoveClock = 150;
+assert.equal(chess.obterMotivoEmpate(), 'setenta-cinco-lances');
 chess.halfmoveClock = 0;
 chess.repeticoes.set(chess.chavePosicao(), 3);
-assert.equal(chess.obterMotivoEmpate(), 'repeticao-tripla');
-assert.equal(chess.copiar().repeticoes.get(chess.chavePosicao()), 3);
+assert.equal(chess.obterMotivoEmpate(), null);
+assert.equal(chess.obterMotivoEmpateReivindicavel(), 'repeticao-tripla');
+chess.repeticoes.set(chess.chavePosicao(), 5);
+assert.equal(chess.obterMotivoEmpate(), 'repeticao-quíntupla');
+assert.equal(chess.copiar().repeticoes.get(chess.chavePosicao()), 5);
 
 const logic = read('js/jogo-deducao-logica.js');
 for (const nivel of ['facil', 'medio', 'dificil']) {

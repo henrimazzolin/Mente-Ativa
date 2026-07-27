@@ -20,7 +20,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
+<body class="modo-individual">
     <div class="container">
         <div class="header">
             <a href="jogos-individuais.html" class="back-btn"><svg viewBox="0 0 24 24">
@@ -42,6 +42,7 @@
                 <div class="board-section">
                     <div id="game-status" aria-live="polite" aria-atomic="true">
                         <span id="status-text"></span>
+                        <button type="button" id="btn-claim-draw" class="btn-claim-draw" hidden>Pedir empate</button>
                     </div>
                     <div class="board-area">
                         <div class="notation-file top" id="notation-top"></div>
@@ -126,7 +127,7 @@
             <div class="game-over-emoji" id="game-over-emoji">&#x1F3C6;</div>
             <h2 class="game-over-title" id="game-over-title">Você Ganhou!</h2>
             <p class="game-over-message" id="game-over-message">Parabéns!</p>
-            <button class="btn" id="btn-reload">Jogar Novamente</button>
+            <button class="btn acao-jogar-novamente" id="btn-reload">Jogar novamente</button>
         </div>
     </div>
 

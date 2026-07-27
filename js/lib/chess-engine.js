@@ -92,7 +92,7 @@ class ChessEngine {
         }
         
         // Filtrar movimentos que deixariam o rei em xeque
-        return movimentos.filter(mov => !this.deixaReiEmXeque(linha, coluna, mov.linha, mov.coluna));
+        return movimentos.filter(mov => !this.deixaReiEmXeque(linha, coluna, mov));
     }
 
     obterMovimentosPeao(linha, coluna) {
@@ -120,10 +120,13 @@ class ChessEngine {
             const novaCol = coluna + dc;
             if (this.dentroDoTabuleiro(novaLinha, novaCol)) {
                 const peca = this.tabuleiro[novaLinha][novaCol];
-                if (peca && peca.cor !== cor) {
+                if (peca && peca.cor !== cor && peca.tipo !== REI) {
                     movimentos.push({ linha: novaLinha, coluna: novaCol });
                 } else if (this.enPassantTarget && this.enPassantTarget.coluna === novaCol && novaLinha === this.enPassantTarget.linha) {
-                    movimentos.push({ linha: novaLinha, coluna: novaCol, enPassant: true });
+                    const capturavel = this.tabuleiro[linha][novaCol];
+                    if (capturavel && capturavel.tipo === PEAO && capturavel.cor !== cor) {
+                        movimentos.push({ linha: novaLinha, coluna: novaCol, enPassant: true });
+                    }
                 }
             }
         }
@@ -144,7 +147,7 @@ class ChessEngine {
             
             if (this.dentroDoTabuleiro(novaLinha, novaCol)) {
                 const peca = this.tabuleiro[novaLinha][novaCol];
-                if (!peca || peca.cor !== this.tabuleiro[linha][coluna].cor) {
+                if (!peca || (peca.cor !== this.tabuleiro[linha][coluna].cor && peca.tipo !== REI)) {
                     movimentos.push({ linha: novaLinha, coluna: novaCol });
                 }
             }
@@ -177,7 +180,7 @@ class ChessEngine {
                 
                 if (this.dentroDoTabuleiro(novaLinha, novaCol)) {
                     const peca = this.tabuleiro[novaLinha][novaCol];
-                    if (!peca || peca.cor !== this.tabuleiro[linha][coluna].cor) {
+                    if (!peca || (peca.cor !== this.tabuleiro[linha][coluna].cor && peca.tipo !== REI)) {
                         movimentos.push({ linha: novaLinha, coluna: novaCol });
                     }
                 }
@@ -189,19 +192,23 @@ class ChessEngine {
         const chaveRei = cor === BRANCO ? 'WK' : 'BK';
         const chaveRainha = cor === BRANCO ? 'WQ' : 'BQ';
         
-        if (this.direitos_roque[chaveRei] && !this.emXeque()) {
+        const linhaInicial = cor === BRANCO ? 7 : 0;
+        const adversario = cor === BRANCO ? PRETO : BRANCO;
+        if (linha === linhaInicial && coluna === 4 && this.direitos_roque[chaveRei] && !this.casaAtacadaPor(linha, 4, adversario)) {
             // Roque do lado do rei
-            if (!this.tabuleiro[linha][7] || (this.tabuleiro[linha][7].tipo === TORRE && this.tabuleiro[linha][7].cor === cor)) {
-                if (!this.tabuleiro[linha][5] && !this.tabuleiro[linha][6]) {
+            if (this.tabuleiro[linha][7] && this.tabuleiro[linha][7].tipo === TORRE && this.tabuleiro[linha][7].cor === cor) {
+                if (!this.tabuleiro[linha][5] && !this.tabuleiro[linha][6] &&
+                    !this.casaAtacadaPor(linha, 5, adversario) && !this.casaAtacadaPor(linha, 6, adversario)) {
                     movimentos.push({ linha, coluna: 6, roque: true, tipo: 'rei' });
                 }
             }
         }
         
-        if (this.direitos_roque[chaveRainha] && !this.emXeque()) {
+        if (linha === linhaInicial && coluna === 4 && this.direitos_roque[chaveRainha] && !this.casaAtacadaPor(linha, 4, adversario)) {
             // Roque do lado da rainha
-            if (!this.tabuleiro[linha][0] || (this.tabuleiro[linha][0].tipo === TORRE && this.tabuleiro[linha][0].cor === cor)) {
-                if (!this.tabuleiro[linha][1] && !this.tabuleiro[linha][2] && !this.tabuleiro[linha][3]) {
+            if (this.tabuleiro[linha][0] && this.tabuleiro[linha][0].tipo === TORRE && this.tabuleiro[linha][0].cor === cor) {
+                if (!this.tabuleiro[linha][1] && !this.tabuleiro[linha][2] && !this.tabuleiro[linha][3] &&
+                    !this.casaAtacadaPor(linha, 3, adversario) && !this.casaAtacadaPor(linha, 2, adversario)) {
                     movimentos.push({ linha, coluna: 2, roque: true, tipo: 'rainha' });
                 }
             }
@@ -242,7 +249,7 @@ class ChessEngine {
             
             if (!peca) {
                 movimentos.push({ linha: novaLinha, coluna: novaCol });
-            } else if (peca.cor !== corPeca) {
+            } else if (peca.cor !== corPeca && peca.tipo !== REI) {
                 movimentos.push({ linha: novaLinha, coluna: novaCol });
                 break;
             } else {
@@ -333,6 +340,13 @@ class ChessEngine {
             }
         }
         
+        if (pecaCapturada && pecaCapturada.tipo === TORRE) {
+            const chaveCapturada = pecaCapturada.cor === BRANCO ? 'W' : 'B';
+            const linhaInicialCapturada = pecaCapturada.cor === BRANCO ? 7 : 0;
+            if (linhaDestino === linhaInicialCapturada && colunaDestino === 0) this.direitos_roque[chaveCapturada + 'Q'] = false;
+            if (linhaDestino === linhaInicialCapturada && colunaDestino === 7) this.direitos_roque[chaveCapturada + 'K'] = false;
+        }
+
         // Atualizar en passant
         if (peca.tipo === PEAO && Math.abs(linhaDestino - linhaOrigem) === 2) {
             this.enPassantTarget = {
@@ -377,15 +391,21 @@ class ChessEngine {
 
     obterMovimentosValidosGlobal(cor) {
         const movimentos = [];
-        for (let l = 0; l < 8; l++) {
-            for (let c = 0; c < 8; c++) {
-                if (this.tabuleiro[l][c] && this.tabuleiro[l][c].cor === cor) {
-                    const movsValidos = this.obterMovimentosValidos(l, c);
-                    for (const mov of movsValidos) {
-                        movimentos.push({ origem: { l, c }, destino: { l: mov.linha, c: mov.coluna }, movimento: mov });
+        const turnoOriginal = this.turno;
+        this.turno = cor;
+        try {
+            for (let l = 0; l < 8; l++) {
+                for (let c = 0; c < 8; c++) {
+                    if (this.tabuleiro[l][c] && this.tabuleiro[l][c].cor === cor) {
+                        const movsValidos = this.obterMovimentosValidos(l, c);
+                        for (const mov of movsValidos) {
+                            movimentos.push({ origem: { l, c }, destino: { l: mov.linha, c: mov.coluna }, movimento: mov });
+                        }
                     }
                 }
             }
+        } finally {
+            this.turno = turnoOriginal;
         }
         return movimentos;
     }
@@ -397,14 +417,39 @@ class ChessEngine {
 
     estaEmXeque(linha, coluna, cor) {
         const corAdversaria = cor === BRANCO ? PRETO : BRANCO;
-        
+        return this.casaAtacadaPor(linha, coluna, corAdversaria);
+    }
+
+    casaAtacadaPor(linha, coluna, corAtacante) {
         for (let l = 0; l < 8; l++) {
             for (let c = 0; c < 8; c++) {
                 const peca = this.tabuleiro[l][c];
-                if (peca && peca.cor === corAdversaria) {
-                    const movimentos = this.obterMovimentosPecaSemValidar(l, c);
-                    if (movimentos.some(m => m.linha === linha && m.coluna === coluna)) {
-                        return true;
+                if (!peca || peca.cor !== corAtacante) continue;
+                const dl = linha - l;
+                const dc = coluna - c;
+                if (peca.tipo === PEAO) {
+                    const direcao = corAtacante === BRANCO ? -1 : 1;
+                    if (dl === direcao && Math.abs(dc) === 1) return true;
+                } else if (peca.tipo === CAVALO) {
+                    if ((Math.abs(dl) === 2 && Math.abs(dc) === 1) || (Math.abs(dl) === 1 && Math.abs(dc) === 2)) return true;
+                } else if (peca.tipo === REI) {
+                    if (Math.max(Math.abs(dl), Math.abs(dc)) === 1) return true;
+                } else {
+                    const diagonal = Math.abs(dl) === Math.abs(dc) && dl !== 0;
+                    const reto = (dl === 0) !== (dc === 0);
+                    if ((diagonal && (peca.tipo === BISPO || peca.tipo === RAINHA)) ||
+                        (reto && (peca.tipo === TORRE || peca.tipo === RAINHA))) {
+                        const passoL = Math.sign(dl);
+                        const passoC = Math.sign(dc);
+                        let atualL = l + passoL;
+                        let atualC = c + passoC;
+                        let livre = true;
+                        while (atualL !== linha || atualC !== coluna) {
+                            if (this.tabuleiro[atualL][atualC]) { livre = false; break; }
+                            atualL += passoL;
+                            atualC += passoC;
+                        }
+                        if (livre) return true;
                     }
                 }
             }
@@ -442,12 +487,16 @@ class ChessEngine {
         }
     }
 
-    deixaReiEmXeque(linhaOrigem, colunaOrigem, linhaDestino, colunaDestino) {
+    deixaReiEmXeque(linhaOrigem, colunaOrigem, movimento) {
         const peca = this.tabuleiro[linhaOrigem][colunaOrigem];
+        const linhaDestino = movimento.linha;
+        const colunaDestino = movimento.coluna;
         const pecaCapturada = this.tabuleiro[linhaDestino][colunaDestino];
+        const pecaEnPassant = movimento.enPassant ? this.tabuleiro[linhaOrigem][colunaDestino] : null;
         
         this.tabuleiro[linhaDestino][colunaDestino] = peca;
         this.tabuleiro[linhaOrigem][colunaOrigem] = VAZIO;
+        if (movimento.enPassant) this.tabuleiro[linhaOrigem][colunaDestino] = VAZIO;
         
         let reiPosicao = { ...this.reiPosicoes[peca.cor] };
         if (peca.tipo === REI) {
@@ -458,6 +507,7 @@ class ChessEngine {
         
         this.tabuleiro[linhaOrigem][colunaOrigem] = peca;
         this.tabuleiro[linhaDestino][colunaDestino] = pecaCapturada;
+        if (movimento.enPassant) this.tabuleiro[linhaOrigem][colunaDestino] = pecaEnPassant;
         
         return emXeque;
     }
@@ -471,6 +521,12 @@ class ChessEngine {
         const movimentos = this.obterMovimentosValidosGlobal(this.turno);
         if (!this.emXeque() && movimentos.length === 0) return 'afogamento';
         if (this.temMaterialInsuficiente()) return 'material-insuficiente';
+        if (this.halfmoveClock >= 150) return 'setenta-cinco-lances';
+        if ((this.repeticoes.get(this.chavePosicao()) || 0) >= 5) return 'repeticao-quíntupla';
+        return null;
+    }
+
+    obterMotivoEmpateReivindicavel() {
         if (this.halfmoveClock >= 100) return 'cinquenta-lances';
         if ((this.repeticoes.get(this.chavePosicao()) || 0) >= 3) return 'repeticao-tripla';
         return null;
@@ -498,7 +554,26 @@ class ChessEngine {
     }
 
     chavePosicao() {
-        return this.obterFEN().split(' ').slice(0, 4).join(' ');
+        const partes = this.obterFEN().split(' ').slice(0, 4);
+        if (!this.enPassantDisponivelParaTurno()) partes[3] = '-';
+        return partes.join(' ');
+    }
+
+    enPassantDisponivelParaTurno() {
+        if (!this.enPassantTarget) return false;
+        const direcao = this.turno === BRANCO ? -1 : 1;
+        const linhaOrigem = this.enPassantTarget.linha - direcao;
+        for (const deslocamento of [-1, 1]) {
+            const colunaOrigem = this.enPassantTarget.coluna + deslocamento;
+            if (!this.dentroDoTabuleiro(linhaOrigem, colunaOrigem)) continue;
+            const peao = this.tabuleiro[linhaOrigem][colunaOrigem];
+            const capturavel = this.tabuleiro[linhaOrigem][this.enPassantTarget.coluna];
+            const movimento = { linha: this.enPassantTarget.linha, coluna: this.enPassantTarget.coluna, enPassant: true };
+            if (peao && peao.tipo === PEAO && peao.cor === this.turno &&
+                capturavel && capturavel.tipo === PEAO && capturavel.cor !== this.turno &&
+                !this.deixaReiEmXeque(linhaOrigem, colunaOrigem, movimento)) return true;
+        }
+        return false;
     }
 
     registrarPosicaoAtual() {

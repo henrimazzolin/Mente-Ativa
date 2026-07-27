@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
 
         let paresAtuais = [];
+        let ordemDireita = [];
         let selecionadoEsquerda = null;
         let acertos = 0;
         let matchedPairs = [];
@@ -36,8 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return novo;
         }
 
-        function iniciarJogo() {
-            paresAtuais = embaralhar(bancoItens).slice(0, 3);
+        function iniciarJogo(reutilizar) {
+            if (!reutilizar || paresAtuais.length !== 3) {
+                paresAtuais = embaralhar(bancoItens).slice(0, 3);
+                ordemDireita = embaralhar([...paresAtuais]);
+            }
             acertos = 0;
             matchedPairs = [];
             selecionadoEsquerda = null;
@@ -55,8 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
             leftColumn.innerHTML = '<p class="column-title">Toque primeiro aqui</p>';
             rightColumn.innerHTML = '<p class="column-title">Depois toque aqui</p>';
             
-            const paresEmbaralhados = embaralhar([...paresAtuais]);
-            
             paresAtuais.forEach((par, index) => {
                 const leftItem = document.createElement('div');
                 leftItem.className = 'emoji-item';
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 leftColumn.appendChild(leftItem);
             });
             
-            paresEmbaralhados.forEach((par, index) => {
+            ordemDireita.forEach((par, index) => {
                 const rightItem = document.createElement('div');
                 rightItem.className = 'emoji-item';
                 rightItem.textContent = par.emoji;
@@ -133,6 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.textContent = acertou ? '✅' : '❌';
             title.textContent = titulo;
             subtitle.textContent = subtitulo;
+            const feedbackBtn = document.getElementById('feedbackBtn');
+            feedbackBtn.textContent = acertou && acertos === 3 ? 'Jogar novamente' : 'Continuar';
+            feedbackBtn.classList.toggle('acao-jogar-novamente', acertou && acertos === 3);
             
             overlay.classList.add('show');
         }
@@ -144,11 +149,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Event listeners
         document.getElementById('btn-back').addEventListener('click', function() { location.href = 'jogos-acompanhados.html'; });
         document.getElementById('btn-restart').addEventListener('click', function() {
-            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-                iniciarJogo();
-            });
+            if (acertos > 0 || selecionadoEsquerda) {
+                exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() { iniciarJogo(true); });
+            } else iniciarJogo(true);
         });
-        document.getElementById('feedbackBtn').addEventListener('click', fecharFeedback);
+        document.getElementById('feedbackBtn').addEventListener('click', function() {
+            if (acertos === 3) {
+                fecharFeedback();
+                iniciarJogo(false);
+            } else fecharFeedback();
+        });
 
-        iniciarJogo();
+        iniciarJogo(false);
 });

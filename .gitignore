@@ -7,3 +7,6 @@ npm-debug.log*
 .idea/
 
 .vercel
+
+# Áudios usados apenas na produção dos vídeos publicados no YouTube.
+audios/

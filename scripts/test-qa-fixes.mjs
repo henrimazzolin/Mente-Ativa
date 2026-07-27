@@ -308,10 +308,9 @@ function testarPadronizacaoDosSeletoresDeDificuldade() {
     }
 
     const quebraCabeca = read('jogo-quebra-cabeca.html');
-    assert.equal((quebraCabeca.match(/class="difficulty-name"/g) || []).length, 3,
-        'Quebra-cabeca deve separar o nome dos tres niveis.');
-    assert.equal((quebraCabeca.match(/class="difficulty-detail"/g) || []).length, 3,
-        'Quebra-cabeca deve mostrar os detalhes dos tres niveis em segunda linha.');
+    const seletorQuebraCabeca = quebraCabeca.match(/<div class="dificuldade-selector">[\s\S]*?<\/div>/)?.[0] || '';
+    assert.doesNotMatch(seletorQuebraCabeca, /difficulty-name|difficulty-detail|peças|grade/i,
+        'Quebra-cabeca deve exibir somente Fácil, Médio e Difícil nos níveis.');
 }
 
 function testarContrasteSudokuEscuro() {

@@ -150,11 +150,11 @@ document.addEventListener('DOMContentLoaded', function() {
             feedbackTitle.textContent = 'Parabéns!';
             feedbackText.textContent = `Você acertou ${correctCount} de ${currentQuestions.length} perguntas!`;
             
-            feedbackBtn.textContent = 'Jogar Novamente';
+            feedbackBtn.textContent = 'Jogar novamente';
             feedbackBtn.onclick = () => {
                 overlay.classList.remove('show');
                 feedback.classList.remove('show');
-                document.getElementById('nextBtn').textContent = 'Próxima Pergunta';
+                document.getElementById('nextBtn').textContent = 'Próxima pergunta';
                 document.getElementById('nextBtn').onclick = nextQuestion;
                 initGame();
             };

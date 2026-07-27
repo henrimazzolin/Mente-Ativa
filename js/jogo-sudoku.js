@@ -186,13 +186,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return puzzle;
     }
 
-    function initGame() {
+    function initGame(newRound) {
         const gridEl = document.getElementById('grid');
         gridEl.innerHTML = '';
 
-        const randomIndex = Math.floor(Math.random() * puzzles.length);
-        currentSolution = puzzles[randomIndex].solution;
-        currentPuzzle = gerarPuzzle(currentSolution, currentDifficulty);
+        if (newRound !== false || !currentPuzzle) {
+            const randomIndex = Math.floor(Math.random() * puzzles.length);
+            currentSolution = puzzles[randomIndex].solution;
+            currentPuzzle = gerarPuzzle(currentSolution, currentDifficulty);
+        }
 
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
@@ -372,8 +374,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showSolution() {
-        exibirConfirmacao('Deseja ver a solução? O jogo será reiniciado.', function (ok) {
-            if (ok) {
+        exibirConfirmacao('Deseja ver a solução?', 'A partida será encerrada e a grade completa será mostrada.', function () {
                 for (let row = 0; row < 9; row++) {
                     for (let col = 0; col < 9; col++) {
                         const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
@@ -389,16 +390,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 solutionShown = true;
                 document.getElementById('btn-check').disabled = true;
                 clearInterval(timerInterval);
-            }
         });
     }
 
-    function resetGame() {
+    function resetGame(newRound) {
         solutionShown = false;
         document.getElementById('btn-check').disabled = false;
         closeMessage();
         document.getElementById('grid').innerHTML = '';
-        initGame();
+        initGame(newRound);
     }
 
     function closeMessage() {
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 else if (this.classList.contains('medio')) currentDifficulty = 'medio';
                 else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
 
-                resetGame();
+                resetGame(true);
             });
         });
     }
@@ -436,15 +436,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('btn-check').addEventListener('click', checkSolution);
     document.getElementById('btn-reset').addEventListener('click', function() {
-        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-            resetGame();
-        });
+        const hasProgress = Array.from(document.querySelectorAll('.cell:not(.fixed) input')).some(function(input) { return input.value !== ''; }) || solutionShown;
+        if (hasProgress) exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() { resetGame(false); });
+        else resetGame(false);
     });
     document.getElementById('btn-solution').addEventListener('click', showSolution);
 
     document.getElementById('overlay').addEventListener('click', closeMessage);
-    document.getElementById('btn-play-again').addEventListener('click', resetGame);
+    document.getElementById('btn-play-again').addEventListener('click', function() { resetGame(true); });
 
     setupDificuldadeButtons();
-    initGame();
+    initGame(true);
 });

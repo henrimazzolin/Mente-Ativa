@@ -29,13 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let attempts = 0;
         let isLocked = false;
         let currentDifficulty = 'facil';
+        let gameVersion = 0;
         var difficultyConfig = {
             facil: { pairs: 3, cols: 3 },
             medio: { pairs: 6, cols: 4 },
             dificil: { pairs: 10, cols: 5 }
         };
 
-        function initGame() {
+        function initGame(reuseRound) {
+            gameVersion++;
             const board = document.getElementById('gameBoard');
             board.innerHTML = '';
 
@@ -43,10 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
             var numPairs = config.pairs;
             var numCols = config.cols;
 
-            var imagensSelecionadas = MenteAtiva.utils.shuffleArray(imageSets).slice(0, numPairs);
-
-            var cardImages = imagensSelecionadas.concat(imagensSelecionadas);
-            cards = MenteAtiva.utils.shuffleArray(cardImages);
+            if (!reuseRound || cards.length !== numPairs * 2) {
+                var imagensSelecionadas = MenteAtiva.utils.shuffleArray(imageSets).slice(0, numPairs);
+                var cardImages = imagensSelecionadas.concat(imagensSelecionadas);
+                cards = MenteAtiva.utils.shuffleArray(cardImages);
+            }
 
             flippedCards = [];
             matchedPairs = 0;
@@ -59,19 +62,61 @@ document.addEventListener('DOMContentLoaded', function() {
             board.style.gridTemplateColumns = 'repeat(' + numCols + ', 1fr)';
 
             cards.forEach(function(item, index) {
-                var card = document.createElement('div');
+                var card = document.createElement('button');
+                card.type = 'button';
                 card.className = 'card';
                 card.dataset.index = index;
                 card.dataset.image = item.src;
+                card.setAttribute('aria-label', 'Carta ' + (index + 1) + ' fechada');
                 var img = document.createElement('img');
                 img.alt = item.nome;
                 img.loading = 'lazy';
+                img.draggable = false;
                 img.onerror = function() { imgOnError(this); };
                 img.src = item.src;
                 card.innerHTML = '<div class="card-image"></div>';
                 card.querySelector('.card-image').appendChild(img);
-                card.addEventListener('click', function() { flipCard(card); });
+                bindCardInteraction(card);
                 board.appendChild(card);
+            });
+        }
+
+        function bindCardInteraction(card) {
+            var gesture = null;
+            var suppressClick = false;
+
+            card.addEventListener('pointerdown', function(event) {
+                gesture = { x: event.clientX, y: event.clientY, startedAt: Date.now(), moved: false };
+                suppressClick = false;
+            });
+            card.addEventListener('pointermove', function(event) {
+                if (!gesture) return;
+                if (Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 8) {
+                    gesture.moved = true;
+                }
+            });
+            card.addEventListener('pointerup', function() {
+                if (!gesture) return;
+                suppressClick = gesture.moved || Date.now() - gesture.startedAt > 550;
+                gesture = null;
+            });
+            card.addEventListener('pointercancel', function() {
+                suppressClick = true;
+                gesture = null;
+            });
+            card.addEventListener('dragstart', function(event) {
+                suppressClick = true;
+                event.preventDefault();
+            });
+            card.addEventListener('contextmenu', function(event) { event.preventDefault(); });
+            card.addEventListener('click', function(event) {
+                if (suppressClick && event.detail !== 0) {
+                    suppressClick = false;
+                    event.preventDefault();
+                    return;
+                }
+                suppressClick = false;
+                flipCard(card);
             });
         }
 
@@ -82,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (flippedCards.length >= 2) return;
 
             card.classList.add('flipped');
+            card.setAttribute('aria-label', 'Carta ' + (Number(card.dataset.index) + 1) + ': ' + card.querySelector('img').alt);
             flippedCards.push(card);
 
             if (flippedCards.length === 2) {
@@ -93,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function checkMatch() {
             isLocked = true;
+            const version = gameVersion;
 
             const [card1, card2] = flippedCards;
             const img1 = card1.dataset.image;
@@ -100,8 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (img1 === img2) {
                 setTimeout(() => {
+                    if (version !== gameVersion) return;
                     card1.classList.add('matched');
                     card2.classList.add('matched');
+                    card1.disabled = true;
+                    card2.disabled = true;
                     matchedPairs++;
                     document.getElementById('pairs').textContent = matchedPairs;
 
@@ -116,8 +166,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 400);
             } else {
                 setTimeout(() => {
+                    if (version !== gameVersion) return;
                     card1.classList.remove('flipped');
                     card2.classList.remove('flipped');
+                    card1.setAttribute('aria-label', 'Carta ' + (Number(card1.dataset.index) + 1) + ' fechada');
+                    card2.setAttribute('aria-label', 'Carta ' + (Number(card2.dataset.index) + 1) + ' fechada');
                     flippedCards = [];
                     isLocked = false;
                 }, 1000);
@@ -138,10 +191,10 @@ document.addEventListener('DOMContentLoaded', function() {
             feedbackTitle.textContent = 'Parabéns!';
             feedbackText.textContent = `Você encontrou todos os pares em ${attempts} tentativas!`;
 
-            feedbackBtn.textContent = 'Jogar Novamente';
+            feedbackBtn.textContent = 'Jogar novamente';
             feedbackBtn.onclick = () => {
                 hideFeedback();
-                initGame();
+                initGame(false);
             };
 
             overlay.classList.add('show');
@@ -162,22 +215,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (this.classList.contains('facil')) currentDifficulty = 'facil';
                     else if (this.classList.contains('medio')) currentDifficulty = 'medio';
                     else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
-                    initGame();
+                    initGame(false);
                 });
             });
         }
 
         // Event listeners
         document.getElementById('btn-restart').addEventListener('click', function() {
-            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-                initGame();
-            });
-        });
-        document.getElementById('feedbackBtn').addEventListener('click', hideFeedback);
-        document.getElementById('overlay').addEventListener('click', function() {
-            hideFeedback();
+            var restart = function() { initGame(true); };
+            if (attempts > 0 || flippedCards.length > 0 || matchedPairs > 0) {
+                exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', restart);
+            } else {
+                restart();
+            }
         });
 
         setupDificuldadeButtons();
-        initGame();
+        initGame(false);
     });

@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentImageUrl = currentImage.src;
         
         let pieces = [];
+        let initialPieces = [];
         let selectedPiece = null;
         let isProcessing = false;
         let currentDifficulty = 'facil';
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let gridSize = 3;
         let totalPieces = 9;
 
-        async function initGame() {
+        async function initGame(newRound) {
             closeMessage();
             selectedPiece = null;
             isProcessing = false;
@@ -41,8 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
             gridSize = difficultyConfig[currentDifficulty].size;
             totalPieces = gridSize * gridSize;
 
-            currentImage = images[Math.floor(Math.random() * images.length)];
-            currentImageUrl = await preloadImage(currentImage.src);
+            if (newRound !== false || !initialPieces.length) {
+                currentImage = images[Math.floor(Math.random() * images.length)];
+                currentImageUrl = await preloadImage(currentImage.src);
+            }
 
             const previewImg = document.getElementById('previewImage');
             if (previewImg) {
@@ -51,14 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 previewImg.onerror = function() { this.src = PLACEHOLDER; };
             }
 
-            pieces = [];
-            for (let i = 0; i < totalPieces; i++) {
-                pieces.push(i);
+            if (newRound !== false || initialPieces.length !== totalPieces) {
+                pieces = [];
+                for (let i = 0; i < totalPieces; i++) pieces.push(i);
+                do { pieces = MenteAtiva.utils.shuffleArray(pieces); } while (isSolved());
+                initialPieces = pieces.slice();
+            } else {
+                pieces = initialPieces.slice();
             }
-
-            do {
-                pieces = MenteAtiva.utils.shuffleArray(pieces);
-            } while (isSolved());
 
             renderPuzzle();
         }
@@ -167,24 +170,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (this.classList.contains('facil')) currentDifficulty = 'facil';
                     else if (this.classList.contains('medio')) currentDifficulty = 'medio';
                     else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
-                    initGame();
+                    initGame(true);
                 });
             });
         }
 
         // Event listeners
         document.getElementById('btn-restart').addEventListener('click', function() {
-            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-                initGame();
-            });
+            const hasProgress = pieces.some(function(piece, index) { return piece !== initialPieces[index]; });
+            if (hasProgress) exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() { initGame(false); });
+            else initGame(false);
         });
         document.getElementById('btn-play-again').addEventListener('click', function() {
-            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-                initGame();
-            });
+            initGame(true);
         });
         document.getElementById('overlay').addEventListener('click', closeMessage);
 
         setupDificuldadeButtons();
-        initGame();
+        initGame(true);
 });

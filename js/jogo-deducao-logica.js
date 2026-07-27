@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Quem tem 55 anos?',
                 options: ['João', 'Maria', 'Pedro'],
                 correctIndex: 1,
-                explanation: 'Pedro é mais velho que Maria → Pedro = 70. Maria não é a mais nova → Maria = 55. João = 30.'
+                explanation: 'Pedro é o mais velho e tem 70 anos. Maria fica com 55 anos, e João com 30.'
             },
             {
                 id: 'f2', level: 'facil',
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual fruta é da cor laranja?',
                 options: ['Maçã', 'Banana', 'Laranja', 'Uva'],
                 correctIndex: 2,
-                explanation: 'Banana = amarela, Uva = roxa. Maçã não amarela → maçã = vermelha. Resta laranja = laranja.'
+                explanation: 'A banana é amarela e a uva é roxa. A maçã fica com a cor vermelha. Assim, a fruta laranja é a laranja.'
             },
             {
                 id: 'f3', level: 'facil',
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual a profissão de Ana?',
                 options: ['Médica', 'Professora', 'Engenheira'],
                 correctIndex: 0,
-                explanation: 'Carlos = professor. Ana não engenheira → Ana = médica. Lúcia = engenheira.'
+                explanation: 'Carlos já é o professor. Como Ana não é engenheira, ela é a médica. Lúcia fica com a profissão de engenheira.'
             },
             {
                 id: 'f4', level: 'facil',
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual a marca do carro vermelho?',
                 options: ['Fiat', 'Ford', 'VW'],
                 correctIndex: 1,
-                explanation: 'Branco = VW, Azul = Fiat. Vermelho = Ford.'
+                explanation: 'O carro branco é Volkswagen e o azul é Fiat. A marca que sobra para o carro vermelho é Ford.'
             },
             {
                 id: 'f6', level: 'facil',
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual esporte Lucas pratica?',
                 options: ['Natação', 'Futebol', 'Balé'],
                 correctIndex: 0,
-                explanation: 'Sofia = balé. Gabriel não sabe nadar → Gabriel = futebol. Lucas não gosta de bola → Lucas = natação.'
+                explanation: 'Sofia faz balé. Gabriel pratica futebol, pois não sabe nadar. Lucas pratica natação, que não usa bola.'
             },
             {
                 id: 'f7', level: 'facil',
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Em que andar mora Ana?',
                 options: ['1º', '2º', '3º', '4º'],
                 correctIndex: 1,
-                explanation: 'Pedro = 1º, Roberto = 3º. Cláudia acima (4º). Ana entre 1º e 3º = 2º.'
+                explanation: 'Pedro mora no primeiro andar e Roberto no terceiro. Cláudia fica no quarto. O andar entre Pedro e Roberto é o segundo, onde mora Ana.'
             },
             {
                 id: 'f8', level: 'facil',
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Quanto custa o queijo?',
                 options: ['R$ 8', 'R$ 12', 'R$ 15'],
                 correctIndex: 2,
-                explanation: 'Café = R$ 12. Pão < R$ 12 → pão = R$ 8. Queijo > pão → queijo = R$ 15.'
+                explanation: 'O café custa doze reais. O pão custa oito, pois é mais barato. O queijo fica com o maior preço, quinze reais.'
             },
             {
                 id: 'f9', level: 'facil',
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual a cor do livro?',
                 options: ['Azul', 'Verde', 'Vermelho', 'Preto'],
                 correctIndex: 3,
-                explanation: 'Caneta = azul, copo = verde. Chave não preta → chave = vermelha. Livro = preto.'
+                explanation: 'A caneta é azul e o copo é verde. A chave não pode ser preta, então é vermelha. A cor preta sobra para o livro.'
             },
             {
                 id: 'f11', level: 'facil',
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual a altura de Beto?',
                 options: ['1,60m', '1,70m', '1,80m'],
                 correctIndex: 0,
-                explanation: 'Davi = 1,80. Beto < Cássia e Beto ≠ 1,70 → Beto = 1,60, Cássia = 1,70.'
+                explanation: 'Davi é o mais alto. Beto é mais baixo que Cássia e não mede um metro e setenta. Por isso, Beto mede um metro e sessenta.'
             },
             // ===== MÉDIO (3-4 elementos, pistas combinadas) =====
             {
@@ -166,21 +166,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Quem está em 1º lugar?',
                 options: ['Paulo', 'Ricardo', 'Sofia', 'Tais'],
                 correctIndex: 3,
-                explanation: 'Tais → Sofia → Ricardo. Paulo atrás de Tais. Ricardo não último → Paulo último. Fila: Tais(1ª), Sofia(2ª), Ricardo(3ª), Paulo(4ª).'
+                explanation: 'Tais vem antes de Sofia, que vem antes de Ricardo. Como Ricardo não é o último, Paulo fecha a fila. Tais fica em primeiro lugar.'
             },
             {
                 id: 'm2', level: 'medio',
-                scenario: 'Quatro profissionais — A, B, C e D — têm especialidades: cardio, dermato, neuro e ortopedia.',
+                scenario: 'Quatro profissionais — Alice, Bruno, Carla e Daniel — trabalham em cardiologia, dermatologia, neurologia e ortopedia.',
                 clues: [
-                    'A não é cardiologista nem ortopedista.',
-                    'B é neurologista.',
-                    'D é ortopedista.',
-                    'O cardiologista não é C.'
+                    'Alice não trabalha em cardiologia nem ortopedia.',
+                    'Bruno trabalha em neurologia.',
+                    'Daniel trabalha em ortopedia.',
+                    'Carla não trabalha em dermatologia.'
                 ],
-                question: 'Qual a especialidade de A?',
-                options: ['Cardio', 'Dermato', 'Neuro', 'Ortopedia'],
-                correctIndex: 2,
-                explanation: 'B = Neuro, D = Ortop. A não Cardio nem Ortop → A = Dermato ou Neuro. Neuro é B → A = Dermato. C = Cardio.'
+                question: 'Qual é a especialidade de Alice?',
+                options: ['Cardiologia', 'Dermatologia', 'Neurologia', 'Ortopedia'],
+                correctIndex: 1,
+                explanation: 'Bruno já trabalha em neurologia e Daniel em ortopedia. Alice não pode ficar com cardiologia. Portanto, Alice trabalha em dermatologia.'
             },
             {
                 id: 'm3', level: 'medio',
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Em que caixa está a caneca?',
                 options: ['Caixa 1', 'Caixa 2', 'Caixa 3', 'Caixa 4'],
                 correctIndex: 2,
-                explanation: 'Boneco = 4. Bola em ímpar (1 ou 3). Livro à direita da bola: se bola=1, livro=2. Se bola=3, livro=4 (ocupado). Então bola=1, livro=2. Caneca entre dois objetos → caneca=3 (entre 2 e 4). Resposta: caixa 3.'
+                explanation: 'O boneco ocupa a caixa quatro. A bola só pode ficar na caixa um, com o livro logo depois. A caneca fica na caixa três.'
             },
             {
                 id: 'm4', level: 'medio',
@@ -209,48 +209,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Quantas balas Ana ganhou?',
                 options: ['2', '3', '4', '5'],
                 correctIndex: 3,
-                explanation: 'Beto = 3. Caio = 2×Duda. Duda não 1 → Caio=4, Duda=2. Ana > Beto(3) e Eva < Ana → Ana=5, Eva=1.'
+                explanation: 'Beto ganhou três balas. Duda ganhou duas e Caio ganhou quatro. Como Ana ganhou mais que Beto e mais que Eva, Ana recebeu cinco balas.'
             },
             {
                 id: 'm5', level: 'medio',
                 scenario: 'Quatro casas em fila: Azul, Verde, Vermelha e Amarela.',
                 clues: [
                     'Azul está à esquerda da Verde.',
-                    'Vermelha está entre a Azul e a Amarela.',
+                    'A casa Vermelha está logo à direita da Azul.',
+                    'A casa Amarela está logo à direita da Vermelha.',
                     'Verde está na ponta direita.'
                 ],
                 question: 'Qual a posição da Amarela?',
                 options: ['1ª (esquerda)', '2ª', '3ª', '4ª (direita)'],
                 correctIndex: 2,
-                explanation: 'Verde = 4ª. Azul à esquerda de Verde. Vermelha entre Azul e Amarela. Sequência: Azul(1ª), Vermelha(2ª), Amarela(3ª), Verde(4ª).'
+                explanation: 'A casa Verde fica na ponta direita. Antes dela aparecem, nesta ordem, as casas Azul, Vermelha e Amarela. A Amarela ocupa a terceira posição.'
             },
             {
                 id: 'm6', level: 'medio',
-                scenario: 'Cinco times — A, B, C, D e E — em posições (1º ao 5º).',
+                scenario: 'Cinco times — Águia, Brisa, Cedro, Dourado e Estrela — terminaram do primeiro ao quinto lugar.',
                 clues: [
-                    'A > C (A na frente de C)',
-                    'D > B',
-                    'E está entre B e D.',
-                    'C não é o último.',
-                    'A > B'
+                    'Dourado ficou em primeiro lugar.',
+                    'Brisa ficou em quinto lugar.',
+                    'Águia ficou à frente de Cedro.',
+                    'Estrela ficou logo depois de Águia.',
+                    'Cedro não ficou em segundo lugar.'
                 ],
                 question: 'Qual time ficou em 3º?',
-                options: ['A', 'B', 'C', 'D', 'E'],
+                options: ['Águia', 'Brisa', 'Cedro', 'Dourado', 'Estrela'],
                 correctIndex: 4,
-                explanation: 'Relações: D > E > B, A > B, A > C, C não último. Ordem: D, A, E, B, C. 3º = E.'
+                explanation: 'Dourado abre a classificação e Brisa fica em último. Águia precisa vir logo antes de Estrela, deixando Cedro em quarto. Assim, Estrela fica em terceiro.'
             },
             {
                 id: 'm7', level: 'medio',
-                scenario: 'Quatro amigos — J, K, L e M — pediram: café, chá, suco e refrigerante.',
+                scenario: 'Quatro amigos — Júlia, Kauê, Lúcia e Marcos — pediram café, chá, suco e refrigerante.',
                 clues: [
-                    'J não pediu café nem refrigerante.',
-                    'K pediu chá.',
-                    'L pediu refrigerante.'
+                    'Júlia não pediu café nem refrigerante.',
+                    'Kauê pediu chá.',
+                    'Lúcia pediu refrigerante.'
                 ],
-                question: 'O que J pediu?',
+                question: 'O que Júlia pediu?',
                 options: ['Café', 'Chá', 'Suco', 'Refrigerante'],
                 correctIndex: 2,
-                explanation: 'K = Chá, L = Refri. J não Café nem Refri → J = Suco. M = Café.'
+                explanation: 'Kauê já pediu chá e Lúcia pediu refrigerante. Júlia também não pediu café. Portanto, Júlia pediu suco.'
             },
             {
                 id: 'm8', level: 'medio',
@@ -264,118 +265,117 @@ document.addEventListener('DOMContentLoaded', function() {
                 question: 'Qual livro está no centro (3ª)?',
                 options: ['Romance', 'Poesia', 'Drama', 'Aventura', 'Biografia'],
                 correctIndex: 0,
-                explanation: 'Bio(1ª), Av(5ª). Drama < Romance. Romance entre Drama e Poesia. Sequência: Bio, Drama, Romance, Poesia, Av. Centro = Romance.'
+                explanation: 'Biografia fica na primeira posição e Aventura na última. Entre eles, Drama vem antes de Romance, e Poesia vem depois. Romance ocupa o centro.'
             },
             {
                 id: 'm9', level: 'medio',
-                scenario: 'Três casais (Aa, Bb, Cc) em 6 assentos lado a lado.',
+                scenario: 'Três casais — Alice e André, Bianca e Bruno, Clara e Carlos — ocupam seis assentos lado a lado.',
                 clues: [
-                    'Cada pessoa ao lado do seu par.',
-                    'A sentou à esquerda de a.',
-                    'B sentou na ponta direita (assento 6).',
-                    'c sentou entre A e b.',
-                    'C sentou no assento 1.'
+                    'Cada pessoa está ao lado do seu par.',
+                    'Clara sentou no primeiro assento e Carlos no segundo.',
+                    'Alice sentou imediatamente à esquerda de André.',
+                    'Bruno sentou no sexto assento.'
                 ],
                 question: 'Quem sentou no assento 3?',
-                options: ['A', 'a', 'B', 'b', 'C', 'c'],
-                correctIndex: 5,
-                explanation: 'C=1, B=6. A à esquerda de a → A-a juntos. c entre A e b. Sequência: C(1), A(2), c(3), b(4), a(5), B(6). Assento 3 = c.'
+                options: ['Alice', 'André', 'Bianca', 'Bruno', 'Clara', 'Carlos'],
+                correctIndex: 0,
+                explanation: 'Clara e Carlos ocupam os dois primeiros assentos. Bianca precisa ficar ao lado de Bruno no fim da fila. Sobram o terceiro e o quarto assentos para Alice e André, nessa ordem. Alice fica no terceiro.'
             },
-            // ===== DIFÍCIL (4-5 elementos, mais pistas) =====
+            // ===== DIFÍCIL (5-6 elementos, pistas encadeadas) =====
             {
                 id: 'd1', level: 'dificil',
-                scenario: 'Em um concurso, 6 candidatos — A1, A2, A3, A4, A5, A6 — ficaram em posições distintas (1ª a 6ª).',
+                scenario: 'Em um concurso, seis candidatos — Alice, Bruno, Carla, Diego, Elisa e Fábio — ficaram em posições diferentes.',
                 clues: [
-                    'A2 ficou entre A6 e A3.',
-                    'A1 ficou na frente de A4 e de A5.',
-                    'A4 ficou na frente de A6.',
-                    'A5 ficou atrás de A3.',
-                    'A3 não ficou na frente de A1.',
-                    'A6 ficou em 5º lugar.'
+                    'Fábio ficou em quinto lugar.',
+                    'Elisa ficou logo depois de Fábio.',
+                    'Bruno ficou logo antes de Fábio.',
+                    'Diego ficou logo antes de Bruno.',
+                    'Carla ficou entre Alice e Diego.',
+                    'Alice ficou à frente de Carla.'
                 ],
                 question: 'Qual candidato ficou em 1º?',
-                options: ['A1', 'A2', 'A3', 'A4', 'A5', 'A6'],
+                options: ['Alice', 'Bruno', 'Carla', 'Diego', 'Elisa', 'Fábio'],
                 correctIndex: 0,
-                explanation: 'A6=5º. A4 > A6 → A4=3º ou 4º. A2 entre A6(5) e A3: A2=4º, A3=2º ou 3º. A1 > A4 e A5. A3 não > A1. A5 < A3. Ordem: A1(1º), A3(2º), A4(3º), A2(4º), A6(5º), A5(6º). 1º = A1.'
+                explanation: 'Fábio e Elisa ocupam o quinto e o sexto lugares. Bruno fica em quarto e Diego em terceiro. Carla precisa ficar entre Alice e Diego. Assim, Alice fica em primeiro lugar.'
             },
             {
                 id: 'd2', level: 'dificil',
                 scenario: 'Em um edifício de 6 andares (1º ao 6º), seis famílias — Souza, Lima, Costa, Rocha, Dias e Nunes.',
                 clues: [
                     'Nunes mora no 6º andar.',
-                    'Costa mora em andar par abaixo do 4º.',
-                    'Souza mora dois andares acima de Lima.',
-                    'Rocha mora entre Dias e Nunes.',
-                    'Dias não mora no último andar.',
-                    'Lima não mora no 1º andar.'
+                    'Souza mora logo abaixo de Nunes.',
+                    'Lima mora dois andares abaixo de Souza.',
+                    'Costa mora em um andar par abaixo de Lima.',
+                    'Dias mora abaixo de Costa.',
+                    'Rocha mora acima de Lima.'
                 ],
                 question: 'Em que andar mora Rocha?',
                 options: ['2º', '3º', '4º', '5º'],
                 correctIndex: 2,
-                explanation: 'Nunes=6. Costa=2 (par<4). Souza=Lima+2. Lima não 1 → Lima=3, Souza=5 (Lima=4→Souza=6 ocupado). Rocha entre Dias e Nunes(6). Dias≠6. Andares: 1=Dias, 2=Costa, 3=Lima, 4=Rocha, 5=Souza, 6=Nunes. Rocha está entre Dias(1) e Nunes(6) → sim. Rocha=4º.'
+                explanation: 'Nunes mora no sexto andar e Costa no segundo. Lima fica no terceiro e Souza no quinto. Restam o primeiro andar para Dias e o quarto para Rocha.'
             },
             {
                 id: 'd3', level: 'dificil',
-                scenario: 'Seis alunos — A, B, C, D, E e F — estão em ordem de nota (1ª maior a 6ª menor).',
+                scenario: 'Seis alunos — Alice, Bruno, Carla, Diego, Elisa e Fábio — estão em ordem da maior para a menor nota.',
                 clues: [
-                    'A nota de A é maior que C e que D.',
-                    'A nota de B está entre E e F.',
-                    'A nota de D é maior que E.',
-                    'A nota de F é maior que A.',
-                    'A nota de C é menor que D.',
-                    'E não é o último (6º).'
+                    'Carla teve a menor nota.',
+                    'Elisa ficou logo antes de Carla.',
+                    'Bruno ficou logo antes de Elisa.',
+                    'Diego ficou logo antes de Bruno.',
+                    'Alice ficou entre Fábio e Diego.',
+                    'Fábio teve nota maior que Alice.'
                 ],
                 question: 'Qual aluno tem a 4ª maior nota?',
-                options: ['A', 'B', 'C', 'D', 'E', 'F'],
+                options: ['Alice', 'Bruno', 'Carla', 'Diego', 'Elisa', 'Fábio'],
                 correctIndex: 1,
-                explanation: 'F > A > D > E, e F > A > C, e B entre E e F, C < D, E não último. Sequência: F(1ª), A(2ª), D(3ª), B(4ª), E(5ª), C(6ª). 4ª = B.'
+                explanation: 'Carla fica em sexto, Elisa em quinto, Bruno em quarto e Diego em terceiro. Alice precisa ficar entre Fábio e Diego. Portanto, Bruno tem a quarta maior nota.'
             },
             {
                 id: 'd4', level: 'dificil',
-                scenario: 'Seis amigos — Alberto, Beatriz, Caio, Daniela, Eduardo e Fernanda — cada um de uma cidade: Rio, SP, BH, Salvador, Fortaleza e Curitiba.',
+                scenario: 'Seis amigos — Alberto, Beatriz, Caio, Daniela, Eduardo e Fernanda — são do Rio de Janeiro, São Paulo, Belo Horizonte, Salvador, Fortaleza e Curitiba.',
                 clues: [
                     'Alberto é do Rio.',
                     'Caio é de Curitiba.',
                     'Beatriz é de Salvador.',
-                    'Eduardo não é de SP nem de BH.',
-                    'Daniela não é de SP.',
+                    'Eduardo não é de São Paulo nem de Belo Horizonte.',
+                    'Daniela não é de São Paulo.',
                     'Fernanda não é de Fortaleza.'
                 ],
                 question: 'De que cidade é Daniela?',
-                options: ['Rio', 'SP', 'BH', 'Salvador', 'Fortaleza', 'Curitiba'],
-                correctIndex: 1,
-                explanation: 'Alberto=Rio, Caio=Curitiba, Beatriz=Salvador. Sobram: SP, BH, Fortaleza para Daniela, Eduardo, Fernanda. Eduardo≠SP≠BH → Eduardo=Fortaleza. Fernanda≠Fortaleza → Fernanda=SP ou BH. Daniela≠SP → Daniela=BH, Fernanda=SP. Resposta: BH.'
+                options: ['Rio de Janeiro', 'São Paulo', 'Belo Horizonte', 'Salvador', 'Fortaleza', 'Curitiba'],
+                correctIndex: 2,
+                explanation: 'Rio de Janeiro, Curitiba e Salvador já estão ocupadas. Eduardo só pode ser de Fortaleza. Como Daniela não é de São Paulo, ela é de Belo Horizonte.'
             },
             {
                 id: 'd5', level: 'dificil',
-                scenario: 'Em um campeonato, 5 times — Alpha, Beta, Gamma, Delta, Epsilon — (1º ao 5º).',
+                scenario: 'Em um campeonato, cinco times — Aurora, Brisa, Cruzeiro, Dourado e Estrela — terminaram do primeiro ao quinto lugar.',
                 clues: [
-                    'Alpha > Gamma e Alpha > Epsilon.',
-                    'Beta está entre Delta e Gamma.',
-                    'Delta > Alpha.',
-                    'Epsilon não é o último.',
-                    'Gamma < Epsilon.'
+                    'Cruzeiro ficou em quinto lugar.',
+                    'Brisa ficou logo antes de Cruzeiro.',
+                    'Estrela ficou logo antes de Brisa.',
+                    'Aurora ficou logo depois de Dourado.',
+                    'Dourado ficou à frente de Estrela.'
                 ],
                 question: 'Qual time ficou em 4º?',
-                options: ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon'],
+                options: ['Aurora', 'Brisa', 'Cruzeiro', 'Dourado', 'Estrela'],
                 correctIndex: 1,
-                explanation: 'Delta > Alpha, Alpha > Gamma, Alpha > Epsilon, Epsilon > Gamma. Beta entre Delta e Gamma. Epsilon não último. Ordem: Delta(1º), Alpha(2º), Epsilon(3º), Beta(4º), Gamma(5º). Verificando: Beta(4) entre Delta(1) e Gamma(5) sim, Epsilon(3) > Gamma(5) sim. 4º = Beta.'
+                explanation: 'Cruzeiro fica em quinto, Brisa em quarto e Estrela em terceiro. Sobram os dois primeiros lugares para Dourado e Aurora, nessa ordem. Brisa fica em quarto.'
             },
             {
                 id: 'd6', level: 'dificil',
-                scenario: 'Seis pessoas — P1, P2, P3, P4, P5, P6 — em uma fila (1º ao 6º).',
+                scenario: 'Seis pessoas — Renato, Luiza, Paulo, Helena, Silvia e Marta — estão em uma fila.',
                 clues: [
-                    'P1 está entre P3 e P5.',
-                    'P2 está na frente de P4.',
-                    'P3 está atrás de P5.',
-                    'P4 está entre P6 e P2.',
-                    'P5 não está nas pontas.',
-                    'P6 está na 2ª posição.'
+                    'Luiza está na segunda posição.',
+                    'Paulo está logo depois de Luiza.',
+                    'Marta está na última posição.',
+                    'Silvia está logo antes de Marta.',
+                    'Helena está entre Paulo e Silvia.',
+                    'Renato está à frente de Luiza.'
                 ],
                 question: 'Quem está na 4ª posição?',
-                options: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
-                correctIndex: 4,
-                explanation: 'P6=2ª. P2 > P4, P4 entre P6(2) e P2 → P4=3ª, P2=5ª ou 4ª. P3 < P5. P1 entre P3 e P5. P5 não pontas. Posições: 1ª=P3, 2ª=P6, 3ª=P4, 4ª=P5, 5ª=P2, 6ª=P1. P1 entre P3(1) e P5(4) sim. P4 entre P6(2) e P2(5) → 3 entre 2 e 5 sim. P5 não ponta=4ª ok. 4ª = P5.'
+                options: ['Renato', 'Luiza', 'Paulo', 'Helena', 'Silvia', 'Marta'],
+                correctIndex: 3,
+                explanation: 'Luiza e Paulo ficam em segundo e terceiro. Marta está em sexto, com Silvia logo antes. Helena fica entre Paulo e Silvia, na quarta posição. Renato ocupa o primeiro lugar.'
             }
         ];
 
@@ -390,19 +390,19 @@ document.addEventListener('DOMContentLoaded', function() {
             { id:'m13', level:'medio', scenario:'Quatro vizinhos levaram bolo, café, pão e frutas para uma reunião.', clues:['Irene levou café.','João levou pão.','Lúcia não levou bolo.'], question:'O que Lúcia levou?', options:['Bolo','Café','Pão','Frutas'], correctIndex:3, explanation:'Café e pão já foram escolhidos. Como Lúcia não levou bolo, ela levou frutas.' },
             { id:'m14', level:'medio', scenario:'Rosa guardou toalhas em quatro gavetas: banho, rosto, mesa e cozinha.', clues:['Banho está na gaveta 1.','Cozinha está na gaveta 4.','Mesa está logo depois de rosto.'], question:'Onde estão as toalhas de mesa?', options:['Gaveta 1','Gaveta 2','Gaveta 3','Gaveta 4'], correctIndex:2, explanation:'As gavetas 1 e 4 já estão ocupadas. Rosto fica na 2 e mesa, logo depois, na 3.' },
             { id:'m15', level:'medio', scenario:'Em uma caminhada, Léo, Mara, Nara e Otávio chegaram em horários diferentes.', clues:['Léo chegou primeiro.','Otávio chegou por último.','Mara chegou antes de Nara.'], question:'Quem chegou em terceiro?', options:['Léo','Mara','Nara','Otávio'], correctIndex:2, explanation:'Léo foi o primeiro e Otávio o último. Mara veio antes de Nara, portanto Nara chegou em terceiro.' },
-            { id:'d7', level:'dificil', scenario:'Quatro oficinas — culinária, música, pintura e jardinagem — ocorrerão de segunda a quinta.', clues:['Culinária será na segunda.','Jardinagem será na quinta.','Música acontecerá antes de pintura.'], question:'Em que dia será a pintura?', options:['Segunda','Terça','Quarta','Quinta'], correctIndex:2, explanation:'Segunda e quinta já estão ocupadas. Música vem antes de pintura, então música será terça e pintura quarta.' },
-            { id:'d8', level:'dificil', scenario:'Dora organizou quatro fotografias: praia, família, jardim e aniversário.', clues:['A foto da família é a primeira.','A do aniversário é a última.','A foto do jardim vem depois da praia.'], question:'Qual foto está na terceira posição?', options:['Praia','Família','Jardim','Aniversário'], correctIndex:2, explanation:'Família é primeira e aniversário é quarta. Praia vem antes de jardim, então jardim é a terceira.' },
-            { id:'d9', level:'dificil', scenario:'Quatro entregas serão feitas para Lia, Mauro, Nádia e Pedro, do primeiro ao quarto horário.', clues:['Lia recebe antes de Mauro.','Nádia recebe no segundo horário.','Pedro recebe depois de Mauro.'], question:'Quem recebe no quarto horário?', options:['Lia','Mauro','Nádia','Pedro'], correctIndex:3, explanation:'Nádia é segunda. Para Lia vir antes de Mauro e Pedro depois de Mauro, a ordem possível é Lia, Nádia, Mauro e Pedro.' },
-            { id:'d10', level:'dificil', scenario:'Quatro vasos — azul, branco, verde e amarelo — ficam em uma janela.', clues:['O azul está na ponta esquerda.','O amarelo está na ponta direita.','O branco fica imediatamente antes do verde.'], question:'Qual vaso está na segunda posição?', options:['Azul','Branco','Verde','Amarelo'], correctIndex:1, explanation:'Azul e amarelo ocupam as pontas. Como branco vem logo antes de verde, branco fica em segundo.' },
-            { id:'d11', level:'dificil', scenario:'Caio planejou quatro atividades: mercado, banco, farmácia e praça.', clues:['O mercado será primeiro.','A praça será por último.','O banco será visitado antes da farmácia.'], question:'Qual atividade será a terceira?', options:['Mercado','Banco','Farmácia','Praça'], correctIndex:2, explanation:'Mercado é primeiro e praça é quarta. Banco vem antes da farmácia, então farmácia é terceira.' },
-            { id:'d12', level:'dificil', scenario:'Quatro pessoas escolheram ônibus, metrô, bicicleta e caminhada para chegar ao encontro.', clues:['Bia foi de metrô.','Davi foi caminhando.','Eva não usou ônibus.'], question:'Como Eva chegou?', options:['Ônibus','Metrô','Bicicleta','Caminhada'], correctIndex:2, explanation:'Metrô e caminhada já foram usados. Como Eva não foi de ônibus, ela foi de bicicleta.' },
-            { id:'d13', level:'dificil', scenario:'Quatro caixas guardam documentos, fotografias, ferramentas e linhas de costura.', clues:['Documentos estão na caixa 1.','Linhas estão na caixa 4.','Fotografias ficam antes das ferramentas.'], question:'Em qual caixa estão as ferramentas?', options:['Caixa 1','Caixa 2','Caixa 3','Caixa 4'], correctIndex:2, explanation:'Caixas 1 e 4 já estão ocupadas. Fotografias ficam na 2 e ferramentas na 3.' },
-            { id:'d14', level:'dificil', scenario:'Na feira, quatro barracas vendem frutas, queijos, flores e pães, nessa rua numerada de 1 a 4.', clues:['Frutas ficam na barraca 1.','Pães ficam na barraca 4.','Flores ficam depois dos queijos.'], question:'Qual produto está na barraca 2?', options:['Frutas','Queijos','Flores','Pães'], correctIndex:1, explanation:'Frutas e pães ocupam as pontas. Como flores vêm depois dos queijos, queijos ficam na barraca 2.' },
-            { id:'d15', level:'dificil', scenario:'Quatro músicas serão tocadas: valsa, samba, forró e bolero.', clues:['A valsa abre a apresentação.','O bolero encerra a apresentação.','O samba será tocado antes do forró.'], question:'Qual ritmo será o terceiro?', options:['Valsa','Samba','Forró','Bolero'], correctIndex:2, explanation:'Valsa é primeira e bolero é quarto. Samba vem antes de forró, então forró é o terceiro.' }
+            { id:'d7', level:'dificil', scenario:'Cinco oficinas — culinária, música, pintura, jardinagem e teatro — ocorrerão de segunda a sexta.', clues:['Culinária será na segunda.','Teatro será na sexta.','Jardinagem será na quinta.','Música acontecerá logo antes de pintura.'], question:'Em que dia será a pintura?', options:['Segunda','Terça','Quarta','Quinta','Sexta'], correctIndex:2, explanation:'Segunda, quinta e sexta já estão ocupadas. Sobram terça e quarta para música e pintura. Como música vem logo antes, pintura será na quarta.' },
+            { id:'d8', level:'dificil', scenario:'Dora organizou cinco fotografias: praia, família, jardim, aniversário e viagem.', clues:['A foto da família é a primeira.','A foto do aniversário é a última.','A foto da praia vem logo antes da foto do jardim.','A foto da viagem fica depois da foto do jardim.'], question:'Qual foto está na terceira posição?', options:['Praia','Família','Jardim','Aniversário','Viagem'], correctIndex:2, explanation:'Família abre a sequência e aniversário fecha. Praia precisa vir logo antes de jardim, e viagem vem depois. Assim, jardim fica na terceira posição.' },
+            { id:'d9', level:'dificil', scenario:'Cinco entregas serão feitas para Caio, Lia, Mauro, Nádia e Pedro, do primeiro ao quinto horário.', clues:['Caio recebe no primeiro horário.','Nádia recebe no segundo horário.','Lia recebe antes de Mauro.','Mauro recebe logo antes de Pedro.'], question:'Quem recebe no quinto horário?', options:['Caio','Lia','Mauro','Nádia','Pedro'], correctIndex:4, explanation:'Caio e Nádia ocupam os dois primeiros horários. Nos três restantes, Lia vem antes de Mauro, e Mauro logo antes de Pedro. Pedro recebe no quinto horário.' },
+            { id:'d10', level:'dificil', scenario:'Cinco vasos — azul, branco, verde, vermelho e amarelo — ficam lado a lado em uma janela.', clues:['O vaso azul está na ponta esquerda.','O amarelo está na ponta direita.','O branco fica logo antes do verde.','O vermelho fica depois do verde.'], question:'Qual vaso está na segunda posição?', options:['Azul','Branco','Verde','Vermelho','Amarelo'], correctIndex:1, explanation:'Azul e amarelo ocupam as pontas. Entre eles, branco vem logo antes de verde, e vermelho vem depois. O vaso branco fica na segunda posição.' },
+            { id:'d11', level:'dificil', scenario:'Caio planejou cinco atividades: mercado, banco, farmácia, padaria e praça.', clues:['O mercado será primeiro.','A praça será por último.','O banco será visitado logo antes da farmácia.','A padaria será visitada depois da farmácia e antes da praça.'], question:'Qual atividade será a terceira?', options:['Mercado','Banco','Farmácia','Padaria','Praça'], correctIndex:2, explanation:'Mercado e praça ficam nas pontas. Banco vem logo antes da farmácia, e padaria vem depois. A farmácia ocupa a terceira posição.' },
+            { id:'d12', level:'dificil', scenario:'Alice, Bia, Davi, Eva e Fábio usaram ônibus, metrô, bicicleta, caminhada e carro para chegar ao encontro.', clues:['Bia foi de metrô.','Davi foi caminhando.','Fábio foi de carro.','Alice não foi de bicicleta e não foi de metrô.','Cada pessoa usou um transporte diferente.'], question:'Como Eva chegou?', options:['Ônibus','Metrô','Bicicleta','Caminhada','Carro'], correctIndex:2, explanation:'Metrô, caminhada e carro já foram usados. Alice não foi de bicicleta, então foi de ônibus. A bicicleta sobra para Eva.' },
+            { id:'d13', level:'dificil', scenario:'Cinco caixas guardam documentos, fotografias, ferramentas, remédios e linhas de costura.', clues:['Documentos estão na caixa 1.','Linhas estão na caixa 5.','Fotografias ficam logo antes das ferramentas.','Remédios ficam depois das ferramentas e antes das linhas.'], question:'Em qual caixa estão as ferramentas?', options:['Caixa 1','Caixa 2','Caixa 3','Caixa 4','Caixa 5'], correctIndex:2, explanation:'Documentos e linhas ocupam as pontas. Fotografias vêm logo antes das ferramentas, e remédios vêm depois. As ferramentas ficam na caixa 3.' },
+            { id:'d14', level:'dificil', scenario:'Cinco barracas vendem frutas, queijos, flores, artesanato e pães, em posições de 1 a 5.', clues:['Frutas ficam na barraca 1.','Pães ficam na barraca 5.','Flores ficam logo depois dos queijos.','Artesanato fica depois das flores e antes dos pães.'], question:'Qual produto está na barraca 2?', options:['Frutas','Queijos','Flores','Artesanato','Pães'], correctIndex:1, explanation:'Frutas e pães ocupam as pontas. Queijos vêm logo antes de flores, e artesanato vem depois. Os queijos ficam na barraca 2.' },
+            { id:'d15', level:'dificil', scenario:'Cinco ritmos serão tocados: valsa, samba, forró, chorinho e bolero.', clues:['A valsa abre a apresentação.','O bolero encerra a apresentação.','O samba será tocado logo antes do forró.','O chorinho será tocado depois do forró e antes do bolero.'], question:'Qual ritmo será o terceiro?', options:['Valsa','Samba','Forró','Chorinho','Bolero'], correctIndex:2, explanation:'Valsa e bolero ficam nas pontas. Samba vem logo antes de forró, e chorinho vem depois. O forró será o terceiro ritmo.' }
         ]);
 
         PUZZLES = PUZZLES.map(function (puzzle) {
-            var limite = puzzle.level === 'facil' ? 3 : 4;
+            var limite = puzzle.level === 'facil' ? 3 : (puzzle.level === 'medio' ? 4 : 6);
             var correta = puzzle.options[puzzle.correctIndex];
             var opcoes = [correta].concat(puzzle.options.filter(function (opcao, indice) { return indice !== puzzle.correctIndex; }).slice(0, limite - 1));
             opcoes = shuffleArray(opcoes);
@@ -442,12 +442,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return '';
     }
 
-    function initGame() {
-        if (!initGame.filas) initGame.filas = {};
-        var fila = initGame.filas[currentLevel] || [];
-        while (fila.length < totalPuzzles) fila = fila.concat(shuffleArray(getPuzzlesForLevel(currentLevel).slice()));
-        levelPuzzles = fila.splice(0, totalPuzzles);
-        initGame.filas[currentLevel] = fila;
+    function initGame(newRound) {
+        if (newRound !== false || !levelPuzzles.length) {
+            if (!initGame.filas) initGame.filas = {};
+            var fila = initGame.filas[currentLevel] || [];
+            while (fila.length < totalPuzzles) fila = fila.concat(shuffleArray(getPuzzlesForLevel(currentLevel).slice()));
+            levelPuzzles = fila.splice(0, totalPuzzles);
+            initGame.filas[currentLevel] = fila;
+        }
 
         currentPuzzleIndex = 0;
         score = 0;
@@ -467,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         answered = false;
         var puzzle = levelPuzzles[currentPuzzleIndex];
+        document.getElementById('puzzleContainer').setAttribute('aria-label', 'Desafio de nível ' + getDifficultyLabel(currentLevel));
         document.getElementById('puzzleNum').textContent = (currentPuzzleIndex + 1) + '/' + levelPuzzles.length;
         document.getElementById('scenario').textContent = puzzle.historia;
 
@@ -571,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('feedbackBtn').onclick = function() {
             closeFeedback();
-            initGame();
+            initGame(true);
         };
         document.getElementById('overlay').classList.add('show');
         document.getElementById('feedbackModal').classList.add('show');
@@ -587,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.dif-btn').forEach(function(btn) {
             btn.classList.toggle('active', btn.dataset.dif === level);
         });
-        initGame();
+        initGame(true);
     }
 
     document.querySelectorAll('.dif-btn').forEach(function(btn) {
@@ -598,11 +601,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('btn-next').addEventListener('click', nextPuzzle);
     document.getElementById('btn-restart').addEventListener('click', function() {
-        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-            initGame();
-        });
+        if (currentPuzzleIndex > 0 || answered) {
+            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() { initGame(false); });
+        } else initGame(false);
     });
 
     generatePuzzles();
-    initGame();
+    window.MenteAtivaDeduction = {
+        getPuzzles: function() { return PUZZLES.map(function(puzzle) { return Object.assign({}, puzzle); }); }
+    };
+    initGame(true);
 });

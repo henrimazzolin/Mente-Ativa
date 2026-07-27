@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         let currentPairs = [];
+        let currentRightOrder = [];
         let selectedLeftCard = null;
         let selectedLeftWord = null;
         let matchedPairs = 0;
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dificil: { pairs: 10 }
         };
 
-        function initGame() {
+        function initGame(reuseRound) {
             matchedPairs = 0;
             correctCount = 0;
             isLocked = false;
@@ -90,9 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
             leftContainer.innerHTML = '';
             rightContainer.innerHTML = '';
             
-            currentPairs = MenteAtiva.utils.shuffleArray(wordPairs).slice(0, numPairs);
-            
-            const shuffledRight = MenteAtiva.utils.shuffleArray(currentPairs.slice());
+            if (!reuseRound || currentPairs.length !== numPairs) {
+                currentPairs = MenteAtiva.utils.shuffleArray(wordPairs).slice(0, numPairs);
+                currentRightOrder = MenteAtiva.utils.shuffleArray(currentPairs.slice());
+            }
             
             currentPairs.forEach((pair, index) => {
                 const card = document.createElement('div');
@@ -104,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 leftContainer.appendChild(card);
             });
             
-            shuffledRight.forEach((pair, index) => {
+            currentRightOrder.forEach((pair, index) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
                 card.textContent = pair.right;
@@ -176,10 +178,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('feedback').classList.add('show');
         }
 
-        function restartGame() {
+        function restartGame(reuseRound) {
             document.getElementById('overlay').classList.remove('show');
             document.getElementById('feedback').classList.remove('show');
-            initGame();
+            initGame(reuseRound);
         }
 
         function setupDificuldadeButtons() {
@@ -191,20 +193,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (this.classList.contains('facil')) currentDifficulty = 'facil';
                     else if (this.classList.contains('medio')) currentDifficulty = 'medio';
                     else if (this.classList.contains('dificil')) currentDifficulty = 'dificil';
-                    initGame();
+                    initGame(false);
                 });
             });
         }
 
         // Event listeners
         document.getElementById('restartBtn').addEventListener('click', function() {
-            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
-                restartGame();
-            });
+            if (matchedPairs > 0 || selectedLeftCard) {
+                exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() { restartGame(true); });
+            } else restartGame(true);
         });
-        document.getElementById('feedbackBtn').addEventListener('click', restartGame);
-        document.getElementById('overlay').addEventListener('click', restartGame);
+        document.getElementById('feedbackBtn').addEventListener('click', function() { restartGame(false); });
+        document.getElementById('overlay').addEventListener('click', function() {
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('feedback').classList.remove('show');
+        });
 
         setupDificuldadeButtons();
-        initGame();
+        initGame(false);
 });

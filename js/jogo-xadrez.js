@@ -281,8 +281,8 @@ document.addEventListener('DOMContentLoaded', function () {
             renderBoard();
             updateStatus();
             addHistory('robo', pieceType, fromSq, toSq);
-            checkGameEnd();
             isProcessing = false;
+            checkGameEnd();
         });
     }
 
@@ -298,6 +298,12 @@ document.addEventListener('DOMContentLoaded', function () {
             showDraw(motivoEmpate);
             return true;
         }
+        var motivoReivindicavel = engine.obterMotivoEmpateReivindicavel();
+        if (motivoReivindicavel && engine.turno === robotColor) {
+            showDraw(motivoReivindicavel);
+            return true;
+        }
+        updateClaimButton();
         return false;
     }
 
@@ -332,7 +338,9 @@ document.addEventListener('DOMContentLoaded', function () {
             'afogamento': 'Empate por afogamento: o jogador da vez não tem lance legal e não está em xeque.',
             'material-insuficiente': 'Empate por material insuficiente para dar xeque-mate.',
             'cinquenta-lances': 'Empate pela regra dos 50 lances sem movimento de peão ou captura.',
-            'repeticao-tripla': 'Empate porque a mesma posição apareceu três vezes.'
+            'repeticao-tripla': 'Empate porque a mesma posição apareceu três vezes.',
+            'setenta-cinco-lances': 'Empate automático após 75 lances sem movimento de peão ou captura.',
+            'repeticao-quíntupla': 'Empate automático porque a mesma posição apareceu cinco vezes.'
         };
         document.getElementById('game-over-message').textContent = mensagens[motivo] || 'O jogo terminou empatado. Ninguém venceu.';
         document.getElementById('game-over-modal').classList.add('active');
@@ -355,6 +363,14 @@ document.addEventListener('DOMContentLoaded', function () {
             html += ' <span class="check-warn">\u26A0\uFE0F REI DO ROBO EM XEQUE!</span>';
         }
         st.innerHTML = html;
+        updateClaimButton();
+    }
+
+    function updateClaimButton() {
+        var btn = document.getElementById('btn-claim-draw');
+        if (!btn) return;
+        const disponivel = !gameEnded && !isProcessing && engine.turno === playerColor && Boolean(engine.obterMotivoEmpateReivindicavel());
+        btn.hidden = !disponivel;
     }
 
     function escolheCor(cor) {
@@ -402,6 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
         escolha.classList.add('visible');
         escolha.style.display = 'flex';
         document.getElementById('status-text').textContent = '';
+        updateClaimButton();
         renderHistory();
     }
 
@@ -410,6 +427,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('color-black').addEventListener('click', function () { escolheCor('B'); });
     document.getElementById('btn-reload').addEventListener('click', function () {
         reiniciarFluxoDoJogo();
+    });
+    document.getElementById('btn-claim-draw').addEventListener('click', function () {
+        if (gameEnded || engine.turno !== playerColor) return;
+        var motivo = engine.obterMotivoEmpateReivindicavel();
+        if (motivo) showDraw(motivo);
     });
 
     for (var r = 1; r <= 8; r++) {

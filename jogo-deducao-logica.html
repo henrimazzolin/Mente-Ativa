@@ -22,7 +22,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
+<body class="modo-individual">
     <div class="container">
         <div class="header">
             <a href="jogos-individuais.html" class="back-btn">
@@ -67,7 +67,10 @@
         </div>
 
         <div class="puzzle-container" id="puzzleContainer">
-            <div class="puzzle-scenario" id="scenario"></div>
+            <section class="puzzle-scenario" aria-labelledby="scenarioLabel">
+                <h2 class="scenario-label" id="scenarioLabel">Cenário</h2>
+                <p id="scenario"></p>
+            </section>
             <div class="puzzle-clues" id="cluesContainer">
                 <h3>Pistas</h3>
                 <ul id="cluesList"></ul>
@@ -78,8 +81,8 @@
         </div>
 
         <div class="buttons">
-            <button class="btn btn-secondary" id="btn-restart">Reiniciar</button>
-            <button class="btn" id="btn-next" style="display:none;">Próximo</button>
+            <button class="btn btn-secondary acao-reiniciar" id="btn-restart">Reiniciar</button>
+            <button class="btn acao-proximo" id="btn-next" style="display:none;">Próxima pergunta</button>
         </div>
     </div>
 
@@ -88,7 +91,7 @@
         <div class="icon" id="feedbackIcon"></div>
         <h2 id="feedbackTitle">Parabéns!</h2>
         <p id="feedbackText">Você completou todas as perguntas deste nível.</p>
-        <button class="btn" id="feedbackBtn">Jogar Novamente</button>
+        <button class="btn acao-jogar-novamente" id="feedbackBtn">Jogar novamente</button>
     </div>
 
     <footer>

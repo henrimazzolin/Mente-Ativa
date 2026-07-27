@@ -141,7 +141,7 @@ MenteAtiva.utils = {
         if (feedbackTitle) feedbackTitle.textContent = title || 'Parabéns!';
         if (feedbackText) feedbackText.textContent = text || '';
         if (feedbackBtn) {
-            feedbackBtn.textContent = btnText || 'Jogar Novamente';
+            feedbackBtn.textContent = btnText || 'Jogar novamente';
             feedbackBtn.onclick = function() {
                 MenteAtiva.utils.hideFeedback();
                 if (onReplay) onReplay();

@@ -661,6 +661,22 @@ html.modo-escuro .tool-btn:disabled {
     color: #758399;
 }
 
+@media (min-width: 981px) {
+    .paint-editor {
+        grid-template-columns: clamp(310px, calc(250px * var(--ma-font-scale, 1)), 350px) minmax(0, 1fr);
+    }
+
+    .canvas-shell { align-self: stretch; }
+    .canvas-container { padding: 0; }
+
+    #paintCanvas {
+        width: 100%;
+        border: 0;
+        border-radius: 0 0 15px 15px;
+        box-shadow: none;
+    }
+}
+
 @media (max-width: 980px) {
     .paint-editor {
         grid-template-columns: minmax(0, 1fr);

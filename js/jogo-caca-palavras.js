@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var lastTouchCell = null;
     var lastThemeKey = null;
     var lastRoundSignature = null;
+    var roundTemplate = null;
 
     var WORD_POOL = {
         natureza: ['SOL','MAR','RIO','VENTO','NUVEM','CAMPO','JARDIM','FLORESTA','MONTANHA','CACHOEIRA','PASSARO','ESTRELA','SEMENTE','CAMINHO','ARVORE','FOLHA','PEDRA','LAGOA','CHUVA','PRAIA'],
@@ -165,8 +166,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return { grid: grid, placed: placed, remaining: remaining, size: size, themeKey: themeKey };
     }
 
-    function initGame() {
-        var result = generateGrid(currentLevel);
+    function cloneRound(round) {
+        return {
+            level: round.level,
+            grid: round.grid.map(function(row) { return row.slice(); }),
+            placed: round.placed.map(function(word) { return Object.assign({}, word); }),
+            remaining: round.remaining.slice(),
+            size: round.size,
+            themeKey: round.themeKey
+        };
+    }
+
+    function initGame(reuseRound) {
+        var result;
+        if (reuseRound && roundTemplate && roundTemplate.level === currentLevel) {
+            result = cloneRound(roundTemplate);
+        } else {
+            result = generateGrid(currentLevel);
+            result.level = currentLevel;
+            roundTemplate = cloneRound(result);
+        }
         gridData = result.grid;
         placedWords = result.placed;
         remainingWords = result.remaining.slice();
@@ -318,14 +337,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderGrid() {
         var container = document.getElementById('gridContainer');
-        var wordListSection = document.querySelector('.word-list-section');
         container.innerHTML = '';
         container.style.setProperty('--grid-size', String(gridData.length));
         container.style.gridTemplateColumns = 'repeat(' + gridData.length + ', minmax(0, 1fr))';
         container.style.maxWidth = (gridData.length * 52 + (gridData.length - 1) * 3 + 32) + 'px';
-        if (wordListSection) {
-            wordListSection.style.maxWidth = container.style.maxWidth;
-        }
 
         for (var r = 0; r < gridData.length; r++) {
             for (var c = 0; c < gridData[r].length; c++) {
@@ -445,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('feedbackBtn').onclick = function() {
             closeFeedback();
-            initGame();
+            initGame(false);
         };
         document.getElementById('overlay').classList.add('show');
         document.getElementById('feedbackModal').classList.add('show');
@@ -462,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.classList.toggle('active', btn.dataset.dif === level);
         });
         cancelSelection();
-        initGame();
+        initGame(false);
     }
 
     document.querySelectorAll('.dif-btn').forEach(function(btn) {
@@ -470,11 +485,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('btn-restart').addEventListener('click', function() {
-        exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', function() {
+        var restart = function() {
             cancelSelection();
-            initGame();
-        });
+            initGame(true);
+        };
+        if (foundWords.length > 0 || isDragging) {
+            exibirConfirmacao('Tem certeza?', 'Seu progresso atual será perdido.', restart);
+        } else {
+            restart();
+        }
     });
 
-    initGame();
+    initGame(false);
 });

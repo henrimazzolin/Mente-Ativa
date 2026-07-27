@@ -1474,7 +1474,7 @@ body:has(.logo-float[data-logo-tipo="inicial"]) .logo-float[data-logo-tipo="inic
 body .instrucao-destaque,
 body .dificuldade-selector {
     box-sizing: border-box;
-    width: min(100%, var(--ma-difficulty-width));
+    width: min(var(--ma-difficulty-width), calc(100vw - (2 * var(--ma-page-gutter))));
     max-width: var(--ma-difficulty-width);
     margin-left: auto;
     margin-right: auto;
@@ -1792,6 +1792,13 @@ body .dificuldade-selector .dif-btn {
     body .super-simples-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
+
+    body .games-grid > .game-card:last-child:nth-child(odd),
+    body .super-simples-grid > .super-simples-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(50% - 12px) !important;
+    }
 }
 
 @media (min-width: 430px) and (max-width: 767px) {
@@ -1799,6 +1806,13 @@ body .dificuldade-selector .dif-btn {
     body .super-simples-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 14px !important;
+    }
+
+    body .games-grid > .game-card:last-child:nth-child(odd),
+    body .super-simples-grid > .super-simples-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(50% - 7px) !important;
     }
 
     body .games-grid > .game-card,
@@ -1846,6 +1860,12 @@ body .dificuldade-selector .dif-btn {
         gap: 16px !important;
     }
 
+    body .games-grid > .game-card:last-child,
+    body .super-simples-grid > .super-simples-card:last-child {
+        grid-column: auto;
+        width: 100% !important;
+    }
+
     body .games-grid > .game-card,
     body .super-simples-grid > .super-simples-card {
         min-height: 300px;
@@ -1857,6 +1877,71 @@ body .dificuldade-selector .dif-btn {
         flex-basis: 210px;
         height: 210px;
     }
+}
+
+/* Contexto visual do retorno: individual, acompanhado ou neutro. */
+body.modo-individual {
+    --ma-back-hover: #2563EB;
+    --ma-back-hover-icon: #FFFFFF;
+}
+
+body.modo-dependente {
+    --ma-back-hover: #059669;
+    --ma-back-hover-icon: #FFFFFF;
+}
+
+body.modo-neutro {
+    --ma-back-hover: #FFFFFF;
+    --ma-back-hover-icon: #0F172A;
+}
+
+body:is(.modo-individual, .modo-dependente, .modo-neutro) :is(.back-btn, .back-btn-escolha):hover,
+body:is(.modo-individual, .modo-dependente, .modo-neutro) :is(.back-btn, .back-btn-escolha):focus-visible {
+    background: var(--ma-back-hover) !important;
+    box-shadow: var(--ma-shadow-raised) !important;
+    transform: none !important;
+}
+
+body:is(.modo-individual, .modo-dependente, .modo-neutro) :is(.back-btn, .back-btn-escolha):hover svg,
+body:is(.modo-individual, .modo-dependente, .modo-neutro) :is(.back-btn, .back-btn-escolha):focus-visible svg {
+    fill: var(--ma-back-hover-icon) !important;
+}
+
+html.modo-escuro body.modo-individual {
+    --ma-back-hover: #60A5FA;
+    --ma-back-hover-icon: #0F172A;
+}
+
+html.modo-escuro body.modo-dependente {
+    --ma-back-hover: #34D399;
+    --ma-back-hover-icon: #052E2B;
+}
+
+html.modo-escuro body.modo-neutro {
+    --ma-back-hover: #E2E8F0;
+    --ma-back-hover-icon: #0F172A;
+}
+
+/* Papéis compartilhados dos controles de rodada. */
+body :is(.acao-reiniciar, .acao-jogar-novamente, .acao-proximo) {
+    min-width: 170px;
+    min-height: 48px;
+    padding: 12px 24px;
+    border-radius: var(--ma-radius-control);
+    font-weight: 700;
+    justify-content: center;
+}
+
+body .acao-reiniciar {
+    border: 2px solid #64748B !important;
+    background: var(--cor-fundo-card) !important;
+    color: var(--cor-texto) !important;
+}
+
+body :is(.acao-jogar-novamente, .acao-proximo) {
+    border: 2px solid var(--cor-primaria) !important;
+    background: var(--cor-primaria) !important;
+    color: #FFFFFF !important;
 }
 
 /* O aviso reserva espaço apenas enquanto está visível. */
