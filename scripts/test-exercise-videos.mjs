@@ -66,6 +66,6 @@ assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*\.exercise-video-grid\s*\
 assert.match(css, /\.exercise-video-frame\s*\{[\s\S]*aspect-ratio:\s*16\s*\/\s*9/);
 assert.match(css, /html\.modo-escuro \.exercise-category/);
 assert.match(css, /scroll-behavior:\s*auto/);
-assert.match(serviceWorker, /CACHE_NAME\s*=\s*'mente-ativa-v27'/);
+assert.match(serviceWorker, /CACHE_NAME\s*=\s*'mente-ativa-v28'/);
 
 console.log('Biblioteca de vídeos de exercícios validada.');
