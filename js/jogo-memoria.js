@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let isLocked = false;
         let currentDifficulty = 'facil';
         let gameVersion = 0;
+        let winMessageTimer = null;
         var difficultyConfig = {
             facil: { pairs: 3, cols: 3 },
             medio: { pairs: 6, cols: 4 },
@@ -38,6 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function initGame(reuseRound) {
             gameVersion++;
+            if (winMessageTimer !== null) {
+                clearTimeout(winMessageTimer);
+                winMessageTimer = null;
+            }
+            hideFeedback();
             const board = document.getElementById('gameBoard');
             board.innerHTML = '';
 
@@ -159,7 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     isLocked = false;
 
                     if (matchedPairs === difficultyConfig[currentDifficulty].pairs) {
-                        setTimeout(() => {
+                        winMessageTimer = setTimeout(() => {
+                            winMessageTimer = null;
+                            if (version !== gameVersion) return;
                             showWinMessage();
                         }, 500);
                     }

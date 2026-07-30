@@ -261,6 +261,42 @@ function prepararJanela(pagina) {
 }
 
 {
+    const window = prepararJanela('jogo-memoria.html');
+    window.eval(read('js/jogo-memoria.js'));
+    window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
+    const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    const pairs = new Map();
+
+    window.document.querySelectorAll('.card').forEach((card) => {
+        const pair = pairs.get(card.dataset.image) || [];
+        pair.push(card);
+        pairs.set(card.dataset.image, pair);
+    });
+
+    const groupedCards = [...pairs.values()];
+    for (const pair of groupedCards.slice(0, -1)) {
+        pair[0].click();
+        pair[1].click();
+        await delay(425);
+    }
+
+    const finalPair = groupedCards.at(-1);
+    finalPair[0].click();
+    finalPair[1].click();
+    await delay(425);
+    window.document.getElementById('btn-restart').click();
+    await delay(600);
+
+    assert.equal(window.document.getElementById('overlay').classList.contains('show'), false,
+        'Reiniciar durante a conclusÃ£o nÃ£o pode reabrir o overlay de uma rodada antiga.');
+    assert.equal(window.document.getElementById('feedback').classList.contains('show'), false,
+        'Reiniciar durante a conclusÃ£o nÃ£o pode manter o feedback de uma rodada antiga.');
+    assert.equal(window.document.getElementById('attempts').textContent, '0',
+        'A nova rodada deve permanecer ativa apÃ³s cancelar o feedback antigo.');
+    window.close();
+}
+
+{
     const window = prepararJanela('jogo-deducao-logica.html');
     window.eval(read('js/jogo-deducao-logica.js'));
     window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
