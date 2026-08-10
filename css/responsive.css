@@ -317,7 +317,7 @@ body:has(.header .back-btn) .container > .header {
 .modal-overlay { z-index: var(--ma-layer-calendar) !important; }
 .faq-modal-overlay { z-index: var(--ma-layer-help) !important; }
 .feedback-overlay, .overlay, #game-over-modal { z-index: var(--ma-layer-calendar) !important; }
-.feedback-modal, .feedback-card, .message { z-index: calc(var(--ma-layer-calendar) + 1) !important; }
+.feedback-modal, .feedback-card, .message, .feedback { z-index: calc(var(--ma-layer-calendar) + 1) !important; }
 .aviso-privacidade { z-index: 1040 !important; }
 .assistente-trigger { z-index: 1050 !important; }
 .ma-backdrop { z-index: 1058 !important; }
@@ -473,6 +473,28 @@ html:has(.how-to-video-card) {
 
 .how-to-video-close:focus-visible { outline: 4px solid #F59E0B; outline-offset: 3px; }
 .how-to-video-content video { display: block; width: 100%; max-height: 70dvh; border-radius: 16px; background: #000; }
+.how-to-video-content iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 16px; background: #000; }
+.how-to-video-external {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--ma-touch-target);
+    margin-top: 14px;
+    padding: 9px 18px;
+    border: 2px solid #1D4ED8;
+    border-radius: 999px;
+    background: #EFF6FF;
+    color: #1D4ED8;
+    font-size: clamp(16px, 2vw, 18px);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+}
+.how-to-video-external:hover { transform: translateY(-2px); background: #1D4ED8; color: #FFFFFF; text-decoration: none; }
+.how-to-video-external:focus-visible { outline: 4px solid #F59E0B; outline-offset: 4px; text-decoration: none; }
+html.modo-escuro .how-to-video-external { border-color: #60A5FA; background: #172554; color: #DBEAFE; }
+html.modo-escuro .how-to-video-external:hover { background: #60A5FA; color: #0F172A; }
 .how-to-video-coming-soon {
     aspect-ratio: 16 / 9;
     display: grid;

@@ -441,6 +441,18 @@
         STORAGE_KEYS: STORAGE_KEYS
     };
 
+    // Vídeos "Como jogar" publicados no YouTube, identificados pela chave do jogo.
+    var VIDEOS_COMO_JOGAR = {
+        'palavras-cruzadas': 'IqbbnBzUTWo',
+        'sudoku': 'Aq8wkdQKgko',
+        'quebra-cabeca': 'leCPwP14LRw',
+        'xadrez': 'utbJnQd6WP0',
+        'damas': 'M5flwDooaqo',
+        'deducao-logica': 'zzRtnT8uoPI',
+        'pintura': 'UdR2e9PFr18',
+        'caca-palavras': 'gbJiJEPa5Pc'
+    };
+
     function adicionarVideoComoJogar() {
         var pagina = (window.location.pathname.split('/').pop() || '').toLowerCase();
         var jogos = {
@@ -505,10 +517,30 @@
         var trigger = card.querySelector('.how-to-video-trigger');
         var closeButton = overlay.querySelector('.how-to-video-close');
         var content = overlay.querySelector('.how-to-video-content');
+        var videoId = VIDEOS_COMO_JOGAR[chave];
         var configuredVideos = window.MENTE_ATIVA_VIDEOS_COMO_JOGAR || {};
         var videoSource = configuredVideos[chave] || card.dataset.videoSrc || '';
 
-        if (videoSource) {
+        if (videoId) {
+            var embedUrl = 'https://www.youtube-nocookie.com/embed/' + videoId + '?rel=0';
+            var iframe = document.createElement('iframe');
+            iframe.src = embedUrl;
+            iframe.dataset.src = embedUrl;
+            iframe.title = 'Vídeo: como jogar ' + (tituloPrincipal.textContent || '').trim();
+            iframe.setAttribute('loading', 'lazy');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            iframe.setAttribute('frameborder', '0');
+            content.appendChild(iframe);
+
+            var linkExterno = document.createElement('a');
+            linkExterno.className = 'how-to-video-external';
+            linkExterno.href = 'https://www.youtube.com/watch?v=' + videoId;
+            linkExterno.target = '_blank';
+            linkExterno.rel = 'noopener';
+            linkExterno.textContent = 'Assistir no YouTube';
+            content.appendChild(linkExterno);
+        } else if (videoSource) {
             var video = document.createElement('video');
             video.controls = true;
             video.preload = 'metadata';
@@ -525,6 +557,8 @@
         function fecharVideo() {
             var video = content.querySelector('video');
             if (video) video.pause();
+            var iframe = content.querySelector('iframe[data-src]');
+            if (iframe) iframe.src = 'about:blank';
             overlay.hidden = true;
             document.body.classList.remove('ma-video-modal-open');
             trigger.focus();
@@ -534,6 +568,8 @@
             overlay.hidden = false;
             document.body.classList.add('ma-video-modal-open');
             closeButton.focus();
+            var iframe = content.querySelector('iframe[data-src]');
+            if (iframe) iframe.src = iframe.dataset.src;
             var video = content.querySelector('video');
             if (video) video.play().catch(function() {});
         }
@@ -546,7 +582,7 @@
         overlay.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') fecharVideo();
             if (event.key === 'Tab') {
-                var focusables = overlay.querySelectorAll('button, video[controls]');
+                var focusables = overlay.querySelectorAll('button, a[href], video[controls]');
                 if (!focusables.length) return;
                 var first = focusables[0];
                 var last = focusables[focusables.length - 1];
