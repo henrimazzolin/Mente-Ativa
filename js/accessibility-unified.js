@@ -445,6 +445,7 @@
     var VIDEOS_COMO_JOGAR = {
         'palavras-cruzadas': 'IqbbnBzUTWo',
         'sudoku': 'Aq8wkdQKgko',
+        'memoria': 'jwPICxYR_ZM',
         'quebra-cabeca': 'leCPwP14LRw',
         'xadrez': 'utbJnQd6WP0',
         'damas': 'M5flwDooaqo',
