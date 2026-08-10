@@ -73,9 +73,13 @@ for (const asset of [
     'jogo-pintura-simples.html', 'js/info-carousel.js'
 ]) assert.ok(existsSync(resolve(ROOT, asset)), `Arquivo ausente: ${asset}`);
 
-for (const page of ['saude-informacoes.html', 'seguranca.html']) {
+const videoSlideCounts = {
+    'saude-informacoes.html': 10,
+    'seguranca.html': 11
+};
+for (const [page, count] of Object.entries(videoSlideCounts)) {
     const html = read(page);
-    assert.equal((html.match(/data-video-slide/g) || []).length, 10);
+    assert.equal((html.match(/data-video-slide/g) || []).length, count);
     assert.match(html, /data-carousel-prev/);
     assert.match(html, /data-carousel-next/);
 }

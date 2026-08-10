@@ -11,11 +11,13 @@ const pages = {
     'seguranca.html': {
         ids: [
             '4M5nwihkql4', 'Bot-4HY7sGs', 'iGksPRqsgrc', '8vYxH9PxYhk', 'wFlJlmIjL1s',
-            'uA4-QUcf778', 'vtLgsMJboTI', '-0ip2FDP63I', 'rK4uAmgS8iM', 'QoLiGxwMiVw'
+            'uA4-QUcf778', 'vtLgsMJboTI', '-0ip2FDP63I', 'rK4uAmgS8iM', 'QoLiGxwMiVw',
+            'd-znEtdgQdw'
         ],
         topics: [
             'pix', 'compras-online', 'motoboy', 'whatsapp', 'phishing',
-            'falsa-central', 'pix-errado', 'mensageiros', 'cartao-virtual', 'celular'
+            'falsa-central', 'pix-errado', 'mensageiros', 'cartao-virtual', 'celular',
+            'protecao'
         ]
     },
     'saude-informacoes.html': {
@@ -41,12 +43,12 @@ for (const [page, expected] of Object.entries(pages)) {
     const topics = slides.map((slide) => slide.dataset.videoTopic);
 
     assert.ok(carousel, `${page}: carrossel de videos ausente.`);
-    assert.equal(slides.length, 10, `${page}: deve ter exatamente dez videos.`);
+    assert.equal(slides.length, expected.ids.length, `${page}: numero de videos inesperado.`);
     assert.deepEqual(ids, expected.ids, `${page}: selecao de videos inesperada.`);
-    assert.deepEqual(topics, expected.topics, `${page}: os dez temas devem ser diferentes.`);
-    assert.equal(new Set(ids).size, 10, `${page}: IDs de video repetidos.`);
-    assert.equal(new Set(topics).size, 10, `${page}: temas repetidos.`);
-    assert.match(carousel.querySelector('[data-carousel-status]').textContent, /Vídeo 1 de 10/);
+    assert.deepEqual(topics, expected.topics, `${page}: os temas devem ser diferentes.`);
+    assert.equal(new Set(ids).size, expected.ids.length, `${page}: IDs de video repetidos.`);
+    assert.equal(new Set(topics).size, expected.ids.length, `${page}: temas repetidos.`);
+    assert.match(carousel.querySelector('[data-carousel-status]').textContent, new RegExp(`Vídeo 1 de ${expected.ids.length}`));
     assert.ok(slides[0].classList.contains('active'), `${page}: primeiro video deve iniciar ativo.`);
 
     slides.forEach((slide, index) => {
@@ -66,7 +68,7 @@ for (const [page, expected] of Object.entries(pages)) {
     allIds.push(...ids);
 }
 
-assert.equal(new Set(allIds).size, 20, 'Os vinte videos das paginas informativas devem ser unicos.');
+assert.equal(new Set(allIds).size, 21, 'Os vinte e um videos das paginas informativas devem ser unicos.');
 
 const carouselScript = read('js/info-carousel.js');
 assert.match(carouselScript, /youtube-nocookie\.com\/embed\//);
@@ -75,4 +77,4 @@ assert.match(carouselScript, /iframe\.allowFullscreen\s*=\s*true/);
 assert.match(carouselScript, /iframe\.remove\(\)/, 'O iframe anterior deve ser removido ao trocar de video.');
 assert.ok(!/autoplay/i.test(carouselScript), 'O carrossel nao deve ativar reproducao automatica.');
 
-console.log('Vinte videos simples e diversos de Seguranca e Saude validados.');
+console.log('Vinte e um videos simples e diversos de Seguranca e Saude validados.');
