@@ -2,6 +2,7 @@
     'use strict';
 
     var PRIVACY_NOTICE_KEY = 'mente-ativa-aviso-privacidade-v1';
+    var ULTIMA_PAGINA_KEY = 'mente-ativa-ultima-pagina';
     var PERSISTENT_STORAGE_KEYS = {
         'mente-ativa-modo-escuro': true,
         'mente-ativa-fonte': true,
@@ -11,7 +12,8 @@
         'mente-ativa-painel-aberto': true,
         'mente-ativa-som': true,
         'mente-ativa-notif-agendadas': true,
-        'menteativa_eventos': true
+        'menteativa_eventos': true,
+        'mente-ativa-ultima-pagina': true
     };
 
     function limparDadosPersistentesNaoPermitidos() {
@@ -27,6 +29,88 @@
 
     limparDadosPersistentesNaoPermitidos();
     window.addEventListener('pagehide', limparDadosPersistentesNaoPermitidos);
+
+    function ehPaginaDeApp(caminho) {
+        if (typeof caminho !== 'string' || !/\.html$/i.test(caminho)) return false;
+        return !/\/?(?:index|privacidade|sobre)\.html$/i.test(caminho);
+    }
+
+    function salvarUltimaPagina() {
+        try {
+            if (!ehPaginaDeApp(window.location.pathname)) return;
+            localStorage.setItem(ULTIMA_PAGINA_KEY, JSON.stringify({
+                pagina: window.location.pathname
+            }));
+        } catch (e) {}
+    }
+
+    window.addEventListener('pagehide', salvarUltimaPagina);
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) salvarUltimaPagina();
+    });
+
+    function lerUltimaPagina() {
+        try {
+            var dados = JSON.parse(localStorage.getItem(ULTIMA_PAGINA_KEY) || 'null');
+            if (dados && ehPaginaDeApp(dados.pagina)) return dados.pagina;
+        } catch (e) {}
+        return null;
+    }
+
+    var continuarOferecido = false;
+
+    function oferecerContinuar() {
+        if (continuarOferecido) return;
+        continuarOferecido = true;
+
+        var pagina = lerUltimaPagina();
+        if (!pagina) return;
+
+        try {
+            var navegacao = performance.getEntriesByType('navigation')[0];
+            if (navegacao && navegacao.type !== 'navigate') return;
+        } catch (e) {}
+
+        var avisoExistente = document.querySelector('.aviso-privacidade');
+        if (avisoExistente) avisoExistente.remove();
+        document.body.classList.remove('aviso-privacidade-aberto');
+
+        var aviso = document.createElement('aside');
+        aviso.className = 'aviso-privacidade';
+        aviso.setAttribute('aria-label', 'Continuar de onde parou');
+        aviso.innerHTML = '<div class="aviso-privacidade-texto">' +
+            '<strong>Continuar de onde parou?</strong>' +
+            '<span>Quer voltar para a última atividade que você estava?</span>' +
+            '</div>' +
+            '<div class="aviso-privacidade-acoes">' +
+            '<button type="button" class="aviso-continuar-sim">Continuar</button>' +
+            '<button type="button" class="aviso-continuar-nao">Começar do início</button>' +
+            '</div>';
+
+        aviso.querySelector('.aviso-continuar-sim').addEventListener('click', function() {
+            window.location.href = pagina;
+        });
+        aviso.querySelector('.aviso-continuar-nao').addEventListener('click', function() {
+            try { localStorage.removeItem(ULTIMA_PAGINA_KEY); } catch (e) {}
+            document.body.classList.remove('aviso-privacidade-aberto');
+            aviso.remove();
+        });
+
+        document.body.appendChild(aviso);
+        document.body.classList.add('aviso-privacidade-aberto');
+    }
+
+    function agendarOferecerContinuar() {
+        if (!/\/?index\.html$/.test(window.location.pathname)) return;
+
+        var intro = document.getElementById('intro-overlay');
+        if (!intro || intro.style.display === 'none') {
+            oferecerContinuar();
+            return;
+        }
+        document.addEventListener('mente-ativa-intro-fechada', oferecerContinuar, { once: true });
+        setTimeout(oferecerContinuar, 4500);
+    }
 
     function adicionarLinkDePrivacidade() {
         var footer = document.querySelector('footer');
@@ -82,6 +166,7 @@
     function iniciarInterfaceGlobal() {
         adicionarLinkDePrivacidade();
         criarAvisoDePrivacidade();
+        agendarOferecerContinuar();
     }
 
     if ('serviceWorker' in navigator) {

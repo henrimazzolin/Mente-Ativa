@@ -10,40 +10,19 @@ O projeto possui 18 jogos publicados nos catálogos e outras nove atividades fun
 - CSS3 responsivo;
 - JavaScript sem frameworks no navegador;
 - Bootstrap 5;
-- PWA com manifesto e service worker;
-- Express para servir os arquivos durante o desenvolvimento;
-- testes de interface e regras com Node.js e JSDOM.
+- PWA com manifesto e service worker, totalmente estática e sem backend.
 
 ## Executar o projeto
 
-É necessário ter Node.js 18 ou superior instalado.
+O projeto é composto apenas por arquivos estáticos (HTML, CSS, JS, imagens e manifesto). Pode ser hospedado em qualquer serviço estático (GitHub Pages, Netlify, Vercel, entre outros) ou servido localmente por qualquer servidor de arquivos, por exemplo:
 
 ```bash
-npm install
-npm start
+python -m http.server 8080
 ```
 
-Depois, acesse [http://localhost:3000](http://localhost:3000). A porta pode ser alterada pela variável de ambiente `PORT`.
+Depois, acesse [http://localhost:8080](http://localhost:8080).
 
-## Validação
-
-Antes de entregar uma alteração, execute:
-
-```bash
-npm run check
-```
-
-Esse comando verifica:
-
-- sintaxe dos arquivos JavaScript;
-- referências locais e IDs HTML;
-- integridade e responsividade dos estilos;
-- painel de acessibilidade e preferências do usuário;
-- páginas informativas e vídeos externos;
-- regras e interações dos jogos;
-- jogos individuais e atividades acompanhadas.
-
-Também existem comandos específicos, como `npm run check:js`, `npm run test:accessibility`, `npm run test:responsive`, `npm run test:privacy`, `npm run test:info-videos`, `npm run test:exercise-videos`, `npm run test:qa` e `npm run test:dependent-games`.
+Observação: o service worker (PWA e funcionamento offline) só é ativado quando o site é servido por HTTP/HTTPS, não ao abrir o arquivo `index.html` diretamente.
 
 ## Estrutura
 
@@ -57,11 +36,9 @@ Mente-Ativa/
 │   ├── components/    componentes compartilhados
 │   ├── lib/           motores e utilitários dos jogos
 │   └── pages/         comportamentos específicos de páginas
-├── scripts/           validadores e testes automatizados
 ├── *.html             páginas públicas da aplicação
 ├── manifest.json      configuração da PWA
-├── service-worker.js  cache e funcionamento offline
-└── server.js          servidor local de desenvolvimento
+└── service-worker.js  cache e funcionamento offline
 ```
 
 ## Áudios e vídeos

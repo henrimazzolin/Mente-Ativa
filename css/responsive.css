@@ -1496,7 +1496,7 @@ body:has(.logo-float[data-logo-tipo="inicial"]) .logo-float[data-logo-tipo="inic
 body .instrucao-destaque,
 body .dificuldade-selector {
     box-sizing: border-box;
-    width: min(var(--ma-difficulty-width), calc(100vw - (2 * var(--ma-page-gutter))));
+    width: min(var(--ma-difficulty-width), 100%);
     max-width: var(--ma-difficulty-width);
     margin-left: auto;
     margin-right: auto;
@@ -1872,6 +1872,18 @@ body .dificuldade-selector .dif-btn {
 
     body .menu-grid .menu-btn .icon {
         margin: 0;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 991px) {
+    body .menu-grid {
+        flex: 1 1 auto;
+        grid-auto-rows: minmax(200px, 1fr);
+    }
+
+    body .menu-grid .menu-btn {
+        height: 100%;
+        min-height: 200px;
     }
 }
 

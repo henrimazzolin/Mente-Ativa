@@ -1,4 +1,4 @@
-var CACHE_NAME = 'mente-ativa-v28';
+var CACHE_NAME = 'mente-ativa-v29';
 var OFFLINE_URL = '/index.html';
 var GAME_LOGIC_PATTERN = /^\/js\/(?:jogo-[^/]+|lib\/(?:damas-engine|chess-engine))\.js$/i;
 var FRESH_ASSET_PATTERN = /\.(?:css|js)$/i;

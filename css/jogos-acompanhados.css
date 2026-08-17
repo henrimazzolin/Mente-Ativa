@@ -240,6 +240,7 @@ body {
     overflow: hidden;
     background: transparent;
     margin: 8px 0;
+    transition: transform 0.3s ease;
 }
 
 .super-simples-icon img {
